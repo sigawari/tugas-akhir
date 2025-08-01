@@ -18,6 +18,11 @@
 
 - Researching the new feature
 - Updating the documentation
+
+### 2024-07-31
+
+- Researching about other journals and papers
+- Watching about LSTM application in ASL detection
   ```
   def test():
       pass
