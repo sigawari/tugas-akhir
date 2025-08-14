@@ -23,6 +23,12 @@
 
 - Researching about other journals and papers
 - Watching about LSTM application in ASL detection
+
+### 2024-08-15
+
+- Setting up env for LSTM test approach
+- Learning video and image processing
+
   ```
   def test():
       pass
