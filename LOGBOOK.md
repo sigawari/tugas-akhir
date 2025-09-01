@@ -29,6 +29,16 @@
 - Setting up env for LSTM test approach
 - Learning video and image processing
 
+### 2024-08-31
+
+- Resetting venv for LSTM
+
+### 2024-09-01
+
+- Started data collection for LSTM model training.
+
+- Worked on data preprocessing and organizing datasets for training purposes.
+
   ```
   def test():
       pass
