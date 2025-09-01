@@ -24,6 +24,8 @@
 - Researching about other journals and papers
 - Watching about LSTM application in ASL detection
 
+## August
+
 ### 2024-08-15
 
 - Setting up env for LSTM test approach
@@ -32,6 +34,8 @@
 ### 2024-08-31
 
 - Resetting venv for LSTM
+
+## September
 
 ### 2024-09-01
 
