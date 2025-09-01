@@ -1,0 +1,134 @@
+import cv2
+import numpy as np
+import os
+import mediapipe as mp
+
+mp_holistic = mp.solutions.holistic
+mp_drawing = mp.solutions.drawing_utils
+mp_face_mesh = mp.solutions.face_mesh
+
+def mediapipe_detection(image, model):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) 
+    image.flags.writeable = False                    
+    results = model.process(image)                  
+    image.flags.writeable = True                     
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR) 
+    return image, results
+
+def draw_styled_landmarks(image, results):
+    mp_drawing.draw_landmarks(image, results.face_landmarks, mp_face_mesh.FACEMESH_TESSELATION, 
+                             mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1), 
+                             mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)) 
+    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
+                             mp_drawing.DrawingSpec(color=(80,22,10), thickness=2, circle_radius=4), 
+                             mp_drawing.DrawingSpec(color=(80,44,121), thickness=2, circle_radius=2)) 
+    mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS, 
+                             mp_drawing.DrawingSpec(color=(121,22,76), thickness=2, circle_radius=4), 
+                             mp_drawing.DrawingSpec(color=(121,44,250), thickness=2, circle_radius=2)) 
+    mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS, 
+                             mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4), 
+                             mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
+
+def extract_keypoints(results):
+    pose = np.array([[res.x, res.y, res.z, res.visibility] for res in results.pose_landmarks.landmark]).flatten() if results.pose_landmarks else np.zeros(33*4)
+    face = np.array([[res.x, res.y, res.z] for res in results.face_landmarks.landmark]).flatten() if results.face_landmarks else np.zeros(468*3)
+    lh = np.array([[res.x, res.y, res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21*3)
+    rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros(21*3)
+    return np.concatenate([pose, face, lh, rh])
+
+actions = ['halo', 'terima_kasih']
+no_sequences = 30
+sequence_length = 30
+DATA_PATH = 'MP_DatawithVids'
+
+if not os.path.exists(DATA_PATH):
+    os.mkdir(DATA_PATH)
+for action in actions:
+    action_path = os.path.join(DATA_PATH, action)
+    if not os.path.exists(action_path):
+        os.mkdir(action_path)
+
+cap = cv2.VideoCapture(0)
+
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec untuk mp4
+
+with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+    all_data = {}
+    exit_flag = False  \
+    
+    for action in actions:
+        print(f"Starting data collection for action: {action}")
+        all_sequences = []
+        
+        for sequence in range(1, no_sequences + 1):
+            if exit_flag:
+                break
+            
+            # Siapkan video writer untuk rekam video
+            video_path = os.path.join(DATA_PATH, action, f"{action}_sequence_{sequence}.mp4")
+            ret, frame = cap.read()
+            if not ret:
+                print("Tidak bisa membaca frame dari kamera")
+                break
+            height, width, _ = frame.shape
+            out = cv2.VideoWriter(video_path, fourcc, 20.0, (width, height))
+            
+            sequence_data = []
+            
+            for frame_num in range(sequence_length):
+                if exit_flag:
+                    break
+                
+                ret, frame = cap.read()
+                if not ret:
+                    print("Frame read failed, exiting")
+                    exit_flag = True
+                    break
+                
+                image, results = mediapipe_detection(frame, holistic)
+                draw_styled_landmarks(image, results)
+                
+                # Tampilkan teks instruksi pengumpulan data
+                if frame_num == 0:
+                    cv2.putText(image, 'STARTING COLLECTION', (120,200), 
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
+                    cv2.putText(image, f'Collecting frames for {action} Video Number {sequence}', (15,12), 
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+                    cv2.imshow('OpenCV Feed', image)
+                    cv2.waitKey(500)
+                else:
+                    cv2.putText(image, f'Collecting frames for {action} Video Number {sequence}', (15,12), 
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+                    cv2.imshow('OpenCV Feed', image)
+                
+                # Tulis frame ke file video
+                out.write(image)
+                
+                keypoints = extract_keypoints(results)
+                sequence_data.append(keypoints)
+                
+                if cv2.waitKey(10) & 0xFF == ord('q'):
+                    print("Quit signal received. Exiting...")
+                    exit_flag = True
+                    break
+            
+            out.release()
+            
+            # Simpan data keypoints per sequence
+            npy_seq_path = os.path.join(DATA_PATH, action, f"sequence_{sequence}.npy")
+            np.save(npy_seq_path, np.array(sequence_data))
+            print(f"Sequence {sequence} saved at {npy_seq_path}")
+            
+            all_sequences.append(sequence_data)
+        
+        if exit_flag:
+            break
+        
+        # Simpan gabungan setelah semua sequence
+        all_data[action] = np.array(all_sequences)
+        combined_npy_path = os.path.join(DATA_PATH, f"{action}_combined.npy")
+        np.save(combined_npy_path, all_data[action])
+        print(f"Combined data for action '{action}' saved at {combined_npy_path}")
+
+cap.release()
+cv2.destroyAllWindows()
