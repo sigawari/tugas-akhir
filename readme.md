@@ -39,44 +39,6 @@ Tahap awal penelitian ini dilakukan secara bertahap (preliminary) untuk memahami
 
 ---
 
-## 📂 Struktur Proyek (sementara)
-
-lstm
-┣ asl_dataset
-┃ ┣ iloveyou.mp4
-┃ ┣ nicetomeetyou.mp4
-┃ ┗ thankyou.mp4
-┣ data
-┃ ┣ halo
-┃ ┃ ┣ sequence_1.json
-┃ ┃ ┗ sequence_1.npy
-┃ ┣ terima_kasih
-┃ ┃ ┣ sequence_1.json
-┃ ┃ ┗ sequence_1.npy
-┃ ┣ halo_combined.json
-┃ ┣ halo_combined.npy
-┃ ┣ terima_kasih_combined.json
-┃ ┗ terima_kasih_combined.npy
-┣ MP_DatawithVids
-┃ ┣ halo
-┃ ┃ ┣ halo_sequence_1.mp4
-┃ ┃ ┣ halo_sequence_2.mp4
-┃ ┃ ┣ sequence_1.npy
-┃ ┃ ┗ sequence_2.npy
-┃ ┗ terima_kasih
-┣ .python-version
-┣ coba.py
-┣ dataColnp.py
-┣ data_collecting.py
-┣ data_collection_w_vid.py
-┣ data_labelling.py
-┣ lstm.ipynb
-┣ modelling.py
-┣ MP_Data.zip
-┗ README.md
-
----
-
 ## ✨ Catatan
 
 - Dataset saat ini masih dalam tahap awal (gesture sederhana seperti _halo_, _terima kasih_).
