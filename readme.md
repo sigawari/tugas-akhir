@@ -49,10 +49,13 @@ lstm
 ┣ data
 ┃ ┣ halo
 ┃ ┃ ┣ sequence_1.json
+┃ ┃ ┗ sequence_1.npy
 ┃ ┣ terima_kasih
-┃ ┃ ┣ sequence_1.npy
+┃ ┃ ┣ sequence_1.json
+┃ ┃ ┗ sequence_1.npy
 ┃ ┣ halo_combined.json
 ┃ ┣ halo_combined.npy
+┃ ┣ terima_kasih_combined.json
 ┃ ┗ terima_kasih_combined.npy
 ┣ MP_DatawithVids
 ┃ ┣ halo
