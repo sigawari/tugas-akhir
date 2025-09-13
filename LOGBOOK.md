@@ -46,7 +46,3 @@
 ### 2025-09-13
 
 - Start data collection using JSON format
-  ```
-  def test():
-      pass
-  ```
