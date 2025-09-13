@@ -1,3 +1,4 @@
+# Data labelling: Sementara karena sepertinya dari tutorial tidak bisa jika tidak langsung masuk modelling
 import numpy as np
 import os
 from sklearn.model_selection import train_test_split
@@ -49,3 +50,7 @@ class GestureDataset(Dataset):
 
 train_dataset = GestureDataset(x_train, y_train)
 test_dataset = GestureDataset(x_test, y_test)
+
+#total 1662 karena landmark yang di ekstrak
+#Total landmark Holistic = 33 (pose) + 468 (wajah) + 21 (tangan kiri) + 21 (tangan kanan) = 543 titik per frame MediaPipe Pose mendeteksi 33 landmark 2D/3D per orang pada citra/video
+#543 * 33 + 33
