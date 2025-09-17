@@ -41,7 +41,7 @@ def extract_keypoints_dict(results):
     if results.pose_landmarks:
         data["pose"] = {
             pose_landmark_names[i]: {
-                "x": res.x, "y": res.y, "z": res.z, "visibility": res.visibility
+                "x": res.x, "y": res.y, "z": res.z,
             }
             for i, res in enumerate(results.pose_landmarks.landmark)
         }

@@ -23,11 +23,16 @@ Tahap awal penelitian ini dilakukan secara bertahap (preliminary) untuk memahami
 
 ### 2️⃣ Tahap Kedua: JSON
 
+![Phase of Data Collecting](json_collect.png)
+
 - Data sequence disimpan dalam format **JSON** agar lebih mudah dibaca dan diinspeksi.
 - Struktur JSON mencakup:
   - Metadata (id video, fps, jumlah frame, jumlah landmark).
   - Frame-by-frame landmark (pose, face, tangan kiri, tangan kanan).
-- Tujuan utama: **mempersiapkan dataset standar** untuk pelatihan model.
+- Proses pengumpulan data dilakukan dengan menyimpan sequence gerakan dalam format JSON.
+- Setiap file JSON mewakili satu video gesture dengan struktur yang telah ditentukan.
+- Tujuan utama: **mempersiapkan dataset standar** untuk pelatihan model serta mengumpulkan dataset yang cukup untuk eksplorasi model.
+- File JSON yang dihasilkan dapat digunakan langsung untuk eksplorasi model.
 
 ---
 
