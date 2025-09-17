@@ -2,181 +2,75 @@ import cv2
 import numpy as np
 import os
 import mediapipe as mp
-import json
-import time
 
+# MediaPipe holistic setup
 mp_holistic = mp.solutions.holistic
 mp_drawing = mp.solutions.drawing_utils
 mp_face_mesh = mp.solutions.face_mesh
 
-# Mapping nama landmark pose (MediaPipe Pose 33 titik, contoh sebagian)
-pose_landmark_names = [
-    "nose", "left_eye_inner", "left_eye", "left_eye_outer", "right_eye_inner", "right_eye",
-    "right_eye_outer", "left_ear", "right_ear", "mouth_left", "mouth_right", "left_shoulder",
-    "right_shoulder", "left_elbow", "right_elbow", "left_wrist", "right_wrist", "left_pinky",
-    "right_pinky", "left_index", "right_index", "left_thumb", "right_thumb", "left_hip",
-    "right_hip", "left_knee", "right_knee", "left_ankle", "right_ankle", "left_heel",
-    "right_heel", "left_foot_index", "right_foot_index"
-]
-
-# Mapping landmark face (468 titik) ke nama standar mediaPipe FaceMesh - versi singkat contoh;
-# Bisa buat dictionary sesuai indeks jika diperlukan, atau tulis "face_landmark_0", dst.
-def face_landmark_name(idx):
-    # Untuk contoh bisa return nama generik
-    return f"face_landmark_{idx}"
-
-# Mapping tangan kiri dan kanan (21 titik)
-hand_landmark_names = [
-    "wrist", "thumb_cmc", "thumb_mcp", "thumb_ip", "thumb_tip",
-    "index_finger_mcp", "index_finger_pip", "index_finger_dip", "index_finger_tip",
-    "middle_finger_mcp", "middle_finger_pip", "middle_finger_dip", "middle_finger_tip",
-    "ring_finger_mcp", "ring_finger_pip", "ring_finger_dip", "ring_finger_tip",
-    "pinky_mcp", "pinky_pip", "pinky_dip", "pinky_tip"
-]
-
-def extract_keypoints_dict(results):
-    data = {}
-
-    # Pose landmarks
-    if results.pose_landmarks:
-        data["pose"] = {
-            pose_landmark_names[i]: {
-                "x": res.x, "y": res.y, "z": res.z, "visibility": res.visibility
-            }
-            for i, res in enumerate(results.pose_landmarks.landmark)
-        }
-    else:
-        data["pose"] = {}
-
-    # Face landmarks
-    if results.face_landmarks:
-        data["face"] = {
-            face_landmark_name(i): {
-                "x": res.x, "y": res.y, "z": res.z
-            }
-            for i, res in enumerate(results.face_landmarks.landmark)
-        }
-    else:
-        data["face"] = {}
-
-    # Left hand landmarks
-    if results.left_hand_landmarks:
-        data["left_hand"] = {
-            hand_landmark_names[i]: {
-                "x": res.x, "y": res.y, "z": res.z
-            }
-            for i, res in enumerate(results.left_hand_landmarks.landmark)
-        }
-    else:
-        data["left_hand"] = {}
-
-    # Right hand landmarks
-    if results.right_hand_landmarks:
-        data["right_hand"] = {
-            hand_landmark_names[i]: {
-                "x": res.x, "y": res.y, "z": res.z
-            }
-            for i, res in enumerate(results.right_hand_landmarks.landmark)
-        }
-    else:
-        data["right_hand"] = {}
-
-    return data
-
-
-no_sequences = 30           # Number of sequences per action
-sequence_length = 30        # Number of frames per sequence
-DATA_PATH = 'data'          # Path to save data
-
-cap = cv2.VideoCapture(0)   # Open webcam
-
-# Fungsi untuk melakukan deteksi dengan Mediapipe
 def mediapipe_detection(image, model):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # BGR ke RGB
-    image.flags.writeable = False                   # untuk meningkatkan performa
-    results = model.process(image)                  # deteksi
-    image.flags.writeable = True
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  # balik lagi ke BGR
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) 
+    image.flags.writeable = False                    
+    results = model.process(image)                  
+    image.flags.writeable = True                     
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR) 
     return image, results
 
-# Fungsi untuk menggambar landmark dengan style
 def draw_styled_landmarks(image, results):
-    # Pose connections
-    if results.pose_landmarks:
-        mp_drawing.draw_landmarks(
-            image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
-            mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4),
-            mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2)
-        )
-    # Face mesh
-    if results.face_landmarks:
-        mp_drawing.draw_landmarks(
-            image, results.face_landmarks, mp_face_mesh.FACEMESH_CONTOURS,
-            mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
-            mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
-        )
-    # Left hand
-    if results.left_hand_landmarks:
-        mp_drawing.draw_landmarks(
-            image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
-            mp_drawing.DrawingSpec(color=(121,22,76), thickness=2, circle_radius=4),
-            mp_drawing.DrawingSpec(color=(121,44,250), thickness=2, circle_radius=2)
-        )
-    # Right hand
-    if results.right_hand_landmarks:
-        mp_drawing.draw_landmarks(
-            image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
-            mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4),
-            mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2)
-        )
+    mp_drawing.draw_landmarks(image, results.face_landmarks, mp_face_mesh.FACEMESH_TESSELATION, 
+                             mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1), 
+                             mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)) 
+    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
+                             mp_drawing.DrawingSpec(color=(80,22,10), thickness=2, circle_radius=4), 
+                             mp_drawing.DrawingSpec(color=(80,44,121), thickness=2, circle_radius=2)) 
+    mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS, 
+                             mp_drawing.DrawingSpec(color=(121,22,76), thickness=2, circle_radius=4), 
+                             mp_drawing.DrawingSpec(color=(121,44,250), thickness=2, circle_radius=2)) 
+    mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS, 
+                             mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4), 
+                             mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
+
+def extract_keypoints(results):
+    pose = np.array([[res.x, res.y, res.z, res.visibility] for res in results.pose_landmarks.landmark]).flatten() if results.pose_landmarks else np.zeros(33*4)
+    face = np.array([[res.x, res.y, res.z] for res in results.face_landmarks.landmark]).flatten() if results.face_landmarks else np.zeros(468*3)
+    lh = np.array([[res.x, res.y, res.z] for res in results.left_hand_landmarks.landmark]).flatten() if results.left_hand_landmarks else np.zeros(21*3)
+    rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten() if results.right_hand_landmarks else np.zeros(21*3)
+    return np.concatenate([pose, face, lh, rh])
+
+# Setup basic variables
+actions = ['halo', 'terima_kasih']
+no_sequences = 30
+sequence_length = 30
+DATA_PATH = 'MP_Data'
+
+# Pastikan folder data ada
+if not os.path.exists(DATA_PATH):
+    os.mkdir(DATA_PATH)
+for action in actions:
+    action_path = os.path.join(DATA_PATH, action)
+    if not os.path.exists(action_path):
+        os.mkdir(action_path)
+
+cap = cv2.VideoCapture(0)
 
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
-    stop = False
-
-    actions = ['halo', 'terima_kasih']
+    all_data = {}  # Menyimpan semua data untuk tiap action
     
     for action in actions:
-        if stop:
-            break
         print(f"Memulai pengumpulan data untuk action: {action}")
-        all_sequences = []
+        all_sequences = []  # Menyimpan semua sequence untuk action ini
         
         for sequence in range(1, no_sequences + 1):
-            if stop:
-                break
-            sequence_data = {
-                "metadata": {
-                    "video_id": f"{action}_sequence_{sequence}",
-                    "fps": 30,
-                    "duration_sec": sequence_length / 30,
-                    "total_frames": sequence_length,
-                    "total_landmarks": 33 + 468 + 21 + 21,  # total titik pose + face + 2 tangan
-                    "landmark_model": "MediaPipe Holistic"
-                },
-                "frames": []
-            }
-
-            start_time_ms = int(round(time.time() * 1000))
-
+            sequence_data = []  # Menyimpan seluruh frame keypoints untuk 1 video sequence
+            
             for frame_num in range(sequence_length):
                 ret, frame = cap.read()
                 if not ret:
                     break
-
+                
                 image, results = mediapipe_detection(frame, holistic)
                 draw_styled_landmarks(image, results)
-
-                timestamp_ms = start_time_ms + int((frame_num / 30) * 1000)
-
-                landmarks = extract_keypoints_dict(results)
-                frame_data = {
-                    "frame_index": frame_num,
-                    "timestamp_ms": timestamp_ms,
-                    "landmarks": landmarks
-                }
-
-                sequence_data["frames"].append(frame_data)
-
+                
                 if frame_num == 0:
                     cv2.putText(image, 'STARTING COLLECTION', (120,200), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
@@ -188,25 +82,25 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                     cv2.putText(image, f'Collecting frames for {action} Video Number {sequence}', (15,12), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
                     cv2.imshow('OpenCV Feed', image)
-
+                
+                keypoints = extract_keypoints(results)
+                sequence_data.append(keypoints)  # Koleksi frame keypoints
+                
                 if cv2.waitKey(10) & 0xFF == ord('q'):
-                    stop = True
                     break
-
-            # Simpan ke JSON
-            json_seq_path = os.path.join(DATA_PATH, action, f'sequence_{sequence}.json')
-            os.makedirs(os.path.dirname(json_seq_path), exist_ok=True) 
-            with open(json_seq_path, 'w') as f:
-                json.dump(sequence_data, f, indent=2)
-            print(f"Sequence {sequence} saved as JSON at {json_seq_path}")
-
-            all_sequences.append(sequence_data)
-
-        # Simpan gabungan
-        combined_json_path = os.path.join(DATA_PATH, f'{action}_combined.json')
-        with open(combined_json_path, 'w') as f:
-            json.dump(all_sequences, f, indent=2)
-        print(f"Combined data for action '{action}' saved as JSON at {combined_json_path}")
+            
+            # Simpan data per sequence (video) ke file terpisah
+            npy_seq_path = os.path.join(DATA_PATH, action, f"sequence_{sequence}.npy")
+            np.save(npy_seq_path, np.array(sequence_data))
+            print(f"Sequence {sequence} saved at {npy_seq_path}")
+            
+            all_sequences.append(sequence_data)  
+        
+        # Menggabungkan sequence dalam 1 file
+        all_data[action] = np.array(all_sequences)
+        combined_npy_path = os.path.join(DATA_PATH, f"{action}_combined.npy")
+        np.save(combined_npy_path, all_data[action])
+        print(f"Combined data for action '{action}' saved at {combined_npy_path}")
 
 cap.release()
 cv2.destroyAllWindows()
