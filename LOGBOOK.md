@@ -46,3 +46,9 @@
 ### 2025-09-13
 
 - Start data collection using JSON format
+
+## Oktober
+
+### 2025 - 10 14
+
+- Remove unnecessary face landmark from JSON
