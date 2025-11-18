@@ -6,7 +6,6 @@
 *.gif
 
 # 2. Preprocessed dataset (not needed in repo)
-data/processed/npy/
 data/raw/data_video/
 
 # 3. Raw JSON if dataset is big
