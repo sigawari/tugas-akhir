@@ -1,38 +1,42 @@
-# Ignore ALL video files
+# 1. Large media (NEVER upload)
 *.mp4
 *.avi
 *.mov
 *.mkv
+*.gif
 
-# Ignore numpy arrays
-*.npy
+# 2. Preprocessed dataset (not needed in repo)
+data/processed/npy/
+data/raw/data_video/
 
-# Ignore zip archives
-*.zip
+# 3. Raw JSON if dataset is big
+data/raw/data_json/
 
-# Ignore model checkpoints
+# 4. Model checkpoints
 *.pt
 *.pth
 *.onnx
 *.h5
 *.keras
 
-# Ignore intermediate folders (VIDEO)
-MP_DatawithVids/
-MP_Data/
-
-# Ignore python cache
+# 5. Python cache
 __pycache__/
 *.pyc
 
-# Ignore Jupyter checkpoints
+# 6. Jupyter cache
 .ipynb_checkpoints/
+*.ipynb
 
-# VSCode settings (optional)
+# 7. Tooling
 .vscode/
+wandb/
+logs/
+results/
 
-# Ignore datasets (video-heavy)
-asl_dataset/
-
-# Ignore archive
+# 8. Archive folder (old experiments)
 archive/
+
+# 9. Zip / temp files
+*.zip
+*.tar
+*.tar.gz

@@ -1,3 +1,6 @@
+# data_collect.py
+# Capture raw Mediapipe landmarks + optional video recording.
+# Output: JSON per-sequence (and MP4 if enabled).
 import cv2
 import numpy as np
 import os

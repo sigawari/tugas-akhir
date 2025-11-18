@@ -1,3 +1,6 @@
+# make_splits.py
+# Create train/val/test split once from raw JSON.
+# Output: split_default.json in data/processed/splits/.
 import os, json, glob
 from sklearn.model_selection import StratifiedKFold
 

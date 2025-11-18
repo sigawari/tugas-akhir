@@ -1,3 +1,6 @@
+# dataset.py
+# PyTorch Dataset & DataLoader wrapper for NPY dataset.
+# Loads X/y arrays → returns tensor per sample.
 import os
 import json
 import numpy as np
