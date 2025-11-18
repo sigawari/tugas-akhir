@@ -1,0 +1,48 @@
+{
+  "labels": [
+    "halo",
+    "terima_kasih"
+  ],
+  "train_files": [
+    "data_json\\halo\\sequence_1.json",
+    "data_json\\halo\\sequence_10.json",
+    "data_json\\halo\\sequence_11.json",
+    "data_json\\halo\\sequence_12.json",
+    "data_json\\halo\\sequence_13.json",
+    "data_json\\halo\\sequence_14.json",
+    "data_json\\halo\\sequence_15.json",
+    "data_json\\halo\\sequence_16.json",
+    "data_json\\halo\\sequence_17.json",
+    "data_json\\halo\\sequence_2.json",
+    "data_json\\halo\\sequence_21.json",
+    "data_json\\halo\\sequence_22.json",
+    "data_json\\halo\\sequence_23.json",
+    "data_json\\halo\\sequence_26.json",
+    "data_json\\halo\\sequence_28.json",
+    "data_json\\halo\\sequence_29.json",
+    "data_json\\halo\\sequence_3.json",
+    "data_json\\halo\\sequence_30.json",
+    "data_json\\halo\\sequence_4.json",
+    "data_json\\halo\\sequence_5.json",
+    "data_json\\halo\\sequence_6.json",
+    "data_json\\halo\\sequence_7.json",
+    "data_json\\halo\\sequence_8.json",
+    "data_json\\halo\\sequence_9.json",
+    "data_json\\terima_kasih\\sequence_2.json",
+    "data_json\\terima_kasih\\sequence_3.json",
+    "data_json\\terima_kasih\\sequence_4.json",
+    "data_json\\terima_kasih\\sequence_5.json",
+    "data_json\\terima_kasih\\sequence_6.json",
+    "data_json\\terima_kasih\\sequence_7.json"
+  ],
+  "val_files": [
+    "data_json\\halo\\sequence_18.json",
+    "data_json\\halo\\sequence_19.json",
+    "data_json\\halo\\sequence_20.json",
+    "data_json\\halo\\sequence_24.json",
+    "data_json\\halo\\sequence_25.json",
+    "data_json\\halo\\sequence_27.json",
+    "data_json\\terima_kasih\\sequence_1.json",
+    "data_json\\terima_kasih\\sequence_8.json"
+  ]
+}
