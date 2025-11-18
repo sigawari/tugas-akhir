@@ -33,3 +33,6 @@ __pycache__/
 
 # Ignore datasets (video-heavy)
 asl_dataset/
+
+# Ignore archive
+archive/
