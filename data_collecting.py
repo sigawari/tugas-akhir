@@ -5,21 +5,20 @@ import mediapipe as mp
 import json
 import time
 
-# Referensi Siga: https://www.youtube.com/watch?v=u_Vb5cMlc8A
-
 # === Setup Mediapipe ===
 mp_holistic = mp.solutions.holistic
 mp_drawing = mp.solutions.drawing_utils
 mp_face_mesh = mp.solutions.face_mesh
 
 # === Path dataset ===
-DATA_PATH = os.path.join(os.getcwd(), 'data_json')
-os.makedirs(DATA_PATH, exist_ok=True)
+DATA_JSON_PATH = os.path.join(os.getcwd(), 'data_json')
+DATA_VIDEO_PATH = os.path.join(os.getcwd(), 'data_video')
+os.makedirs(DATA_JSON_PATH, exist_ok=True)
+os.makedirs(DATA_VIDEO_PATH, exist_ok=True)
 
 # === Konfigurasi dataset ===
 no_sequences = 30        # jumlah video per kata
-sequence_length = 30     # jumlah frame per video
-actions = ['halo', 'terima_kasih']
+sequence_length = 30     # jumlah frame per video (sekitar 1 detik jika 30 fps)
 
 # === Mapping nama landmark Pose (33 titik) ===
 pose_landmark_names = [
@@ -42,28 +41,6 @@ hand_landmark_names = [
     "pinky_mcp", "pinky_pip", "pinky_dip", "pinky_tip"
 ]
 
-# === Mapping deskriptif FaceMesh (468 titik dipilih) ===
-FACE_LANDMARK_MAP = {
-    234: "pipi_kiri",
-    454: "pipi_kanan",
-    10: "jidat_tengah",
-    297: "jidat_kiri",
-    338: "jidat_kanan",
-    152: "dagu",
-    13: "bibir_atas_tengah",
-    14: "bibir_bawah_tengah",
-    61: "bibir_kiri",
-    291: "bibir_kanan",
-    33: "mata_kiri_luar",
-    133: "mata_kiri_dalam",
-    362: "mata_kanan_dalam",
-    263: "mata_kanan_luar"
-}
-
-# === Fungsi untuk ambil nama face landmark ===
-def face_landmark_name(idx):
-    return FACE_LANDMARK_MAP.get(idx, f"face_landmark_{idx}")
-
 # === Fungsi ekstraksi landmark jadi dict JSON ===
 def extract_keypoints_dict(results):
     data = {}
@@ -75,18 +52,20 @@ def extract_keypoints_dict(results):
                 "x": res.x, "y": res.y, "z": res.z
             }
             for i, res in enumerate(results.pose_landmarks.landmark)
+            if i < len(pose_landmark_names)
         }
     else:
         data["pose"] = {}
 
-    # Face landmarks (pilih yang deskriptif)
+    # Face landmarks — SIMPAN SEMUA titik (468 titik)
     if results.face_landmarks:
         data["face"] = {
-            face_landmark_name(i): {
-                "x": res.x, "y": res.y, "z": res.z
+            str(i): {           # key = index titik sebagai string, misal "0", "1", ..., "467"
+                "x": res.x,
+                "y": res.y,
+                "z": res.z
             }
             for i, res in enumerate(results.face_landmarks.landmark)
-            if i in FACE_LANDMARK_MAP
         }
     else:
         data["face"] = {}
@@ -98,6 +77,7 @@ def extract_keypoints_dict(results):
                 "x": res.x, "y": res.y, "z": res.z
             }
             for i, res in enumerate(results.left_hand_landmarks.landmark)
+            if i < len(hand_landmark_names)
         }
     else:
         data["left_hand"] = {}
@@ -109,6 +89,7 @@ def extract_keypoints_dict(results):
                 "x": res.x, "y": res.y, "z": res.z
             }
             for i, res in enumerate(results.right_hand_landmarks.landmark)
+            if i < len(hand_landmark_names)
         }
     else:
         data["right_hand"] = {}
@@ -128,40 +109,51 @@ def mediapipe_detection(image, model):
 def draw_styled_landmarks(image, results):
     if results.pose_landmarks:
         mp_drawing.draw_landmarks(
-            image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
-            mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4),
-            mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2)
+            image, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS
         )
     if results.face_landmarks:
         mp_drawing.draw_landmarks(
-            image, results.face_landmarks, mp_face_mesh.FACEMESH_CONTOURS,
-            mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
-            mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
+            image, results.face_landmarks, mp_face_mesh.FACEMESH_CONTOURS
         )
     if results.left_hand_landmarks:
         mp_drawing.draw_landmarks(
-            image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
-            mp_drawing.DrawingSpec(color=(121,22,76), thickness=2, circle_radius=4),
-            mp_drawing.DrawingSpec(color=(121,44,250), thickness=2, circle_radius=2)
+            image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS
         )
     if results.right_hand_landmarks:
         mp_drawing.draw_landmarks(
-            image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
-            mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=4),
-            mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2)
+            image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS
         )
 
 # === Proses utama pengumpulan data ===
 cap = cv2.VideoCapture(0)
-with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
-    stop = False
 
-    for action in actions:
-        if stop: break
-        print(f"\n🔹 Mengumpulkan data untuk action: {action}")
+if not cap.isOpened():
+    print("Tidak dapat mengakses kamera.")
+    exit()
+
+with mp_holistic.Holistic(min_detection_confidence=0.5,
+                          min_tracking_confidence=0.5) as holistic:
+    stop_all = False
+
+    while not stop_all:
+        # === Input kata secara manual ===
+        action = input("\nMasukkan kata (atau ketik 'q' untuk selesai): ").strip()
+        if action.lower() == 'q':
+            break
+
+        if not action:
+            print("Kata tidak boleh kosong.")
+            continue
+
+        print(f"\n🔹 Mengumpulkan data untuk kata: {action}")
+
+        # Siapkan folder untuk kata ini
+        json_action_dir = os.path.join(DATA_JSON_PATH, action)
+        video_action_dir = os.path.join(DATA_VIDEO_PATH, action)
+        os.makedirs(json_action_dir, exist_ok=True)
+        os.makedirs(video_action_dir, exist_ok=True)
 
         for sequence in range(1, no_sequences + 1):
-            if stop: break
             print(f"  ▶ Sequence {sequence}/{no_sequences}")
 
             sequence_data = {
@@ -170,17 +162,30 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                     "fps": 30,
                     "duration_sec": sequence_length / 30,
                     "total_frames": sequence_length,
-                    "model": "MediaPipe Holistic"
+                    "model": "MediaPipe Holistic",
+                    "action": action
                 },
                 "frames": []
             }
 
             start_time_ms = int(round(time.time() * 1000))
 
+            # === Siapkan VideoWriter (nanti di-init setelah dapat frame pertama) ===
+            video_filename = os.path.join(video_action_dir, f"sequence_{sequence}.mp4")
+            out = None
+
             for frame_num in range(sequence_length):
                 ret, frame = cap.read()
                 if not ret:
+                    print("Gagal membaca frame dari kamera.")
+                    stop_all = True
                     break
+
+                # Inisialisasi VideoWriter pakai ukuran frame pertama
+                if out is None:
+                    h, w, _ = frame.shape
+                    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+                    out = cv2.VideoWriter(video_filename, fourcc, 30, (w, h))
 
                 image, results = mediapipe_detection(frame, holistic)
                 draw_styled_landmarks(image, results)
@@ -197,29 +202,39 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
                 # UI indikator
                 if frame_num == 0:
-                    cv2.putText(image, 'STARTING COLLECTION', (120,200), cv2.FONT_HERSHEY_SIMPLEX, 
-                                1, (0,255,0), 4, cv2.LINE_AA)
-                    cv2.putText(image, f'Collecting {action} #{sequence}', (15,12),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1, cv2.LINE_AA)
-                    cv2.imshow('OpenCV Feed', image)
-                    cv2.waitKey(500)
+                    cv2.putText(image, 'STARTING COLLECTION', (60, 200),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 4, cv2.LINE_AA)
+                    cv2.putText(image, f'Collecting "{action}" #{sequence}', (10, 30),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2, cv2.LINE_AA)
                 else:
-                    cv2.putText(image, f'{action} | Seq {sequence} | Frame {frame_num}', (15,12),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1, cv2.LINE_AA)
-                    cv2.imshow('OpenCV Feed', image)
+                    cv2.putText(image, f'{action} | Seq {sequence} | Frame {frame_num}',
+                                (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
+                                0.6, (0, 0, 255), 2, cv2.LINE_AA)
 
+                # Tampilkan dan simpan ke video
+                cv2.imshow('OpenCV Feed', image)
+                out.write(image)
+
+                # Tombol keluar darurat
                 if cv2.waitKey(10) & 0xFF == ord('q'):
-                    stop = True
+                    stop_all = True
                     break
 
-            # === Simpan ke JSON ===
-            json_path = os.path.join(DATA_PATH, action, f'sequence_{sequence}.json')
-            os.makedirs(os.path.dirname(json_path), exist_ok=True)
+            # Rilis VideoWriter
+            if out is not None:
+                out.release()
+
+            # Simpan JSON
+            json_path = os.path.join(json_action_dir, f'sequence_{sequence}.json')
             with open(json_path, 'w', encoding='utf-8') as f:
                 json.dump(sequence_data, f, indent=2, ensure_ascii=False)
 
-            print(f"  ✅ Sequence {sequence} disimpan: {json_path}")
+            print(f"  ✅ JSON    disimpan: {json_path}")
+            print(f"  🎥 Video   disimpan: {video_filename}")
+
+            if stop_all:
+                break
 
 cap.release()
 cv2.destroyAllWindows()
-print("\n Pengumpulan data selesai!")
+print("\nPengumpulan data selesai!")

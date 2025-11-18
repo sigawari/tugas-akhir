@@ -1,3 +1,35 @@
-data_json/
-MP_Data/
+# Ignore ALL video files
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Ignore numpy arrays
+*.npy
+
+# Ignore zip archives
+*.zip
+
+# Ignore model checkpoints
+*.pt
+*.pth
+*.onnx
+*.h5
+*.keras
+
+# Ignore intermediate folders (VIDEO)
 MP_DatawithVids/
+MP_Data/
+
+# Ignore python cache
+__pycache__/
+*.pyc
+
+# Ignore Jupyter checkpoints
+.ipynb_checkpoints/
+
+# VSCode settings (optional)
+.vscode/
+
+# Ignore datasets (video-heavy)
+asl_dataset/
