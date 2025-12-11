@@ -174,7 +174,7 @@ def parse_args() -> argparse.Namespace:
                         help="Variant fitur yang digunakan.")
     parser.add_argument("--batch_size", type=int, default=16)
     parser.add_argument("--epochs", type=int, default=50)
-    parser.add_argument("--lr", type=float, default=1e-3)
+    parser.add_argument("--lr", type=float, default=1e-6)
     parser.add_argument("--wandb_project", type=str, default="sign-resnet18")
     parser.add_argument("--run_name", type=str, default=None)
     parser.add_argument("--split_path", type=str,

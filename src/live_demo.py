@@ -7,6 +7,7 @@ import argparse
 import os
 from pathlib import Path
 from typing import Dict, Any, List
+from collections import deque
 
 import cv2
 import mediapipe as mp
@@ -136,6 +137,7 @@ def main():
         return
 
     buffer_xy: List[np.ndarray] = []  # list of (L, 2)
+    pred_history = deque(maxlen=8)  # simpan 8 prediksi terakhir
 
     try:
         while True:
@@ -197,8 +199,32 @@ def main():
                     probs = torch.softmax(logits, dim=1)
                     conf, pred = torch.max(probs, dim=1)
                     pred_label_idx = int(pred.item())
-                    pred_label = idx2label[pred_label_idx]
-                    pred_prob = float(conf.item())
+                    pred_conf = float(conf.item())
+
+                # Masukkan ke history (selalu simpan)
+                pred_history.append((pred_label_idx, pred_conf))
+
+                # Smoothing: hanya tampilkan kalau cukup stabil dan confident
+                if len(pred_history) == pred_history.maxlen:
+                    labels_only = [p[0] for p in pred_history]
+                    confs_only = [p[1] for p in pred_history]
+
+                    # majority vote
+                    counts = {}
+                    for lbl in labels_only:
+                        counts[lbl] = counts.get(lbl, 0) + 1
+                    best_label_idx = max(counts, key=counts.get)
+                    majority_ratio = counts[best_label_idx] / len(labels_only)
+
+                    avg_conf = sum(confs_only) / len(confs_only)
+
+                    # threshold bisa kamu tuning
+                    if majority_ratio >= 0.6 and avg_conf >= 0.7:
+                        pred_label = idx2label[best_label_idx]
+                        pred_prob = avg_conf
+                    else:
+                        pred_label = None
+                        pred_prob = None
 
             # Tampilkan hasil di frame
             if pred_label is not None:
