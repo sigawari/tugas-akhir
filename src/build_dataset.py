@@ -1,11 +1,10 @@
 # build_dataset.py
 # Convert raw JSON → NPY arrays (X, y) untuk ablation study.
 #
-# Fitur per landmark: x, y, dx, dy, mask
+# Fitur per landmark: x, y, dx, dy
 #  - x, y   : posisi normal Mediapipe (tanpa z)
 #  - dx, dy : delta (per frame) = x_t - x_{t-1}, y_t - y_{t-1}
 #             frame 0 di-set 0
-#  - mask   : 1 jika landmark terdeteksi, 0 jika hilang (padding)
 #
 # Ablasi channel:
 # (A) full   : Pose + Hands + Face subset (FACE_LANDMARK_MAP)
@@ -74,6 +73,14 @@ FACE_LANDMARK_MAP: Dict[int, str] = {
     263: "mata_kanan_luar",
 }
 
+# Mendefinisikan kelas
+WORD_LABEL_MAP = {
+    "halo": 0,
+    "maaf": 1,
+    "permisi": 2,
+    "terima_kasih": 3,
+    "tolong": 4,
+}
 
 # Helper: baca JSON sequence
 def load_sequence_json(path: Path) -> dict:
@@ -118,7 +125,7 @@ def sequence_to_matrix(frames: List[dict], variant: str) -> np.ndarray:
     """
     frames : list data["frames"] dari JSON
     variant: full | noface | hands | pose
-    Return: np.ndarray shape (T, D) dengan fitur [x, y, dx, dy, mask] per landmark (flatten).
+    Return: np.ndarray shape (T, D) dengan fitur [x, y, dx, dy] per landmark (flatten).
     """
     T = len(frames)
     if T == 0:
@@ -127,10 +134,9 @@ def sequence_to_matrix(frames: List[dict], variant: str) -> np.ndarray:
     lm_order = get_landmarks_order(variant)
     L = len(lm_order)  # jumlah landmark total untuk variant ini
 
-    # Siapkan array x, y, mask
+    # Siapkan array x, y, 
     x = np.zeros((T, L), dtype=np.float32)
     y = np.zeros((T, L), dtype=np.float32)
-    mask = np.zeros((T, L), dtype=np.float32)
 
     for t, frame in enumerate(frames):
         lm_all = frame.get("landmarks", {})
@@ -159,10 +165,9 @@ def sequence_to_matrix(frames: List[dict], variant: str) -> np.ndarray:
                 v = part[lk]
                 x[t, j] = float(v["x"])
                 y[t, j] = float(v["y"])
-                mask[t, j] = 1.0  # terdeteksi
             else:
-                # sudah default 0 untuk x,y,mask
-                # x[t,j] = 0; y[t,j] = 0; mask[t,j] = 0
+                # sudah default 0 untuk x,y,
+                # x[t,j] = 0; y[t,j] = 0; [t,j] = 0
                 continue
 
     # Hitung delta sepanjang waktu
@@ -173,12 +178,12 @@ def sequence_to_matrix(frames: List[dict], variant: str) -> np.ndarray:
         dy[1:, :] = y[1:, :] - y[:-1, :]
 
     # Gabungkan jadi (T, L, 5) → flatten ke (T, D)
-    # urutan fitur per landmark: [x, y, dx, dy, mask]
-    features = np.stack([x, y, dx, dy, mask], axis=-1)  # (T, L, 5)
+    # urutan fitur per landmark: [x, y, dx, dy]
+    features = np.stack([x, y, dx, dy], axis=-1)  # (T, L, 5)
     T_, L_, C_ = features.shape
-    assert T_ == T and L_ == L and C_ == 5
+    assert T_ == T and L_ == L and C_ == 4
 
-    feat_flat = features.reshape(T, L * 5)  # (T, D)
+    feat_flat = features.reshape(T, L * 4)  # (T, D)
     return feat_flat
 
 
@@ -197,7 +202,7 @@ def compute_feature_dim(variant: str) -> int:
 
 
 # Build dataset UNTUK SATU KATA & SATU VARIANT
-def build_for_one_word(word: str, variant: str):
+def build_class(word: str, variant: str):
     """
     word    : nama kata (folder di data/raw/<word>/data_json)
     variant : full | noface | hands | pose
@@ -234,8 +239,13 @@ def build_for_one_word(word: str, variant: str):
         return
 
     X = np.stack(all_sequences, axis=0)  # (N, T, D)
-    # karena ini per-kata, label semua 0 (kelas tunggal)
-    y = np.zeros((X.shape[0],), dtype=np.int64)
+
+    # label berdasarkan kata
+    if word not in WORD_LABEL_MAP:
+        raise ValueError(f"Word '{word}' belum ada di WORD_LABEL_MAP")
+    
+    label = WORD_LABEL_MAP[word]
+    y = np.full((X.shape[0],), label, dtype=np.int64)
 
     # Output: data/processed/<word>/<variant>/
     out_dir = PROCESSED_ROOT / word / variant
@@ -286,7 +296,7 @@ def build_dataset(variants: List[str], words: List[str] | None = None):
 
     for word in words:
         for v in variants:
-            build_for_one_word(word, v)
+            build_class(word, v)
 
 
 # CLI

@@ -1,0 +1,780 @@
+{
+  "meta": {
+    "train_ratio": 0.7,
+    "val_ratio": 0.15,
+    "test_ratio": 0.15,
+    "seed": 3,
+    "num_samples": 148,
+    "num_classes": 5,
+    "words": [
+      "halo",
+      "maaf",
+      "permisi",
+      "terima_kasih",
+      "tolong"
+    ],
+    "split_type": "shared_index_per_word"
+  },
+  "label2idx": {
+    "halo": 0,
+    "maaf": 1,
+    "permisi": 2,
+    "terima_kasih": 3,
+    "tolong": 4
+  },
+  "idx2label": {
+    "0": "halo",
+    "1": "maaf",
+    "2": "permisi",
+    "3": "terima_kasih",
+    "4": "tolong"
+  },
+  "splits": {
+    "train": [
+      {
+        "word": "halo",
+        "index": 26,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 20,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 23,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 3,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 27,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 12,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 17,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 28,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 18,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 10,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 0,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 25,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 11,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 13,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 8,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 15,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 9,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 6,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 1,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 2,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 29,
+        "label": 0
+      },
+      {
+        "word": "maaf",
+        "index": 22,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 0,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 3,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 15,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 10,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 2,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 17,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 16,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 28,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 24,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 25,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 26,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 29,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 23,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 6,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 4,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 11,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 14,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 20,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 9,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 7,
+        "label": 1
+      },
+      {
+        "word": "permisi",
+        "index": 19,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 21,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 27,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 9,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 0,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 22,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 5,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 8,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 18,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 1,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 13,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 16,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 2,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 28,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 14,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 10,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 20,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 23,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 6,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 4,
+        "label": 2
+      },
+      {
+        "word": "terima_kasih",
+        "index": 19,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 1,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 10,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 26,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 0,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 9,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 16,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 7,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 6,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 17,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 28,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 22,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 20,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 11,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 13,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 29,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 8,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 12,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 23,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 14,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 18,
+        "label": 3
+      },
+      {
+        "word": "tolong",
+        "index": 4,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 21,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 20,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 17,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 27,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 22,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 11,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 7,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 15,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 2,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 16,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 0,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 3,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 10,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 6,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 5,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 26,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 13,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 24,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 8,
+        "label": 4
+      }
+    ],
+    "val": [
+      {
+        "word": "halo",
+        "index": 16,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 14,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 4,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 7,
+        "label": 0
+      },
+      {
+        "word": "maaf",
+        "index": 18,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 5,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 27,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 12,
+        "label": 1
+      },
+      {
+        "word": "permisi",
+        "index": 15,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 7,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 3,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 17,
+        "label": 2
+      },
+      {
+        "word": "terima_kasih",
+        "index": 25,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 4,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 24,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 5,
+        "label": 3
+      },
+      {
+        "word": "tolong",
+        "index": 14,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 19,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 25,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 1,
+        "label": 4
+      }
+    ],
+    "test": [
+      {
+        "word": "halo",
+        "index": 22,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 5,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 21,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 19,
+        "label": 0
+      },
+      {
+        "word": "halo",
+        "index": 24,
+        "label": 0
+      },
+      {
+        "word": "maaf",
+        "index": 19,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 1,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 13,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 8,
+        "label": 1
+      },
+      {
+        "word": "maaf",
+        "index": 21,
+        "label": 1
+      },
+      {
+        "word": "permisi",
+        "index": 24,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 12,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 11,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 26,
+        "label": 2
+      },
+      {
+        "word": "permisi",
+        "index": 25,
+        "label": 2
+      },
+      {
+        "word": "terima_kasih",
+        "index": 27,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 21,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 3,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 2,
+        "label": 3
+      },
+      {
+        "word": "terima_kasih",
+        "index": 15,
+        "label": 3
+      },
+      {
+        "word": "tolong",
+        "index": 28,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 12,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 18,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 23,
+        "label": 4
+      },
+      {
+        "word": "tolong",
+        "index": 9,
+        "label": 4
+      }
+    ]
+  }
+}
