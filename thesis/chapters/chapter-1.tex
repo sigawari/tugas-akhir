@@ -5,26 +5,39 @@
 \chapter{PENDAHULUAN} \label{Bab I}
 
 \section{Latar Belakang} \label{I.Latar Belakang}
+Bahasa isyarat merupakan alat komunikasi yang digunakan oleh Teman Tuli atau orang-orang yang memiliki keterbatasan dalam berbicara. Keterbatasan dalam berbicara dan mendengar diistilahkan sebagai penyandang Tuna Rungu. Di Indoensia sendiri, Jawa Barat menepati provinsi dengan penyandang disabilitas terbesar di Indoensia. Hal ini juga menjadikan Jawa Barat sebagai provinsi dengan komunitas Tuli terbesar di Indonesia.
+hahahhaa
+
+
+Di Indonesia mamamama setidaknya ada dua jenis sistem bahasa isyarat yang digunakan secara resmi sebagai alat bicara sehari-hari penyandang Tunarungu. Dua bahasa tersebut adalah Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO). SIBI lebih umum digunakan pada kegiatan formal dan akademis karena dibuat oleh pemerintah Indonesia dengan mengadaptasi sistem bahasa isyarat Amerika (\textit{American Sign Language} (ASL)). Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena merupakan bahasa yang lahir dari komunitas tuli. Seiring dengan berkembangnya teknologi dan kecerdasasan buatan, tidak menutupi adanya celah untuk membuat sistem yang bisa menerjemahkan gerakan bahasa isyarat ke teks. Sistem ini berguna untuk menjembatani komunikasi antara penyandang tunarungu dengan non-penyandang.
+
+BISINDO sebagai sistem yang masih masif digunakan di kalangan teman tuli menjadi topik yang menarik untuk dikembangkan sistem penerjemahan. Penelitian-penelitian terdahulu sudah banyak yang menggunakan teknologi \textit{deep learning} dalam membuat penerjemah gerakan bahasa isyarat ke teks. Penelitian 1 oleh blablalblala membuat balblalballalba
+
+Mayoritas penelitian yang memanfaatkan \textit{deep learning} untuk membuat penerjemah bahasa isyarat masih menggunakan model \textit{deep learning} berbasis temporal. Hal ini wajar dikarenakan bentuk bahasa isyarat yang selain berurutan juga terkemas dengan baik dalam dimensi waktu. Belum banyak yang memanfaatkan model berbasis spasial seperti CNN atau ResNet dalam klasifikasi gerakan. Padahal, penelitian oleh X memberikan deskripsi menarik tentang potensi penggunaan model berbasis spasial untuk klasifikasi dataset temporal.
+
+Hal ini menarik untuk dipelajari terutama karena tidak ada penelitian terbaru yang mencoba menerjemahkan bahasa isyarat seperti BISINDO menggunakan metode spasial. Perkembangan computer vision juga memungkinkan adanya klasifikasi berbasis landmark mediapipe yang terdiri dari titik-titik koordinat yang secara instan merepresentasikan tubuh manusia seperti wajah, tangan, dan badan. Penelitian ini bertujuan untuk menguji model spasial berbasis neural network untuk klasifikasi gerakan bahasa isyarat menggunakan landmark mediapipe. Diharapkan hasil dari penelitian ini dapat memberikan kontribusi baru dalam dunia penerjemahan bahasa isyarat terutama BISINDO dan juga memberikan gagasan tentang pemanfaatan model spasial dalam klasifikasi atau pengenalan dataset berurutan. 
+
 \textit{Mean Absolute Error} (MAE) \cite{Suryanto2019MAE}
 \lipsum[1-3] % Menampilkan paragraf 1 sampai 2 dari lorem ipsum
 
 
 \section{Rumusan Masalah} \label{I.Rumusan Masalah}
+Pemanfaatan model dalam penerjemahan gerakan tubuh seperti bahasa isyarat terutama BISINDO masih terbatas pada model spasial. Belum ada penelitian terbaru yang mencoba menggunakan model berbasis spasial seperti ResNet dalam klasifikasi gerakan bahasa isyarat. Diperlukan penelitian yang mampu menggali potensi dari model spasial dalam pengenalan dan klasifikasi gerakan BISINDO ke teks untuk memunculkan potensi baru terkait perkembangan alat penerjemah bahasa isyarat ke teks.
+% Berdasarkan latar belakang yang telah diuraikan di atas, maka permasalahan penelitian dirumuskan sebagai berikut: \par
 
-Berdasarkan latar belakang yang telah diuraikan di atas, maka permasalahan penelitian dirumuskan sebagai berikut: \par
-
-\begin{enumerate}[noitemsep]
-	\item Bagaimana
-	\item Bagaimana 
-\end{enumerate}
+% \begin{enumerate}[noitemsep]
+% 	\item Bagaimana
+% 	\item Bagaimana 
+% \end{enumerate}
 
 
 \section{Tujuan Penelitian} \label{I.Tujuan}
 Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penelitian ini adalah: \par
 
 \begin{enumerate}[noitemsep]
-	\item Menentukan 
-	\item Mengimplementasikan
+	\item Mengimplementasikan model spasial untuk melakukan klasifikasi gerakan BISINDO.
+	\item Melakukan perbandingan antara CNN dan ResNet dalam klasifikasi gerakan BISINDO.
+	\item Menghitung dan menganalisis hasil perbandingan dua model dengan menggunakan metrik evaluasi seperti Accuracy, Precision, F1 Score, dan Confussion Metrix.
 \end{enumerate}
 
 
@@ -32,8 +45,9 @@ Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penel
 Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan adalah sebagai berikut: \par
 
 \begin{enumerate}[noitemsep]
-    \item Bahasa pemrograman yang digunakan adalah bahasa pemrograman Python.
-    \item 
+    \item BISINDO yang digunakan adalah BISINDO Jawa Barat dengan batasan kelas kata sebanyak 10 kata.
+    \item 10 Kata yang digunakan sebagai label dibatasi pada kata "maaf", "terima kasih", "permisi", "halo", "tolong", "Assalamu'alaikum"
+    \item Model spasial yang digunakan adalah CNN dan ResNet
 \end{enumerate}
 
 

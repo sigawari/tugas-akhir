@@ -1,0 +1,4 @@
+{
+  "latex-workshop.linting.chktex.enabled": false,
+  "latex-workshop.linting.run": "onSave"
+}
