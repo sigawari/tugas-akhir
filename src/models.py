@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional, List
 import torch
 import torch.nn as nn
 from torchvision.models import resnet18, resnet34, resnet50
@@ -39,6 +39,50 @@ class Basic2DCNN(nn.Module):
 
         self.classifier = nn.Sequential(
             nn.Flatten(),                # (B, 128)
+            nn.Dropout(p=dropout),
+            nn.Linear(128, num_classes),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        z = self.features(x)
+        return self.classifier(z)
+
+
+class CNN2DBaseline(nn.Module):
+    """
+    Baseline CNN 2D sederhana untuk input (B, 4, T, L).
+    Tujuan: jadi pembanding "CNN biasa" vs ResNet.
+    """
+    def __init__(
+        self,
+        num_classes: int,
+        in_channels: int = 4,
+        channels: Optional[List[int]] = None,
+        dropout: float = 0.5,
+        **kwargs: Any,
+    ) -> None:
+        super().__init__()
+
+        self.features = nn.Sequential(
+            # (B, 4, T, L)
+            nn.Conv2d(in_channels, 32, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(32),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/2, L/2)
+
+            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(64),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/4, L/4)
+
+            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(128),
+            nn.ReLU(inplace=True),
+
+            nn.AdaptiveAvgPool2d((1, 1)),  # (B, 128, 1, 1)
+        )
+
+        self.classifier = nn.Sequential(
             nn.Dropout(p=dropout),
             nn.Linear(128, num_classes),
         )
@@ -99,3 +143,48 @@ class ResNet50(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.backbone(x)
+
+
+class CNN2DResidual(nn.Module):
+    """
+    Residual CNN 2D untuk input (B, 4, T, L).
+    Tujuan: jadi pembanding "CNN residual" vs ResNet.
+    """
+    def __init__(
+        self,
+        num_classes: int,
+        in_channels: int = 4,
+        layers: Optional[List[int]] = None,
+        base_channels: int = 64,
+        dropout: float = 0.5,
+        **kwargs: Any,
+    ) -> None:
+        super().__init__()
+
+        self.features = nn.Sequential(
+            # (B, 4, T, L)
+            nn.Conv2d(in_channels, base_channels, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(base_channels),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/2, L/2)
+
+            nn.Conv2d(base_channels, base_channels * 2, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(base_channels * 2),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/4, L/4)
+
+            nn.Conv2d(base_channels * 2, base_channels * 4, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(base_channels * 4),
+            nn.ReLU(inplace=True),
+
+            nn.AdaptiveAvgPool2d((1, 1)),  # (B, base_channels * 4, 1, 1)
+        )
+
+        self.head = nn.Sequential(
+            nn.Dropout(p=dropout),
+            nn.Linear(base_channels * 4, num_classes),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        z = self.features(x)
+        return self.head(z)
