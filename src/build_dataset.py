@@ -177,9 +177,9 @@ def sequence_to_matrix(frames: List[dict], variant: str) -> np.ndarray:
         dx[1:, :] = x[1:, :] - x[:-1, :]
         dy[1:, :] = y[1:, :] - y[:-1, :]
 
-    # Gabungkan jadi (T, L, 5) → flatten ke (T, D)
+    # Gabungkan jadi (T, L, 4) → flatten ke (T, D)
     # urutan fitur per landmark: [x, y, dx, dy]
-    features = np.stack([x, y, dx, dy], axis=-1)  # (T, L, 5)
+    features = np.stack([x, y, dx, dy], axis=-1)  # (T, L, 4)
     T_, L_, C_ = features.shape
     assert T_ == T and L_ == L and C_ == 4
 

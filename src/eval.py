@@ -1,15 +1,24 @@
 # eval.py
-# Evaluasi model di test set + confusion matrix.
-
+# Evaluasi model di test set + confusion matrix + metrik lengkap (F1, precision/recall, per-class).
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple, Optional
 
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
+
+from sklearn.metrics import (
+    classification_report,
+    confusion_matrix,
+    precision_recall_fscore_support,
+    f1_score,
+    accuracy_score,
+    balanced_accuracy_score,
+    top_k_accuracy_score,
+)
 
 from utils import (
     DATA_DIR,
@@ -19,12 +28,13 @@ from utils import (
     get_device,
     read_json,
 )
+
 from models import ResNet2DSign
-from metrics import accuracy_from_logits, confusion_matrix_from_preds
 
 
-# --- Dataset yang sama seperti di train.py (boleh disamain persis) ---
-
+# -------------------------
+# Dataset (samain dengan train.py)
+# -------------------------
 class SignDataset(Dataset):
     def __init__(self, items: List[Dict[str, Any]], variant: str) -> None:
         super().__init__()
@@ -36,6 +46,8 @@ class SignDataset(Dataset):
         if word in self._cache_X:
             return self._cache_X[word]
         x_path = PROCESSED_DIR / word / self.variant / "X.npy"
+        if not x_path.is_file():
+            raise FileNotFoundError(f"X.npy tidak ditemukan: {x_path}")
         X = np.load(x_path)  # (N, T, D)
         self._cache_X[word] = X
         return X
@@ -53,10 +65,11 @@ class SignDataset(Dataset):
         seq = X_word[seq_idx]   # (T, D)
 
         T, D = seq.shape
-        assert D % 4 == 0
+        if D % 4 != 0:
+            raise ValueError(f"D={D} tidak habis dibagi 4. Pastikan fitur per landmark = 4.")
         L = D // 4
 
-        seq = seq.reshape(T, L, 4)        # (T, L, 4)
+        seq = seq.reshape(T, L, 4)          # (T, L, 4)
         seq = np.transpose(seq, (2, 0, 1))  # (4, T, L)
 
         x = torch.from_numpy(seq).float()
@@ -64,100 +77,140 @@ class SignDataset(Dataset):
         return {"x": x, "y": y, "word": word, "index": seq_idx}
 
 
-@torch.no_grad()
-def evaluate_test(
-    model: torch.nn.Module,
-    loader: DataLoader,
-    device: torch.device,
-    num_classes: int,
-):
-    model.eval()
-    total_loss = 0.0
-    total_acc = 0.0
-    total_count = 0
-
-    criterion = torch.nn.CrossEntropyLoss()
-    all_preds: List[torch.Tensor] = []
-    all_targets: List[torch.Tensor] = []
-
-    for batch in loader:
-        x = batch["x"].to(device)    # (B, 4, T, L)
-        y = batch["y"].to(device)    # (B,)
-
-        logits = model(x)
-        loss = criterion(logits, y)
-
-        batch_size = y.size(0)
-        acc = accuracy_from_logits(logits, y)
-
-        total_loss += loss.item() * batch_size
-        total_acc += acc * batch_size
-        total_count += batch_size
-
-        preds = torch.argmax(logits, dim=1)
-        all_preds.append(preds.cpu())
-        all_targets.append(y.cpu())
-
-    avg_loss = total_loss / total_count
-    avg_acc = total_acc / total_count
-
-    all_preds_t = torch.cat(all_preds, dim=0)
-    all_targets_t = torch.cat(all_targets, dim=0)
-    cm = confusion_matrix_from_preds(all_preds_t, all_targets_t, num_classes)
-
-    return avg_loss, avg_acc, cm, all_targets_t
-
-def plot_confusion_matrix(cm: np.ndarray, idx2label: dict, save_path: str = None):
+# -------------------------
+# Helper: plot confusion matrix
+# -------------------------
+def plot_confusion_matrix(
+    cm: np.ndarray,
+    idx2label: Dict[int, str],
+    save_path: Optional[str] = None,
+    normalize: Optional[str] = None,  # None | "true" | "pred" | "all"
+) -> None:
     """
-    Plot confusion matrix sederhana.
-    cm: numpy array shape (num_classes, num_classes)
-    idx2label: dict {label_index: label_name}
+    normalize:
+      - None: raw counts
+      - "true": normalize per baris (true label) -> jadi recall per class
+      - "pred": normalize per kolom (pred label)
+      - "all": normalize total
     """
+    labels = [idx2label[i] for i in range(len(idx2label))]
 
-    num_classes = cm.shape[0]
-    labels = [idx2label[i] for i in range(num_classes)]
+    cm_to_plot = cm.astype(np.float32)
+    title = "Confusion Matrix (Test)"
 
-    fig, ax = plt.subplots(figsize=(6, 5))
-    im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    if normalize is not None:
+        eps = 1e-12
+        if normalize == "true":
+            cm_to_plot = cm_to_plot / (cm_to_plot.sum(axis=1, keepdims=True) + eps)
+            title = "Confusion Matrix (Normalized by True)"
+        elif normalize == "pred":
+            cm_to_plot = cm_to_plot / (cm_to_plot.sum(axis=0, keepdims=True) + eps)
+            title = "Confusion Matrix (Normalized by Pred)"
+        elif normalize == "all":
+            cm_to_plot = cm_to_plot / (cm_to_plot.sum() + eps)
+            title = "Confusion Matrix (Normalized)"
+        else:
+            raise ValueError("normalize harus None/'true'/'pred'/'all'")
 
+    fig, ax = plt.subplots(figsize=(7, 6))
+    im = ax.imshow(cm_to_plot, interpolation="nearest", cmap=plt.cm.Blues)
     ax.figure.colorbar(im, ax=ax)
+
     ax.set(
-        xticks=np.arange(num_classes),
-        yticks=np.arange(num_classes),
+        xticks=np.arange(len(labels)),
+        yticks=np.arange(len(labels)),
         xticklabels=labels,
         yticklabels=labels,
         ylabel="True Label",
         xlabel="Predicted Label",
-        title="Confusion Matrix (Test Set)"
+        title=title,
     )
-
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
 
-    # Tulis angka dalam kotak
-    thresh = cm.max() / 2.
-    for i in range(num_classes):
-        for j in range(num_classes):
+    # annotate numbers
+    thresh = cm_to_plot.max() / 2.0 if cm_to_plot.size else 0.5
+    for i in range(cm_to_plot.shape[0]):
+        for j in range(cm_to_plot.shape[1]):
+            if normalize is None:
+                text = f"{int(cm_to_plot[i, j])}"
+            else:
+                text = f"{cm_to_plot[i, j]:.2f}"
             ax.text(
-                j, i, format(cm[i, j], "d"),
+                j, i, text,
                 ha="center",
                 va="center",
-                color="white" if cm[i, j] > thresh else "black"
+                color="white" if cm_to_plot[i, j] > thresh else "black",
+                fontsize=10,
             )
 
     fig.tight_layout()
-
     if save_path:
         plt.savefig(save_path, dpi=200)
-        print(f"Confusion matrix saved to {save_path}")
-
+        print(f"✅ Saved: {save_path}")
     plt.show()
+
+
+# -------------------------
+# Evaluasi test: collect logits + preds
+# -------------------------
+@torch.no_grad()
+def run_inference(
+    model: torch.nn.Module,
+    loader: DataLoader,
+    device: torch.device,
+) -> Tuple[float, np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Return:
+      avg_loss,
+      y_true (N,),
+      y_pred (N,),
+      y_prob (N, C) softmax probabilities
+    """
+    model.eval()
+    criterion = torch.nn.CrossEntropyLoss()
+
+    total_loss = 0.0
+    total_count = 0
+
+    ys: List[np.ndarray] = []
+    preds: List[np.ndarray] = []
+    probs: List[np.ndarray] = []
+
+    for batch in loader:
+        x = batch["x"].to(device)  # (B, 4, T, L)
+        y = batch["y"].to(device)  # (B,)
+
+        logits = model(x)
+        loss = criterion(logits, y)
+
+        bsz = y.size(0)
+        total_loss += loss.item() * bsz
+        total_count += bsz
+
+        p = torch.softmax(logits, dim=1)
+
+        y_np = y.detach().cpu().numpy()
+        pred_np = torch.argmax(logits, dim=1).detach().cpu().numpy()
+        prob_np = p.detach().cpu().numpy()
+
+        ys.append(y_np)
+        preds.append(pred_np)
+        probs.append(prob_np)
+
+    avg_loss = total_loss / max(total_count, 1)
+    y_true = np.concatenate(ys, axis=0)
+    y_pred = np.concatenate(preds, axis=0)
+    y_prob = np.concatenate(probs, axis=0)
+
+    return avg_loss, y_true, y_pred, y_prob
+
 
 def main():
     seed(DEFAULT_SEED)
     device = get_device(prefer_gpu=True)
     print(f"Device: {device}")
 
-    # --- Load split & label mapping ---
+    # --- Load split & labels ---
     split_path = DATA_DIR / "splits" / "split.json"
     split_data = read_json(split_path)
 
@@ -168,41 +221,72 @@ def main():
     test_items = split_data["splits"]["test"]
     print(f"Total test samples: {len(test_items)}")
 
-    # --- Dataset & loader untuk TEST ---
-    variant = "pose"  # lagi eval model pose
+    # --- pilih variant ---
+    variant = "pose"  # ganti sesuai kebutuhan
     test_ds = SignDataset(test_items, variant=variant)
     test_loader = DataLoader(test_ds, batch_size=16, shuffle=False, num_workers=0)
 
-    # --- Load checkpoint terbaik ---
-    ckpt_path = Path("checkpoints") / "resnet18_pose_best.pt"
-    if not ckpt_path.is_file():
-        raise FileNotFoundError(f"Checkpoint tidak ditemukan: {ckpt_path}")
+    # --- Load checkpoint terbaru (best) ---
+    ckpt_path = max((Path("checkpoints") / variant).glob("*__best.pt"), key=lambda p: p.stat().st_mtime)
+    print("Using checkpoint:", ckpt_path)
 
     ckpt = torch.load(ckpt_path, map_location=device)
     model = ResNet2DSign(num_classes=num_classes, in_channels=4)
     model.load_state_dict(ckpt["model_state"])
     model.to(device)
 
-    # --- Evaluasi ---
-    test_loss, test_acc, cm, y_true = evaluate_test(
-        model, test_loader, device, num_classes
+    # --- Inference ---
+    test_loss, y_true, y_pred, y_prob = run_inference(model, test_loader, device)
+
+    # --- Metrics ---
+    acc = accuracy_score(y_true, y_pred)
+    bal_acc = balanced_accuracy_score(y_true, y_pred)  # bagus kalau ada imbalance
+    f1_macro = f1_score(y_true, y_pred, average="macro")
+    f1_weighted = f1_score(y_true, y_pred, average="weighted")
+
+    # top-2 accuracy (opsional, tapi sering menarik)
+    top2 = None
+    if num_classes >= 2:
+        top2 = top_k_accuracy_score(y_true, y_prob, k=2, labels=np.arange(num_classes))
+
+    # per-class metrics
+    prec_c, rec_c, f1_c, sup_c = precision_recall_fscore_support(
+        y_true, y_pred, labels=np.arange(num_classes), zero_division=0
     )
 
+    # confusion matrix
+    cm = confusion_matrix(y_true, y_pred, labels=np.arange(num_classes))
+
     print(f"\n=== TEST RESULT (variant={variant}) ===")
-    print(f"Test loss : {test_loss:.4f}")
-    print(f"Test acc  : {test_acc:.4f}")
+    print(f"Test loss         : {test_loss:.4f}")
+    print(f"Accuracy          : {acc:.4f}")
+    print(f"Balanced Accuracy : {bal_acc:.4f}")
+    print(f"F1 macro          : {f1_macro:.4f}")
+    print(f"F1 weighted       : {f1_weighted:.4f}")
+    if top2 is not None:
+        print(f"Top-2 Accuracy     : {top2:.4f}")
 
-    cm_np = cm.numpy()
+    print("\n--- Per-class metrics ---")
+    for i in range(num_classes):
+        print(f"{i:>2} {idx2label[i]:<15} | P={prec_c[i]:.3f} R={rec_c[i]:.3f} F1={f1_c[i]:.3f} | support={sup_c[i]}")
 
-    print("\nConfusion matrix (rows=true, cols=pred):")
-    print(cm.numpy())
+    print("\n--- Classification report ---")
+    # target_names harus urut label 0..C-1
+    target_names = [idx2label[i] for i in range(num_classes)]
+    print(classification_report(y_true, y_pred, target_names=target_names, digits=4, zero_division=0))
 
-    save_path = f"confusion_matrix_{variant}.png"
-    plot_confusion_matrix(cm_np, idx2label, save_path=save_path)
+    print("\nConfusion matrix (counts):")
+    print(cm)
 
-    print("\nLabel index mapping:")
-    for idx, name in idx2label.items():
-        print(f"  {idx}: {name}")
+    # --- Save & plot confusion matrices ---
+    out_dir = Path("reports")
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    cm_path = out_dir / f"cm_{variant}.png"
+    cmn_path = out_dir / f"cm_{variant}_norm_true.png"
+
+    plot_confusion_matrix(cm, idx2label, save_path=str(cm_path), normalize=None)
+    plot_confusion_matrix(cm, idx2label, save_path=str(cmn_path), normalize="true")
 
 
 if __name__ == "__main__":
