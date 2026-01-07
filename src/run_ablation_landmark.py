@@ -1,33 +1,36 @@
+# run_ablation_landmark.py
+from __future__ import annotations
+
 import subprocess
 import sys
 from pathlib import Path
 
+PY = sys.executable  # pakai python dari venv aktif
+TRAIN = str(Path(__file__).parent / "train.py")
+
 VARIANTS = ["pose", "hands", "noface", "full"]
+MODELS = ["cnn2d", "resnet18", "resnet34", "resnet50"]
 
-def main():
-    # asumsi script ini dijalankan dari folder src/
-    script_dir = Path(__file__).resolve().parent
-    train_py = script_dir / "train.py"
+EPOCHS = 50
+LR = 1e-4
+BS = 16
+PATIENCE = 10
 
-    if not train_py.exists():
-        raise FileNotFoundError(f"train.py tidak ditemukan di: {train_py}")
+def main() -> None:
+    for model in MODELS:
+        for variant in VARIANTS:
+            cmd = [
+                PY, TRAIN,
+                "--model", model,
+                "--variant", variant,
+                "--epochs", str(EPOCHS),
+                "--lr", str(LR),
+                "--batch_size", str(BS),
+                "--patience", str(PATIENCE),
+            ]
 
-    # samakan hyperparameter untuk fairness
-    epochs = 50
-    lr = 1e-4
-    bs = 16
-
-    for v in VARIANTS:
-        cmd = [
-            sys.executable, str(train_py),
-            "--variant", v,
-            "--epochs", str(epochs),
-            "--lr", str(lr),
-            "--batch_size", str(bs),
-            "--wandb_project", "ablation-landmark",
-        ]
-        print("\n=== RUN:", " ".join(cmd), "===")
-        subprocess.run(cmd, check=True)
+            print("\n=== RUN:", " ".join(cmd), "===\n")
+            subprocess.run(cmd, check=True)
 
 if __name__ == "__main__":
     main()

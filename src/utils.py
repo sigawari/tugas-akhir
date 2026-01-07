@@ -26,7 +26,7 @@ except ImportError:  # torch is optional for this helper
 # ---------------------------------------------------------------------------
 
 # Seed global yang dipakai di seluruh project
-DEFAULT_SEED: int = 3
+DEFAULT_SEED: int = 30
 
 # Root project (src/ ada di dalam root)
 PROJECT_ROOT: Path = Path(__file__).resolve().parent.parent
@@ -181,31 +181,29 @@ def write_json(path: str | Path, data: Any, indent: int = 2) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Weights & Biases helpers (optional)
+# Weights & Biases helpers 
 # ---------------------------------------------------------------------------
 
+# --- W&B helpers ---
 try:
     import wandb  # type: ignore
-except ImportError:  # wandb is optional
+except ImportError:
     wandb = None  # type: ignore
 
 
 def wandb_is_available() -> bool:
-    """True kalau wandb ter-install dan punya API init."""
-    return wandb is not None and hasattr(wandb, "init")
+    return wandb is not None
 
 
 def wandb_init(project: str, config: Optional[Dict[str, Any]] = None, **kwargs: Any):
-    """Inisialisasi W&B run jika wandb tersedia, else None."""
-    if not wandb_is_available():
+    if wandb is None:
         print("wandb tidak ter-install; melewati wandb.init()")
         return None
     return wandb.init(project=project, config=config, **kwargs)
 
 
 def wandb_log(metrics: Dict[str, Any], step: Optional[int] = None) -> None:
-    """Log metrics ke W&B jika run aktif."""
-    if not wandb_is_available() or wandb.run is None:  # type: ignore[attr-defined]
+    if wandb is None or wandb.run is None:  # type: ignore[attr-defined]
         return
     if step is not None:
         wandb.log(metrics, step=step)
@@ -213,58 +211,19 @@ def wandb_log(metrics: Dict[str, Any], step: Optional[int] = None) -> None:
         wandb.log(metrics)
 
 
-def wandb_set_summary(summary: Dict[str, Any]) -> None:
-    """Set wandb.run.summary[...] untuk nilai final / tabel."""
-    if not wandb_is_available() or wandb.run is None:  # type: ignore[attr-defined]
-        return
-    for k, v in summary.items():
-        wandb.run.summary[k] = v  # type: ignore[attr-defined]
-
-
-def wandb_log_image(key: str, image_path: str | Path, caption: str = "") -> None:
-    """Upload image ke W&B (sebagai wandb.Image)."""
-    if not wandb_is_available() or wandb.run is None:  # type: ignore[attr-defined]
-        return
-    p = Path(image_path)
-    if not p.is_file():
-        return
-    wandb.log({key: wandb.Image(str(p), caption=caption)})  # type: ignore[attr-defined]
-
-
-def wandb_log_artifact_file(
-    run,
-    file_path: str | Path,
-    artifact_name: str,
-    artifact_type: str = "model",
-    metadata: Optional[Dict[str, Any]] = None,
-    aliases: Optional[list[str]] = None,
-) -> None:
+def wandb_log_image(key: str, fig) -> None:
     """
-    Upload file sebagai artifact ke W&B.
-    Aman: hanya jalan kalau run aktif & file ada.
+    Log matplotlib figure ke W&B sebagai image.
     """
-    if run is None:
+    if wandb is None or wandb.run is None:  # type: ignore[attr-defined]
         return
-
-    p = Path(file_path)
-    if not p.is_file():
-        print(f"[wandb] skip artifact, file tidak ada: {p}")
-        return
-
-    art = run.Artifact(
-        name=artifact_name,
-        type=artifact_type,
-        metadata=metadata or {},
-    )
-    art.add_file(str(p))
-    run.log_artifact(art, aliases=aliases or [])
+    wandb.log({key: wandb.Image(fig)})
 
 
 def wandb_finish() -> None:
-    """Akhiri wandb run saat ini jika aktif."""
-    if not wandb_is_available():
+    if wandb is None:
         return
     try:
-        wandb.finish()  # type: ignore[attr-defined]
+        wandb.finish()
     except Exception:
         pass
