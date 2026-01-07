@@ -23,6 +23,7 @@ from utils import (
     wandb_finish,
     wandb_is_available,
     wandb_log_image,
+    wandb_set_summary,
 )
 from models import Basic2DCNN, ResNet18, ResNet34, ResNet50
 
@@ -324,16 +325,17 @@ def main() -> None:
 
     model = build_model(args.model, num_classes=num_classes, in_channels=4).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    scheduler = None
-    if args.scheduler == "plateau":
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer, mode="max", factor=0.5, patience=3, min_lr=1e-6
-        )
-    elif args.scheduler == "cosine":
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-            optimizer, T_max=args.epochs
-        )
 
+    # --- load scheduler (optional) ---
+    scheduler = None
+    if hasattr(args, "scheduler"):
+        if args.scheduler == "plateau":
+            scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+                optimizer, mode="min", factor=0.5, patience=3, min_lr=1e-6
+            )
+        elif args.scheduler and args.scheduler != "none":
+            # fallback scheduler names can be added here
+            pass
 
     # W&B identity
     project = args.wandb_project or model_to_project(args.model)
@@ -367,17 +369,18 @@ def main() -> None:
             tags=tags,
             job_type="ablation_model_with_full_landmark",
             notes=(
-                "Ablation model (full landmark). "
-                "Weight decay=1e-3, dropout=0.5, early stopping aktif patience 5."
-                "Setup baseline sebelum hyperparameter tuning."
+                "Ablation study using full landmark input with a fixed training setup across models. "
+                "Weight decay is set to 1e-3 with dropout rate 0.5, and early stopping is enabled "
+                "with patience of 5 epochs. This configuration serves as a baseline setup "
+                "for fair model comparison prior to hyperparameter tuning."
             )
         )
 
-    # checkpoint path
+    # checkpoints
     ckpt_dir = ensure_dir(Path("checkpoints") / args.model / args.variant)
     ckpt_path = ckpt_dir / f"{run_name}__best.pt"
 
-    best_val_acc = -1.0
+    best_val_loss = float("inf")
     best_epoch = -1
     wait = 0
 
@@ -405,8 +408,9 @@ def main() -> None:
             }, step=epoch)
 
         # best checkpoint
-        if val_stats["acc"] > best_val_acc:
-            best_val_acc = val_stats["acc"]
+        improved = val_stats["loss"] < best_val_loss - 1e-8
+        if improved:
+            best_val_loss = float(val_stats["loss"])
             best_epoch = epoch
             wait = 0
 
@@ -414,36 +418,37 @@ def main() -> None:
                 "epoch": epoch,
                 "model_state": model.state_dict(),
                 "optimizer_state": optimizer.state_dict(),
-                "val_acc": best_val_acc,
+                "val_loss": best_val_loss,
                 "config": vars(args),
                 "label2idx": label2idx,
+                "idx2label": idx2label,
                 "train_seed": train_seed,
                 "split_seed": split_seed,
                 "T": T_in,
                 "L": L_in,
             }, ckpt_path)
 
-            print(f"  🔥 New best val_acc={best_val_acc:.4f} | checkpoint saved to {ckpt_path}")
+            print(f"  🔥 New best val_loss={best_val_loss:.4f} | checkpoint saved to {ckpt_path}")
 
             if wandb_run is not None:
                 wandb_log({
-                    "best_val_acc": best_val_acc,
+                    "best_val_loss": best_val_loss,
                     "best_epoch": best_epoch,
                     "early_stop/best_epoch": best_epoch,
                 }, step=epoch)
-
-        if scheduler is not None:
-            if args.scheduler == "plateau":
-                scheduler.step(val_stats["acc"])
-            else:
-                scheduler.step()
-
         else:
             wait += 1
 
+        # scheduler step (after val)
+        if scheduler is not None:
+            if getattr(args, "scheduler", None) == "plateau":
+                scheduler.step(val_stats["loss"])
+            else:
+                scheduler.step()
+
         # early stopping
         if wait >= args.patience:
-            print(f"⏹️ Early stopping at epoch {epoch} (best_epoch={best_epoch}, best_val_acc={best_val_acc:.4f})")
+            print(f"⏹️ Early stopping at epoch {epoch} (best_epoch={best_epoch}, best_val_loss={best_val_loss:.4f})")
             if wandb_run is not None:
                 wandb_log({
                     "early_stop/triggered": 1,
@@ -480,14 +485,22 @@ def main() -> None:
         wandb_log_image("test/confusion_matrix", fig)
 
         # summary biar gampang bikin tabel
-        wandb_run.summary["best_val_acc"] = float(best_val_acc)
-        wandb_run.summary["best_epoch"] = int(best_epoch)
-        wandb_run.summary["test_acc"] = float(test_stats["acc"])
-        wandb_run.summary["test_balanced_acc"] = float(test_stats["balanced_acc"])
-        wandb_run.summary["test_f1_macro"] = float(test_stats["f1_macro"])
-        wandb_run.summary["test_f1_weighted"] = float(test_stats["f1_weighted"])
-        wandb_run.summary["T"] = int(T_in)
-        wandb_run.summary["L"] = int(L_in)
+        wandb_set_summary({
+            "variant": args.variant,
+            "T": T_in,
+            "L": L_in,
+            "train_seed": train_seed,
+            "split_seed": split_seed,
+            "lr": args.lr,
+            "batch_size": args.batch_size,
+            "best_epoch": best_epoch,
+            "best_val_loss": best_val_loss,
+            "test_loss": test_stats["loss"],
+            "test_acc": test_stats["acc"],
+            "test_balanced_acc": test_stats["balanced_acc"],
+            "test_f1_macro": test_stats["f1_macro"],
+            "test_f1_weighted": test_stats["f1_weighted"],
+        })
 
         wandb_finish()
 

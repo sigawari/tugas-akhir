@@ -227,3 +227,13 @@ def wandb_finish() -> None:
         wandb.finish()
     except Exception:
         pass
+
+
+def wandb_set_summary(summary: dict) -> None:
+    if wandb is None:
+        return
+    run = wandb.run  # type: ignore[attr-defined]
+    if run is None:
+        return
+    for k, v in summary.items():
+        run.summary[k] = v
