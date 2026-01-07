@@ -280,6 +280,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--patience", type=int, default=10)
     p.add_argument("--split_path", type=str, default=str(DATA_DIR / "splits" / "split.json"))
     p.add_argument("--no_wandb", action="store_true")
+    p.add_argument("--weight_decay", type=float, default=1e-4)
+    p.add_argument("--scheduler", type=str, default="plateau", choices=["none", "plateau", "cosine"])
     p.add_argument("--run_name", type=str, default=None)
     p.add_argument("--wandb_project", type=str, default=None)  # optional override
     return p.parse_args()
@@ -321,7 +323,17 @@ def main() -> None:
     _, T_in, L_in = sample0.shape
 
     model = build_model(args.model, num_classes=num_classes, in_channels=4).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    scheduler = None
+    if args.scheduler == "plateau":
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer, mode="max", factor=0.5, patience=3, min_lr=1e-6
+        )
+    elif args.scheduler == "cosine":
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            optimizer, T_max=args.epochs
+        )
+
 
     # W&B identity
     project = args.wandb_project or model_to_project(args.model)
@@ -353,7 +365,12 @@ def main() -> None:
             name=run_name,
             group=group,
             tags=tags,
-            job_type="ablation_model_landmark",
+            job_type="ablation_model_with_full_landmark",
+            notes=(
+                "Ablation model (full landmark). "
+                "Weight decay=1e-3, dropout=0.5, early stopping aktif patience 5."
+                "Setup baseline sebelum hyperparameter tuning."
+            )
         )
 
     # checkpoint path
@@ -414,6 +431,12 @@ def main() -> None:
                     "best_epoch": best_epoch,
                     "early_stop/best_epoch": best_epoch,
                 }, step=epoch)
+
+        if scheduler is not None:
+            if args.scheduler == "plateau":
+                scheduler.step(val_stats["acc"])
+            else:
+                scheduler.step()
 
         else:
             wait += 1

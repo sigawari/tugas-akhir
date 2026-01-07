@@ -15,12 +15,13 @@ VARIANT = "full"
 PROJECT = "ablation-model"
 EPOCHS = 50
 LR = 1e-4
+WD = 1e-3
 BS = 16
-PATIENCE = 10
+PATIENCE = 5
 
 def main() -> None:
     for model in MODELS:
-        run_name = f"full_{model}_lr{LR:.0e}_bs{BS}_seed3_T30"  # optional, biar ringkas
+        run_name = f"full_{model}_lr{LR:.0e}_bs{BS}_wde-3_T30"  
         cmd = [
             PY, TRAIN,
             "--variant", VARIANT,
@@ -31,6 +32,8 @@ def main() -> None:
             "--patience", str(PATIENCE),
             "--wandb_project", PROJECT,
             "--run_name", run_name,
+            "--weight_decay", str(WD),
+            "--scheduler", "plateau",
         ]
 
         print("\n=== RUN:", " ".join(cmd), "===\n")
