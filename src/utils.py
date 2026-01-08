@@ -211,13 +211,16 @@ def wandb_log(metrics: Dict[str, Any], step: Optional[int] = None) -> None:
         wandb.log(metrics)
 
 
-def wandb_log_image(key: str, fig) -> None:
+def wandb_log_image(key: str, fig, step: Optional[int] = None) -> None:
     """
     Log matplotlib figure ke W&B sebagai image.
     """
     if wandb is None or wandb.run is None:  # type: ignore[attr-defined]
         return
-    wandb.log({key: wandb.Image(fig)})
+    if step is not None:
+        wandb.log({key: wandb.Image(fig)}, step=step)
+    else:
+        wandb.log({key: wandb.Image(fig)})
 
 
 def wandb_finish() -> None:

@@ -375,6 +375,7 @@ def main() -> None:
                 "for fair model comparison prior to hyperparameter tuning."
             )
         )
+        print("wandb_run:", wandb_run)
 
     # checkpoints
     ckpt_dir = ensure_dir(Path("checkpoints") / args.model / args.variant)
@@ -474,15 +475,15 @@ def main() -> None:
     if wandb_run is not None:
         # log scalar metrics
         wandb_log({
-            "test/loss": test_stats["loss"],
-            "test/acc": test_stats["acc"],
-            "test/balanced_acc": test_stats["balanced_acc"],
-            "test/f1_macro": test_stats["f1_macro"],
-            "test/f1_weighted": test_stats["f1_weighted"],
+            "test_loss": test_stats["loss"],
+            "test_acc": test_stats["acc"],
+            "test_balanced_acc": test_stats["balanced_acc"],
+            "test_f1_macro": test_stats["f1_macro"],
+            "test_f1_weighted": test_stats["f1_weighted"],
         })
 
         # log image
-        wandb_log_image("test/confusion_matrix", fig)
+        wandb_log_image("test/confusion_matrix", fig, step=best_epoch)
 
         # summary biar gampang bikin tabel
         wandb_set_summary({
