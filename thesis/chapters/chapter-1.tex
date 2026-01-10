@@ -12,27 +12,27 @@ Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena 
 Namun, keterbatasan pemahaman BISINDO masih menjadi masalah bagi masyarakat umum dalam berkomunikasi dengan Teman Tuli, sehingga dibutuhkan pemanfaatan teknologi untuk mendukung proses penerjemahan bahasa isyarat secara efektif.
 
 % Deep learning sudah luas digunakan
-Perkembangan teknologi \textit{computer vision} dan kecerdasan buatan telah banyak dieksplorasi oleh penelitian-penelitian sebelumnya untuk mereka cipta sistem penerjemahan bahasa isyarat ke teks atau suara.
-Berbagai studi menunjukkan bahwa model \textit{deep learning} mampu mengekstraksi pola kompleks dari data visual maupun data berurutan seperti citra dan video bahasa isyarat, sehingga menjadi pendekatan dominan dalam pengenalan bahasa isyarat modern.
-Penelitian yang dilakukan oleh Meisya memanfaatkan 650 gambar untuk klasifikasi 26 abjad bahasa Indonesia menggunakan XCeption  %masalahanya ini deep learning
-Salah satu penelitian terbaru yang diterbitkan oleh \textit{International Journal of Computer Applications} melakukan komparasi terhadap dua model deep learning yaitu \textit{Long Short Term Memory} (LSTM) dan 3D CNN \textit{Convolutional Neural Network} dengan mendapati bahwa 3D CNN mencapai akurasi 92.4\% pada dataset video yang diekstrak landmark \cite{anturkar2025lstm3dcnn}.
-Penelitian lain 
-% TEkenin pemanfaatan landmark bilang kalaupun banyak yang make gambar sebenernya landmark bisa lebih maju karena udah lebih op daripada gambar saja
+Seiring dengan perkembangan teknologi \textit{computer vision} dan kecerdasan buatan, berbagai penelitian telah dilakukan untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak@2025signtospeech,kavitha@2023signtospeech}.
+Pendekatan berbasis \textit{deep learning} menjadi metode yang dominan karena kemampuannya dalam mempelajari pola kompleks dari data visual maupun data berurutan, seperti citra dan video bahasa isyarat.
+Beberapa penelitian menunjukkan bahwa model \textit{deep learning} mampu mencapai performa yang tinggi dalam pengenalan gerakan bahasa isyarat.
+Sebagai contoh, Anturkar et al. membandingkan model \textit{Long Short-Term Memory} (LSTM) dan \textit{3D Convolutional Neural Network} (3D CNN) pada dataset video berbasis landmark dan melaporkan bahwa model 3D CNN mampu mencapai akurasi sebesar 92,4\% \cite{anturkar2025lstm3dcnn}.
+Penelitian lain mengombinasikan CNN dan LSTM berbasis mekanisme \textit{attention} untuk pengenalan bahasa isyarat tingkat kata dan memperoleh akurasi sebesar 84,65\% pada dataset \textit{American Sign Language} \cite{kumari@2024cnn-lstmatt}.
+Selain itu, penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{deep learning} berbasis LSTM dan GRU untuk klasifikasi BISINDO dengan akurasi mencapai 83\% \cite{maheswara@2023lstmbisindo}.
 
 % Dominasi pendekatan temporal
+Pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO masih didominasi oleh pendekatan berbasis temporal.
+Hal ini wajar dikarenakan bentuk bahasa isyarat yang selain berurutan juga terkemas dengan baik dalam dimensi waktu. 
+Belum banyak yang memanfaatkan model berbasis spasial seperti CNN atau ResNet dalam klasifikasi bahasa isyarat maupun BISINDO. 
+Penelitian-penelitian yang memanfaatkan model spasial untuk tugas ini kebanyakan menggunakan dataset statis dan cenderung mengabaikan aspek urutan yang penting dalam pengenalan bahasa isyarat. 
+Padahal, penelitian oleh X memberikan deskripsi menarik tentang potensi penggunaan model berbasis spasial untuk klasifikasi dataset temporal.
 
 % Celah penelitian berbasis spasial, bilang bahwa paper di luar itu make actionr recognition tapi gaada yang kasus BISINDO
 
 % Arah kontribusi penelitian
-Mayoritas penelitian yang memanfaatkan \textit{deep learning} untuk membuat penerjemah bahasa isyarat masih menggunakan model \textit{deep learning} berbasis temporal. Hal ini wajar dikarenakan bentuk bahasa isyarat yang selain berurutan juga terkemas dengan baik dalam dimensi waktu. Belum banyak yang memanfaatkan model berbasis spasial seperti CNN atau ResNet dalam klasifikasi gerakan. Padahal, penelitian oleh X memberikan deskripsi menarik tentang potensi penggunaan model berbasis spasial untuk klasifikasi dataset temporal.
+Mayoritas penelitian yang memanfaatkan \textit{deep learning} untuk membuat penerjemah bahasa isyarat masih menggunakan model \textit{deep learning} berbasis temporal. 
 
-Hal ini menarik untuk dipelajari terutama karena tidak ada penelitian terbaru yang mencoba menerjemahkan bahasa isyarat seperti BISINDO menggunakan metode spasial. Perkembangan computer vision juga memungkinkan adanya klasifikasi berbasis landmark mediapipe yang terdiri dari titik-titik koordinat yang secara instan merepresentasikan tubuh manusia seperti wajah, tangan, dan badan. Penelitian ini bertujuan untuk menguji model spasial berbasis neural network untuk klasifikasi gerakan bahasa isyarat menggunakan landmark mediapipe. Diharapkan hasil dari penelitian ini dapat memberikan kontribusi baru dalam dunia penerjemahan bahasa isyarat terutama BISINDO dan juga memberikan gagasan tentang pemanfaatan model spasial dalam klasifikasi atau pengenalan dataset berurutan. 
 
 \section{Rumusan Masalah} \label{I.Rumusan Masalah}
-Pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO masih didominasi oleh pendekatan berbasis temporal. 
-Sementara itu, pendekatan berbasis spasial untuk penerjemahan bahasa isyarat seperti ResNet masih relatif terbatas.
-Belum banyak penelitian yang mengkaji sejauh mana model spasial ResNet-2D mampu menangkap pola gerakan bahasa isyarat ketika representasi data disusun dalam bentuk struktur dua dimensi dari landmark tubuh manusia. 
-Oleh karena itu, diperlukan penelitian yang mampu menggali potensi penggunaan model ResNet-2D dalam klasifikasi dan penerjemahan bahasa isyarat Indonesia (BISINDO) ke teks, serta menganalisis pengaruh variasi input landmark terhadap performa model.
 
 % Berdasarkan latar belakang yang telah diuraikan di atas, maka permasalahan penelitian dirumuskan sebagai berikut: \par
 
@@ -46,10 +46,10 @@ Oleh karena itu, diperlukan penelitian yang mampu menggali potensi penggunaan mo
 Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penelitian ini adalah: \par
 
 \begin{enumerate}[noitemsep]
-	\item Mengimplementasikan model spasial berbasis Residual Network (ResNet-2D) untuk klasifikasi gerakan BISINDO.
-	\item Menganalisis kinerja model ResNet-2D dalam memanfaatkan representasi spasial landmark MediaPipe pada pengenalan gerakan bahasa isyarat.
-	\item Mengkaji pengaruh kombinasi landmark MediaPipe (pose, tangan, wajah) terhadap performa model ResNet-2D.
-	\item Mengevaluasi performa model spasial yang digunakan menggunakan metrik evaluasi seperti \textit{Accuarcy, Precision, Recall, F1-Score}. dan \textit{Confussion Matrix}.
+    \item Mengimplementasikan model spasial berbasis Residual Network (ResNet-2D) untuk klasifikasi gerakan BISINDO.
+    \item Menganalisis kinerja model ResNet-2D dalam memanfaatkan representasi spasial landmark MediaPipe pada pengenalan gerakan bahasa isyarat.
+    \item Mengkaji pengaruh kombinasi landmark MediaPipe (pose, tangan, wajah) terhadap performa model ResNet-2D.
+    \item Mengevaluasi performa model spasial yang digunakan menggunakan metrik evaluasi seperti \textit{Accuarcy, Precision, Recall, F1-Score}. dan \textit{Confussion Matrix}.
 \end{enumerate}
 
 
@@ -74,7 +74,7 @@ Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: 
     \item Memberikan kontribusi pengetahuan terkait pemanfaatan model spasial berbasis \textit{Residual Network} dalam klasifikasi gerakan BISINDO berbasis landmark MediaPipe.
     \item Memberikan gambaran empiris mengenai pengaruh kombinasi landmark tubuh (pose, tangan, dan wajah) terhadap performa model spasial dalam pengenalan bahasa isyarat.
     \item Menjadi referensi bagi penelitian selanjutnya yang ingin mengeksplorasi pendekatan spasial alam pengolahan data gerakan \textit{action recognition} atau data berurutan tanpa ketergantungan penuh terhadap model berbasis temporal.
-    \item  Menjadi bahan evaluasi dan pembelajaran dalam penerapan model deep learning untuk pengenalan pola gerakan berbasis titik koordinat.
+    \item Menjadi bahan evaluasi dan pembelajaran dalam penerapan model deep learning untuk pengenalan pola gerakan berbasis titik koordinat.
 \end{enumerate}
 
 

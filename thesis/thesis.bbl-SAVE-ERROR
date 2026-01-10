@@ -1,0 +1,282 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{pathak@2025signtospeech}{inproceedings}{}{}
+      \name{author}{6}{}{%
+        {{hash=f1221d68fa92946dc5306605d125cd06}{%
+           family={Pathak},
+           familyi={P\bibinitperiod},
+           given={Anvisha},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5b98dff6575be988b1b1be0f82f28afa}{%
+           family={Patil},
+           familyi={P\bibinitperiod},
+           given={Niraj},
+           giveni={N\bibinitperiod}}}%
+        {{hash=1a0f9c0a694e0b65ffcf9e2e78b682cc}{%
+           family={Padhy},
+           familyi={P\bibinitperiod},
+           given={Prashant},
+           giveni={P\bibinitperiod}}}%
+        {{hash=6c55d02cdbaa8014d02b3bc9f453f562}{%
+           family={Jadhav},
+           familyi={J\bibinitperiod},
+           given={Adarsh},
+           giveni={A\bibinitperiod}}}%
+        {{hash=129a02ad0514150b892d8d5c2be89c6c}{%
+           family={Rukhande},
+           familyi={R\bibinitperiod},
+           given={Smita},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c9a3e69e4bb798c34a803fdec6cd8d87}{%
+           family={Gadhikar},
+           familyi={G\bibinitperiod},
+           given={Lakshmi},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{f3e9ce38990f5a83ded8b12161150855}
+      \strng{fullhash}{6d50122064121771abcca44acf66acd9}
+      \strng{fullhashraw}{6d50122064121771abcca44acf66acd9}
+      \strng{bibnamehash}{f3e9ce38990f5a83ded8b12161150855}
+      \strng{authorbibnamehash}{f3e9ce38990f5a83ded8b12161150855}
+      \strng{authornamehash}{f3e9ce38990f5a83ded8b12161150855}
+      \strng{authorfullhash}{6d50122064121771abcca44acf66acd9}
+      \strng{authorfullhashraw}{6d50122064121771abcca44acf66acd9}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2025 International Conference on Emerging Systems and Intelligent Computing (ESIC)}
+      \field{title}{Real-Time Sign Language to Speech Converter Using OpenCV and MediaPipe}
+      \field{year}{2025}
+      \field{pages}{32\bibrangedash 36}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/ESIC64052.2025.10962728
+      \endverb
+      \keyw{Hands;Sign language;Computer vision;Translation;Text recognition;Auditory system;Speech recognition;Real-time systems;Text to speech;Speech processing;Sign Language Recognition;Gesture Recognition System;Real-Time Hand Tracking;OpenCV;MediaPipe;Deaf Communication Tools;Text to Speech Conversion;Computer Vision}
+    \endentry
+    \entry{kavitha@2023signtospeech}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=ad0b6e4f569070ef3b0fc23214a8c44e}{%
+           family={J.C},
+           familyi={J\bibinitperiod},
+           given={Kavitha},
+           giveni={K\bibinitperiod}}}%
+        {{hash=7f14ebda11a9a0bc0be1d5a27859b7bd}{%
+           family={Nagarajan},
+           familyi={N\bibinitperiod},
+           given={D},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{4d5d3ff6c232e1aefde2587c9a71a8a1}
+      \strng{fullhash}{4d5d3ff6c232e1aefde2587c9a71a8a1}
+      \strng{fullhashraw}{4d5d3ff6c232e1aefde2587c9a71a8a1}
+      \strng{bibnamehash}{4d5d3ff6c232e1aefde2587c9a71a8a1}
+      \strng{authorbibnamehash}{4d5d3ff6c232e1aefde2587c9a71a8a1}
+      \strng{authornamehash}{4d5d3ff6c232e1aefde2587c9a71a8a1}
+      \strng{authorfullhash}{4d5d3ff6c232e1aefde2587c9a71a8a1}
+      \strng{authorfullhashraw}{4d5d3ff6c232e1aefde2587c9a71a8a1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2023 IEEE International Carnahan Conference on Security Technology (ICCST)}
+      \field{title}{Real Time Automated Sign Language Recognition and Transcription with Audio Feedback}
+      \field{year}{2023}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/ICCST59048.2023.10474276
+      \endverb
+      \keyw{Deep learning;Sign language;Computer vision;System performance;Auditory system;Feature extraction;Real-time systems;Sign language recognition;Transcription;Audio feedback;Suzuki contour algorithm;Convolutional Neural Networks;Lemmatization}
+    \endentry
+    \entry{anturkar2025lstm3dcnn}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=3f8061329d6e69e7dc66e62d5ffa3621}{%
+           family={Anturkar},
+           familyi={A\bibinitperiod},
+           given={Anvay},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3f6d0e56a2bbb2643ce71a944c732f3a}{%
+           family={Khot},
+           familyi={K\bibinitperiod},
+           given={Anushka},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d52b838070624315970c744b940ef4a0}{%
+           family={Andure},
+           familyi={A\bibinitperiod},
+           given={Ayush},
+           giveni={A\bibinitperiod}}}%
+        {{hash=887a5a89b0d67de63a4a8f2c4bb7e1c6}{%
+           family={Ghosh},
+           familyi={G\bibinitperiod},
+           given={Aniruddha},
+           giveni={A\bibinitperiod}}}%
+        {{hash=2258fa343e326e8dce3eaff3f62c849c}{%
+           family={Magadum},
+           familyi={M\bibinitperiod},
+           given={Anvit},
+           giveni={A\bibinitperiod}}}%
+        {{hash=f6233d9b3499836e640ee0de0d88a0dc}{%
+           family={Bahadur},
+           familyi={B\bibinitperiod},
+           given={Anvay},
+           giveni={A\bibinitperiod}}}%
+        {{hash=56e5c0779af377c89c34e459ae7c234e}{%
+           family={Pol},
+           familyi={P\bibinitperiod},
+           given={Madhumati},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Foundation of Computer Science}%
+      }
+      \strng{namehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
+      \strng{fullhash}{8b76a38aa1049ff444cf2bbc2d1e1aea}
+      \strng{fullhashraw}{8b76a38aa1049ff444cf2bbc2d1e1aea}
+      \strng{bibnamehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
+      \strng{authorbibnamehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
+      \strng{authornamehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
+      \strng{authorfullhash}{8b76a38aa1049ff444cf2bbc2d1e1aea}
+      \strng{authorfullhashraw}{8b76a38aa1049ff444cf2bbc2d1e1aea}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0975-8887}
+      \field{journaltitle}{International Journal of Computer Applications}
+      \field{month}{11}
+      \field{number}{55}
+      \field{title}{Real-Time Sign Language to text Translation using Deep Learning: A Comparative study of LSTM and 3D CNN}
+      \field{volume}{187}
+      \field{year}{2025}
+      \field{pages}{31\bibrangedash 35}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.5120/ijca2025925946
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.5120/ijca2025925946
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.5120/ijca2025925946
+      \endverb
+    \endentry
+    \entry{kumari@2024cnn-lstmatt}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=38de772f805e15fefc526e58b2a21e83}{%
+           family={Kumari},
+           familyi={K\bibinitperiod},
+           given={Diksha},
+           giveni={D\bibinitperiod}}}%
+        {{hash=93784ee1dda0096567f6aab978fb22fd}{%
+           family={Anand},
+           familyi={A\bibinitperiod},
+           given={Radhey\bibnamedelima Shyam},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{a0650e94360ab818bf9cd96066c42b31}
+      \strng{fullhash}{a0650e94360ab818bf9cd96066c42b31}
+      \strng{fullhashraw}{a0650e94360ab818bf9cd96066c42b31}
+      \strng{bibnamehash}{a0650e94360ab818bf9cd96066c42b31}
+      \strng{authorbibnamehash}{a0650e94360ab818bf9cd96066c42b31}
+      \strng{authornamehash}{a0650e94360ab818bf9cd96066c42b31}
+      \strng{authorfullhash}{a0650e94360ab818bf9cd96066c42b31}
+      \strng{authorfullhashraw}{a0650e94360ab818bf9cd96066c42b31}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Sign language is a complex language that uses hand gestures, body movements, and facial expressions and is majorly used by the deaf community. Sign language recognition (SLR) is a popular research domain as it provides an efficient and reliable solution to bridge the communication gap between people who are hard of hearing and those with good hearing. Recognizing isolated sign language words from video is a challenging research area in computer vision. This paper proposes a hybrid SLR framework that combines a convolutional neural network (CNN) and an attention-based long-short-term memory (LSTM) neural network. We used MobileNetV2 as a backbone model due to its lightweight structure, which reduces the complexity of the model architecture for deriving meaningful features from the video frame sequence. The spatial features are fed to LSTM optimized with an attention mechanism to select the significant gesture cues from the video frames and focus on salient features from the sequential data. The proposed method is evaluated on a benchmark WLASL dataset with 100 classes based on precision, recall, F1-score, and 5-fold cross-validation metrics. Our methodology acquired an average accuracy of 84.65%. The experiment results illustrate that our model performed effectively and computationally efficiently compared to other state-of-the-art methods.}
+      \field{issn}{2079-9292}
+      \field{journaltitle}{Electronics}
+      \field{number}{7}
+      \field{title}{Isolated Video-Based Sign Language Recognition Using a Hybrid CNN-LSTM Framework Based on Attention Mechanism}
+      \field{volume}{13}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.3390/electronics13071229
+      \endverb
+      \verb{urlraw}
+      \verb https://www.mdpi.com/2079-9292/13/7/1229
+      \endverb
+      \verb{url}
+      \verb https://www.mdpi.com/2079-9292/13/7/1229
+      \endverb
+    \endentry
+    \entry{maheswara@2023lstmbisindo}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=6f93c6e0ffe66f6878659ffbfce163a8}{%
+           family={Maheswara},
+           familyi={M\bibinitperiod},
+           given={Yoses\bibnamedelima Dwi},
+           giveni={Y\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=15ef25e31b3d46cbfd9668481ceccfad}{%
+           family={Al-Sulthon},
+           familyi={A\bibinithyphendelim S\bibinitperiod},
+           given={M.Abid},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ec9379b216877707beeeb0b127ae228e}{%
+           family={Wicaksono},
+           familyi={W\bibinitperiod},
+           given={Pradayan\bibnamedelima Adhimas},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=b70f65c628279682cf39b4fd3bc2a930}{%
+           family={Afifah},
+           familyi={A\bibinitperiod},
+           given={Khilda},
+           giveni={K\bibinitperiod}}}%
+        {{hash=2927334457b554da56cc0ab204e45245}{%
+           family={Prihatiningrum},
+           familyi={P\bibinitperiod},
+           given={Novi},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{338a32770b264e7e689fc12df133d041}
+      \strng{fullhash}{a4c2abc772fbf1b808148412567c3470}
+      \strng{fullhashraw}{a4c2abc772fbf1b808148412567c3470}
+      \strng{bibnamehash}{338a32770b264e7e689fc12df133d041}
+      \strng{authorbibnamehash}{338a32770b264e7e689fc12df133d041}
+      \strng{authornamehash}{338a32770b264e7e689fc12df133d041}
+      \strng{authorfullhash}{a4c2abc772fbf1b808148412567c3470}
+      \strng{authorfullhashraw}{a4c2abc772fbf1b808148412567c3470}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2023 6th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI)}
+      \field{title}{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models Leveraging MediaPipe}
+      \field{year}{2023}
+      \field{pages}{226\bibrangedash 232}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1109/ISRITI60336.2023.10467586
+      \endverb
+      \keyw{Training;Seminars;Sign language;Recurrent neural networks;Face recognition;Feature extraction;Real-time systems;BISINDO;Sign Language Recognition;MediaPipe Framework;Recurrent Neural Network (RNN);Feature Extraction;Gated Recurrent Unit (GRU);Long Short-Term Memory (LSTM);Real-Time Accuracy;Gesture Recognition}
+    \endentry
+  \enddatalist
+  \missing{Ivanny2014Perbandingan}
+  \missing{Suryanto2019MAE}
+  \missing{cort2005maermse}
+\endrefsection
+\endinput
+
