@@ -6,13 +6,13 @@
 
 \section{Latar Belakang} \label{I.Latar Belakang}
 Teman Tuli atau difabel pendengaran di Indonesia umumnya menggunakan bahasa isyarat sebagai alat komunikasi.
-Dua bahasa tersebut adalah Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO) \cite{olivia2022tindakankomunikatif}. 
-SIBI lebih umum digunakan pada kegiatan formal dan akademis karena dibuat oleh pemerintah dan Teman Dengar dengan mengadaptasi sistem bahasa isyarat Amerika (\textit{American Sign Language} (ASL)) \cite{nilawaty2020sibi} \cite{saraswati2022bisindo}. 
-Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena merupakan bahasa yang lahir secara alami dari komunitas tuli \cite{saraswati2022bisindo}.
-Namun, keterbatasan pemahaman BISINDO masih menjadi masalah bagi masyarakat umum dalam berkomunikasi dengan Teman Tuli, sehingga dibutuhkan pemanfaatan teknologi untuk mendukung proses penerjemahan bahasa isyarat secara efektif.
+Dua bahasa tersebut adalah Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO) \cite{olivia2022tindakankomunikatif} \cite{verushka2024signlanguages}. 
+SIBI lebih umum digunakan pada kegiatan formal dan akademis karena dibuat oleh pemerintah dan Teman Dengar dengan mengadaptasi sistem bahasa isyarat Amerika (\textit{American Sign Language} (ASL)) \cite{saraswati2022bisindo}. 
+Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena merupakan bahasa yang lahir secara alami dari komunitas tuli \cite{nilawaty2020sibi} \cite{saraswati2022bisindo}.
+Namun, keterbatasan pemahaman BISINDO masih menjadi masalah bagi masyarakat umum dalam berkomunikasi dengan Teman Tuli \cite{lavenia2023tuliindonesia, arlinta2020keterbatasan}, sehingga dibutuhkan pemanfaatan teknologi untuk mendukung proses penerjemahan bahasa isyarat secara efektif.
 
 % Deep learning sudah luas digunakan
-Seiring dengan perkembangan teknologi \textit{computer vision} dan kecerdasan buatan, berbagai penelitian telah dilakukan untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak@2025signtospeech,kavitha@2023signtospeech}.
+Seiring dengan perkembangan teknologi \textit{computer vision} dan kecerdasan buatan, berbagai penelitian telah dilakukan untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak@2025signtospeech, kavitha@2023signtospeech}.
 Pendekatan berbasis \textit{deep learning} menjadi metode yang dominan karena kemampuannya dalam mempelajari pola kompleks dari data visual maupun data berurutan, seperti citra dan video bahasa isyarat.
 Beberapa penelitian menunjukkan bahwa model \textit{deep learning} mampu mencapai performa yang tinggi dalam pengenalan gerakan bahasa isyarat.
 Sebagai contoh, Anturkar et al. membandingkan model \textit{Long Short-Term Memory} (LSTM) dan \textit{3D Convolutional Neural Network} (3D CNN) pada dataset video berbasis landmark dan melaporkan bahwa model 3D CNN mampu mencapai akurasi sebesar 92,4\% \cite{anturkar2025lstm3dcnn}.
@@ -20,10 +20,15 @@ Penelitian lain mengombinasikan CNN dan LSTM berbasis mekanisme \textit{attentio
 Selain itu, penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{deep learning} berbasis LSTM dan GRU untuk klasifikasi BISINDO dengan akurasi mencapai 83\% \cite{maheswara@2023lstmbisindo}.
 
 % Dominasi pendekatan temporal
-Pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO masih didominasi oleh pendekatan berbasis temporal.
+Pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO masih didominasi oleh pendekatan berbasis temporal \cite{utomo2025islslstm, anturkar2025lstm3dcnn, maheswara@2023lstmbisindo, lemmuela2025dslr}.
 Hal ini wajar dikarenakan bentuk bahasa isyarat yang selain berurutan juga terkemas dengan baik dalam dimensi waktu. 
-Belum banyak yang memanfaatkan model berbasis spasial seperti CNN atau ResNet dalam klasifikasi bahasa isyarat maupun BISINDO. 
-Penelitian-penelitian yang memanfaatkan model spasial untuk tugas ini kebanyakan menggunakan dataset statis dan cenderung mengabaikan aspek urutan yang penting dalam pengenalan bahasa isyarat. 
+Belum banyak yang memanfaatkan model berbasis spasial seperti CNN atau ResNet dalam klasifikasi bahasa isyarat. 
+Penelitian-penelitian yang memanfaatkan model spasial untuk tugas ini kebanyakan menggunakan dataset statis yang berfokus pada pengenalan alfabet atau angka isyarat.
+Contohnya, penelitian oleh Sholawati \cite{sholawati2022sibi} memanfaatkan citra digital untuk klasifikasi abjad SIBI menggunakan CNN.
+Penelitian serupa \cite{saputra2024bisindocnn} juga memanfaatkan CNN untuk klasifikasi abjad dan huruf BISINDO menggunakan dataset statis citra digital.
+Padahal, bahasa isyarat yang digunakan sehari-hari memiliki bentuk yang lebih kompleks dengan tersusun atas gerakan-gerakan dinamis yang berurutan.
+
+
 Padahal, penelitian oleh X memberikan deskripsi menarik tentang potensi penggunaan model berbasis spasial untuk klasifikasi dataset temporal.
 
 % Celah penelitian berbasis spasial, bilang bahwa paper di luar itu make actionr recognition tapi gaada yang kasus BISINDO
