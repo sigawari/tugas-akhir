@@ -2,9 +2,9 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\thepage}
-\chapter{PENDAHULUAN} \label{Bab I}
+\chapter{PENDAHULUAN} \label{bab:pendahuluan}
 
-\section{Latar Belakang} \label{I.Latar Belakang}
+\section{Latar Belakang} \label{sec:latar-belakang}
 Teman Tuli atau difabel pendengaran di Indonesia umumnya menggunakan bahasa isyarat sebagai alat komunikasi.
 Dua bahasa tersebut adalah Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO) \cite{olivia2022tindakankomunikatif} \cite{verushka2024signlanguages}. 
 SIBI lebih umum digunakan pada kegiatan formal dan akademis karena dibuat oleh pemerintah dan Teman Dengar dengan mengadaptasi sistem bahasa isyarat Amerika (\textit{American Sign Language} (ASL)) \cite{saraswati2022bisindo}. 
@@ -12,22 +12,21 @@ Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena 
 Namun, keterbatasan pemahaman BISINDO masih menjadi masalah bagi masyarakat umum dalam berkomunikasi dengan Teman Tuli \cite{lavenia2023tuliindonesia, arlinta2020keterbatasan}, sehingga dibutuhkan pemanfaatan teknologi untuk mendukung proses penerjemahan bahasa isyarat secara efektif.
 
 % Deep learning sudah luas digunakan
-Seiring dengan perkembangan teknologi \textit{computer vision} dan kecerdasan buatan, berbagai penelitian telah dilakukan untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak@2025signtospeech, kavitha@2023signtospeech}.
+Seiring dengan perkembangan teknologi \textit{computer vision} dan kecerdasan buatan, berbagai penelitian telah dilakukan untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak2025signtospeech, kavitha2023signtospeech}.
 Pendekatan berbasis \textit{deep learning} menjadi metode yang dominan karena kemampuannya dalam mempelajari pola kompleks dari data visual maupun data berurutan, seperti citra dan video bahasa isyarat.
 Beberapa penelitian menunjukkan bahwa model \textit{deep learning} mampu mencapai performa yang tinggi dalam pengenalan gerakan bahasa isyarat.
-Sebagai contoh, Anturkar et al. membandingkan model \textit{Long Short-Term Memory} (LSTM) dan \textit{3D Convolutional Neural Network} (3D CNN) pada dataset video berbasis landmark dan melaporkan bahwa model 3D CNN mampu mencapai akurasi sebesar 92,4\% \cite{anturkar2025lstm3dcnn}.
-Penelitian lain mengombinasikan CNN dan LSTM berbasis mekanisme \textit{attention} untuk pengenalan bahasa isyarat tingkat kata dan memperoleh akurasi sebesar 84,65\% pada dataset \textit{American Sign Language} \cite{kumari@2024cnn-lstmatt}.
-Selain itu, penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{deep learning} berbasis LSTM dan GRU untuk klasifikasi BISINDO dengan akurasi mencapai 83\% \cite{maheswara@2023lstmbisindo}.
+Sebagai contoh, Anturkar et al. \cite{anturkar2025lstm3dcnn} membandingkan model \textit{Long Short-Term Memory} (LSTM) dan \textit{3D Convolutional Neural Network} (3D CNN) pada dataset video berbasis landmark dan melaporkan bahwa model 3D CNN mampu mencapai akurasi sebesar 92,4\%.
+Penelitian lain mengombinasikan CNN dan LSTM berbasis mekanisme \textit{attention} untuk pengenalan bahasa isyarat tingkat kata dan memperoleh akurasi sebesar 84,65\% pada dataset \textit{American Sign Language} \cite{kumari2024cnn-lstmatt}.
+Selain itu, penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{deep learning} berbasis LSTM dan GRU untuk klasifikasi BISINDO dengan akurasi mencapai 83\% \cite{maheswara2023lstmbisindo}.
 
 % Dominasi pendekatan temporal
-Pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO masih didominasi oleh pendekatan berbasis temporal \cite{utomo2025islslstm, anturkar2025lstm3dcnn, maheswara@2023lstmbisindo, lemmuela2025dslr}.
+Pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO masih didominasi oleh pendekatan berbasis temporal \cite{utomo2025islslstm, anturkar2025lstm3dcnn, maheswara2023lstmbisindo, lemmuela2025dslr}.
 Hal ini wajar dikarenakan bentuk bahasa isyarat yang selain berurutan juga terkemas dengan baik dalam dimensi waktu. 
 Belum banyak yang memanfaatkan model berbasis spasial seperti CNN atau ResNet dalam klasifikasi bahasa isyarat. 
 Penelitian-penelitian yang memanfaatkan model spasial untuk tugas ini kebanyakan menggunakan dataset statis yang berfokus pada pengenalan alfabet atau angka isyarat.
 Contohnya, penelitian oleh Sholawati \cite{sholawati2022sibi} memanfaatkan citra digital untuk klasifikasi abjad SIBI menggunakan CNN.
 Penelitian serupa \cite{saputra2024bisindocnn} juga memanfaatkan CNN untuk klasifikasi abjad dan huruf BISINDO menggunakan dataset statis citra digital.
 Padahal, bahasa isyarat yang digunakan sehari-hari memiliki bentuk yang lebih kompleks dengan tersusun atas gerakan-gerakan dinamis yang berurutan.
-
 
 Padahal, penelitian oleh X memberikan deskripsi menarik tentang potensi penggunaan model berbasis spasial untuk klasifikasi dataset temporal.
 
@@ -37,7 +36,7 @@ Padahal, penelitian oleh X memberikan deskripsi menarik tentang potensi pengguna
 Mayoritas penelitian yang memanfaatkan \textit{deep learning} untuk membuat penerjemah bahasa isyarat masih menggunakan model \textit{deep learning} berbasis temporal. 
 
 
-\section{Rumusan Masalah} \label{I.Rumusan Masalah}
+\section{Rumusan Masalah} \label{sec:rumusan-masalah}
 
 % Berdasarkan latar belakang yang telah diuraikan di atas, maka permasalahan penelitian dirumuskan sebagai berikut: \par
 
@@ -47,7 +46,7 @@ Mayoritas penelitian yang memanfaatkan \textit{deep learning} untuk membuat pene
 % \end{enumerate}
 
 
-\section{Tujuan Penelitian} \label{I.Tujuan}
+\section{Tujuan Penelitian} \label{sec:tujuan}
 Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penelitian ini adalah: \par
 
 \begin{enumerate}[noitemsep]
@@ -58,7 +57,7 @@ Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penel
 \end{enumerate}
 
 
-\section{Batasan Masalah} \label{I.Batasan}
+\section{Batasan Masalah} \label{sec:batasan}
 Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan adalah sebagai berikut: \par
 
 \begin{enumerate}[noitemsep]
@@ -72,7 +71,7 @@ Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan ad
     \item Evaluasi performa model difokuskan pada metrik yang umum digunakan dalam tugas klasifikasi seperti \textit{Accuarcy, Precision, Recall, F1-Score}. dan \textit{Confussion Matrix}.
 \end{enumerate}
 
-\section{Manfaat Penelitian} \label{I.Manfaat}
+\section{Manfaat Penelitian} \label{sec:manfaat}
 Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: \par
 
 \begin{enumerate}[noitemsep]
@@ -83,7 +82,7 @@ Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: 
 \end{enumerate}
 
 
-\section{Sistematika Penulisan} \label{I.Sistematika}
+\section{Sistematika Penulisan} \label{sec:sistematika}
 Sistematika penulisan berisi pembahasan apa yang akan ditulis disetiap Bab. Sistematika pada umumnya berupa paragraf yang setiap paragraf mencerminkan bahasan setiap Bab. \par
 
 \noindent\textbf{Bab I}
