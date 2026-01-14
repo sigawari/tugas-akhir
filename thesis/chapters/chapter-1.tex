@@ -21,22 +21,29 @@ Selain itu, penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{d
 
 % Dominasi pendekatan temporal
 Pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO masih didominasi oleh pendekatan berbasis temporal \cite{utomo2025islslstm, anturkar2025lstm3dcnn, maheswara2023lstmbisindo, lemmuela2025dslr}.
-Hal ini wajar dikarenakan bentuk bahasa isyarat yang selain berurutan juga terkemas dengan baik dalam dimensi waktu. 
+Pendekatan ini menempatkan dimensi waktu sebagai komponen utama dalam pemodelan bahasa isyarat karena gerakan tangan, ekspresi tubuh, dan transisi antar gerakan bersifat berurutan.
 Belum banyak yang memanfaatkan model berbasis spasial seperti CNN atau ResNet dalam klasifikasi bahasa isyarat. 
 Penelitian-penelitian yang memanfaatkan model spasial untuk tugas ini kebanyakan menggunakan dataset statis yang berfokus pada pengenalan alfabet atau angka isyarat.
 Contohnya, penelitian oleh Sholawati \cite{sholawati2022sibi} memanfaatkan citra digital untuk klasifikasi abjad SIBI menggunakan CNN.
 Penelitian serupa \cite{saputra2024bisindocnn} juga memanfaatkan CNN untuk klasifikasi abjad dan huruf BISINDO menggunakan dataset statis citra digital.
 Padahal, bahasa isyarat yang digunakan sehari-hari memiliki bentuk yang lebih kompleks dengan tersusun atas gerakan-gerakan dinamis yang berurutan.
 
-Padahal, penelitian oleh X memberikan deskripsi menarik tentang potensi penggunaan model berbasis spasial untuk klasifikasi dataset temporal.
-
 % Celah penelitian berbasis spasial, bilang bahwa paper di luar itu make actionr recognition tapi gaada yang kasus BISINDO
+% Perbaiki ini Siga
+Padahal, beberapa penelitian di luar konteks BISINDO menunjukkan bahwa model berbasis spasial memiliki potensi yang kuat untuk menangani data bahasa isyarat yang bersifat temporal apabila representasi datanya dirancang secara tepat.
+Sebagai contoh, Zhu et al. \cite{zhu2023f2dcnet} mengusulkan \textit{Fully 2D Convolutional Network} (F2DCNet) untuk tugas \textit{continuous sign language recognition}.
+Percobaan pada penelitian ini dilakukan sepenuhnya menggunakan jaringan konvolusional dua dimensi tanpa melibatkan model temporal eksplisit seperti LSTM, GRU, maupun Transformer.
+Informasi temporal dari video bahasa isyarat pada penelitian ini direpresentasikan melalui mekanisme \textit{spatial--temporal stitching}, sehingga memungkinkan CNN dua dimensi untuk mengekstraksi pola spasio-temporal secara end-to-end.
+Hasil eksperimen menunjukkan bahwa pendekatan ini mampu mencapai performa yang kompetitif dibandingkan metode berbasis temporal konvensional.
+Temuan ini mengindikasikan bahwa dominasi model berbasis temporal dalam penerjemahan bahasa isyarat tidak selalu menjadi satu-satunya solusi, dan pendekatan berbasis spasial berpotensi menjadi alternatif yang efektif, khususnya ketika dikombinasikan dengan strategi representasi data yang sesuai.
 
 % Arah kontribusi penelitian
-Mayoritas penelitian yang memanfaatkan \textit{deep learning} untuk membuat penerjemah bahasa isyarat masih menggunakan model \textit{deep learning} berbasis temporal. 
-
+Berdasarkan uraian tersebut, penelitian ini bertujuan untuk mengeksplorasi potensi penggunaan model ResNet-2D dalam klasifikasi dan penerjemahan bahasa isyarat Indonesia (BISINDO) berbasis landmark tubuh manusia.
+Penelitian ini tidak hanya mengevaluasi kemampuan model spasial dalam menangkap pola gerakan bahasa isyarat, tetapi juga menganalisis pengaruh variasi representasi input landmark terhadap performa model.
+Dengan demikian, diharapkan penelitian ini dapat memberikan perspektif baru terhadap pemanfaatan pendekatan spasial dalam penerjemahan bahasa isyarat, khususnya untuk bahasa isyarat lokal seperti BISINDO.
 
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
+Belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit{Convolutional Neural Network} dua dimensi, khususnya arsitektur ResNet-2D yang dikenal stabil dan umum digunakan sebagai \textit{backbone}, mampu menangkap pola gerakan bahasa isyarat ketika representasi data disusun dalam bentuk struktur dua dimensi dari landmark tubuh manusia.
 
 % Berdasarkan latar belakang yang telah diuraikan di atas, maka permasalahan penelitian dirumuskan sebagai berikut: \par
 
@@ -62,13 +69,13 @@ Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan ad
 
 \begin{enumerate}[noitemsep]
     \item Bahasa isyarat yang digunakan adalah Bahasa Isyarat Indonesia (BISINDO) dengan lingkup cakupan wilayah Jawa Barat.
-    \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata BISINDO.
+    \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO meliputi: "halo", "maaf", "izin", "terima kasih", .
     % \item Data gerakan bahasa isyarat direpresentasikan menggunakan landmark tubuh yang diekstraksi dengan MediaPipe, meliputi landmark wajah, tangan, dan pose tubuh.
     \item Model utama yang digunakan adalah model spasial berbasis \textit{Residual Network} (ResNet-2D)
     \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai pendekatan baseline dan bukan fokus utama dalam analisis komparatif.
     % \item Penelitian ini tidak melakukan perbandingan dengan model berbasis temporal seperti LSTM, GRU, atau Transformer.
-    \item Penelitian ini tidak melakukan eksplorasi menyeluruh terhadap kombinasi hyperparameter. Konfigurasi hyperparameter yang digunakan relatif seragam untuk menjaga keadilan perbandingan antar model.
-    \item Evaluasi performa model difokuskan pada metrik yang umum digunakan dalam tugas klasifikasi seperti \textit{Accuarcy, Precision, Recall, F1-Score}. dan \textit{Confussion Matrix}.
+    % \item Penelitian ini tidak melakukan eksplorasi menyeluruh terhadap kombinasi hyperparameter. Konfigurasi hyperparameter yang digunakan relatif seragam untuk menjaga keadilan perbandingan antar model.
+    % \item Evaluasi performa model difokuskan pada metrik yang umum digunakan dalam tugas klasifikasi seperti \textit{Accuarcy, Precision, Recall, F1-Score}. dan \textit{Confussion Matrix}.
 \end{enumerate}
 
 \section{Manfaat Penelitian} \label{sec:manfaat}
