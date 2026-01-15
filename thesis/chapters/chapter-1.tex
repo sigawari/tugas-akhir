@@ -7,43 +7,51 @@
 \section{Latar Belakang} \label{sec:latar-belakang}
 Teman Tuli atau difabel pendengaran di Indonesia umumnya menggunakan bahasa isyarat sebagai alat komunikasi.
 Dua bahasa tersebut adalah Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO) \cite{olivia2022tindakankomunikatif} \cite{verushka2024signlanguages}. 
-SIBI lebih umum digunakan pada kegiatan formal dan akademis karena dibuat oleh pemerintah dan Teman Dengar dengan mengadaptasi sistem bahasa isyarat Amerika (\textit{American Sign Language} (ASL)) \cite{saraswati2022bisindo}. 
-Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena merupakan bahasa yang lahir secara alami dari komunitas tuli \cite{nilawaty2020sibi} \cite{saraswati2022bisindo}.
+SIBI lebih umum digunakan pada kegiatan formal dan akademis karena dibuat oleh pemerintah dan orang dengar dengan mengadaptasi sistem bahasa isyarat Amerika (\textit{American Sign Language} (ASL)) \cite{saraswati2022bisindo}. 
+Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena merupakan bahasa yang lahir secara alami dari komunitas tuli \cite{saraswati2022bisindo, nilawaty2020sibi}.
 Namun, keterbatasan pemahaman BISINDO masih menjadi masalah bagi masyarakat umum dalam berkomunikasi dengan Teman Tuli \cite{lavenia2023tuliindonesia, arlinta2020keterbatasan}, sehingga dibutuhkan pemanfaatan teknologi untuk mendukung proses penerjemahan bahasa isyarat secara efektif.
 
 % Deep learning sudah luas digunakan
-Seiring dengan perkembangan teknologi \textit{computer vision} dan kecerdasan buatan, berbagai penelitian telah dilakukan untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak2025signtospeech, kavitha2023signtospeech}.
+Berkembangnya teknologi \textit{computer vision} dan kecerdasan buatan kemudian menginspirasi berbagai penelitian untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak2025signtospeech, kavitha2023signtospeech}.
 Pendekatan berbasis \textit{deep learning} menjadi metode yang dominan karena kemampuannya dalam mempelajari pola kompleks dari data visual maupun data berurutan, seperti citra dan video bahasa isyarat.
 Beberapa penelitian menunjukkan bahwa model \textit{deep learning} mampu mencapai performa yang tinggi dalam pengenalan gerakan bahasa isyarat.
 Sebagai contoh, Anturkar et al. \cite{anturkar2025lstm3dcnn} membandingkan model \textit{Long Short-Term Memory} (LSTM) dan \textit{3D Convolutional Neural Network} (3D CNN) pada dataset video berbasis landmark dan melaporkan bahwa model 3D CNN mampu mencapai akurasi sebesar 92,4\%.
 Penelitian lain mengombinasikan CNN dan LSTM berbasis mekanisme \textit{attention} untuk pengenalan bahasa isyarat tingkat kata dan memperoleh akurasi sebesar 84,65\% pada dataset \textit{American Sign Language} \cite{kumari2024cnn-lstmatt}.
-Selain itu, penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{deep learning} berbasis LSTM dan GRU untuk klasifikasi BISINDO dengan akurasi mencapai 83\% \cite{maheswara2023lstmbisindo}.
+Selain itu, salah satu penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{deep learning} berbasis LSTM dan GRU untuk klasifikasi BISINDO dengan akurasi mencapai 83\% \cite{maheswara2023lstmbisindo}.
 
 % Dominasi pendekatan temporal
-Pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO masih didominasi oleh pendekatan berbasis temporal \cite{utomo2025islslstm, anturkar2025lstm3dcnn, maheswara2023lstmbisindo, lemmuela2025dslr}.
-Pendekatan ini menempatkan dimensi waktu sebagai komponen utama dalam pemodelan bahasa isyarat karena gerakan tangan, ekspresi tubuh, dan transisi antar gerakan bersifat berurutan.
-Belum banyak yang memanfaatkan model berbasis spasial seperti CNN atau ResNet dalam klasifikasi bahasa isyarat. 
-Penelitian-penelitian yang memanfaatkan model spasial untuk tugas ini kebanyakan menggunakan dataset statis yang berfokus pada pengenalan alfabet atau angka isyarat.
-Contohnya, penelitian oleh Sholawati \cite{sholawati2022sibi} memanfaatkan citra digital untuk klasifikasi abjad SIBI menggunakan CNN.
-Penelitian serupa \cite{saputra2024bisindocnn} juga memanfaatkan CNN untuk klasifikasi abjad dan huruf BISINDO menggunakan dataset statis citra digital.
-Padahal, bahasa isyarat yang digunakan sehari-hari memiliki bentuk yang lebih kompleks dengan tersusun atas gerakan-gerakan dinamis yang berurutan.
+Sayangnya, pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO hingga saat ini masih didominasi oleh pendekatan berbasis temporal \cite{utomo2025islslstm, anturkar2025lstm3dcnn, maheswara2023lstmbisindo, lemmuela2025dslr}.
+Pendekatan ini menempatkan dimensi waktu sebagai komponen utama dalam pemodelan bahasa isyarat, mengingat gerakan tangan, ekspresi tubuh, serta transisi antar gerakan bersifat berurutan dan saling bergantung secara temporal.
+Meskipun pendekatan berbasis temporal menunjukkan performa yang baik, sejumlah studi melaporkan bahwa model-model tersebut cenderung memiliki kompleksitas pelatihan yang tinggi serta sensitif terhadap panjang dan kualitas urutan data, terutama pada pemodelan video dengan dinamika temporal yang kompleks \cite{zhu2020comprehensivestudydeepvideo, wani2022dlvideoreview}.
+Selain itu, kebutuhan data yang relatif besar serta biaya komputasi yang tinggi sering kali menjadi kendala dalam penerapan model temporal, khususnya pada skenario dengan keterbatasan data atau sumber daya komputasi \cite{gu2021surveyhumanactivity, gong2025surveyaction}.
+Berdasarkan konteks tersebut, pemanfaatan model berbasis spasial seperti \textit{Convolutional Neural Network} (CNN) atau ResNet dalam klasifikasi bahasa isyarat dengan dataset temporal masih relatif terbatas.
+
+% Kalaupun ada, penelitiannya make data statis
+Terbatas pada beberapa studi, pendekatan spasial dalam klasifikasi bahasa isyarat umumnya diterapkan pada penggunaan dataset statis yang berfokus pada pengenalan alfabet atau angka isyarat.
+Sebagai contoh, penelitian oleh Sholawati \cite{sholawati2022sibi} memanfaatkan citra digital untuk klasifikasi abjad SIBI menggunakan CNN.
+Penelitian serupa juga dilakukan oleh Saputra et al. \cite{saputra2024bisindocnn} yang menerapkan CNN untuk klasifikasi abjad dan huruf BISINDO menggunakan dataset citra statis.
+Padahal, bahasa isyarat yang digunakan dalam komunikasi sehari-hari memiliki struktur yang jauh lebih kompleks karena tersusun atas rangkaian gerakan dinamis yang berlangsung secara berurutan dalam dimensi waktu.
 
 % Celah penelitian berbasis spasial, bilang bahwa paper di luar itu make actionr recognition tapi gaada yang kasus BISINDO
 % Perbaiki ini Siga
-Padahal, beberapa penelitian di luar konteks BISINDO menunjukkan bahwa model berbasis spasial memiliki potensi yang kuat untuk menangani data bahasa isyarat yang bersifat temporal apabila representasi datanya dirancang secara tepat.
+Beberapa penelitian di luar konteks BISINDO menunjukkan bahwa model berbasis spasial memiliki potensi yang kuat untuk menangani data yang bersifat temporal apabila representasi datanya dirancang secara tepat.
 Sebagai contoh, Zhu et al. \cite{zhu2023f2dcnet} mengusulkan \textit{Fully 2D Convolutional Network} (F2DCNet) untuk tugas \textit{continuous sign language recognition}.
-Percobaan pada penelitian ini dilakukan sepenuhnya menggunakan jaringan konvolusional dua dimensi tanpa melibatkan model temporal eksplisit seperti LSTM, GRU, maupun Transformer.
-Informasi temporal dari video bahasa isyarat pada penelitian ini direpresentasikan melalui mekanisme \textit{spatial--temporal stitching}, sehingga memungkinkan CNN dua dimensi untuk mengekstraksi pola spasio-temporal secara end-to-end.
-Hasil eksperimen menunjukkan bahwa pendekatan ini mampu mencapai performa yang kompetitif dibandingkan metode berbasis temporal konvensional.
-Temuan ini mengindikasikan bahwa dominasi model berbasis temporal dalam penerjemahan bahasa isyarat tidak selalu menjadi satu-satunya solusi, dan pendekatan berbasis spasial berpotensi menjadi alternatif yang efektif, khususnya ketika dikombinasikan dengan strategi representasi data yang sesuai.
+Beberapa studi lain pada domain pengenalan aksi manusia (\textit{action recognition}) juga menunjukkan bahwa strategi representasi \textit{input} dapat membantu jaringan konvolusional dua dimensi untuk menangkap informasi temporal.
+Kim et al. \cite{kim2022channelsampling} memperkenalkan strategi \textit{channel sampling} untuk menyusun ulang kanal input sehingga variasi temporal antar frame dapat ditangkap oleh backbone 2D tanpa memerlukan konvolusi tiga dimensi yang berat.
+Bilen et al. \cite{bilen2017dynamicimage} merangkum seluruh video menjadi sebuah \textit{dynamic image} tunggal menggunakan mekanisme pooling terurut sehingga video tersebut dapat diproses layaknya citra oleh CNN dua dimensi.
+Selain itu, Wang et al. \cite{wang2017tsn} mengusulkan \textit{Temporal Segment Networks} yang menggunakan pengambilan sampel temporal secara spars dan agregasi prediksi untuk menghasilkan representasi video-level pada jaringan CNN 2D.
+Temuan-temuan tersebut menunjukkan bahwa rekayasa representasi input atau strategi sampling temporal dapat memperkaya kemampuan model spasial dalam mendeteksi pola gerakan temporal.
+Memanfaatkan prinsip yang serupa, penelitian ini menyusun landmark tubuh manusia ke dalam struktur dua dimensi sebagai \textit{pseudo-image} agar dapat diproses oleh ResNet-2D untuk klasifikasi BISINDO.
 
 % Arah kontribusi penelitian
 Berdasarkan uraian tersebut, penelitian ini bertujuan untuk mengeksplorasi potensi penggunaan model ResNet-2D dalam klasifikasi dan penerjemahan bahasa isyarat Indonesia (BISINDO) berbasis landmark tubuh manusia.
-Penelitian ini tidak hanya mengevaluasi kemampuan model spasial dalam menangkap pola gerakan bahasa isyarat, tetapi juga menganalisis pengaruh variasi representasi input landmark terhadap performa model.
-Dengan demikian, diharapkan penelitian ini dapat memberikan perspektif baru terhadap pemanfaatan pendekatan spasial dalam penerjemahan bahasa isyarat, khususnya untuk bahasa isyarat lokal seperti BISINDO.
+Berbeda dari mayoritas penelitian sebelumnya yang menitikberatkan pada pemodelan temporal eksplisit, penelitian ini menyusun data landmark tubuh manusia ke dalam representasi dua dimensi sebagai \textit{pseudo-image} agar dapat diproses oleh jaringan konvolusional dua dimensi.
+Selain itu, penelitian ini menganalisis pengaruh variasi representasi input landmark terhadap performa model dalam mengenali pola gerakan bahasa isyarat.
+Melalui pendekatan ini, diharapkan penelitian dapat memberikan pemahaman mengenai sejauh mana model spasial ResNet-2D mampu menangkap informasi gerakan bahasa isyarat yang bersifat temporal, khususnya pada konteks bahasa isyarat lokal seperti BISINDO.
 
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
-Belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit{Convolutional Neural Network} dua dimensi, khususnya arsitektur ResNet-2D yang dikenal stabil dan umum digunakan sebagai \textit{backbone}, mampu menangkap pola gerakan bahasa isyarat ketika representasi data disusun dalam bentuk struktur dua dimensi dari landmark tubuh manusia.
+Belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit{Convolutional Neural Network} dua dimensi, khususnya arsitektur ResNet-2D, mampu menangkap pola gerakan bahasa isyarat ketika representasi data disusun dalam bentuk struktur dua dimensi dari landmark tubuh manusia.
+Selain itu, pengaruh variasi kombinasi landmark tubuh terhadap performa model spasial dalam klasifikasi gerakan BISINDO juga belum banyak dieksplorasi.
 
 % Berdasarkan latar belakang yang telah diuraikan di atas, maka permasalahan penelitian dirumuskan sebagai berikut: \par
 
@@ -57,10 +65,11 @@ Belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit
 Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penelitian ini adalah: \par
 
 \begin{enumerate}[noitemsep]
-    \item Mengimplementasikan model spasial berbasis Residual Network (ResNet-2D) untuk klasifikasi gerakan BISINDO.
+    % \item Mengimplementasikan model spasial berbasis Residual Network (ResNet-2D) untuk klasifikasi gerakan BISINDO.
+    \item Mengevaluasi kemampuan model spasial berbasis Residual Network (ResNet-2D) dalam klasifikasi gerakan BISINDO berbasis landmark.
     \item Menganalisis kinerja model ResNet-2D dalam memanfaatkan representasi spasial landmark MediaPipe pada pengenalan gerakan bahasa isyarat.
-    \item Mengkaji pengaruh kombinasi landmark MediaPipe (pose, tangan, wajah) terhadap performa model ResNet-2D.
-    \item Mengevaluasi performa model spasial yang digunakan menggunakan metrik evaluasi seperti \textit{Accuarcy, Precision, Recall, F1-Score}. dan \textit{Confussion Matrix}.
+    \item Mengkaji pengaruh kombinasi landmark MediaPipe (pose, tangan, dan wajah) terhadap performa model ResNet-2D.
+    \item Mengevaluasi performa model menggunakan metrik \textit{Accuracy, Precision, Recall, F1-Score}, serta \textit{Confusion Matrix}.
 \end{enumerate}
 
 
@@ -69,10 +78,10 @@ Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan ad
 
 \begin{enumerate}[noitemsep]
     \item Bahasa isyarat yang digunakan adalah Bahasa Isyarat Indonesia (BISINDO) dengan lingkup cakupan wilayah Jawa Barat.
-    \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO meliputi: "halo", "maaf", "izin", "terima kasih", .
+    \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO yang umum digunakan dalam percakapan sehari-hari.
     % \item Data gerakan bahasa isyarat direpresentasikan menggunakan landmark tubuh yang diekstraksi dengan MediaPipe, meliputi landmark wajah, tangan, dan pose tubuh.
     \item Model utama yang digunakan adalah model spasial berbasis \textit{Residual Network} (ResNet-2D)
-    \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai pendekatan baseline dan bukan fokus utama dalam analisis komparatif.
+    \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai model pembanding (baseline) untuk memberikan konteks performa terhadap model ResNet-2D.
     % \item Penelitian ini tidak melakukan perbandingan dengan model berbasis temporal seperti LSTM, GRU, atau Transformer.
     % \item Penelitian ini tidak melakukan eksplorasi menyeluruh terhadap kombinasi hyperparameter. Konfigurasi hyperparameter yang digunakan relatif seragam untuk menjaga keadilan perbandingan antar model.
     % \item Evaluasi performa model difokuskan pada metrik yang umum digunakan dalam tugas klasifikasi seperti \textit{Accuarcy, Precision, Recall, F1-Score}. dan \textit{Confussion Matrix}.
@@ -84,30 +93,29 @@ Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: 
 \begin{enumerate}[noitemsep]
     \item Memberikan kontribusi pengetahuan terkait pemanfaatan model spasial berbasis \textit{Residual Network} dalam klasifikasi gerakan BISINDO berbasis landmark MediaPipe.
     \item Memberikan gambaran empiris mengenai pengaruh kombinasi landmark tubuh (pose, tangan, dan wajah) terhadap performa model spasial dalam pengenalan bahasa isyarat.
-    \item Menjadi referensi bagi penelitian selanjutnya yang ingin mengeksplorasi pendekatan spasial alam pengolahan data gerakan \textit{action recognition} atau data berurutan tanpa ketergantungan penuh terhadap model berbasis temporal.
-    \item Menjadi bahan evaluasi dan pembelajaran dalam penerapan model deep learning untuk pengenalan pola gerakan berbasis titik koordinat.
+    \item Menjadi referensi bagi penelitian selanjutnya yang ingin mengeksplorasi pendekatan spasial dalam pengolahan data gerakan atau \textit{action recognition} berbasis data berurutan atau temporal.
+    \item Menjadi bahan evaluasi dan pembelajaran tambahan dalam penerapan model \textit{deep learning} untuk pengenalan pola gerakan berbasis titik koordinat.
 \end{enumerate}
 
-
 \section{Sistematika Penulisan} \label{sec:sistematika}
-Sistematika penulisan berisi pembahasan apa yang akan ditulis disetiap Bab. Sistematika pada umumnya berupa paragraf yang setiap paragraf mencerminkan bahasan setiap Bab. \par
+Penulisan tugas akhir ini disusun secara sistematis ke dalam lima bab untuk memudahkan pemahaman terhadap alur dan substansi penelitian. Adapun sistematika penulisan penelitian ini dijelaskan sebagai berikut.
 
-\noindent\textbf{Bab I}
+\noindent\textbf{Bab I Pendahuluan}
 
-Bab ini berisikan penjelasan latar belakang dari topik penelitian yang berlangsung, rumusan masalah dari masalah yang dihadapi pada penjelasan di latar belakang, tujuan dari penelitian, batasan dari penelitian, manfaat dari hasil penelitian, dan sistematika penulisan tugas akhir. \par
+Bab ini memuat latar belakang penelitian, rumusan masalah, tujuan penelitian, batasan masalah, manfaat penelitian, serta sistematika penulisan tugas akhir.
 
-\noindent\textbf{Bab II}
+\noindent\textbf{Bab II Tinjauan Pustaka}
 
-Bab ini membahas mengenai teori-teori dan penelitian yang berkaitan dengan penelitian ini.
+Bab ini membahas penelitian-penelitian terdahulu yang relevan dengan topik penelitian, serta menguraikan landasan teori yang mendukung konsep dan metode yang digunakan dalam penelitian.
 
-\noindent\textbf{Bab III}
+\noindent\textbf{Bab III Metodologi Penelitian}
 
-Bab ini berisikan penjelasan alur kerja sistem, alat dan data yang digunakan, metode yang digunakan, dan rancangan pengujian.
+Bab ini menjelaskan tahapan dan alur kerja penelitian, meliputi teknik pengumpulan dan pengolahan data, perancangan model yang digunakan, serta metode evaluasi performa model.
 
-\noindent\textbf{Bab IV}
+\noindent\textbf{Bab IV Hasil dan Pembahasan}
 
-Bab ini membahas hasil implementasi dan pengujian dari penelitian yang dilakukan.
+Bab ini menyajikan hasil implementasi dan pengujian model yang telah dilakukan, disertai dengan analisis dan pembahasan terhadap hasil yang diperoleh.
 
-\noindent\textbf{Bab V}
+\noindent\textbf{Bab V Kesimpulan dan Saran}
 
-Bab ini membahas kesimpulan dari hasil penelitian dan juga saran untuk penelitian selanjutnya.
+Bab ini memuat kesimpulan yang diperoleh dari hasil penelitian serta saran untuk pengembangan dan penelitian selanjutnya.
