@@ -5,17 +5,18 @@
 \chapter{PENDAHULUAN} \label{bab:pendahuluan}
 
 \section{Latar Belakang} \label{sec:latar-belakang}
+% Penjelasan teman tuli dan bahasa isyarat di Indonesia secara umum
 Teman Tuli atau difabel pendengaran di Indonesia umumnya menggunakan bahasa isyarat sebagai alat komunikasi.
-Dua bahasa tersebut adalah Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO) \cite{olivia2022tindakankomunikatif} \cite{verushka2024signlanguages}. 
+Dua bahasa tersebut adalah Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO) \cite{olivia2022tindakankomunikatif,verushka2024signlanguages}. 
 SIBI lebih umum digunakan pada kegiatan formal dan akademis karena dibuat oleh pemerintah dan orang dengar dengan mengadaptasi sistem bahasa isyarat Amerika (\textit{American Sign Language} (ASL)) \cite{saraswati2022bisindo}. 
 Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena merupakan bahasa yang lahir secara alami dari komunitas tuli \cite{saraswati2022bisindo, nilawaty2020sibi}.
-Namun, keterbatasan pemahaman BISINDO masih menjadi masalah bagi masyarakat umum dalam berkomunikasi dengan Teman Tuli \cite{lavenia2023tuliindonesia, arlinta2020keterbatasan}, sehingga dibutuhkan pemanfaatan teknologi untuk mendukung proses penerjemahan bahasa isyarat secara efektif.
+Namun, keterbatasan pemahaman BISINDO masih menjadi masalah bagi masyarakat umum dalam berkomunikasi dengan Teman Tuli \cite{lavenia2023tuliindonesia,arlinta2020keterbatasan}, sehingga dibutuhkan pemanfaatan teknologi untuk mendukung proses penerjemahan bahasa isyarat secara efektif.
 
 % Deep learning sudah luas digunakan
 Berkembangnya teknologi \textit{computer vision} dan kecerdasan buatan kemudian menginspirasi berbagai penelitian untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak2025signtospeech, kavitha2023signtospeech}.
 Pendekatan berbasis \textit{deep learning} menjadi metode yang dominan karena kemampuannya dalam mempelajari pola kompleks dari data visual maupun data berurutan, seperti citra dan video bahasa isyarat.
 Beberapa penelitian menunjukkan bahwa model \textit{deep learning} mampu mencapai performa yang tinggi dalam pengenalan gerakan bahasa isyarat.
-Sebagai contoh, Anturkar et al. \cite{anturkar2025lstm3dcnn} membandingkan model \textit{Long Short-Term Memory} (LSTM) dan \textit{3D Convolutional Neural Network} (3D CNN) pada dataset video berbasis landmark dan melaporkan bahwa model 3D CNN mampu mencapai akurasi sebesar 92,4\%.
+Sebagai contoh, Anturkar et al. \cite{anturkar2025lstm3dcnn} membandingkan model \textit{Long Short-Term Memory} (LSTM) dan \textit{3D Convolutional Neural Network} (3D CNN) pada dataset video berbasis \textit{landmark} dan melaporkan bahwa model 3D CNN mampu mencapai akurasi sebesar 92,4\%.
 Penelitian lain mengombinasikan CNN dan LSTM berbasis mekanisme \textit{attention} untuk pengenalan bahasa isyarat tingkat kata dan memperoleh akurasi sebesar 84,65\% pada dataset \textit{American Sign Language} \cite{kumari2024cnn-lstmatt}.
 Selain itu, salah satu penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{deep learning} berbasis LSTM dan GRU untuk klasifikasi BISINDO dengan akurasi mencapai 83\% \cite{maheswara2023lstmbisindo}.
 
@@ -33,45 +34,34 @@ Penelitian serupa juga dilakukan oleh Saputra et al. \cite{saputra2024bisindocnn
 Padahal, bahasa isyarat yang digunakan dalam komunikasi sehari-hari memiliki struktur yang jauh lebih kompleks karena tersusun atas rangkaian gerakan dinamis yang berlangsung secara berurutan dalam dimensi waktu.
 
 % Celah penelitian berbasis spasial, bilang bahwa paper di luar itu make actionr recognition tapi gaada yang kasus BISINDO
-% Perbaiki ini Siga
 Beberapa penelitian di luar konteks BISINDO menunjukkan bahwa model berbasis spasial memiliki potensi yang kuat untuk menangani data yang bersifat temporal apabila representasi datanya dirancang secara tepat.
 Sebagai contoh, Zhu et al. \cite{zhu2023f2dcnet} mengusulkan \textit{Fully 2D Convolutional Network} (F2DCNet) untuk tugas \textit{continuous sign language recognition}.
 Beberapa studi lain pada domain pengenalan aksi manusia (\textit{action recognition}) juga menunjukkan bahwa strategi representasi \textit{input} dapat membantu jaringan konvolusional dua dimensi untuk menangkap informasi temporal.
 Kim et al. \cite{kim2022channelsampling} memperkenalkan strategi \textit{channel sampling} untuk menyusun ulang kanal input sehingga variasi temporal antar frame dapat ditangkap oleh backbone 2D tanpa memerlukan konvolusi tiga dimensi yang berat.
 Bilen et al. \cite{bilen2017dynamicimage} merangkum seluruh video menjadi sebuah \textit{dynamic image} tunggal menggunakan mekanisme pooling terurut sehingga video tersebut dapat diproses layaknya citra oleh CNN dua dimensi.
-Selain itu, Wang et al. \cite{wang2017tsn} mengusulkan \textit{Temporal Segment Networks} yang menggunakan pengambilan sampel temporal secara spars dan agregasi prediksi untuk menghasilkan representasi video-level pada jaringan CNN 2D.
+Selain itu, Wang et al. \cite{wang2017tsn} mengusulkan \textit{Temporal Segment Networks} yang menggunakan pengambilan sampel temporal secara \textit{spars} dan agregasi prediksi untuk menghasilkan representasi video-level pada jaringan CNN 2D.
 Temuan-temuan tersebut menunjukkan bahwa rekayasa representasi input atau strategi sampling temporal dapat memperkaya kemampuan model spasial dalam mendeteksi pola gerakan temporal.
-Memanfaatkan prinsip yang serupa, penelitian ini menyusun landmark tubuh manusia ke dalam struktur dua dimensi sebagai \textit{pseudo-image} agar dapat diproses oleh ResNet-2D untuk klasifikasi BISINDO.
+Memanfaatkan prinsip yang serupa, penelitian ini menyusun \textit{landmark} tubuh manusia ke dalam struktur dua dimensi sebagai \textit{pseudo-image} agar dapat diproses oleh ResNet-2D untuk klasifikasi BISINDO.
 
 % Arah kontribusi penelitian
-Berdasarkan uraian tersebut, penelitian ini bertujuan untuk mengeksplorasi potensi penggunaan model ResNet-2D dalam klasifikasi dan penerjemahan bahasa isyarat Indonesia (BISINDO) berbasis landmark tubuh manusia.
-Berbeda dari mayoritas penelitian sebelumnya yang menitikberatkan pada pemodelan temporal eksplisit, penelitian ini menyusun data landmark tubuh manusia ke dalam representasi dua dimensi sebagai \textit{pseudo-image} agar dapat diproses oleh jaringan konvolusional dua dimensi.
-Selain itu, penelitian ini menganalisis pengaruh variasi representasi input landmark terhadap performa model dalam mengenali pola gerakan bahasa isyarat.
+Berdasarkan uraian tersebut, penelitian ini bertujuan untuk mengeksplorasi potensi penggunaan model ResNet-2D dalam klasifikasi dan penerjemahan bahasa isyarat Indonesia (BISINDO) berbasis \textit{landmark} tubuh manusia.
+Berbeda dari mayoritas penelitian sebelumnya yang menitikberatkan pada pemodelan temporal eksplisit, penelitian ini menyusun data \textit{landmark} tubuh manusia ke dalam representasi dua dimensi sebagai \textit{pseudo-image} agar dapat diproses oleh jaringan konvolusional dua dimensi.
+Selain itu, penelitian ini menganalisis pengaruh variasi representasi input \textit{landmark} terhadap performa model dalam mengenali pola gerakan bahasa isyarat.
 Melalui pendekatan ini, diharapkan penelitian dapat memberikan pemahaman mengenai sejauh mana model spasial ResNet-2D mampu menangkap informasi gerakan bahasa isyarat yang bersifat temporal, khususnya pada konteks bahasa isyarat lokal seperti BISINDO.
 
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
-Belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit{Convolutional Neural Network} dua dimensi, khususnya arsitektur ResNet-2D, mampu menangkap pola gerakan bahasa isyarat ketika representasi data disusun dalam bentuk struktur dua dimensi dari landmark tubuh manusia.
-Selain itu, pengaruh variasi kombinasi landmark tubuh terhadap performa model spasial dalam klasifikasi gerakan BISINDO juga belum banyak dieksplorasi.
-
-% Berdasarkan latar belakang yang telah diuraikan di atas, maka permasalahan penelitian dirumuskan sebagai berikut: \par
-
-% \begin{enumerate}[noitemsep]
-% 	\item Apakah model berbasis spasial seperti ResNet-2D mampu menangkap pola gerakan BISINDO ketika representasi data disusun dalam bentuk dua dimensi dari landmark tubuh manusia?
-% 	\item Apa pengaruh variasi input landmark (pose, hands, pose+hands, dan full) terhadap performa model ResNet-2D?
-% \end{enumerate}
-
+Dominasi pendekatan berbasis temporal dalam penelitian penerjemahan bahasa isyarat menimbulkan keterbatasan pemahaman mengenai potensi pendekatan alternatif yang lebih ringan dan berbasis spasial.
+Berdasarkan konteks tersebut, belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit{Convolutional Neural Network} dua dimensi, khususnya arsitektur ResNet-2D, mampu menangkap pola gerakan bahasa isyarat ketika data direpresentasikan dalam bentuk struktur dua dimensi dari \textit{landmark} tubuh manusia.
+Selain itu, pengaruh variasi kombinasi \textit{landmark} tubuh terhadap performa model spasial dalam klasifikasi gerakan Bahasa Isyarat Indonesia (BISINDO) juga belum banyak dieksplorasi secara sistematis.
 
 \section{Tujuan Penelitian} \label{sec:tujuan}
 Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penelitian ini adalah: \par
 
 \begin{enumerate}[noitemsep]
-    % \item Mengimplementasikan model spasial berbasis Residual Network (ResNet-2D) untuk klasifikasi gerakan BISINDO.
-    \item Mengevaluasi kemampuan model spasial berbasis Residual Network (ResNet-2D) dalam klasifikasi gerakan BISINDO berbasis landmark.
-    \item Menganalisis kinerja model ResNet-2D dalam memanfaatkan representasi spasial landmark MediaPipe pada pengenalan gerakan bahasa isyarat.
-    \item Mengkaji pengaruh kombinasi landmark MediaPipe (pose, tangan, dan wajah) terhadap performa model ResNet-2D.
+    \item Menilai kelayakan penggunaan model spasial berbasis \textit{Residual Network} (ResNet-2D) dalam klasifikasi gerakan Bahasa Isyarat Indonesia (BISINDO) berbasis \textit{landmark}.
+    \item Mengkaji pengaruh variasi kombinasi \textit{landmark} MediaPipe (pose, tangan, dan wajah) terhadap performa model ResNet-2D.
     \item Mengevaluasi performa model menggunakan metrik \textit{Accuracy, Precision, Recall, F1-Score}, serta \textit{Confusion Matrix}.
 \end{enumerate}
-
 
 \section{Batasan Masalah} \label{sec:batasan}
 Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan adalah sebagai berikut: \par
@@ -79,20 +69,16 @@ Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan ad
 \begin{enumerate}[noitemsep]
     \item Bahasa isyarat yang digunakan adalah Bahasa Isyarat Indonesia (BISINDO) dengan lingkup cakupan wilayah Jawa Barat.
     \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO yang umum digunakan dalam percakapan sehari-hari.
-    % \item Data gerakan bahasa isyarat direpresentasikan menggunakan landmark tubuh yang diekstraksi dengan MediaPipe, meliputi landmark wajah, tangan, dan pose tubuh.
     \item Model utama yang digunakan adalah model spasial berbasis \textit{Residual Network} (ResNet-2D)
     \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai model pembanding (baseline) untuk memberikan konteks performa terhadap model ResNet-2D.
-    % \item Penelitian ini tidak melakukan perbandingan dengan model berbasis temporal seperti LSTM, GRU, atau Transformer.
-    % \item Penelitian ini tidak melakukan eksplorasi menyeluruh terhadap kombinasi hyperparameter. Konfigurasi hyperparameter yang digunakan relatif seragam untuk menjaga keadilan perbandingan antar model.
-    % \item Evaluasi performa model difokuskan pada metrik yang umum digunakan dalam tugas klasifikasi seperti \textit{Accuarcy, Precision, Recall, F1-Score}. dan \textit{Confussion Matrix}.
 \end{enumerate}
 
 \section{Manfaat Penelitian} \label{sec:manfaat}
 Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: \par
 
 \begin{enumerate}[noitemsep]
-    \item Memberikan kontribusi pengetahuan terkait pemanfaatan model spasial berbasis \textit{Residual Network} dalam klasifikasi gerakan BISINDO berbasis landmark MediaPipe.
-    \item Memberikan gambaran empiris mengenai pengaruh kombinasi landmark tubuh (pose, tangan, dan wajah) terhadap performa model spasial dalam pengenalan bahasa isyarat.
+    \item Memberikan kontribusi pengetahuan terkait pemanfaatan model spasial berbasis \textit{Residual Network} dalam klasifikasi gerakan BISINDO berbasis \textit{landmark} MediaPipe.
+    \item Memberikan gambaran empiris mengenai pengaruh kombinasi \textit{landmark} tubuh (pose, tangan, dan wajah) terhadap performa model spasial dalam pengenalan bahasa isyarat.
     \item Menjadi referensi bagi penelitian selanjutnya yang ingin mengeksplorasi pendekatan spasial dalam pengolahan data gerakan atau \textit{action recognition} berbasis data berurutan atau temporal.
     \item Menjadi bahan evaluasi dan pembelajaran tambahan dalam penerapan model \textit{deep learning} untuk pengenalan pola gerakan berbasis titik koordinat.
 \end{enumerate}
