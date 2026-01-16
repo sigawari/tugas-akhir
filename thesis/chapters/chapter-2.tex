@@ -1,11 +1,34 @@
 \newpage
-\chapter{TINJAUAN PUSTAKA} \label{Bab II}
+\chapter{TINJAUAN PUSTAKA} \label{bab:tinjauan-pustaka}
 
-\section{Tinjauan Pustaka} \label{II.Tinjauan}
-Penelitian ini berangkat tidak terlepas dari penelitian-penelitian terdahulu. 
-Penelitian sebelumnya dijadikan acuan, bahan perbandingan, serta bahan kajian untuk melakukan penelitian ini.
+\section{Tinjauan Pustaka} \label{sec:tinjauan-pustaka}
+% Pembuka
+Penelitian ini berangkat dari berbagai penelitian terdahulu yang membahas pengenalan bahasa isyarat (sign language recognition) sebagai bagian dari pengenalan pola gerakan berbasis visual.
+Penelitian-penelitian tersebut menunjukkan beragam pendekatan dalam memodelkan bahasa isyarat, baik dari sisi jenis bahasa isyarat yang dikenali maupun strategi pemodelan data gerakan.
+Secara umum, pendekatan yang digunakan dapat diklasifikasikan berdasarkan cara memanfaatkan informasi temporal dan spasial dalam representasi data.
+Tinjauan pustaka pada bagian ini disusun untuk mengkaji penelitian-penelitian yang relevan sebagai bahan perbandingan serta dasar dalam mengidentifikasi celah penelitian.
+Uraian selanjutnya akan membahas beberapa penelitian terdahulu yang berkaitan dengan pengenalan bahasa isyarat, dimulai dari pendekatan berbasis temporal yang masih banyak digunakan hingga eksplorasi pendekatan berbasis spasial.
+
+% Paper 1: Paper 1 (BISINDO + LSTM/GRU + MediaPipe)
+% Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models Leveraging MediaPipe (2023)
+
+% Paper 2: Paper 6 (ResNet + LSTM)
+% Video-Based Sign Language Recognition via ResNet and LSTM Network (2024)
+
+% Paper 3: Paper 7 (Isolated SLR + Pose + ResNet–Transformer)
+% Isolated Sign Language Recognition with Segmentation and Pose Estimation (2025)
+
+% Paper 4: Paper 8 (Isolated SLR berbasis landmark MediaPipe dan kombinasi fitur)
+% Multi-Stream Isolated Sign Language Recognition Based on Finger Features Derived from Pose Data (2024)
+
+% Paper 5: Paper 2 (Fully 2D CNN untuk CSLR)
+% Fully 2D Convolutional Network for Continuous Sign Language Recognition (2023)
+
+% Paper 6: Paper 3 (ResNet pada konteks BISINDO berbasis citra (opsional))
+% Object Detection of BISINDO Sign Language Letters Using Residual Network (2024)
 
 Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{table:2.literasi}. \par
+% Tabel Ringkasan Penelitian
 
 \renewcommand{\arraystretch}{1.0} % Mengatur spasi antar baris menjadi 1
 \begin{longtable}{|c|p{0.25\textwidth}|p{0.21\textwidth}|p{0.145\textwidth}|p{0.2\textwidth}|}
@@ -30,25 +53,33 @@ Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{
 \endfoot
   \hline
 \endlastfoot
-    1. & Weibo Wang, Zongkai Wei, Jin Yuan, Yu Fang, dan Yongkang Zheng [2022] [Non-contact heart rate estimation based on singular spectrum component reconstruction using low-rank matrix and autocorrelation] 
-    & akaoapaoaj & ak & \\ 
+    1. 
+    & Yoses Dwi Maheswara, M.Abid Al-Sulthon , Pradayan Adhimas Wicaksono, Khilda Afifah, dan Novi Prihatiningrum [2023] [\textit{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models Leveraging MediaPipe}] \cite{maheswara2023lstmbisindo}
+    & akaoapaoaj 
+    & ak 
+    & \\ 
     \hline
-    2. & Riza Agung Firmansyah, Yuliyanto Agung Prabowo, Titiek Suheta, dan Syahri &  &  & \\
+    2.
+    & [Jiayu Huang, VarinChouvatut ][2024][\textit{Video-Based Sign Language Recognition via ResNet and LSTM Network}] \cite{huang2024videoresnetlstm}
+    &  
+    &  
+    & \\
     \hline
+    3.
     & [2023] [Implementation of 1D convolutional neural network for improvement remote photoplethys-mography] & & & \\ 
 \end{longtable}
 
+% Analisis Celah Penelitian
 
-
-
-\section{Dasar Teori} \label{II.Teori}
+\section{Dasar Teori} \label{sec:dasar-teori}
 Berikut ini merupakan dasar teori yang digunakan pada penelitian ini: \par
 
-\subsection{Teori 1} \label{II.teori1}
+\subsection{Bahasa Isyarat Indonesia (BISINDO)} \label{subsec:bisindo}
 Denyut yang dirasakan sebenarnya bukan darah yang dipompa langsung oleh jantung ke aorta, melainkan gelombang tekanan yang berasal dari aorta yang merambat lebih cepat dibandingkan aliran darah itu sendiri. \par
 
+\subsection{\textit{Isolated Sign Language Recognition}} \label{subsec:islr}
 
-\subsection{\textit{Teori 1}} \label{II.teori2}
+
 \lipsum[1-2] % Menampilkan paragraf 1 sampai 2 dari lorem ipsum
 Gambar yang digunakan \ref{fig:3.ref_gbr}. \par
 \begin{figure}[H] % Kalau menggunakan H, posisi gambar akan tepat dibawah teks
@@ -59,8 +90,8 @@ Gambar yang digunakan \ref{fig:3.ref_gbr}. \par
     {\footnotesize Sumber: internet}
 \end{figure}
 
-\subsection{\textit{Teori 2}} \label{II.teori3}
-\lipsum[3-4] % Menampilkan paragraf 3 sampai 4 dari lorem ipsum
+\subsection{Representasi Landmark Tubuh Manusia} \label{subsec:landmark}
+
 Berikut adalah ilustrasi konsep yang digunakan seperti pada Gambar \ref{fig:3.ref_gbr2}. \par
 \begin{figure}[H] % Posisi gambar tepat dibawah teks
   \centering
@@ -70,7 +101,7 @@ Berikut adalah ilustrasi konsep yang digunakan seperti pada Gambar \ref{fig:3.re
   {\footnotesize Sumber: dokumentasi penelitian}
 \end{figure}
 
-\subsection{Metrik Performa: MAE, RMSE} \label{II.mae}
+\subsection{\textit{Mediapipe Holistic}} \label{subsec:mediapipe}
 \textit{Mean Absolute Error} (MAE). Rumus perhitungan dari MAE dapat dilihat pada \ref{eq:2.mae}. \par
 
 \begin{equationcaptioned}[eq:2.mae]{
@@ -79,3 +110,12 @@ Berikut adalah ilustrasi konsep yang digunakan seperti pada Gambar \ref{fig:3.re
     Mean Absolute Error (MAE)
 }
 \end{equationcaptioned}
+
+\subsection{Representasi Spasial Landmark Multichannel} \label{subsec:multichannel}
+\subsection{\textit{Convolutional Neural Network} (CNN) 2D} \label{subsec:cnn2d}
+\subsection{\textit{Residual Network} (ResNet)} \label{subsec:resnet}
+\subsection{Modifikasi Input Channel pada CNN} \label{subsec:modifikasi-cnn}
+\subsubsection{CNN tidak terbatas pada input RGB}
+\subsubsection{Penerimaan arbitrary number of channels}
+\subsubsection{Contoh Penerapan Non-RGB}
+\subsection{Metrik Evaluasi Klasifikasi} \label{subsec:metrik-evaluasi}
