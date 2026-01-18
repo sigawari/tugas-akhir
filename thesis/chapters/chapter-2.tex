@@ -25,14 +25,11 @@ Penelitian oleh Yoses (2023) mengenai perbandingan LSTM dan GRU dalam klasifikas
 % Paper 5: Paper 2 (Fully 2D CNN untuk CSLR)
 % Fully 2D Convolutional Network for Continuous Sign Language Recognition (2023)
 
-% Paper 6: Paper 3 (ResNet pada konteks BISINDO berbasis citra (opsional))
-% Object Detection of BISINDO Sign Language Letters Using Residual Network (2024)
-
 Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{table:2.literasi}. \par
 % Tabel Ringkasan Penelitian
 
 \renewcommand{\arraystretch}{1.0} % Mengatur spasi antar baris menjadi 1
-\begin{longtable}{|c|p{0.25\textwidth}|p{0.21\textwidth}|p{0.145\textwidth}|p{0.2\textwidth}|}
+\begin{longtable}{|c|p{0.22\textwidth}|p{0.22\textwidth}|p{0.21\textwidth}|p{0.16\textwidth}|}
   \caption{Literasi Penelitian Terdahulu}\label{table:2.literasi}\\
   \hline
   \textbf{No} 
@@ -56,29 +53,33 @@ Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{
 \endlastfoot
     1. 
     & Yoses Dwi Maheswara, M.Abid Al-Sulthon , Pradayan Adhimas Wicaksono, Khilda Afifah, dan Novi Prihatiningrum [2023] [\textit{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models Leveraging MediaPipe}] \cite{maheswara2023lstmbisindo}
-    & 
-    & ak 
-    & \\ 
+    & Pendekatan statis kurang mampu menangkap dinamika gerakan BISINDO secara \textit{real-time}.
+    & Ekstraksi \textit{landmarks} MediaPipe \textit{Holistic} dengan pemodelan temporal menggunakan LSTM dan GRU.
+    & Model GRU mencapai performa terbaik dengan akurasi \textit{real-time} hingga 83\% pada kombinasi \textit{landmark} tanpa wajah. \\
     \hline
     2.
     & Jiayu Huang dan VarinChouvatut [2024][\textit{Video-Based Sign Language Recognition via ResNet and LSTM Network}] \cite{huang2024videoresnetlstm}
-    &  
-    &  
-    & \\
+    & Ekstraksi fitur spasio-temporal video sulit dilakukan secara efisien dengan model CNN konvensional.
+    & Arsitektur hibrida ResNet-18 sebagai ekstraktor spasial dan LSTM untuk pemodelan temporal.
+    & Mencapai akurasi 86,25\% dan mengungguli beberapa model video-based lainnya. \\
     \hline
     3.
-    & Daniel Perkins, Davis Hunter, Dhrumil Patel, dan Galen Flanagan [2025] [\textit{Isolated Sign Language Recognition with Segmentation and Pose Estimation}] & & & \\ 
+    & Daniel Perkins, Davis Hunter, Dhrumil Patel, dan Galen Flanagan [2025] [\textit{Isolated Sign Language Recognition with Segmentation and Pose Estimation}]
+    & Model berbasis video sulit melakukan generalisasi akibat gangguan latar dan pencahayaan.
+    & Integrasi estimasi pose, segmentasi, dan Bi-LSTM dengan Transformer berbasis pose.
+    & Bi-LSTM dengan koordinat pose yang dinormalisasi mencapai performa tinggi sebesar 68,5\%.\\ 
     \hline
     4.
-    & Ali Akdag dan Ã–mer Kaan Baykan [2024] [\textit{Multi-Stream Isolated Sign Language Recognition Based on Finger Features Derived from Pose Data}] & & & \\ 
+    & Ali Akdag dan Ã–mer Kaan Baykan [2024] [\textit{Multi-Stream Isolated Sign Language Recognition Based on Finger Features Derived from Pose Data}] 
+    & Detail konfigurasi dan gerakan jari sering diabaikan dalam pengenalan bahasa isyarat.
+    & Pendekatan multi-stream berbasis landmark jari dengan MobileNetV2, PCA, dan SVM.
+    & Akurasi tinggi hingga 99,78\% pada dataset LSA64. \\
     \hline
     5.
     & Qidan Zhu, Jing Li, Fei Yuan dan Quan Gan [2023] [\textit{Fully 2D Convolutional Network for Continuous Sign Language Recognition}]
-    & & & \\ 
-    \hline
-    6.
-    & Maulidina Norick Eriyadi, Ridwan Ilyas, Gunawan Abdillah, dan Asep Id Hadiana [2024] [\textit{Object Detection of BISINDO Sign Language Letters Using Residual Network}]
-    & & & \\ 
+    & Model \textit{hybrid} spasio-temporal memiliki kompleksitas tinggi dan ketergantungan arsitektur sekuensial.
+    & F2DCNet berbasis 2D CNN murni dengan penggabungan fitur temporal dalam representasi input.
+    & Mencapai \textit{Word Error Rate} (WER) terendah hingga 20,0\% pada dataset skala besar.\\ 
 \end{longtable}
 
 % Analisis Celah Penelitian
