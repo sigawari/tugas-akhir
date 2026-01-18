@@ -153,8 +153,14 @@ Berikut adalah ilustrasi konsep yang digunakan seperti pada Gambar \ref{fig:3.re
 \end{equationcaptioned}
 
 \subsection{Representasi Spasial \textit{Landmark Multichannel}} \label{subsec:multichannel}
-Dalam pengenalan gerakan berbasis video, konsistensi temporal dan kealamian gerakan menjadi faktor penting agar representasi data mencerminkan pola gerakan manusia secara realistis.
-Pemilihan laju pengambilan frame (frame rate) yang sesuai dapat membantu menjaga kontinuitas gerakan antar-frame sehingga perubahan posisi dan kecepatan dapat direpresentasikan secara stabil dalam bentuk landmark.
+Pada penelitian ini, data bahasa isyarat yang bersifat berurutan direpresentasikan dalam bentuk spasial agar dapat diproses oleh model \textit{Convolutional Neural Network} (CNN) dua dimensi.
+Setiap frame video diekstraksi menjadi titik-titik \textit{landmark} tubuh manusia, kemudian disusun ke dalam sebuah matriks dua dimensi dengan sumbu waktu dan indeks \textit{landmark}.
+Untuk menangkap dinamika gerakan, setiap \textit{landmark} direpresentasikan menggunakan beberapa kanal fitur, yaitu posisi (x,y) dan perubahan antar-frame (dx,dy). 
+Dengan pendekatan ini, informasi temporal tidak dimodelkan secara eksplisit melalui arsitektur sekuensial, tetapi diinkorporasikan secara implisit ke dalam struktur spasial multikanal yang dapat dipelajari oleh CNN dua dimensi.
+
+Dalam pengenalan gerakan berbasis video, konsistensi temporal dan kealamian gerakan merupakan faktor penting agar representasi data mencerminkan pola gerakan manusia secara realistis. 
+Oleh karena itu, pemilihan laju pengambilan frame (\textit{frame rate}) yang sesuai diperlukan untuk menjaga kontinuitas gerakan antar-frame, sehingga perubahan posisi dan kecepatan dapat direpresentasikan secara stabil dalam bentuk \textit{landmark}.
+
 \subsection{\textit{Convolutional Neural Network} (CNN) 2D} \label{subsec:cnn2d}
 \subsection{\textit{Residual Network} (ResNet)} \label{subsec:resnet}
 \subsection{Modifikasi Input Channel pada CNN} \label{subsec:modifikasi-cnn}
