@@ -106,3 +106,7 @@
 ### **2026-01-05**
 
 - Training Step 2
+
+### **2026-01-08** - **2026-01-31**
+
+- Focus on report writing
