@@ -117,9 +117,16 @@ Bagian ini menguraikan landasan teoretis yang mendukung pelaksanaan penelitian, 
 Dasar teori disusun untuk memberikan pemahaman konseptual mengenai representasi data landmark, pemanfaatan arsitektur Convolutional Neural Network dua dimensi, serta strategi pengodean informasi temporal dalam struktur spasial.
 
 \subsection{Bahasa Isyarat Indonesia (BISINDO)} \label{subsec:bisindo}
+Bahasa Isyarat Indonesia (BISINDO) merupakan salah satu bahasa isyarat yang digunakan di Indonesia dan lebih umum digunakan dalam komunitas Tuli \cite{lavenia2023tuliindonesia}. 
+BISINDO berkembang secara alami dalam lingkungan sosial masyarakat Tuli Indonesia dan telah digunakan sejak sebelum masa kemerdekaan \cite{olivia2022tindakankomunikatif}. 
+Berbeda dengan Sistem Bahasa Isyarat Indonesia (SIBI) yang disusun secara formal dengan mengadopsi struktur bahasa lisan, BISINDO memiliki susunan kata dan pola ekspresi yang lebih bebas serta kontekstual. 
+Perbedaan ini menyebabkan BISINDO tidak selalu mengikuti tata bahasa Indonesia secara langsung, melainkan memanfaatkan kombinasi gerakan tangan, orientasi tubuh, serta ekspresi non-manual untuk menyampaikan makna \cite{bentara2024sibi-bisindo}. 
+Karakteristik visual dan gestural tersebut menjadikan BISINDO sangat bergantung pada pola gerakan tubuh, wajah, dan tangan, sehingga dapat dipandang sebagai permasalahan pengenalan gerakan berbasis visual. 
+Oleh karena itu, pengenalan BISINDO secara otomatis dapat dimodelkan melalui pendekatan \textit{sign language recognition} dan \textit{action recognition} yang menitikberatkan pada analisis gerakan dan perubahan posisi tubuh manusia dari waktu ke waktu.
 
 \subsection{\textit{Isolated Sign Language Recognition}} \label{subsec:islr}
-
+\textit{Isolated Sign Language Recognition} (ISLR) adalah salah satu cabang dari pengenalan bahasa isyarat \textit{Sign Language Recognition} (SLR).
+SLR terdiri dari beberapa jenis lain seperti \textit{Continuous Sign Language Recognition}
 
 \lipsum[1-2] % Menampilkan paragraf 1 sampai 2 dari lorem ipsum
 Gambar yang digunakan \ref{fig:3.ref_gbr}. \par
@@ -158,7 +165,7 @@ Setiap frame video diekstraksi menjadi titik-titik \textit{landmark} tubuh manus
 Untuk menangkap dinamika gerakan, setiap \textit{landmark} direpresentasikan menggunakan beberapa kanal fitur, yaitu posisi (x,y) dan perubahan antar-frame (dx,dy). 
 Dengan pendekatan ini, informasi temporal tidak dimodelkan secara eksplisit melalui arsitektur sekuensial, tetapi diinkorporasikan secara implisit ke dalam struktur spasial multikanal yang dapat dipelajari oleh CNN dua dimensi.
 
-Dalam pengenalan gerakan berbasis video, konsistensi temporal dan kealamian gerakan merupakan faktor penting agar representasi data mencerminkan pola gerakan manusia secara realistis. 
+Di dalam pengenalan gerakan berbasis video, konsistensi temporal dan kealamian gerakan merupakan faktor penting agar representasi data mencerminkan pola gerakan manusia secara realistis. 
 Oleh karena itu, pemilihan laju pengambilan frame (\textit{frame rate}) yang sesuai diperlukan untuk menjaga kontinuitas gerakan antar-frame, sehingga perubahan posisi dan kecepatan dapat direpresentasikan secara stabil dalam bentuk \textit{landmark}.
 
 \subsection{\textit{Convolutional Neural Network} (CNN) 2D} \label{subsec:cnn2d}
