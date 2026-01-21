@@ -15,7 +15,6 @@ Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan d
 Untuk memperjelas setiap langkah-langkah yang telah didefinisikan pada Gambar \ref{fig:3.alur}, berikut ini akan dijelaskan secara rinci tahapan-tahapan yang dilakukan dalam penelitian ini.
 
 \subsection{Identifikasi Masalah} \label{III.Identifikasi_masalah}
-\lipsum[1] % Menampilkan paragraf 1 sampai 2 dari lorem ipsum
 
 
 \section{Alat dan Bahan Tugas Akhir} \label{III.Alat dan Bahan}
@@ -77,3 +76,29 @@ Dalam penelitian ini, hasil perhitungan dari program akan melalui serangkaian pe
 	\hline
 	10 & 77 & 76 & 74 & 78 & 75 & 78 & 76 & 77
 \end{longtable}
+
+
+\subsubsection{Ilustrasi Representasi \textit{Landmark Multichannel}}
+
+Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
+Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
+Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
+Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
+
+\begin{table}[H]
+  \centering
+  \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
+  \label{tab:landmark-multichannel-example}
+  \begin{tabular}{|c|c|l|c|c|c|c|}
+  \hline
+  \textbf{Frame} & \textbf{Indeks} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
+  $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
+  $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
+  $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
+  $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
+  $t+2$ & 0 & Wrist & 0.52 & 0.54 & 0.02  & -0.02 \\ \hline
+  \end{tabular}
+
+  \vspace{0.5em}
+  {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa frame berurutan.}
+\end{table}  
