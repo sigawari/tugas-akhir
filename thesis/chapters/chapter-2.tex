@@ -122,13 +122,43 @@ BISINDO berkembang secara alami dalam lingkungan sosial masyarakat Tuli Indonesi
 Berbeda dengan Sistem Bahasa Isyarat Indonesia (SIBI) yang disusun secara formal dengan mengadopsi struktur bahasa lisan, BISINDO memiliki susunan kata dan pola ekspresi yang lebih bebas serta kontekstual. 
 Perbedaan ini menyebabkan BISINDO tidak selalu mengikuti tata bahasa Indonesia secara langsung, melainkan memanfaatkan kombinasi gerakan tangan, orientasi tubuh, serta ekspresi non-manual untuk menyampaikan makna \cite{bentara2024sibi-bisindo}. 
 Karakteristik visual dan gestural tersebut menjadikan BISINDO sangat bergantung pada pola gerakan tubuh, wajah, dan tangan, sehingga dapat dipandang sebagai permasalahan pengenalan gerakan berbasis visual. 
-Oleh karena itu, pengenalan BISINDO secara otomatis dapat dimodelkan melalui pendekatan \textit{sign language recognition} dan \textit{action recognition} yang menitikberatkan pada analisis gerakan dan perubahan posisi tubuh manusia dari waktu ke waktu.
+
+\subsection{\textit{Sign Language Recognition} (SLR)} \label{subsec:slr}
+
 
 \subsection{\textit{Isolated Sign Language Recognition}} \label{subsec:islr}
-\textit{Isolated Sign Language Recognition} (ISLR) adalah salah satu cabang dari pengenalan bahasa isyarat \textit{Sign Language Recognition} (SLR).
-SLR terdiri dari beberapa jenis lain seperti \textit{Continuous Sign Language Recognition}
+\textit{Isolated Sign Language Recognition} (ISLR) merupakan salah satu cabang dari \textit{Sign Language Recognition} (SLR) yang berfokus pada pengenalan satu unit isyarat secara terpisah tanpa mempertimbangkan keterkaitan antar-isyarat dalam suatu rangkaian kalimat. 
+SLR secara umum diklasifikasikan ke dalam beberapa kategori, seperti \textit{Isolated Sign Language Recognition} dan \textit{Continuous Sign Language Recognition}.
+Perbedaan utamanya ditentukan oleh struktur input dan karakteristik data yang digunakan \cite{rastgoo2021slrdeepsurvey}. 
+Pada pendekatan ISLR, setiap sampel input merepresentasikan satu isyarat dengan batas awal dan akhir yang telah ditentukan, sehingga pemodelan dapat difokuskan pada pola gerakan inti dari isyarat tersebut.
 
-\lipsum[1-2] % Menampilkan paragraf 1 sampai 2 dari lorem ipsum
+Perbedaan kategori dalam SLR juga tercermin pada bentuk keluaran (\textit{output}) yang dihasilkan oleh sistem. 
+Pendekatan ISLR menghasilkan satu label kelas yang merepresentasikan satu isyarat tunggal, sedangkan pendekatan \textit{Continuous Sign Language Recognition} menghasilkan urutan label atau transkripsi kalimat isyarat yang mencerminkan rangkaian gerakan berkelanjutan \cite{rastgoo2021slrdeepsurvey}. 
+Bentuk keluaran pada CSLR menuntut adanya mekanisme tambahan untuk menangani segmentasi otomatis dan dependensi temporal antar-isyarat, sehingga kompleksitas pemodelannya menjadi lebih tinggi.
+Karakteristik input dan output pada ISLR menjadikan pendekatan ini lebih sesuai untuk penelitian yang berfokus pada eksplorasi representasi data dan arsitektur model. 
+Pendekatan ISLR memungkinkan penggunaan representasi input yang lebih terkontrol tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial. 
+
+\subsection{\textit{Mediapipe Holistic}} \label{subsec:mediapipe}
+
+\subsection{Representasi Landmark sebagai Struktur Spasial \textit{Landmark Multichannel}} \label{subsec:multichannel}
+Pada penelitian ini, data bahasa isyarat yang bersifat berurutan direpresentasikan dalam bentuk spasial agar dapat diproses oleh model \textit{Convolutional Neural Network} (CNN) dua dimensi.
+Setiap frame video diekstraksi menjadi titik-titik \textit{landmark} tubuh manusia, kemudian disusun ke dalam sebuah matriks dua dimensi dengan sumbu waktu dan indeks \textit{landmark}.
+Untuk menangkap dinamika gerakan, setiap \textit{landmark} direpresentasikan menggunakan beberapa kanal fitur, yaitu posisi (x,y) dan perubahan antar-frame (dx,dy). 
+Dengan pendekatan ini, informasi temporal tidak dimodelkan secara eksplisit melalui arsitektur sekuensial, tetapi diinkorporasikan secara implisit ke dalam struktur spasial multikanal yang dapat dipelajari oleh CNN dua dimensi.
+
+Di dalam pengenalan gerakan berbasis video, konsistensi temporal dan kealamian gerakan merupakan faktor penting agar representasi data mencerminkan pola gerakan manusia secara realistis. 
+Oleh karena itu, pemilihan laju pengambilan frame (\textit{frame rate}) yang sesuai diperlukan untuk menjaga kontinuitas gerakan antar-frame, sehingga perubahan posisi dan kecepatan dapat direpresentasikan secara stabil dalam bentuk \textit{landmark}.
+
+\subsection{\textit{Convolutional Neural Network} (CNN) 2D} \label{subsec:cnn2d}
+\subsection{\textit{Residual Network} (ResNet)} \label{subsec:resnet}
+\subsection{Modifikasi Input Channel pada CNN} \label{subsec:modifikasi-cnn}
+\subsubsection{CNN tidak terbatas pada input RGB}
+\subsubsection{Penerimaan arbitrary number of channels}
+\subsubsection{Contoh Penerapan Non-RGB}
+\subsection{Metrik Evaluasi Klasifikasi} \label{subsec:metrik-evaluasi}
+
+
+% List sintaks gambar dan rumus
 Gambar yang digunakan \ref{fig:3.ref_gbr}. \par
 \begin{figure}[H] % Kalau menggunakan H, posisi gambar akan tepat dibawah teks
     \centering
@@ -149,7 +179,6 @@ Berikut adalah ilustrasi konsep yang digunakan seperti pada Gambar \ref{fig:3.re
   {\footnotesize Sumber: dokumentasi penelitian}
 \end{figure}
 
-\subsection{\textit{Mediapipe Holistic}} \label{subsec:mediapipe}
 \textit{Mean Absolute Error} (MAE). Rumus perhitungan dari MAE dapat dilihat pada \ref{eq:2.mae}. \par
 
 \begin{equationcaptioned}[eq:2.mae]{
@@ -158,20 +187,3 @@ Berikut adalah ilustrasi konsep yang digunakan seperti pada Gambar \ref{fig:3.re
     Mean Absolute Error (MAE)
 }
 \end{equationcaptioned}
-
-\subsection{Representasi Spasial \textit{Landmark Multichannel}} \label{subsec:multichannel}
-Pada penelitian ini, data bahasa isyarat yang bersifat berurutan direpresentasikan dalam bentuk spasial agar dapat diproses oleh model \textit{Convolutional Neural Network} (CNN) dua dimensi.
-Setiap frame video diekstraksi menjadi titik-titik \textit{landmark} tubuh manusia, kemudian disusun ke dalam sebuah matriks dua dimensi dengan sumbu waktu dan indeks \textit{landmark}.
-Untuk menangkap dinamika gerakan, setiap \textit{landmark} direpresentasikan menggunakan beberapa kanal fitur, yaitu posisi (x,y) dan perubahan antar-frame (dx,dy). 
-Dengan pendekatan ini, informasi temporal tidak dimodelkan secara eksplisit melalui arsitektur sekuensial, tetapi diinkorporasikan secara implisit ke dalam struktur spasial multikanal yang dapat dipelajari oleh CNN dua dimensi.
-
-Di dalam pengenalan gerakan berbasis video, konsistensi temporal dan kealamian gerakan merupakan faktor penting agar representasi data mencerminkan pola gerakan manusia secara realistis. 
-Oleh karena itu, pemilihan laju pengambilan frame (\textit{frame rate}) yang sesuai diperlukan untuk menjaga kontinuitas gerakan antar-frame, sehingga perubahan posisi dan kecepatan dapat direpresentasikan secara stabil dalam bentuk \textit{landmark}.
-
-\subsection{\textit{Convolutional Neural Network} (CNN) 2D} \label{subsec:cnn2d}
-\subsection{\textit{Residual Network} (ResNet)} \label{subsec:resnet}
-\subsection{Modifikasi Input Channel pada CNN} \label{subsec:modifikasi-cnn}
-\subsubsection{CNN tidak terbatas pada input RGB}
-\subsubsection{Penerimaan arbitrary number of channels}
-\subsubsection{Contoh Penerapan Non-RGB}
-\subsection{Metrik Evaluasi Klasifikasi} \label{subsec:metrik-evaluasi}
