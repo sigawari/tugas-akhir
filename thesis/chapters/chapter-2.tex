@@ -158,6 +158,7 @@ Kondisi tersebut menjadikan ISLR lebih sesuai untuk penelitian yang berfokus pad
 Pendekatan ISLR memungkinkan penggunaan representasi input yang lebih terkontrol tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial. 
 Representasi spasial dua dimensi yang menyusun data temporal ke dalam struktur terorganisasi memungkinkan pemanfaatan model CNN dua dimensi untuk pengenalan pola gerakan \cite{rastgoo2021slrdeepsurvey}. 
 Strategi ini sejalan dengan pendekatan penelitian yang mengeksplorasi kemampuan model spasial murni dalam menangkap dinamika gerakan bahasa isyarat. 
+Berdasarkan karakteristik tersebut, penelitian ini difokuskan pada skema \textit{Isolated Sign Language Recognition} untuk mengevaluasi efektivitas representasi spasial dan arsitektur model secara terkontrol.
 
 \subsection{\textit{MediaPipe Holistic}} \label{subsec:mediapipe}
 \textit{MediaPipe Holistic} merupakan solusi visi komputer berbasis \textit{framework} MediaPipe yang dirancang untuk melakukan ekstraksi landmark tubuh manusia secara terintegrasi dari data visual.
@@ -218,22 +219,37 @@ Karakteristik ini memungkinkan analisis perubahan posisi titik-titik kunci tubuh
 Komponen koordinat tersebut dapat dimanfaatkan untuk menyusun representasi spasial yang mengenkapsulasi dinamika gerakan tanpa memerlukan pemodelan temporal eksplisit. 
 Oleh karena itu, keluaran \textit{landmark} MediaPipe Holistic relevan sebagai dasar penyusunan representasi spasial multichannel pada penelitian ini.
 
-\subsection{Representasi \textit{Landmark} sebagai Struktur Spasial \textit{Landmark Multichannel}} \label{subsec:multichannel}
-Pada penelitian ini, data bahasa isyarat yang bersifat berurutan direpresentasikan dalam bentuk struktur spasial agar dapat diproses oleh model \textit{Convolutional Neural Network} (CNN) dua dimensi. 
+Keluaran berupa koordinat \textit{landmark} dari MediaPipe Holistic menyediakan data spasial berurutan yang merepresentasikan gerakan tubuh manusia dari waktu ke waktu.
+Namun, representasi koordinat mentah tersebut belum secara langsung sesuai untuk diproses oleh arsitektur CNN dua dimensi.
+Oleh karena itu, diperlukan strategi representasi data yang mampu menyusun informasi spasial dan temporal ke dalam struktur yang kompatibel dengan CNN 2D.
+
+\subsection{Representasi \textit{Landmark} sebagai Struktur Spasial \textit{Landmark Multichannel}}
+\label{subsec:multichannel}
+
+Pada penelitian ini, data bahasa isyarat yang bersifat berurutan direpresentasikan dalam bentuk struktur spasial agar kompatibel dengan model pembelajaran berbasis spasial.
 Setiap frame video diekstraksi menjadi sekumpulan titik \textit{landmark} tubuh manusia yang merepresentasikan posisi bagian tubuh pada waktu tertentu. 
 Titik-titik \textit{landmark} tersebut kemudian disusun ke dalam sebuah matriks dua dimensi dengan sumbu waktu dan indeks \textit{landmark}. 
 Penyusunan ini memungkinkan data temporal diperlakukan sebagai representasi spasial yang terorganisasi \cite{rastgoo2021slrdeepsurvey}.
+Pendekatan ini menekankan penyusunan data pada tingkat representasi, terlepas dari arsitektur pembelajaran yang digunakan pada tahap selanjutnya.
 
-Pada praktiknya, koordinat landmark yang digunakan sangat bergantung pada metode ekstraksi yang diterapkan.
+\subsubsection{Koordinat \textit{Landmark} MediaPipe}
+
+Pada praktiknya, koordinat \textit{landmark} yang digunakan sangat bergantung pada metode ekstraksi yang diterapkan. 
 MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk \textit{(x, y, z)} yang merepresentasikan posisi relatif titik kunci tubuh manusia terhadap kamera \cite{googlemediapipeholistic}. 
 Komponen \textit{x} dan \textit{y} menyatakan posisi pada bidang citra yang telah dinormalisasi, sedangkan komponen \textit{z} merepresentasikan informasi kedalaman relatif. 
-Estimasi nilai kedalaman tersebut diperoleh dari kamera monokular sehingga bersifat sensitif terhadap sudut pandang dan kondisi pengambilan gambar.
-Evaluasi akurasi menunjukkan bahwa nilai \textit{z} bawaan MediaPipe tidak selalu stabil dan sering memerlukan koreksi tambahan agar dapat digunakan secara andal \cite{accuracy3dmediapipe,lin2023detection}.
+Estimasi nilai kedalaman tersebut diperoleh dari kamera monokular sehingga sensitif terhadap sudut pandang dan kondisi pengambilan gambar.
 
-Berdasarkan pertimbangan tersebut, penelitian ini memfokuskan representasi \textit{landmark} pada komponen dua dimensi \textit{(x, y)}. 
+Evaluasi akurasi menunjukkan bahwa nilai \textit{z} bawaan MediaPipe tidak selalu stabil dan sering memerlukan koreksi tambahan agar dapat digunakan secara andal \cite{accuracy3dmediapipe,lin2023detection}. 
+Penelitian lain bahkan menerapkan metode tambahan untuk memperbaiki estimasi kedalaman sebelum digunakan lebih lanjut. 
+Temuan tersebut menunjukkan bahwa pemanfaatan koordinat \textit{z} memerlukan perlakuan khusus agar tidak memperkenalkan noise pada representasi data. 
+Pertimbangan ini menjadi dasar pemilihan representasi dua dimensi pada penelitian ini.
+
+\subsubsection{Pengodean Dinamika Gerakan Antar-Frame}
+
+Berdasarkan pertimbangan kestabilan koordinat, penelitian ini memfokuskan representasi \textit{landmark} pada komponen dua dimensi \textit{(x, y)}. 
 Informasi dinamika gerakan ditangkap melalui perubahan posisi antar-frame yang direpresentasikan sebagai \textit{(dx, dy)}. 
-Pendekatan ini memungkinkan pengodean informasi temporal secara implisit tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial \cite{wang2017tsn}.
-Rumus perhitungan perubahan posisi \textit{landmark} antar-frame dapat dilihat pada \ref{eq:dxdy}. \par
+Pendekatan ini memungkinkan pengodean informasi temporal secara implisit tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial \cite{wang2017tsn}. 
+Perubahan posisi \textit{landmark} antar-frame dihitung menggunakan Persamaan \ref{eq:dxdy}. \par
 
 \begin{equationcaptioned}[eq:dxdy]{
 \begin{aligned}
@@ -244,22 +260,51 @@ dy_t &= y_t - y_{t-1}
 Perubahan posisi \textit{landmark} antar-frame
 }
 \end{equationcaptioned}
+
 Keterangan:
 \begin{itemize}
   \renewcommand{\labelitemi}{}
-  \item $x$ = koordinat posisi \textit{landmark} pada sumbu horizontal citra
-  \item $y$ = koordinat posisi \textit{landmark} pada sumbu vertikal citra
-  \item $dx$ = perubahan koordinat horizontal \textit{landmark} antar-frame
-  \item $dy$ = perubahan koordinat vertikal \textit{landmark} antar-frame
+  \item $x_t$ = koordinat horizontal \textit{landmark} pada frame ke-$t$
+  \item $y_t$ = koordinat vertikal \textit{landmark} pada frame ke-$t$
+  \item $dx_t$ = perubahan koordinat horizontal antar-frame
+  \item $dy_t$ = perubahan koordinat vertikal antar-frame
   \item $t$ = indeks frame atau urutan waktu
 \end{itemize}
 
-Pada persamaan tersebut, $(x_t, y_t)$ merepresentasikan koordinat \textit{landmark} pada frame ke-$t$, sedangkan $(x_{t-1}, y_{t-1})$ merepresentasikan koordinat pada frame sebelumnya. 
-Nilai $(dx_t, dy_t)$ merepresentasikan perubahan posisi yang mencerminkan arah dan intensitas gerakan antar-frame. 
-Representasi ini memungkinkan dinamika gerakan ditangkap secara langsung pada level fitur.
-Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu \textit{(x, y, dx, dy)}. 
-Seluruh \textit{landmark} pada setiap frame kemudian disusun menjadi sebuah tensor masukan yang dapat diproses oleh CNN dua dimensi. 
-Struktur tensor masukan tersebut dapat dinyatakan seperti pada \ref{eq:tensor-input}. \par
+Persamaan tersebut menunjukkan bahwa perubahan posisi diperoleh dari selisih koordinat \textit{landmark} pada dua frame berurutan. 
+Nilai $(dx_t, dy_t)$ mencerminkan arah dan intensitas gerakan antar-frame. 
+Representasi ini memungkinkan dinamika gerakan ditangkap secara langsung pada level fitur. 
+Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu \textit{(x, y, dx, dy)}.
+
+\subsubsection{Ilustrasi Representasi \textit{Landmark Multichannel}}
+
+Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
+Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
+Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
+Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
+
+\begin{table}[H]
+  \centering
+  \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
+  \label{tab:landmark-multichannel-example}
+  \begin{tabular}{|c|c|l|c|c|c|c|}
+  \hline
+  \textbf{Frame} & \textbf{Indeks} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
+  $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
+  $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
+  $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
+  $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
+  $t+2$ & 0 & Wrist & 0.52 & 0.54 & 0.02  & -0.02 \\ \hline
+  \end{tabular}
+
+  \vspace{0.5em}
+  {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa frame berurutan.}
+\end{table}  
+
+\subsubsection{Struktur Tensor Masukan CNN}
+
+Seluruh \textit{landmark} pada setiap frame kemudian disusun menjadi sebuah tensor masukan yang selaras dengan format masukan model konvolusional dua dimensi.
+Struktur tensor masukan tersebut dapat dinyatakan seperti pada Persamaan \ref{eq:tensor-input}. \par
 
 \begin{equationcaptioned}[eq:tensor-input]{
 \mathbf{X} \in \mathbb{R}^{B \times C \times T \times L}, \quad C = 4
@@ -267,21 +312,21 @@ Struktur tensor masukan tersebut dapat dinyatakan seperti pada \ref{eq:tensor-in
 Struktur tensor masukan \textit{landmark multichannel}
 }
 \end{equationcaptioned}
+
 Keterangan:
 \begin{itemize}
   \renewcommand{\labelitemi}{}
-  \item $B$ = \textit{batch size}, yaitu jumlah sampel yang diproses secara bersamaan
-  \item $C$ = jumlah kanal fitur pada setiap \textit{landmark}, yaitu $4$ $(x, y, dx, dy)$
-  \item $T$ = jumlah frame dalam satu urutan video
-  \item $L$ = jumlah \textit{landmark} yang digunakan
+  \item $B$ = jumlah sampel dalam satu \textit{batch}
+  \item $C$ = jumlah kanal fitur, yaitu $4$ $(x, y, dx, dy)$
+  \item $T$ = jumlah frame dalam satu urutan
+  \item $L$ = jumlah \textit{landmark}
 \end{itemize}
 
-Pada persamaan tersebut, $B$ menyatakan ukuran \textit{batch}, $C$ menyatakan jumlah kanal fitur, $T$ menyatakan jumlah frame, dan $L$ menyatakan jumlah \textit{landmark}. 
-Struktur ini memungkinkan urutan \textit{landmark} diperlakukan sebagai representasi spasial multichannel yang dapat dipelajari oleh CNN dua dimensi.
-Di dalam konteks pengenalan gerakan berbasis video, konsistensi temporal antar-frame berperan penting dalam mencerminkan pola gerakan manusia secara realistis. 
-Pemilihan laju pengambilan frame yang sesuai diperlukan agar perubahan posisi \textit{landmark} dapat direpresentasikan secara stabil dari waktu ke waktu. 
-Representasi spasial multichannel yang diusulkan memungkinkan model CNN dua dimensi mempelajari pola gerakan bahasa isyarat secara efektif dalam skema \textit{Isolated Sign Language Recognition}.
-Bentuk tensor ini selaras dengan format masukan CNN dua dimensi yang memproses data multichannel secara spasial.
+Struktur tensor tersebut memungkinkan urutan \textit{landmark} diperlakukan sebagai representasi spasial multichannel. 
+Format ini selaras dengan masukan CNN dua dimensi yang memproses data multichannel secara spasial. 
+Konsistensi temporal antar-frame berperan penting dalam mencerminkan pola gerakan manusia secara realistis. 
+Representasi ini memungkinkan CNN dua dimensi mempelajari pola gerakan bahasa isyarat dalam skema \textit{Isolated Sign Language Recognition}.
+Struktur representasi ini selanjutnya menjadi dasar pemodelan menggunakan arsitektur konvolusional dua dimensi yang dibahas pada bagian berikutnya.
 
 \subsection{\textit{Convolutional Neural Network} (CNN) 2D} 
 \label{subsec:cnn2d}
