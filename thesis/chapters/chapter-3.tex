@@ -2,18 +2,24 @@
 \chapter{METODE PENELITIAN} \label{Bab III}
 
 \section{Alur Penelitian} \label{sec:alur-penelitian}
-Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan dilakukan secara sistematis dan efisien. Alur penelitian ini mencerminkan langkah-langkah utama yang dilakukan pada penelitian ini, dapat dilihat pada Gambar \ref{fig:3.alur}. \par
+Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan dilakukan secara sistematis dan efisien. Alur penelitian ini mencerminkan langkah-langkah utama yang dilakukan pada penelitian ini, dapat dilihat pada Gambar \ref{fig:3.alur1} dan Gambar \ref{fig:3.alur2}. \par
 
-\begin{figure}[H] % Kalau menggunakan H, posisi gambar akan tepat dibawah teks
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{figure/samplephoto.jpg}
-    \caption{Alur Penelitian}
-    \label{fig:3.alur}
+    \includegraphics[width=1\textwidth]{figure/alur1.pdf}
+    \caption{Tahap Identifikasi Masalah Hingga Rekayasa Fitur}
+    \label{fig:3.alur1}
+\end{figure} \par
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.23\textwidth]{figure/alur2.pdf}
+    \caption{Tahap Penyusunan Tensor Hingga Hasil dan Kesimpulan}
+    \label{fig:3.alur2}
 \end{figure}
 
 \section{Penjabaran Langkah Penelitian} \label{sec:jabar-alur}
 Untuk memperjelas setiap langkah-langkah yang telah didefinisikan pada Gambar \ref{fig:3.alur}, berikut ini akan dijelaskan secara rinci tahapan-tahapan yang dilakukan dalam penelitian ini.
-
 \subsection{Identifikasi Masalah dan Studi Literatur} \label{subsec:studi-identifikasi}
 
 \subsection{Pengumpulan Dataset} \label{subsec:pengumpulan-dataset}
@@ -21,11 +27,12 @@ Untuk memperjelas setiap langkah-langkah yang telah didefinisikan pada Gambar \r
 \subsection{Akuisisi Video Bahasa Isyarat} \label{subsec:akusisi-data}
 
 \subsection{\textit{Preprocessing} Data} \label{subsec:preprocessing-data}
+Pada penelitian ini, tahap preprocessing difokuskan pada penyiapan data visual dan ekstraksi fitur awal sebelum dilakukan rekayasa fitur dan pemodelan.
 \subsubsection{Augmentasi Resolusi Video}
 \subsubsection{Ekstraksi \textit{Landmark MediaPipe Holistic}} \label{subsubsec:ekstraksi-landmark}
 \subsubsection{Seleksi \textit{Landmark}} \label{subsubsec:seleksi-normalisasi}
 
-\subsection{Rekayasa Fitur \textit{Feature Engineering}}
+\subsection{Rekayasa Fitur (\textit{Feature Engineering})}
 \subsubsection{Perhitungan Perubahan Antar-\textit{Frame}} \label{subsubsec:perhitungan-perubahan}
 \subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
 Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
@@ -76,11 +83,6 @@ Dalam membuat pengukuran frekuensi denyut nadi non-kontak dalam penelitian, beri
 
 \subsection{Bahan} \label{subsec:bahan}
 Dataset yang digunakan pada penelitian ini merupakan dataset 
-
-
-\section{Metode Pengembangan Model}
-\subsection{Arsitektur ResNet-2D}
-\subsection{Alur Pelatihan Model}
 
 \section{Metode Evaluasi}
 \subsection{Metrik Evaluasi}
