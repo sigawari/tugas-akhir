@@ -18,12 +18,14 @@ Untuk memperjelas setiap langkah-langkah yang telah didefinisikan pada Gambar \r
 
 \subsection{Pengumpulan Dataset} \label{subsec:pengumpulan-dataset}
 
-\subsection{Akusisi Video Bahasa Isyarat} \label{subsec:akusisi-data}
+\subsection{Akuisisi Video Bahasa Isyarat} \label{subsec:akusisi-data}
 
 \subsection{\textit{Preprocessing} Data} \label{subsec:preprocessing-data}
 \subsubsection{Augmentasi Resolusi Video}
 \subsubsection{Ekstraksi \textit{Landmark MediaPipe Holistic}} \label{subsubsec:ekstraksi-landmark}
 \subsubsection{Seleksi \textit{Landmark}} \label{subsubsec:seleksi-normalisasi}
+
+\subsection{Rekayasa Fitur \textit{Feature Engineering}}
 \subsubsection{Perhitungan Perubahan Antar-\textit{Frame}} \label{subsubsec:perhitungan-perubahan}
 \subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
 Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
@@ -49,7 +51,7 @@ Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pa
   {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa frame berurutan.}
 \end{table}  
 
-\subsubsection{Penyusunan Tensor Masukan CNN} \label{subsubsec:penyusunan-tensor}
+\subsection{Penyusunan Tensor Masukan CNN} \label{subsubsec:penyusunan-tensor}
 Dalam penelitian ini, hasil perhitungan dari program akan melalui serangkaian pengujian untuk mengevaluasi tingkat keakuratan model yang digunakan. Data dummy tersebut dapat dilihat pada Tabel \ref{table:3.dummy}. \par
 
 \subsection{Konfigurasi Model dan \textit{Hyperparameter}} \label{subsec:konfigurasi-model-hyperparameter}
