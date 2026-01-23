@@ -1,7 +1,7 @@
 \newpage
 \chapter{METODE PENELITIAN} \label{Bab III}
 
-\section{Alur Penelitian} \label{III.Alur}
+\section{Alur Penelitian} \label{sec:alur-penelitian}
 Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan dilakukan secara sistematis dan efisien. Alur penelitian ini mencerminkan langkah-langkah utama yang dilakukan pada penelitian ini, dapat dilihat pada Gambar \ref{fig:3.alur}. \par
 
 \begin{figure}[H] % Kalau menggunakan H, posisi gambar akan tepat dibawah teks
@@ -11,16 +11,48 @@ Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan d
     \label{fig:3.alur}
 \end{figure}
 
-\section{Penjabaran Langkah Penelitian} \label{III.Jabar Alur}
+\section{Penjabaran Langkah Penelitian} \label{sec:jabar-alur}
 Untuk memperjelas setiap langkah-langkah yang telah didefinisikan pada Gambar \ref{fig:3.alur}, berikut ini akan dijelaskan secara rinci tahapan-tahapan yang dilakukan dalam penelitian ini.
 
-\subsection{Identifikasi Masalah} \label{III.Identifikasi_masalah}
+\subsection{Studi Literatur dan Identifikasi Masalah} \label{subsec:studi-identifikasi}
 
+\subsection{Pengumpulan Dataset} \label{pengumpulan-dataset}
 
-\section{Alat dan Bahan Tugas Akhir} \label{III.Alat dan Bahan}
+\subsection{Akusisi Data Video} \label{akusisi-video}
+
+\subsection{\textit{Preprocessing Data}} \label{preprocessing-data}
+\subsubsection{Ekstraksi \textit{Landmark MediaPipe Holistic}} \label{ekstraksi-landmark}
+\subsubsection{Seleksi dan Normalisasi \textit{Landmark}} \label{seleksi-normalisasi}
+\subsubsection{Perhitungan Perubahan Antar-\textit{Frame}} \label{perhitungan-perubahan}
+\subsubsection{Representasi \textit{Landmark Multichannel}} \label{representasi-multichannel}
+Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
+Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
+Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
+Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
+
+\begin{table}[H]
+  \centering
+  \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
+  \label{tab:landmark-multichannel-example}
+  \begin{tabular}{|c|c|l|c|c|c|c|}
+  \hline
+  \textbf{Frame} & \textbf{Indeks} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
+  $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
+  $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
+  $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
+  $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
+  $t+2$ & 0 & Wrist & 0.52 & 0.54 & 0.02  & -0.02 \\ \hline
+  \end{tabular}
+
+  \vspace{0.5em}
+  {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa frame berurutan.}
+\end{table}  
+\subsubsection{Penyusunan Tensor Masukan CNN} \label{penyusunan-tensor}
+Dalam penelitian ini, hasil perhitungan dari program akan melalui serangkaian pengujian untuk mengevaluasi tingkat keakuratan model yang digunakan. Data dummy tersebut dapat dilihat pada Tabel \ref{table:3.dummy}. \par
+
+\section{Alat dan Bahan} \label{sec:alat-bahan}
 Dalam menjalani penelitian, beberapa alat dan bahan digunakan untuk memastikan penelitian berjalan dengan baik.\par
-
-\subsection{Alat} \label{III.Alat}
+\subsection{Alat} \label{subsec:alat}
 Dalam membuat pengukuran frekuensi denyut nadi non-kontak dalam penelitian, berikut adalah alat-alat yang digunakan: \par
 \begin{enumerate}[noitemsep]
 	\item \textit{Visual Studio Code} sebagai \textit{tools} untuk \textit{text editor}.
@@ -33,10 +65,10 @@ Dalam membuat pengukuran frekuensi denyut nadi non-kontak dalam penelitian, beri
         \item Flask versi 3.1.0
 \end{enumerate}
 
-\subsection{Bahan} \label{III.Bahan}
+\subsection{Bahan} \label{subsec:bahan}
 Dataset yang digunakan pada penelitian ini merupakan dataset 
 
-\section{Ilustrasi Perhitungan Metode} \label{III.Ilustrasi}
+\section{Ilustrasi Proses Pengolahan Data} \label{sec:ilustrasi-pengolahan}
 Dalam penelitian ini, hasil perhitungan dari program akan melalui serangkaian pengujian untuk mengevaluasi tingkat keakuratan model yang digunakan. Data dummy tersebut dapat dilihat pada Tabel \ref{table:3.dummy}. \par
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|}
@@ -77,28 +109,12 @@ Dalam penelitian ini, hasil perhitungan dari program akan melalui serangkaian pe
 	10 & 77 & 76 & 74 & 78 & 75 & 78 & 76 & 77
 \end{longtable}
 
+\subsection{Ilustrasi Input Video} \label{subsec:ilustrasi-input}
+\subsection{Ilustrasi Ekstraksi \textit{Landmark}} \label{subsec:ilustrasi-ekstraksi}
+\subsection{Ilustrasi Pembentukan Tensor} \label{subsec:ilustrasi-tensor}
 
-\subsubsection{Ilustrasi Representasi \textit{Landmark Multichannel}}
+\section{Rancangan Pelatihan dan Pengujian} \label{sec:rancangan-pelatihan-pengujian}
+\subsection{Skema Pembagian Data} \label{skema-pembagian}
+\subsection{Konfigurasi Model} \label{konfigurasi-model}
+\subsection{Prosedur Evaluasi} \label{prosedur-evaluasi}
 
-Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
-Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
-Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
-Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
-
-\begin{table}[H]
-  \centering
-  \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
-  \label{tab:landmark-multichannel-example}
-  \begin{tabular}{|c|c|l|c|c|c|c|}
-  \hline
-  \textbf{Frame} & \textbf{Indeks} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
-  $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
-  $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
-  $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
-  $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
-  $t+2$ & 0 & Wrist & 0.52 & 0.54 & 0.02  & -0.02 \\ \hline
-  \end{tabular}
-
-  \vspace{0.5em}
-  {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa frame berurutan.}
-\end{table}  
