@@ -47,12 +47,12 @@ Memanfaatkan prinsip yang serupa, penelitian ini menyusun \textit{landmark} tubu
 Berdasarkan uraian tersebut, penelitian ini bertujuan untuk mengeksplorasi potensi penggunaan model ResNet-2D dalam klasifikasi dan penerjemahan bahasa isyarat Indonesia (BISINDO) berbasis \textit{landmark} tubuh manusia.
 Berbeda dari mayoritas penelitian sebelumnya yang menitikberatkan pada pemodelan temporal eksplisit, penelitian ini menyusun data \textit{landmark} tubuh manusia ke dalam representasi dua dimensi sebagai \textit{pseudo-image} agar dapat diproses oleh jaringan konvolusional dua dimensi.
 Selain itu, penelitian ini menganalisis pengaruh variasi representasi input \textit{landmark} terhadap performa model dalam mengenali pola gerakan bahasa isyarat.
-Melalui pendekatan ini, diharapkan penelitian dapat memberikan pemahaman mengenai sejauh mana model spasial ResNet-2D mampu menangkap informasi gerakan bahasa isyarat yang bersifat temporal, khususnya pada konteks bahasa isyarat lokal seperti BISINDO.
+Melalui pendekatan ini, diharapkan penelitian dapat memberikan pemahaman mengenai sejauh mana model spasial ResNet-2D mampu menangkap informasi gerakan bahasa isyarat yang bersifat temporal, khususnya pada konteks bahasa isyarat lokal seperti BISINDO. \par
 
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
 Dominasi pendekatan berbasis temporal dalam penelitian penerjemahan bahasa isyarat menimbulkan keterbatasan pemahaman mengenai potensi pendekatan alternatif yang lebih ringan dan berbasis spasial.
 Berdasarkan konteks tersebut, belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit{Convolutional Neural Network} dua dimensi, khususnya arsitektur ResNet-2D, mampu menangkap pola gerakan bahasa isyarat ketika data direpresentasikan dalam bentuk struktur dua dimensi dari \textit{landmark} tubuh manusia.
-Selain itu, pengaruh variasi kombinasi \textit{landmark} tubuh terhadap performa model spasial dalam klasifikasi gerakan Bahasa Isyarat Indonesia (BISINDO) juga belum banyak dieksplorasi secara sistematis.
+Selain itu, pengaruh variasi kombinasi \textit{landmark} tubuh terhadap performa model spasial dalam klasifikasi gerakan Bahasa Isyarat Indonesia (BISINDO) juga belum banyak dieksplorasi secara sistematis. \par
 
 \section{Tujuan Penelitian} \label{sec:tujuan}
 Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penelitian ini adalah: \par
@@ -61,7 +61,7 @@ Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penel
     \item Menilai kelayakan penggunaan model spasial berbasis \textit{Residual Network} (ResNet-2D) dalam klasifikasi gerakan Bahasa Isyarat Indonesia (BISINDO) berbasis \textit{landmark}.
     \item Mengkaji pengaruh variasi kombinasi \textit{landmark} MediaPipe (pose, tangan, dan wajah) terhadap performa model ResNet-2D.
     \item Mengevaluasi performa model menggunakan metrik \textit{Accuracy, Precision, Recall, F1-Score}, serta \textit{Confusion Matrix}.
-\end{enumerate}
+\end{enumerate} \par
 
 \section{Batasan Masalah} \label{sec:batasan}
 Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan adalah sebagai berikut: \par
@@ -71,7 +71,7 @@ Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan ad
     \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO yang umum digunakan dalam percakapan sehari-hari.
     \item Model utama yang digunakan adalah model spasial berbasis \textit{Residual Network} (ResNet-2D)
     \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai model pembanding (baseline) untuk memberikan konteks performa terhadap model ResNet-2D.
-\end{enumerate}
+\end{enumerate} \par
 
 \section{Manfaat Penelitian} \label{sec:manfaat}
 Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: \par
@@ -81,7 +81,7 @@ Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: 
     \item Memberikan gambaran empiris mengenai pengaruh kombinasi \textit{landmark} tubuh (pose, tangan, dan wajah) terhadap performa model spasial dalam pengenalan bahasa isyarat.
     \item Menjadi referensi bagi penelitian selanjutnya yang ingin mengeksplorasi pendekatan spasial dalam pengolahan data gerakan atau \textit{action recognition} berbasis data berurutan atau temporal.
     \item Menjadi bahan evaluasi dan pembelajaran tambahan dalam penerapan model \textit{deep learning} untuk pengenalan pola gerakan berbasis titik koordinat.
-\end{enumerate}
+\end{enumerate} \par
 
 \section{Sistematika Penulisan} \label{sec:sistematika}
 Penulisan tugas akhir ini disusun secara sistematis ke dalam lima bab untuk memudahkan pemahaman terhadap alur dan substansi penelitian. Adapun sistematika penulisan penelitian ini dijelaskan sebagai berikut.

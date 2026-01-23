@@ -14,17 +14,18 @@ Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan d
 \section{Penjabaran Langkah Penelitian} \label{sec:jabar-alur}
 Untuk memperjelas setiap langkah-langkah yang telah didefinisikan pada Gambar \ref{fig:3.alur}, berikut ini akan dijelaskan secara rinci tahapan-tahapan yang dilakukan dalam penelitian ini.
 
-\subsection{Studi Literatur dan Identifikasi Masalah} \label{subsec:studi-identifikasi}
+\subsection{Identifikasi Masalah dan Studi Literatur} \label{subsec:studi-identifikasi}
 
-\subsection{Pengumpulan Dataset} \label{pengumpulan-dataset}
+\subsection{Pengumpulan Dataset} \label{subsec:pengumpulan-dataset}
 
-\subsection{Akusisi Data Video} \label{akusisi-video}
+\subsection{Akusisi Video Bahasa Isyarat} \label{subsec:akusisi-data}
 
-\subsection{\textit{Preprocessing Data}} \label{preprocessing-data}
-\subsubsection{Ekstraksi \textit{Landmark MediaPipe Holistic}} \label{ekstraksi-landmark}
-\subsubsection{Seleksi dan Normalisasi \textit{Landmark}} \label{seleksi-normalisasi}
-\subsubsection{Perhitungan Perubahan Antar-\textit{Frame}} \label{perhitungan-perubahan}
-\subsubsection{Representasi \textit{Landmark Multichannel}} \label{representasi-multichannel}
+\subsection{\textit{Preprocessing} Data} \label{subsec:preprocessing-data}
+\subsubsection{Augmentasi Resolusi Video}
+\subsubsection{Ekstraksi \textit{Landmark MediaPipe Holistic}} \label{subsubsec:ekstraksi-landmark}
+\subsubsection{Seleksi \textit{Landmark}} \label{subsubsec:seleksi-normalisasi}
+\subsubsection{Perhitungan Perubahan Antar-\textit{Frame}} \label{subsubsec:perhitungan-perubahan}
+\subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
 Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
 Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
 Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
@@ -47,8 +48,14 @@ Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pa
   \vspace{0.5em}
   {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa frame berurutan.}
 \end{table}  
-\subsubsection{Penyusunan Tensor Masukan CNN} \label{penyusunan-tensor}
+
+\subsubsection{Penyusunan Tensor Masukan CNN} \label{subsubsec:penyusunan-tensor}
 Dalam penelitian ini, hasil perhitungan dari program akan melalui serangkaian pengujian untuk mengevaluasi tingkat keakuratan model yang digunakan. Data dummy tersebut dapat dilihat pada Tabel \ref{table:3.dummy}. \par
+
+\subsection{Konfigurasi Model dan \textit{Hyperparameter}} \label{subsec:konfigurasi-model-hyperparameter}
+\subsubsection{Arsitektur ResNet-2D}
+\subsubsection{Modifikasi Input \textit{Channel}}
+\subsubsection{Konfigurasi \textit{Hyperparameter}}
 
 \section{Alat dan Bahan} \label{sec:alat-bahan}
 Dalam menjalani penelitian, beberapa alat dan bahan digunakan untuk memastikan penelitian berjalan dengan baik.\par
@@ -68,7 +75,17 @@ Dalam membuat pengukuran frekuensi denyut nadi non-kontak dalam penelitian, beri
 \subsection{Bahan} \label{subsec:bahan}
 Dataset yang digunakan pada penelitian ini merupakan dataset 
 
-\section{Ilustrasi Proses Pengolahan Data} \label{sec:ilustrasi-pengolahan}
+
+\section{Metode Pengembangan Model}
+\subsection{Arsitektur ResNet-2D}
+\subsection{Alur Pelatihan Model}
+
+\section{Metode Evaluasi}
+\subsection{Metrik Evaluasi}
+\subsection{Prosedur Pengujian}
+
+\section{Ilustrasi Proses Pengolahan Data}
+\subsection{Ilustrasi Input Video} \label{subsec:ilustrasi-input}
 Dalam penelitian ini, hasil perhitungan dari program akan melalui serangkaian pengujian untuk mengevaluasi tingkat keakuratan model yang digunakan. Data dummy tersebut dapat dilihat pada Tabel \ref{table:3.dummy}. \par
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|}
@@ -108,13 +125,6 @@ Dalam penelitian ini, hasil perhitungan dari program akan melalui serangkaian pe
 	\hline
 	10 & 77 & 76 & 74 & 78 & 75 & 78 & 76 & 77
 \end{longtable}
-
-\subsection{Ilustrasi Input Video} \label{subsec:ilustrasi-input}
 \subsection{Ilustrasi Ekstraksi \textit{Landmark}} \label{subsec:ilustrasi-ekstraksi}
 \subsection{Ilustrasi Pembentukan Tensor} \label{subsec:ilustrasi-tensor}
-
-\section{Rancangan Pelatihan dan Pengujian} \label{sec:rancangan-pelatihan-pengujian}
-\subsection{Skema Pembagian Data} \label{skema-pembagian}
-\subsection{Konfigurasi Model} \label{konfigurasi-model}
-\subsection{Prosedur Evaluasi} \label{prosedur-evaluasi}
 

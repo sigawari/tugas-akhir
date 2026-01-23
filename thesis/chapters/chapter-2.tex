@@ -111,7 +111,7 @@ Celah penelitian muncul pada minimnya eksplorasi pendekatan yang mampu menginteg
 Menjawab celah tersebut, penelitian ini mengusulkan pendekatan klasifikasi Isolated Bahasa Isyarat Indonesia (BISINDO) dengan memanfaatkan ResNet-2D berbasis representasi spasial landmark multichannel.
 Data video tidak diproses sebagai citra RGB, melainkan ditransformasikan menjadi pseudo-image dua dimensi yang merepresentasikan landmark tubuh, tangan, dan wajah hasil ekstraksi MediaPipe.
 Informasi dinamika gerakan antar-frame dikodekan secara implisit melalui kanal fitur [x, y, dx, dy], sehingga aspek temporal tertanam langsung dalam struktur spasial input.
-Melalui strategi ini, ResNet-2D berfungsi sebagai pemodel spasial murni yang sederhana dan efisien, sekaligus menawarkan alternatif arsitektur yang lebih ringan dan mudah diimplementasikan untuk penerjemahan bahasa isyarat BISINDO berbasis landmark.
+Melalui strategi ini, ResNet-2D berfungsi sebagai pemodel spasial murni yang sederhana dan efisien, sekaligus menawarkan alternatif arsitektur yang lebih ringan dan mudah diimplementasikan untuk penerjemahan bahasa isyarat BISINDO berbasis \textit{landmark}. \par
 
 \section{Dasar Teori} \label{sec:dasar-teori}
 Bagian ini menguraikan landasan teoretis yang mendukung pelaksanaan penelitian, khususnya konsep-konsep utama yang berkaitan dengan pengenalan bahasa isyarat berbasis visual dan pemodelan pola gerakan manusia.
@@ -124,7 +124,7 @@ Bahasa Isyarat Indonesia (BISINDO) merupakan salah satu bahasa isyarat yang digu
 BISINDO berkembang secara alami dalam lingkungan sosial masyarakat Tuli Indonesia dan telah digunakan sejak sebelum masa kemerdekaan \cite{olivia2022tindakankomunikatif}. 
 Berbeda dengan Sistem Bahasa Isyarat Indonesia (SIBI) yang disusun secara formal dengan mengadopsi struktur bahasa lisan, BISINDO memiliki susunan kata dan pola ekspresi yang lebih bebas serta kontekstual. 
 Perbedaan ini menyebabkan BISINDO tidak selalu mengikuti tata bahasa Indonesia secara langsung, melainkan memanfaatkan kombinasi gerakan tangan, orientasi tubuh, serta ekspresi non-manual untuk menyampaikan makna \cite{bentara2024sibi-bisindo}. 
-Karakteristik visual dan gestural tersebut menjadikan BISINDO sangat bergantung pada pola gerakan tubuh, wajah, dan tangan, sehingga dapat dipandang sebagai permasalahan pengenalan gerakan berbasis visual. 
+Karakteristik visual dan gestural tersebut menjadikan BISINDO sangat bergantung pada pola gerakan tubuh, wajah, dan tangan, sehingga dapat dipandang sebagai permasalahan pengenalan gerakan berbasis visual. \par
 
 \subsection{\textit{Sign Language Recognition} (SLR)} \label{subsec:slr}
 \textit{Sign Language Recognition} (SLR) merupakan bidang penelitian dalam visi komputer yang bertujuan untuk mengenali dan menginterpretasikan bahasa isyarat berdasarkan informasi visual yang diperoleh dari gerakan manusia.
@@ -158,7 +158,7 @@ Kondisi tersebut menjadikan ISLR lebih sesuai untuk penelitian yang berfokus pad
 Pendekatan ISLR memungkinkan penggunaan representasi input yang lebih terkontrol tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial. 
 Representasi spasial dua dimensi yang menyusun data temporal ke dalam struktur terorganisasi memungkinkan pemanfaatan model CNN dua dimensi untuk pengenalan pola gerakan \cite{rastgoo2021slrdeepsurvey}. 
 Strategi ini sejalan dengan pendekatan penelitian yang mengeksplorasi kemampuan model spasial murni dalam menangkap dinamika gerakan bahasa isyarat. 
-Berdasarkan karakteristik tersebut, penelitian ini difokuskan pada skema \textit{Isolated Sign Language Recognition} untuk mengevaluasi efektivitas representasi spasial dan arsitektur model secara terkontrol.
+Berdasarkan karakteristik tersebut, penelitian ini difokuskan pada skema \textit{Isolated Sign Language Recognition} untuk mengevaluasi efektivitas representasi spasial dan arsitektur model secara terkontrol. \par
 
 \subsection{\textit{MediaPipe Holistic}} \label{subsec:mediapipe}
 \textit{MediaPipe Holistic} merupakan solusi visi komputer berbasis \textit{framework} MediaPipe yang dirancang untuk melakukan ekstraksi landmark tubuh manusia secara terintegrasi dari data visual.
@@ -221,7 +221,7 @@ Oleh karena itu, keluaran \textit{landmark} MediaPipe Holistic relevan sebagai d
 
 Keluaran berupa koordinat \textit{landmark} dari MediaPipe Holistic menyediakan data spasial berurutan yang merepresentasikan gerakan tubuh manusia dari waktu ke waktu.
 Namun, representasi koordinat mentah tersebut belum secara langsung sesuai untuk diproses oleh arsitektur CNN dua dimensi.
-Oleh karena itu, diperlukan strategi representasi data yang mampu menyusun informasi spasial dan temporal ke dalam struktur yang kompatibel dengan CNN 2D.
+Oleh karena itu, diperlukan strategi representasi data yang mampu menyusun informasi spasial dan temporal ke dalam struktur yang kompatibel dengan CNN 2D. \par
 
 \subsection{Representasi \textit{Landmark} sebagai Struktur Spasial \textit{Landmark Multichannel}}
 \label{subsec:multichannel}
@@ -230,10 +230,9 @@ Pada penelitian ini, data bahasa isyarat yang bersifat berurutan direpresentasik
 Setiap frame video diekstraksi menjadi sekumpulan titik \textit{landmark} tubuh manusia yang merepresentasikan posisi bagian tubuh pada waktu tertentu. 
 Titik-titik \textit{landmark} tersebut kemudian disusun ke dalam sebuah matriks dua dimensi dengan sumbu waktu dan indeks \textit{landmark}. 
 Penyusunan ini memungkinkan data temporal diperlakukan sebagai representasi spasial yang terorganisasi \cite{rastgoo2021slrdeepsurvey}.
-Pendekatan ini menekankan penyusunan data pada tingkat representasi, terlepas dari arsitektur pembelajaran yang digunakan pada tahap selanjutnya.
+Pendekatan ini menekankan penyusunan data pada tingkat representasi, terlepas dari arsitektur pembelajaran yang digunakan pada tahap selanjutnya. \par
 
 \subsubsection{Koordinat \textit{Landmark} MediaPipe}
-
 Pada praktiknya, koordinat \textit{landmark} yang digunakan sangat bergantung pada metode ekstraksi yang diterapkan. 
 MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk \textit{(x, y, z)} yang merepresentasikan posisi relatif titik kunci tubuh manusia terhadap kamera \cite{googlemediapipeholistic}. 
 Komponen \textit{x} dan \textit{y} menyatakan posisi pada bidang citra yang telah dinormalisasi, sedangkan komponen \textit{z} merepresentasikan informasi kedalaman relatif. 
@@ -245,7 +244,6 @@ Temuan tersebut menunjukkan bahwa pemanfaatan koordinat \textit{z} memerlukan pe
 Pertimbangan ini menjadi dasar pemilihan representasi dua dimensi pada penelitian ini.
 
 \subsubsection{Pengodean Dinamika Gerakan Antar-Frame}
-
 Berdasarkan pertimbangan kestabilan koordinat, penelitian ini memfokuskan representasi \textit{landmark} pada komponen dua dimensi \textit{(x, y)}. 
 Informasi dinamika gerakan ditangkap melalui perubahan posisi antar-frame yang direpresentasikan sebagai \textit{(dx, dy)}. 
 Pendekatan ini memungkinkan pengodean informasi temporal secara implisit tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial \cite{wang2017tsn}. 
@@ -277,7 +275,6 @@ Representasi ini memungkinkan dinamika gerakan ditangkap secara langsung pada le
 Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu \textit{(x, y, dx, dy)}.
 
 \subsubsection{Struktur Tensor Masukan CNN}
-
 Seluruh \textit{landmark} pada setiap frame kemudian disusun menjadi sebuah tensor masukan yang selaras dengan format masukan model konvolusional dua dimensi.
 Struktur tensor masukan tersebut dapat dinyatakan seperti pada Persamaan \ref{eq:tensor-input}. \par
 
@@ -304,7 +301,6 @@ Representasi ini memungkinkan CNN dua dimensi mempelajari pola gerakan bahasa is
 Struktur representasi ini selanjutnya menjadi dasar pemodelan menggunakan arsitektur konvolusional dua dimensi yang dibahas pada bagian berikutnya.
 
 \subsection{\textit{Convolutional Neural Network} (CNN) 2D} \label{subsec:cnn2d}
-
 \textit{Convolutional Neural Network} (CNN) merupakan arsitektur jaringan saraf yang dirancang untuk mempelajari pola lokal pada data yang memiliki struktur grid teratur \cite{lecun1998gradientbased,wu2017introductiontc}. 
 CNN bekerja melalui operasi konvolusi yang menerapkan kernel untuk mengekstraksi fitur dari masukan secara bertahap. 
 Pendekatan ini memungkinkan pembelajaran fitur dilakukan secara hierarkis dari tingkat sederhana hingga kompleks. 
@@ -344,10 +340,9 @@ Keterangan:
 Persamaan tersebut menunjukkan bahwa setiap nilai keluaran diperoleh dari hasil perkalian lokal antara masukan dan kernel. 
 Operasi ini memungkinkan CNN mengekstraksi pola spasial seperti tepi, bentuk, atau hubungan antar-elemen data. 
 Prinsip konvolusi dua dimensi ini menjadi dasar bagi seluruh variasi arsitektur CNN, termasuk jaringan berlapis dalam. 
-Pemahaman konsep konvolusi ini penting sebagai landasan penggunaan CNN dua dimensi pada penelitian ini.
-\subsection{\textit{Residual Network} (ResNet)}
-\label{subsec:resnet}
+Pemahaman konsep konvolusi ini penting sebagai landasan penggunaan CNN dua dimensi pada penelitian ini. \par
 
+\subsection{\textit{Residual Network} (ResNet)} \label{subsec:resnet}
 \textit{Residual Network} (ResNet) merupakan arsitektur \textit{Convolutional Neural Network} yang diperkenalkan untuk mengatasi permasalahan degradasi performa pada jaringan berlapis sangat dalam \cite{he2016resnet}. 
 ResNet memungkinkan pelatihan jaringan dengan kedalaman yang jauh lebih besar dibandingkan CNN konvensional tanpa mengalami penurunan akurasi. 
 Arsitektur ini mempertahankan prinsip dasar konvolusi dua dimensi dengan menambahkan mekanisme koneksi residual untuk menjaga stabilitas pelatihan. 
@@ -422,13 +417,11 @@ ResNet-152 & 152 & \textit{Bottleneck Block} & Representasi sangat kompleks \\
 Implementasi ResNet yang banyak digunakan dalam praktik saat ini merujuk pada dokumentasi resmi PyTorch melalui pustaka \textit{torchvision} \cite{pytorchresnet}. 
 Dokumentasi tersebut menyediakan pembangun model untuk berbagai varian ResNet dengan atau tanpa bobot terlatih. 
 Perbedaan implementasi dicatat pada varian \textit{bottleneck}, di mana proses \textit{downsampling} ditempatkan pada konvolusi $3 \times 3$ kedua, berbeda dari makalah asli yang menempatkannya pada konvolusi $1 \times 1$ pertama. 
-Varian implementasi ini dikenal sebagai ResNet V1.5 dan dilaporkan memberikan peningkatan akurasi tanpa mengubah prinsip dasar pembelajaran residual.
+Varian implementasi ini dikenal sebagai ResNet V1.5 dan dilaporkan memberikan peningkatan akurasi tanpa mengubah prinsip dasar pembelajaran residual. \par
 
 \subsection{Modifikasi Input Channel pada CNN}
 \label{subsec:modifikasi-cnn}
-
 \subsubsection{CNN Tidak Terbatas pada Input RGB}
-
 \textit{Convolutional Neural Network} (CNN) pada awalnya banyak dikembangkan untuk pemrosesan citra berwarna dengan tiga kanal masukan, yaitu merah, hijau, dan biru (RGB). 
 Pendekatan ini menyebabkan persepsi umum bahwa CNN hanya dapat digunakan untuk data citra konvensional. 
 Faktanya, secara konseptual CNN tidak bergantung pada makna semantik kanal masukan, melainkan pada struktur spasial dan hubungan lokal antar-elemen data \cite{lecun1998gradientbased}. 
@@ -461,25 +454,22 @@ Hasil penelitian tersebut menunjukkan bahwa CNN mampu mengekstraksi fitur bermak
 Penggunaan CNN pada data berbasis \textit{landmark} juga telah dieksplorasi dalam berbagai studi pengenalan gerakan dan bahasa isyarat. 
 Koordinat \textit{landmark} dan fitur turunannya diperlakukan sebagai kanal masukan yang membentuk representasi spasial terstruktur. 
 Pendekatan ini memungkinkan CNN mempelajari pola gerakan tanpa memerlukan citra asli sebagai masukan. 
-Berdasarkan landasan teoretis tersebut, penggunaan kanal masukan \textit{(x, y, dx, dy)} pada penelitian ini berada dalam kerangka konseptual CNN yang valid.
+Berdasarkan landasan teoretis tersebut, penggunaan kanal masukan \textit{(x, y, dx, dy)} pada penelitian ini berada dalam kerangka konseptual CNN yang valid. \par
 
 \subsection{Metrik Evaluasi Klasifikasi}
 \label{subsec:metrik-evaluasi}
-
 Evaluasi performa model klasifikasi diperlukan untuk menilai kemampuan sistem dalam mengenali kelas secara benar. 
 Metrik evaluasi memberikan ukuran kuantitatif yang merepresentasikan tingkat ketepatan dan keandalan prediksi model. 
 Pemilihan metrik yang sesuai penting untuk memastikan hasil evaluasi mencerminkan kinerja model secara objektif. 
 Pada penelitian ini, evaluasi dilakukan menggunakan metrik klasifikasi yang umum digunakan pada permasalahan pengenalan pola.
 
-\subsubsection{Confusion Matrix}
-
+\subsubsection{\textit{Confusion Matrix}}
 \textit{Confusion matrix} merupakan dasar perhitungan berbagai metrik evaluasi klasifikasi. 
 Matriks ini merepresentasikan hubungan antara label prediksi dan label sebenarnya. 
 Setiap elemen pada matriks menunjukkan jumlah prediksi benar maupun salah untuk setiap kelas. 
 Komponen utama pada \textit{confusion matrix} meliputi \textit{True Positive}, \textit{True Negative}, \textit{False Positive}, dan \textit{False Negative} \cite{powers2011evaluation}.
 
-\subsubsection{Accuracy}
-
+\subsubsection{\textit{Accuracy}}
 \textit{Accuracy} mengukur proporsi prediksi yang benar terhadap seluruh jumlah data yang diuji. 
 Metrik ini memberikan gambaran umum kinerja model klasifikasi. 
 Nilai \textit{accuracy} tinggi menunjukkan banyak prediksi yang sesuai dengan label sebenarnya. 
@@ -501,8 +491,7 @@ dengan keterangan:
   \item $FN$ = jumlah prediksi salah sebagai kelas negatif (\textit{False Negative})
 \end{itemize}
 
-\subsubsection{Precision}
-
+\subsubsection{\textit{Precision}}
 \textit{Precision} mengukur tingkat ketepatan prediksi positif yang dihasilkan oleh model. 
 Metrik ini menunjukkan seberapa besar proporsi prediksi positif yang benar. 
 Nilai \textit{precision} tinggi menandakan rendahnya tingkat kesalahan prediksi positif. 
@@ -515,8 +504,7 @@ Perhitungan \textit{Precision}
 }
 \end{equationcaptioned}
 
-\subsubsection{Recall}
-
+\subsubsection{\textit{Recall}}
 \textit{Recall} mengukur kemampuan model dalam mendeteksi seluruh sampel yang benar-benar termasuk dalam kelas positif. 
 Metrik ini menunjukkan seberapa besar proporsi data positif yang berhasil dikenali oleh model. 
 Nilai \textit{recall} tinggi menandakan sedikit data positif yang terlewatkan. 
@@ -529,8 +517,7 @@ Perhitungan \textit{Recall}
 }
 \end{equationcaptioned}
 
-\subsubsection{F1-score}
-
+\subsubsection{\textit{F1-Score}}
 \textit{F1-score} merupakan metrik yang menggabungkan \textit{precision} dan \textit{recall} dalam satu nilai harmonik. 
 Metrik ini digunakan untuk menyeimbangkan ketepatan dan kelengkapan prediksi model. 
 \textit{F1-score} relevan pada kondisi ketidakseimbangan jumlah data antar-kelas. 
