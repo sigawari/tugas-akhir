@@ -1,0 +1,9 @@
+# Fdb version 4
+["latex"] 0 "paper.tex" "paper.dvi" "paper" 0 -1
+  "paper.aux" 0 -1 0 "latex"
+  "paper.tex" 0 -1 0 ""
+  (generated)
+  "paper.aux"
+  "paper.dvi"
+  "paper.log"
+  (rewritten before read)
