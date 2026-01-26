@@ -465,11 +465,15 @@ INPUT .\sections\tujuan.tex
 INPUT .\sections\tujuan.tex
 INPUT .\sections\tujuan.tex
 INPUT sections\tujuan.tex
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\tfm\public\newtx\ntx-Italic-tlf-ot1.tfm
 INPUT .\sections\kerjasama.tex
 INPUT .\sections\kerjasama.tex
 INPUT .\sections\kerjasama.tex
 INPUT .\sections\kerjasama.tex
 INPUT sections\kerjasama.tex
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\vf\public\newtx\ntx-Italic-tlf-ot1.vf
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\tfm\public\newtx\NewTXMI.tfm
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\tfm\public\newtx\ntx-Italic-tlf-ot1r.tfm
 INPUT .\sections\etika.tex
 INPUT .\sections\etika.tex
 INPUT .\sections\etika.tex

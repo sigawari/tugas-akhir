@@ -1,19 +1,11 @@
-Bahasa Isyarat Indonesia (BISINDO) merupakan bahasa alami yang digunakan oleh komunitas Tuli di Indonesia
-dan memiliki karakteristik gerakan, ekspresi, serta konteks yang kaya.
-Dalam praktiknya, terdapat sejumlah kosakata BISINDO yang secara visual tampak serupa,
-namun memiliki perbedaan makna yang ditentukan oleh arah gerakan, tempo,
-posisi, serta unsur non-manual.
+Penelitian ini menggunakan pendekatan eksperimental dengan fokus pada pengolahan data visual bahasa isyarat berbasis \textit{landmark}. 
+Data diperoleh dari rekaman video isyarat BISINDO yang dilakukan secara terkontrol dengan mempertimbangkan kenyamanan dan persetujuan penutur.
 
-Seiring berkembangnya teknologi, muncul berbagai upaya pemanfaatan sistem berbasis komputer
-untuk membantu pemahaman bahasa isyarat.
-Namun, sebagian pendekatan yang ada masih berfokus pada aspek teknis semata
-dan belum sepenuhnya melibatkan komunitas Tuli sebagai mitra keilmuan.
-Penelitian ini berangkat dari kebutuhan untuk mengkaji pola gerakan BISINDO
-secara etis, kolaboratif, dan kontekstual.
+Setiap video direpresentasikan menggunakan \textit{landmark} tubuh, tangan, dan wajah yang diekstraksi dengan bantuan MediaPipe. 
+Representasi ini dipilih karena mampu menangkap pola gerakan utama tanpa bergantung pada latar belakang visual atau detail citra yang tidak relevan.
 
-Penelitian ini tidak bertujuan menggantikan peran guru, penerjemah,
-atau praktik pembelajaran BISINDO yang telah ada.
-Fokus penelitian diarahkan pada kajian pola gerakan isyarat
-sebagai bagian dari pengembangan sistem bantu berbasis teknologi
-dalam konteks akademik,
-dengan pendampingan dan validasi dari PUSBISINDO Jawa Barat.
+Untuk meningkatkan keragaman data, dilakukan proses augmentasi dengan memvariasikan resolusi video dari satu rekaman sumber. 
+Pendekatan ini dimaksudkan untuk mensimulasikan kondisi pengambilan data yang berbeda tanpa menambah beban perekaman pada penutur.
+
+Data \textit{landmark} selanjutnya diproses sebagai masukan ke dalam model ResNet-2D yang dimodifikasi untuk mempelajari pola spasial gerakan. 
+Pendekatan ini dipilih untuk mengevaluasi sejauh mana model dua dimensi mampu menangkap dinamika gerakan BISINDO melalui representasi visual terstruktur.
