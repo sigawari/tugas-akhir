@@ -1,12 +1,11 @@
-Penelitian ini bertujuan untuk mengkaji pemanfaatan pendekatan berbasis \textit{computer vision} dan \textit{deep learning} dalam mengenali pola gerakan Bahasa Isyarat Indonesia (BISINDO) secara visual. 
-Fokus utama penelitian diarahkan pada pemahaman bagaimana perbedaan gestur yang tampak serupa dalam BISINDO dapat direpresentasikan dan dibedakan oleh sistem komputasi.
+Penelitian ini bertujuan untuk mengevaluasi pendekatan spasial berbasis \textit{Convolutional Neural Network} dua dimensi dalam pengenalan gerakan Bahasa Isyarat Indonesia (BISINDO). 
+Fokus penelitian diarahkan pada pemanfaatan arsitektur ResNet-2D dengan representasi data berupa \textit{landmark} tubuh manusia.
 
-Secara khusus, tujuan penelitian ini adalah sebagai berikut:
+Tujuan khusus dari penelitian ini meliputi:
 \begin{enumerate}[noitemsep]
-    \item Mengkaji karakteristik pola gerakan BISINDO pada tingkat kata sebagai representasi gerakan alami komunitas Tuli.
-    \item Menyusun dataset berbasis \textit{landmark} yang merepresentasikan gerakan BISINDO secara terkontrol dan konsisten.
-    \item Mengimplementasikan model berbasis ResNet-2D untuk mempelajari pola spasial gerakan bahasa isyarat dari data \textit{landmark}.
-    \item Menilai potensi pendekatan yang diusulkan sebagai bagian dari pengembangan teknologi pendukung aksesibilitas, tanpa menggantikan peran penutur atau penerjemah manusia.
+    \item Menilai kelayakan penggunaan model spasial berbasis Residual Network (ResNet-2D) dalam klasifikasi gerakan BISINDO berbasis \textit{landmark}.
+    \item Mengkaji pengaruh variasi kombinasi \textit{landmark} MediaPipe, meliputi \textit{pose}, tangan, dan wajah, terhadap performa model ResNet-2D.
+    \item Mengevaluasi performa model menggunakan metrik \textit{Accuracy}, \textit{Precision}, \textit{Recall}, \textit{F1-Score}, dan \textit{Confusion Matrix}.
 \end{enumerate}
 
-Tujuan-tujuan tersebut dirumuskan untuk mendukung pengembangan sistem bantu yang selaras dengan praktik BISINDO dan kebutuhan komunitas Tuli.
+Tujuan-tujuan tersebut dirumuskan untuk memberikan pemahaman yang lebih komprehensif mengenai potensi pendekatan spasial sebagai alternatif dari pendekatan temporal yang umum digunakan.

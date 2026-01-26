@@ -1,11 +1,12 @@
 # Fdb version 4
-["biber thesis"] 1769449927.87113 "thesis.bcf" "thesis.bbl" "thesis" 1769449975.22621 0
-  "thesis.bcf" 1769449974 107733 fde814baf8d7d0267979ead5c8116ba4 "pdflatex"
+["biber thesis"] 1769450582.36643 "thesis.bcf" "thesis.bbl" "thesis" 1769450594.40664 0
+  "references.bib" 1769449927 3097 f814a89b9b22a3296befff7ed6c6eb1c ""
+  "thesis.bcf" 1769450593 108194 e418f93e0efde939146d95db3b196cc2 "pdflatex"
   (generated)
   "thesis.bbl"
   "thesis.blg"
   (rewritten before read)
-["pdflatex"] 1769449972.02041 "s:/ITERA/Tugas Akhir/TA-122140208/proposal/thesis.tex" "thesis.pdf" "thesis" 1769449975.22699 0
+["pdflatex"] 1769450591.18704 "s:/ITERA/Tugas Akhir/TA-122140208/proposal/thesis.tex" "thesis.pdf" "thesis" 1769450594.40756 0
   "C:/Users/hp/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1769030549 360564 f829823f7c0b6bd559fa8df8fb21dcd5 ""
   "C:/Users/hp/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1769179157 13332035 9ae3d1ed1f7518e3172e021633f85883 ""
   "C:/Users/hp/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ot1-tlf.enc" 1736607166 2083 60e36f8eac802fcaf19eabe2633b406e ""
@@ -217,21 +218,23 @@
   "C:/Users/hp/AppData/Local/Programs/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
   "chapters/cover-hard.tex" 1769449624 917 77a99ae2de37ebd5a8da66a3ae062446 ""
   "config/config.sty" 1769449268 13466 ed68de72671f627a72064e5f4c1ae41c ""
+  "figure/alur_penelitian.pdf" 1769185578 45583 18fe5646d4eaebeb1bc44e914b8a26cb ""
   "resources/itera-logo.png" 1769418624 78675 a880effc06fac9773f02c3df9dec1f88 ""
-  "s:/ITERA/Tugas Akhir/TA-122140208/proposal/thesis.tex" 1769449927 5382 732df38e026449c9ca646842fab07516 ""
-  "sections/etika.tex" 1769449971 1023 8de9477b4105828de3196f28853be181 ""
-  "sections/kerjasama.tex" 1769449926 1090 721367d8408af1d6f7e078178c02cf15 ""
-  "sections/luaran.tex" 1769449948 757 f15b9c2e65b7ecace783451e0ff17057 ""
-  "sections/metode.tex" 1769449939 1128 1a9e69f5881c448688364a8cf09caf83 ""
-  "sections/penutup.tex" 1769449962 655 ed2289d177c8342c8c613bb4f27c609a ""
-  "sections/tujuan.tex" 1769449927 1200 431568751a10885cb62b578ba38f1f03 ""
-  "thesis.aux" 1769449974 1152 a05a6bf7293abe49b1f6deebd69de2dd "pdflatex"
-  "thesis.bbl" 1769449930 486 76d65a242ec496c9b4361af646ff12cb "biber thesis"
-  "thesis.lof" 1769449974 29 427bdbf77372b3abab04d4813d2ca647 "pdflatex"
-  "thesis.out" 1769449974 1098 c9f57cb660f26def14df9f769c80e5a0 "pdflatex"
-  "thesis.run.xml" 1769449974 2352 3103a9be5045f3833ad2a13533295b04 "pdflatex"
-  "thesis.tex" 1769449927 5382 732df38e026449c9ca646842fab07516 ""
-  "thesis.toc" 1769449974 539 1ccb42b6da1b62a23f0dc65ce7cc8a3b "pdflatex"
+  "s:/ITERA/Tugas Akhir/TA-122140208/proposal/thesis.tex" 1769450578 5451 8db71426eaf2fbd0554473f4bf174f78 ""
+  "sections/etika.tex" 1769450227 850 b2e639454fa77e8e2a840d5933195e5f ""
+  "sections/kerjasama.tex" 1769450218 756 b1bef471524862ebcb4863c47262372f ""
+  "sections/latar_belakang.tex" 1769450556 2995 cb836f321894836a90eaaf9a8343f82d ""
+  "sections/luaran.tex" 1769450236 588 6f25fbbc7813dfbd48aee23664a3902a ""
+  "sections/metode.tex" 1769450354 1551 4a1eeeaac249027890a9738e15cfa5a1 ""
+  "sections/penutup.tex" 1769450250 545 804eb13819ffa72f055e35407bb951a1 ""
+  "sections/tujuan.tex" 1769450215 1071 5751a03b0ecf368f82bdab89c76e8958 ""
+  "thesis.aux" 1769450593 2662 fb388c76036d81b903c46b697e99d212 "pdflatex"
+  "thesis.bbl" 1769450585 9452 e29f5cfd62306668acb44568bd2d310c "biber thesis"
+  "thesis.lof" 1769450593 124 acc4cba41ffea73effb0cf41a258fd4d "pdflatex"
+  "thesis.out" 1769450593 1216 a51ffe58c92fe7575717f760115f02a0 "pdflatex"
+  "thesis.run.xml" 1769450593 2352 3103a9be5045f3833ad2a13533295b04 "pdflatex"
+  "thesis.tex" 1769450578 5451 8db71426eaf2fbd0554473f4bf174f78 ""
+  "thesis.toc" 1769450593 612 595b5eccb42703023804e3acaa701cc0 "pdflatex"
   (generated)
   "thesis.aux"
   "thesis.bcf"

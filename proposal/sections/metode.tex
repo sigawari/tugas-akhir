@@ -1,11 +1,21 @@
-Penelitian ini menggunakan pendekatan eksperimental dengan fokus pada pengolahan data visual bahasa isyarat berbasis \textit{landmark}. 
-Data diperoleh dari rekaman video isyarat BISINDO yang dilakukan secara terkontrol dengan mempertimbangkan kenyamanan dan persetujuan penutur.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figure/alur_penelitian.pdf}
+    \caption{Alur Penelitian}
+    \label{fig:alur-penelitian}
+\end{figure}
 
-Setiap video direpresentasikan menggunakan \textit{landmark} tubuh, tangan, dan wajah yang diekstraksi dengan bantuan MediaPipe. 
-Representasi ini dipilih karena mampu menangkap pola gerakan utama tanpa bergantung pada latar belakang visual atau detail citra yang tidak relevan.
+Penelitian ini dilaksanakan menggunakan pendekatan eksperimental dengan tahapan yang disusun secara sistematis. 
+Lokasi perekaman direncanakan berada pada ruang tertutup dengan pencahayaan yang stabil untuk memastikan kualitas visual yang konsisten.
 
-Untuk meningkatkan keragaman data, dilakukan proses augmentasi dengan memvariasikan resolusi video dari satu rekaman sumber. 
-Pendekatan ini dimaksudkan untuk mensimulasikan kondisi pengambilan data yang berbeda tanpa menambah beban perekaman pada penutur.
+Peralatan utama yang digunakan meliputi kamera digital beresolusi tinggi, tripod untuk menjaga kestabilan sudut pandang, serta perangkat komputer untuk pemrosesan data. 
+Perangkat lunak yang digunakan mencakup MediaPipe untuk ekstraksi \textit{landmark} dan lingkungan pemrograman berbasis Python untuk pemodelan dan evaluasi.
 
-Data \textit{landmark} selanjutnya diproses sebagai masukan ke dalam model ResNet-2D yang dimodifikasi untuk mempelajari pola spasial gerakan. 
-Pendekatan ini dipilih untuk mengevaluasi sejauh mana model dua dimensi mampu menangkap dinamika gerakan BISINDO melalui representasi visual terstruktur.
+Proses perekaman dilakukan dengan merekam gerakan BISINDO pada tingkat kata secara terkontrol. 
+Satu rekaman video digunakan sebagai sumber utama yang kemudian diperkaya melalui augmentasi resolusi untuk mensimulasikan variasi kualitas pengambilan data.
+
+Setiap video diekstraksi menjadi \textit{landmark} tubuh, tangan, dan wajah menggunakan MediaPipe. 
+Hasil ekstraksi berupa koordinat titik-titik utama tubuh yang merepresentasikan pola gerakan tanpa menyertakan identitas visual penutur.
+
+Data \textit{landmark} selanjutnya disusun dalam bentuk struktur dua dimensi dan digunakan sebagai masukan ke dalam model ResNet-2D. 
+Model dilatih dan diuji menggunakan skema evaluasi terukur untuk menilai kemampuan pendekatan spasial dalam mengenali perbedaan gerakan BISINDO.

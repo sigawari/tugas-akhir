@@ -1,7 +1,8 @@
 \babel@toc {bahasa}{}\relax 
-\contentsline {section}{\numberline {A.}Tujuan Penelitian}{1}{section.0.1}%
-\contentsline {section}{\numberline {B.}Bentuk Kerja Sama yang Diharapkan}{1}{section.0.2}%
-\contentsline {section}{\numberline {C.}Etika Penelitian dan Perlindungan Komunitas}{2}{section.0.3}%
-\contentsline {section}{\numberline {D.}Metode Pelaksanaan (Gambaran Umum)}{2}{section.0.4}%
-\contentsline {section}{\numberline {E.}Luaran yang Diharapkan}{3}{section.0.5}%
-\contentsline {section}{\numberline {F.}Penutup}{3}{section.0.6}%
+\contentsline {section}{\numberline {A.}Latar Belakang}{1}{section.0.1}%
+\contentsline {section}{\numberline {B.}Tujuan Penelitian}{2}{section.0.2}%
+\contentsline {section}{\numberline {C.}Bentuk Kerja Sama yang Diharapkan}{2}{section.0.3}%
+\contentsline {section}{\numberline {D.}Etika Penelitian dan Perlindungan Komunitas}{3}{section.0.4}%
+\contentsline {section}{\numberline {E.}Metode Pelaksanaan (Gambaran Umum)}{4}{section.0.5}%
+\contentsline {section}{\numberline {F.}Luaran yang Diharapkan}{5}{section.0.6}%
+\contentsline {section}{\numberline {G.}Penutup}{5}{section.0.7}%
