@@ -1,0 +1,139 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{Suryanto2019MAE}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=620e2e2907547e99ccd6c457b47b5af3}{%
+           family={Suryanto},
+           familyi={S\bibinitperiod},
+           given={Andik\bibnamedelima Adi},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=4cd3fe68a4734b8e6711f6ea6e53f844}{%
+           family={Muqtadir},
+           familyi={M\bibinitperiod},
+           given={Asfan},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{eacd0c8675a5402ec64e24ecafd3ea5b}
+      \strng{fullhash}{eacd0c8675a5402ec64e24ecafd3ea5b}
+      \strng{fullhashraw}{eacd0c8675a5402ec64e24ecafd3ea5b}
+      \strng{bibnamehash}{eacd0c8675a5402ec64e24ecafd3ea5b}
+      \strng{authorbibnamehash}{eacd0c8675a5402ec64e24ecafd3ea5b}
+      \strng{authornamehash}{eacd0c8675a5402ec64e24ecafd3ea5b}
+      \strng{authorfullhash}{eacd0c8675a5402ec64e24ecafd3ea5b}
+      \strng{authorfullhashraw}{eacd0c8675a5402ec64e24ecafd3ea5b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SAINTEKBU}
+      \field{number}{1}
+      \field{title}{PENERAPAN METODE MEAN ABSOLUTE ERROR (MEA) DALAM ALGORITMA REGRESI LINEAR UNTUK PREDIKSI PRODUKSI PADI}
+      \field{volume}{11}
+      \field{year}{2019}
+      \field{pages}{78\bibrangedash 83}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.32764/saintekbu.v11i1.298
+      \endverb
+      \verb{urlraw}
+      \verb https://ejournal.unwaha.ac.id/index.php/saintek/article/view/298
+      \endverb
+      \verb{url}
+      \verb https://ejournal.unwaha.ac.id/index.php/saintek/article/view/298
+      \endverb
+    \endentry
+    \entry{Ivanny2014Perbandingan}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=8b8eaa341c944861a75892301184ad14}{%
+           family={Kasenda},
+           familyi={K\bibinitperiod},
+           given={Ivanny},
+           giveni={I\bibinitperiod}}}%
+        {{hash=87905bf25650a7805efa58083be89961}{%
+           family={Marunduh},
+           familyi={M\bibinitperiod},
+           given={Sylviah},
+           giveni={S\bibinitperiod}}}%
+        {{hash=90566c7937bff7f446da310476f0c6b0}{%
+           family={Wungouw},
+           familyi={W\bibinitperiod},
+           given={Herlina},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{259b997f26875333f8aaf7d1d4eb94d4}
+      \strng{fullhash}{b450990de46be62875c1d0d6860522f6}
+      \strng{fullhashraw}{b450990de46be62875c1d0d6860522f6}
+      \strng{bibnamehash}{b450990de46be62875c1d0d6860522f6}
+      \strng{authorbibnamehash}{b450990de46be62875c1d0d6860522f6}
+      \strng{authornamehash}{259b997f26875333f8aaf7d1d4eb94d4}
+      \strng{authorfullhash}{b450990de46be62875c1d0d6860522f6}
+      \strng{authorfullhashraw}{b450990de46be62875c1d0d6860522f6}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Jurnal e-Biomedik (eBM)}
+      \field{number}{2}
+      \field{title}{PERBANDINGAN DENYUT NADI ANTARA PENDUDUK YANG TINGGAL DI DATARAN TINGGI DAN DATARAN RENDAH}
+      \field{volume}{2}
+      \field{year}{2014}
+    \endentry
+    \entry{cort2005maermse}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=7e389034db1c4f1ba99047863db850eb}{%
+           family={Willmott},
+           familyi={W\bibinitperiod},
+           given={Cort\bibnamedelima J.},
+           giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=683ecc9a84dc4c42d3b77ac983b771ca}{%
+           family={Matsuura},
+           familyi={M\bibinitperiod},
+           given={Kenji},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{62fb2205b9983b6df20c51349d89b32d}
+      \strng{fullhash}{62fb2205b9983b6df20c51349d89b32d}
+      \strng{fullhashraw}{62fb2205b9983b6df20c51349d89b32d}
+      \strng{bibnamehash}{62fb2205b9983b6df20c51349d89b32d}
+      \strng{authorbibnamehash}{62fb2205b9983b6df20c51349d89b32d}
+      \strng{authornamehash}{62fb2205b9983b6df20c51349d89b32d}
+      \strng{authorfullhash}{62fb2205b9983b6df20c51349d89b32d}
+      \strng{authorfullhashraw}{62fb2205b9983b6df20c51349d89b32d}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Climate Research}
+      \field{number}{1}
+      \field{title}{Advantages of the mean absolute error (MAE) over the root mean square error (RMSE) in assessing average model performance}
+      \field{volume}{30}
+      \field{year}{2005}
+      \field{pages}{79\bibrangedash 82}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.3354/CR030079
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
