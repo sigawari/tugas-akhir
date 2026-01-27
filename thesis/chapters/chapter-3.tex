@@ -98,21 +98,21 @@ Proses preprocessing dilakukan secara berurutan untuk menjaga integritas data.
 
 \subsubsection{Augmentasi Resolusi Video}
 \label{subsubsec:augmentasi-resolusi}
+Augmentasi resolusi video diterapkan untuk meningkatkan variasi kualitas masukan tanpa menambah proses perekaman data.
+Seluruh video direkam menggunakan satu kamera dan satu subjek Tuli untuk menjaga konsistensi sudut pandang, jarak, dan karakteristik biologis.
+Variasi resolusi dipilih sebagai bentuk augmentasi yang bersifat terkontrol dan dapat direproduksi secara sistematis.
+Pendekatan ini merepresentasikan perbedaan kualitas citra yang umum terjadi akibat penggunaan perangkat perekaman dengan spesifikasi berbeda.
 
-Augmentasi resolusi video dilakukan untuk memperkaya variasi data tanpa menambah proses perekaman. 
-Pada penelitian ini, seluruh video direkam menggunakan satu kamera dan satu subjek Tuli untuk menjaga konsistensi faktor biologis dan sudut pandang. 
-Variasi resolusi diterapkan sebagai salah satu bentuk augmentasi yang mudah dikontrol dan direproduksi. 
-Pendekatan ini mencerminkan perbedaan kualitas input yang dapat terjadi akibat penggunaan perangkat perekaman yang berbeda.
+Video hasil perekaman awal selanjutnya diproses melalui penurunan resolusi secara spasial.
+Proses penurunan resolusi dilakukan dengan mempertahankan rasio aspek video agar tidak terjadi distorsi geometris.
+Setiap tingkat resolusi diperlakukan sebagai entitas data yang berdiri sendiri dalam dataset.
+Langkah ini bertujuan untuk memperkaya keragaman kualitas visual tanpa mengubah urutan gerakan atau makna isyarat yang direkam.
 
-Video dengan resolusi awal selanjutnya diturunkan ke beberapa tingkat resolusi. 
-Penurunan resolusi dilakukan tanpa mengubah rasio aspek video. 
-Setiap versi resolusi diperlakukan sebagai sampel data yang terpisah. 
-Langkah ini bertujuan untuk meningkatkan keragaman kualitas visual pada dataset.
+Ilustrasi kondisi video pada resolusi awal ditunjukkan pada Gambar \ref{fig:resolusi-asli}.
+Contoh hasil penurunan resolusi pada tingkat menengah dan rendah ditunjukkan pada Gambar \ref{fig:resolusi-menengah} dan Gambar \ref{fig:resolusi-rendah}.
+Perbedaan tingkat detail visual pada setiap resolusi menggambarkan variasi kualitas citra yang diterima oleh sistem ekstraksi \textit{landmark}.
+Ilustrasi ini digunakan untuk memberikan gambaran kondisi data masukan sebelum dilakukan ekstraksi \textit{landmark}.
 
-Sebagai ilustrasi, Gambar \ref{fig:resolusi-asli} menunjukkan contoh frame video dengan resolusi awal hasil perekaman. 
-Gambar \ref{fig:resolusi-menengah} dan Gambar \ref{fig:resolusi-rendah} menunjukkan contoh frame hasil augmentasi dengan resolusi yang lebih rendah. 
-Perbedaan tingkat ketajaman visual pada setiap resolusi menggambarkan variasi kualitas citra yang mungkin ditemui pada perangkat perekaman yang berbeda. 
-Ilustrasi ini digunakan untuk memperjelas kondisi data masukan sebelum tahap ekstraksi \textit{landmark}.
 
 \subsubsection{Ekstraksi \textit{Landmark} MediaPipe Holistic}
 \label{subsubsec:ekstraksi-landmark}
@@ -225,10 +225,33 @@ Pendekatan ini bertujuan untuk menjaga keadilan perbandingan performa antar mode
 Parameter pelatihan ditentukan berdasarkan praktik umum pembelajaran mendalam.
 
 \subsubsection{Arsitektur ResNet-2D}
-Model yang digunakan pada penelitian ini adalah arsitektur ResNet dua dimensi. 
-Arsitektur ResNet dipilih karena kemampuannya mempelajari representasi fitur secara stabil pada jaringan yang relatif dalam. 
-Model dimodifikasi agar dapat menerima masukan multichannel. 
-Jumlah kelas keluaran disesuaikan dengan jumlah kelas isyarat pada dataset.
+\label{subsubsec:arsitektur-resnet}
+Model klasifikasi yang digunakan pada penelitian ini berbasis arsitektur \textit{Residual Network} (ResNet) dua dimensi.
+ResNet dipilih karena kemampuannya mempertahankan stabilitas pelatihan pada jaringan konvolusional yang memiliki kedalaman relatif besar.
+Arsitektur ini memanfaatkan mekanisme \textit{skip connection} untuk menjaga aliran gradien selama proses pembelajaran.
+Pendekatan tersebut memungkinkan model mempelajari representasi fitur spasial secara lebih efektif.
+
+Gambaran umum arsitektur ResNet dua dimensi yang digunakan dalam penelitian ini ditunjukkan pada Gambar \ref{fig:resnet2d-architecture}.
+Model menerima masukan berupa tensor \textit{landmark multichannel} dan memprosesnya melalui beberapa lapisan konvolusi dua dimensi dan blok residual.
+Lapisan akhir arsitektur berupa \textit{fully connected layer} yang menghasilkan prediksi kelas isyarat.
+Jumlah neuron pada lapisan keluaran disesuaikan dengan jumlah kelas bahasa isyarat pada dataset yang digunakan.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.2\textwidth]{figure/cnn2d.png}
+	\caption{Arsitektur umum \textit{Residual Network} dua dimensi untuk klasifikasi}
+	\label{fig:resnet2d-architecture}
+	{\footnotesize Sumber: diadaptasi dari He et al. \cite{he2016resnet}}
+  \end{figure}
+  
+Dalam implementasinya, penelitian ini menggunakan beberapa varian arsitektur ResNet dua dimensi sebagai model pembanding.
+Varian yang digunakan meliputi ResNet-18, ResNet-34, dan ResNet-50.
+Perbedaan utama antar-varian terletak pada kedalaman jaringan dan tipe blok residual yang digunakan.
+Pemilihan varian tersebut bertujuan untuk mengevaluasi pengaruh kedalaman jaringan terhadap performa pengenalan bahasa isyarat.
+
+Secara umum, seluruh varian ResNet yang digunakan mengikuti alur pemrosesan yang sama.
+Perbedaan terletak pada jumlah blok residual yang disusun secara berurutan.
+ResNet-18 dan ResNet-34 menggunakan \textit{basic block}, sedangkan ResNet-50 menggunakan \textit{bottleneck block}.
+Struktur tersebut memungkinkan perbandingan arsitektur dilakukan secara adil dengan konfigurasi pelatihan yang sama.
 
 \subsubsection{Modifikasi Input \textit{Channel}}
 Lapisan konvolusi awal pada model dimodifikasi agar dapat menerima masukan dengan empat kanal fitur. 
@@ -242,55 +265,110 @@ Seluruh eksperimen menggunakan konfigurasi yang sama untuk menjaga konsistensi d
 
 \begin{table}[H]
 	\centering
-	\caption{Konfigurasi \textit{hyperparameter} pelatihan model}
+	\caption{Konfigurasi \textit{Hyperparameter} Pelatihan Model}
 	\label{tab:hyperparameter}
 	\begin{tabular}{|l|c|}
 	\hline
-	\textbf{Parameter} & \textbf{Nilai} \\ \hline
-	Optimizer & Adam \\ \hline
-	Learning rate & $1 \times 10^{-3}$ \\ \hline
-	Weight decay & $1 \times 10^{-3}$ \\ \hline
-	Batch size & Disesuaikan eksperimen \\ \hline
-	Jumlah epoch maksimum & Ditentukan eksperimen \\ \hline
-	Early stopping patience & 5 epoch \\ \hline
-	Scheduler & ReduceLROnPlateau \\ \hline
-	Fungsi loss & Cross-entropy \\ \hline
-	Seed pelatihan & Tetap \\ \hline
+	\textbf{Parameter} & \textbf{Nilai Default} \\ \hline
+	Ukuran \textit{batch} (\textit{batch size}) & 16 \\ \hline
+	Jumlah \textit{epoch} maksimum & 50 \\ \hline
+	\textit{Early stopping} & Diaktifkan (patience = 5) \\ \hline
+	\textit{Learning rate} & $1 \times 10^{-4}$ \\ \hline
+	\textit{Optimizer} & Adam \\ \hline
+	\textit{Weight decay} & $1 \times 10^{-4}$ \\ \hline
+	\textit{Learning rate scheduler} & ReduceLROnPlateau \\ \hline
+	Fungsi \textit{loss} & Cross-Entropy \\ \hline
 	\end{tabular}
-	
-	\vspace{0.5em}
-	{\footnotesize Catatan: Seluruh konfigurasi digunakan secara konsisten pada setiap eksperimen untuk memastikan perbandingan performa yang adil.}
 	\end{table}
 	
-
+	
 \section{Alat dan Bahan} \label{sec:alat-bahan}
 Dalam menjalani penelitian, beberapa alat dan bahan digunakan untuk memastikan penelitian berjalan dengan baik.\par
 \subsection{Alat} \label{subsec:alat}
-Dalam membuat pengukuran frekuensi denyut nadi non-kontak dalam penelitian, berikut adalah alat-alat yang digunakan: \par
+Perangkat lunak dan pustaka pemrograman yang digunakan dalam penelitian ini berperan pada tahapan akuisisi data, ekstraksi \textit{landmark}, rekayasa fitur, pelatihan model, dan evaluasi hasil.
+Daftar alat yang digunakan adalah sebagai berikut:
 \begin{enumerate}[noitemsep]
-	\item \textit{Visual Studio Code} sebagai \textit{tools} untuk \textit{text editor}.
-	\item Python versi 3.12.5
-        \item OpenCV versi 4.10.0.84
-	\item NumPy versi 2.1.1
-	\item Mediapipe versi 0.10.14
-	\item Scipy versi 1.12.0
-        \item Matplotlib versi 3.8.3
-        \item Flask versi 3.1.0
+	\item \textit{Visual Studio Code}, digunakan sebagai \textit{code editor} untuk pengembangan dan pengelolaan kode program.
+	\item Python versi 3.12.5, digunakan sebagai bahasa pemrograman utama dalam seluruh proses penelitian.
+	\item OpenCV versi 4.10.0.84, digunakan untuk pemrosesan video, pengambilan frame, serta manipulasi resolusi video.
+	\item NumPy versi 2.1.1, digunakan untuk operasi numerik dan pengolahan data berbasis matriks.
+	\item MediaPipe versi 0.10.14, digunakan untuk ekstraksi \textit{landmark} tubuh, tangan, dan wajah dari data video.
+	\item SciPy versi 1.12.0, digunakan untuk mendukung komputasi ilmiah dan pemrosesan data tambahan.
+	\item Matplotlib versi 3.8.3, digunakan untuk visualisasi data dan hasil evaluasi model.
+	\item PyTorch, digunakan sebagai kerangka kerja pembelajaran mendalam untuk implementasi dan pelatihan model CNN dua dimensi.
+	\item Weights \& Biases (W\&B), digunakan untuk pemantauan proses pelatihan model dan pencatatan metrik eksperimen.
 \end{enumerate}
 
 \subsection{Bahan} \label{subsec:bahan}
-Dataset yang digunakan pada penelitian ini merupakan dataset 
+Bahan yang digunakan dalam penelitian ini berupa data video bahasa isyarat serta data turunan hasil pengolahan dari video tersebut.
+Dataset disusun secara mandiri dengan proses perekaman menggunakan satu kamera dan satu subjek tuli sebagai peraga bahasa isyarat.
+
+Data video direkam dalam resolusi tinggi untuk menjaga kejelasan gerakan dan memaksimalkan akurasi ekstraksi \textit{landmark}.
+Selanjutnya, variasi resolusi video dihasilkan melalui proses \textit{downscaling} sebagai bentuk augmentasi data.
+Pendekatan ini digunakan untuk mensimulasikan perbedaan kualitas perangkat perekaman serta meningkatkan keragaman data tanpa menambah jumlah pengambilan video secara langsung.
+
+Selain data video mentah, bahan penelitian juga mencakup data \textit{landmark} hasil ekstraksi MediaPipe Holistic.
+Data \textit{landmark} tersebut berupa koordinat titik-titik kunci tubuh dan tangan yang direpresentasikan dalam format numerik.
+Data hasil ekstraksi selanjutnya digunakan sebagai masukan pada tahap rekayasa fitur dan pemodelan.
+
+Proses pengurangan resolusi video dilakukan menggunakan perangkat lunak berbasis pemrosesan citra, yaitu OpenCV, dengan pengaturan resolusi yang terkontrol.
+Langkah ini bertujuan untuk memastikan bahwa variasi kualitas video dapat dianalisis secara sistematis tanpa mengubah konteks gerakan bahasa isyarat yang direkam.
 
 \section{Metode Evaluasi}
-Evaluasi performa model dilakukan menggunakan metrik klasifikasi yang telah didefinisikan pada Bab II. 
-Pengujian dilakukan pada data uji yang tidak digunakan selama proses pelatihan. 
-Pendekatan ini bertujuan untuk menilai kemampuan generalisasi model. 
-Hasil evaluasi dianalisis untuk menilai efektivitas pendekatan yang diusulkan.
+Evaluasi performa model dilakukan untuk menilai kemampuan sistem dalam mengklasifikasikan isyarat bahasa isyarat secara akurat dan konsisten.
+Proses evaluasi dilakukan menggunakan metrik klasifikasi yang telah didefinisikan pada Bab II.
+Pengujian diterapkan pada data uji yang tidak digunakan selama proses pelatihan maupun validasi.
+Pendekatan ini bertujuan untuk mengukur kemampuan generalisasi model terhadap data yang belum pernah dilihat sebelumnya.
+
+Hasil evaluasi dianalisis secara kuantitatif untuk membandingkan performa antar konfigurasi model.
+Analisis dilakukan dengan memperhatikan keseimbangan performa antar kelas, bukan hanya akurasi keseluruhan.
+Pendekatan ini penting mengingat potensi ketidakseimbangan jumlah sampel antar kelas isyarat.
+Temuan evaluasi selanjutnya dibahas secara rinci pada Bab IV.
+
 \subsection{Metrik Evaluasi}
+Metrik evaluasi yang digunakan pada penelitian ini meliputi \textit{accuracy}, \textit{precision}, \textit{recall}, dan \textit{F1-score}.
+Metrik-metrik tersebut dipilih karena mampu memberikan gambaran performa model secara menyeluruh.
+Akurasi digunakan untuk mengukur proporsi prediksi yang benar terhadap seluruh sampel.
+Namun, akurasi saja tidak selalu mencerminkan performa yang adil pada kondisi distribusi kelas yang tidak seimbang.
+
+Precision mengukur ketepatan prediksi positif yang dihasilkan oleh model.
+Recall mengukur kemampuan model dalam mendeteksi seluruh sampel positif yang tersedia.
+F1-score digunakan sebagai ukuran harmonis antara precision dan recall.
+Pada penelitian ini, evaluasi difokuskan pada nilai F1-score makro dan tertimbang untuk memastikan performa model konsisten pada seluruh kelas.
+
 \subsection{Prosedur Pengujian}
+Prosedur pengujian dilakukan setelah proses pelatihan model selesai dan model terbaik diperoleh.
+Model terbaik ditentukan berdasarkan nilai kehilangan (\textit{validation loss}) terendah pada data validasi.
+Bobot model yang menghasilkan performa terbaik kemudian digunakan untuk evaluasi pada data uji.
+
+Data uji diproses menggunakan skema inferensi yang sama dengan data pelatihan.
+Seluruh sampel pada data uji dievaluasi tanpa augmentasi tambahan.
+Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi.
+Hasil pengujian selanjutnya digunakan sebagai dasar analisis performa model pada Bab IV.
 
 \section{Ilustrasi Proses Pengolahan Data}
-\subsection{Ilustrasi Input Video} \label{subsec:ilustrasi-input}
-\subsection{Ilustrasi Ekstraksi \textit{Landmark}} \label{subsec:ilustrasi-ekstraksi}
-\subsection{Ilustrasi Pembentukan Tensor} \label{subsec:ilustrasi-tensor}
+Bagian ini menyajikan ilustrasi visual untuk memperjelas alur pengolahan data yang telah dijelaskan pada subbab sebelumnya.
+Ilustrasi digunakan untuk membantu pembaca memahami transformasi data pada setiap tahapan pemrosesan.
+Seluruh ilustrasi bersifat konseptual dan tidak merepresentasikan hasil evaluasi sistem.
+
+\subsection{Ilustrasi Input Video}
+\label{subsec:ilustrasi-input}
+Ilustrasi input video menunjukkan contoh frame video bahasa isyarat yang digunakan sebagai masukan sistem.
+Video direkam menggunakan satu kamera dengan sudut pandang tetap dan latar belakang yang konsisten.
+Ilustrasi ini bertujuan untuk menggambarkan karakteristik visual data sebelum dilakukan pemrosesan lebih lanjut.
+Contoh frame input digunakan sebagai acuan visual untuk memahami tahapan ekstraksi \textit{landmark} berikutnya.
+
+\subsection{Ilustrasi Ekstraksi \textit{Landmark}}
+\label{subsec:ilustrasi-ekstraksi}
+Ilustrasi ekstraksi \textit{landmark} menampilkan hasil pendeteksian titik-titik kunci tubuh manusia pada frame video.
+Proses ekstraksi dilakukan menggunakan MediaPipe Holistic untuk memperoleh representasi posisi tubuh dan tangan.
+\textit{Landmark} divisualisasikan sebagai titik dan garis penghubung yang merepresentasikan struktur tubuh.
+Ilustrasi ini bertujuan untuk memperlihatkan keluaran sistem ekstraksi sebelum tahap rekayasa fitur.
+
+\subsection{Ilustrasi Pembentukan Tensor}
+\label{subsec:ilustrasi-tensor}
+Ilustrasi pembentukan tensor menunjukkan proses transformasi data \textit{landmark} menjadi format masukan model CNN.
+Data \textit{landmark multichannel} disusun ke dalam struktur tensor dengan urutan kanal-terlebih-dahulu.
+Ilustrasi ini memperlihatkan hubungan antara dimensi waktu, indeks \textit{landmark}, dan kanal fitur.
+Visualisasi tensor membantu memperjelas bagaimana data spasial multichannel diproses oleh CNN dua dimensi.
 
