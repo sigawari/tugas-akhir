@@ -18,43 +18,140 @@ Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan d
     \label{fig:3.alur2}
 \end{figure}
 
-\section{Penjabaran Langkah Penelitian} \label{sec:jabar-alur}
-Untuk memperjelas setiap langkah-langkah yang telah didefinisikan pada Gambar \ref{fig:3.alur}, berikut ini akan dijelaskan secara rinci tahapan-tahapan yang dilakukan dalam penelitian ini.
-\subsection{Identifikasi Masalah dan Studi Literatur} \label{subsec:studi-identifikasi}
+\section{Penjabaran Langkah Penelitian}
+\label{sec:jabar-alur}
 
-\subsection{Pengumpulan Dataset} \label{subsec:pengumpulan-dataset}
-Dataset pada penelitian ini diperoleh melalui proses perekaman video bahasa isyarat secara terkontrol. 
-Data dikumpulkan dengan merekam gerakan bahasa isyarat tunggal (\textit{isolated sign}) yang dilakukan oleh subjek penelitian. 
-Setiap isyarat direkam dalam bentuk video berdurasi pendek dengan batas awal dan akhir yang jelas. 
-Pendekatan ini bertujuan untuk menghasilkan dataset yang sesuai dengan skema \textit{Isolated Sign Language Recognition}.
+Penjelasan dari setiap langkah penelitian yang telah ditunjukkan pada bagian sebelumnya dijabarkan secara lebih komprehensif pada subbab berikut. 
+Setiap tahapan dijelaskan secara sistematis untuk memberikan gambaran menyeluruh mengenai proses penelitian yang dilakukan. 
+Uraian difokuskan pada alur metodologis tanpa membahas hasil eksperimen secara rinci. 
+Pendekatan ini bertujuan untuk menjaga kejelasan antara tahapan metodologi dan analisis hasil penelitian.
+
+\subsection{Identifikasi Masalah dan Studi Literatur}
+\label{subsec:studi-identifikasi}
+
+Tahapan awal penelitian diawali dengan identifikasi masalah yang berkaitan dengan pengenalan bahasa isyarat berbasis visual. 
+Permasalahan utama yang diangkat adalah tingginya kompleksitas pendekatan berbasis pemodelan temporal eksplisit dalam pengenalan bahasa isyarat. 
+Kondisi tersebut mendorong perlunya eksplorasi pendekatan alternatif yang lebih sederhana namun tetap efektif. 
+Identifikasi masalah dilakukan dengan meninjau keterbatasan pendekatan yang umum digunakan pada penelitian terdahulu.
+
+Studi literatur dilakukan untuk memperoleh pemahaman mendalam mengenai perkembangan penelitian \textit{Sign Language Recognition}. 
+Literatur yang dikaji mencakup pendekatan berbasis model sekuensial, pemanfaatan \textit{landmark} tubuh manusia, serta penerapan CNN dua dimensi pada data berurutan. 
+Kajian pustaka digunakan untuk mengidentifikasi celah penelitian yang belum banyak dieksplorasi. 
+Hasil studi literatur menjadi dasar perumusan arah penelitian dan pemilihan metode yang digunakan.
+
+% ------------------------------------------------
+% CATATAN:
+% - TIDAK perlu tabel atau gambar di subbab ini
+% - Semua tabel literatur sudah ditempatkan di Bab II
+% ------------------------------------------------
 
 
+\subsection{Pengumpulan Dataset}
+\label{subsec:pengumpulan-dataset}
 
-\subsection{Akuisisi Video Bahasa Isyarat} \label{subsec:akusisi-data}
+Tahap pengumpulan dataset dilakukan untuk memperoleh data bahasa isyarat yang sesuai dengan kebutuhan penelitian. 
+Dataset dikumpulkan dalam bentuk rekaman video bahasa isyarat dengan skema \textit{isolated sign}. 
+Setiap isyarat direkam secara terpisah dengan batas awal dan akhir yang jelas. 
+Pendekatan ini bertujuan untuk memudahkan proses segmentasi dan pelabelan data.
 
-\subsection{\textit{Preprocessing} Data} \label{subsec:preprocessing-data}
+Pengumpulan dataset dilakukan secara terkontrol untuk menjaga konsistensi antar-sampel. 
+Variasi gerakan tetap diperhatikan agar data mencerminkan perbedaan alami dalam melakukan isyarat. 
+Dataset yang diperoleh kemudian digunakan sebagai dasar untuk proses akuisisi dan pengolahan data lebih lanjut. 
+Tahap ini memastikan ketersediaan data yang representatif sebelum memasuki tahap pemrosesan teknis.
+
+% ------------------------------------------------
+% CATATAN:
+% - TABEL BOLEH di sini (opsional):
+%   Tabel ringkasan dataset (jumlah kelas, jumlah video, jumlah subjek)
+% - TIDAK perlu gambar
+% ------------------------------------------------
+
+
+\subsection{Akuisisi Video Bahasa Isyarat}
+\label{subsec:akusisi-data}
+
+Akuisisi video bahasa isyarat dilakukan melalui proses perekaman langsung menggunakan perangkat kamera. 
+Proses perekaman dilakukan dengan mempertimbangkan sudut pandang, pencahayaan, dan jarak kamera terhadap subjek. 
+Pengaturan tersebut bertujuan untuk memastikan gerakan tangan dan tubuh terekam dengan jelas. 
+Setiap video direkam dengan durasi yang cukup untuk merepresentasikan satu unit isyarat secara utuh.
+
+Parameter teknis seperti resolusi video dan laju pengambilan frame disesuaikan agar mendukung proses ekstraksi \textit{landmark}. 
+Konsistensi parameter perekaman dijaga pada seluruh sesi akuisisi data. 
+Langkah ini bertujuan untuk meminimalkan variasi teknis yang dapat memengaruhi kualitas data. 
+Video hasil akuisisi selanjutnya digunakan sebagai masukan pada tahap preprocessing.
+
+% ------------------------------------------------
+% CATATAN:
+% - GAMBAR BOLEH:
+%   Diagram setup kamera atau contoh frame hasil rekaman
+% - TIDAK perlu tabel numerik detail
+% ------------------------------------------------
+
+
+\subsection{\textit{Preprocessing} Data}
+\label{subsec:preprocessing-data}
+
 Tahap preprocessing bertujuan untuk menyiapkan data video sebelum dilakukan rekayasa fitur dan pemodelan. 
 Preprocessing difokuskan pada penyesuaian format data dan ekstraksi informasi visual awal. 
 Tahapan ini memastikan data berada dalam kondisi yang konsisten dan siap diproses lebih lanjut. 
-Proses preprocessing meliputi penyesuaian resolusi video dan ekstraksi \textit{landmark} tubuh manusia.
+Proses preprocessing dilakukan secara berurutan untuk menjaga integritas data.
 
 \subsubsection{Augmentasi Resolusi Video}
-Resolusi video diseragamkan untuk memastikan konsistensi dimensi masukan pada setiap sampel data. 
-Penyesuaian resolusi dilakukan tanpa mengubah rasio aspek video. 
-Langkah ini bertujuan untuk menjaga stabilitas proses ekstraksi \textit{landmark}. 
-Video hasil penyesuaian resolusi digunakan sebagai masukan pada tahap ekstraksi \textit{landmark}.
+\label{subsubsec:augmentasi-resolusi}
 
-\subsubsection{Ekstraksi \textit{Landmark MediaPipe Holistic}} \label{subsubsec:ekstraksi-landmark}
-Ekstraksi \textit{landmark} dilakukan menggunakan MediaPipe Holistic. 
-Model ini menghasilkan \textit{landmark} pose tubuh dan tangan dalam bentuk koordinat dua dimensi. 
-Setiap frame video diproses secara independen untuk memperoleh posisi titik-titik kunci tubuh manusia. 
-Hasil ekstraksi berupa deret \textit{landmark} yang merepresentasikan gerakan bahasa isyarat.
+Augmentasi resolusi video dilakukan untuk memperkaya variasi data tanpa menambah proses perekaman. 
+Pada penelitian ini, seluruh video direkam menggunakan satu kamera dan satu subjek Tuli untuk menjaga konsistensi faktor biologis dan sudut pandang. 
+Variasi resolusi diterapkan sebagai salah satu bentuk augmentasi yang mudah dikontrol dan direproduksi. 
+Pendekatan ini mencerminkan perbedaan kualitas input yang dapat terjadi akibat penggunaan perangkat perekaman yang berbeda.
 
-\subsubsection{Seleksi \textit{Landmark}} \label{subsubsec:seleksi-normalisasi}
+Video dengan resolusi awal selanjutnya diturunkan ke beberapa tingkat resolusi. 
+Penurunan resolusi dilakukan tanpa mengubah rasio aspek video. 
+Setiap versi resolusi diperlakukan sebagai sampel data yang terpisah. 
+Langkah ini bertujuan untuk meningkatkan keragaman kualitas visual pada dataset.
+
+Sebagai ilustrasi, Gambar \ref{fig:resolusi-asli} menunjukkan contoh frame video dengan resolusi awal hasil perekaman. 
+Gambar \ref{fig:resolusi-menengah} dan Gambar \ref{fig:resolusi-rendah} menunjukkan contoh frame hasil augmentasi dengan resolusi yang lebih rendah. 
+Perbedaan tingkat ketajaman visual pada setiap resolusi menggambarkan variasi kualitas citra yang mungkin ditemui pada perangkat perekaman yang berbeda. 
+Ilustrasi ini digunakan untuk memperjelas kondisi data masukan sebelum tahap ekstraksi \textit{landmark}.
+
+\subsubsection{Ekstraksi \textit{Landmark} MediaPipe Holistic}
+\label{subsubsec:ekstraksi-landmark}
+
+Ekstraksi \textit{landmark} dilakukan menggunakan MediaPipe Holistic untuk memperoleh representasi titik-titik kunci tubuh manusia pada setiap frame video. 
+Setiap frame diproses secara independen tanpa mempertimbangkan informasi temporal antar-frame. 
+Pendekatan ini menghasilkan keluaran berupa koordinat \textit{landmark} yang merepresentasikan posisi relatif bagian tubuh terhadap kamera. 
+Seluruh proses ekstraksi dilakukan secara otomatis dan real-time.
+
+MediaPipe Holistic menghasilkan beberapa kelompok \textit{landmark}, yaitu \textit{pose}, tangan kiri, tangan kanan, dan wajah. 
+\textit{Landmark pose} merepresentasikan struktur tubuh bagian atas dan bawah, sedangkan \textit{landmark} tangan merepresentasikan struktur jari dan telapak tangan secara rinci. 
+\textit{Landmark wajah} juga diekstraksi untuk mencatat informasi ekspresi non-manual. 
+Tidak seluruh komponen \textit{landmark} yang dihasilkan digunakan pada tahap pemrosesan selanjutnya.
+
+Setiap \textit{landmark} direpresentasikan dalam bentuk koordinat tiga dimensi \textit{(x, y, z)} yang telah dinormalisasi relatif terhadap dimensi frame. 
+Koordinat \textit{x} dan \textit{y} merepresentasikan posisi pada bidang citra, sedangkan koordinat \textit{z} merepresentasikan kedalaman relatif terhadap kamera. 
+Seluruh koordinat \textit{landmark} disimpan dalam format berkas \textit{JSON} untuk setiap urutan video. 
+Format penyimpanan ini memudahkan proses pemanggilan ulang data pada tahap \textit{preprocessing} dan rekayasa fitur.
+
+% ------------------------------------------------
+% CATATAN:
+% - GAMBAR WAJIB:
+%   Frame video + overlay landmark MediaPipe
+% - TIDAK perlu tabel
+% ------------------------------------------------
+
+\subsubsection{Seleksi \textit{Landmark}}
+\label{subsubsec:seleksi-normalisasi}
+
+Seleksi \textit{landmark} dilakukan untuk memfokuskan representasi data pada titik-titik yang relevan. 
 Tidak seluruh \textit{landmark} hasil ekstraksi digunakan pada penelitian ini. 
-Seleksi \textit{landmark} dilakukan untuk memfokuskan representasi pada bagian tubuh yang relevan terhadap bahasa isyarat. 
-Koordinat kedalaman (\textit{z}) tidak digunakan karena estimasinya bersifat relatif dan kurang stabil. 
+Koordinat kedalaman tidak digunakan karena bersifat relatif dan kurang stabil. 
 Proses seleksi bertujuan untuk mengurangi kompleksitas data tanpa menghilangkan informasi gerakan utama.
+
+% ------------------------------------------------
+% CATATAN:
+% - TIDAK perlu tabel
+% - TIDAK perlu gambar
+% ------------------------------------------------
 
 \subsection{Rekayasa Fitur (\textit{Feature Engineering})}
 \subsubsection{Perhitungan Perubahan Antar-\textit{Frame}} \label{subsubsec:perhitungan-perubahan}
