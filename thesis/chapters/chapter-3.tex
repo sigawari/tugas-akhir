@@ -367,8 +367,24 @@ Ilustrasi ini bertujuan untuk memperlihatkan keluaran sistem ekstraksi sebelum t
 
 \subsection{Ilustrasi Pembentukan Tensor}
 \label{subsec:ilustrasi-tensor}
-Ilustrasi pembentukan tensor menunjukkan proses transformasi data \textit{landmark} menjadi format masukan model CNN.
-Data \textit{landmark multichannel} disusun ke dalam struktur tensor dengan urutan kanal-terlebih-dahulu.
-Ilustrasi ini memperlihatkan hubungan antara dimensi waktu, indeks \textit{landmark}, dan kanal fitur.
-Visualisasi tensor membantu memperjelas bagaimana data spasial multichannel diproses oleh CNN dua dimensi.
 
+Ilustrasi pembentukan tensor digunakan untuk memperjelas bagaimana representasi 
+\textit{landmark multichannel} disusun ke dalam format masukan model CNN.
+Fitur $(x, y, dx, dy)$ yang telah dibentuk pada tahap sebelumnya tidak lagi 
+dipandang sebagai nilai individual, tetapi sebagai kanal fitur dalam satu kesatuan tensor.
+Setiap urutan gerakan direpresentasikan sebagai tumpukan data dengan dimensi kanal, waktu, dan indeks \textit{landmark}.
+Struktur ini memastikan keterkaitan spasial dan temporal tetap terjaga saat diproses oleh CNN dua dimensi.
+
+Struktur tensor masukan CNN dengan format kanal-terlebih-dahulu 
+ditunjukkan pada Gambar \ref{fig:tensor-illustration}.
+Diagram tersebut memperlihatkan hubungan antara kanal fitur, dimensi waktu,
+dan indeks \textit{landmark} dalam satu representasi terpadu.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figure/chapter-2-infrastructure-diagram.png}
+	\caption{Ilustrasi struktur tensor masukan CNN dengan format $(C \times T \times L)$}
+	\label{fig:tensor-illustration}
+	{\footnotesize Sumber: dokumentasi penelitian}
+  \end{figure}
+  
