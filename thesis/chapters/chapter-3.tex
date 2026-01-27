@@ -142,10 +142,25 @@ Format penyimpanan ini memudahkan proses pemanggilan ulang data pada tahap \text
 \subsubsection{Seleksi \textit{Landmark}}
 \label{subsubsec:seleksi-normalisasi}
 
-Seleksi \textit{landmark} dilakukan untuk memfokuskan representasi data pada titik-titik yang relevan. 
-Tidak seluruh \textit{landmark} hasil ekstraksi digunakan pada penelitian ini. 
-Koordinat kedalaman tidak digunakan karena bersifat relatif dan kurang stabil. 
-Proses seleksi bertujuan untuk mengurangi kompleksitas data tanpa menghilangkan informasi gerakan utama.
+Seleksi \textit{landmark} dilakukan untuk memfokuskan representasi data pada titik-titik yang relevan terhadap pengenalan gerakan bahasa isyarat. 
+Tidak seluruh \textit{landmark} hasil ekstraksi MediaPipe Holistic digunakan pada tahap pemrosesan selanjutnya. 
+Penelitian ini memprioritaskan \textit{landmark} tubuh bagian atas dan tangan karena komponen tersebut merepresentasikan informasi utama dalam bahasa isyarat. 
+Pendekatan ini bertujuan untuk menyederhanakan representasi data tanpa menghilangkan informasi gerakan yang esensial.
+
+MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk tiga dimensi \textit{(x, y, z)}. 
+Koordinat \textit{z} merepresentasikan informasi kedalaman relatif yang diestimasi dari kamera monokular. 
+Estimasi kedalaman dari kamera tunggal bersifat tidak stabil dan sangat dipengaruhi oleh sudut pandang, kemiringan tubuh, serta perubahan postur ekstrem. 
+Studi oleh Lin et al. menunjukkan bahwa nilai \textit{z} pada MediaPipe memerlukan koreksi tambahan yang kompleks agar dapat digunakan secara akurat \cite{lin2023detection}.
+
+Berdasarkan pertimbangan tersebut, penelitian ini tidak menggunakan komponen koordinat \textit{z} pada tahap rekayasa fitur. 
+Representasi \textit{landmark} difokuskan pada koordinat dua dimensi \textit{(x, y)} yang memiliki tingkat kestabilan lebih tinggi. 
+Informasi dinamika gerakan selanjutnya ditangkap melalui perubahan posisi antar-frame. 
+Keputusan ini memungkinkan penyederhanaan struktur data sekaligus mengurangi kompleksitas komputasi.
+
+Selain itu, \textit{landmark} wajah tidak dimanfaatkan secara penuh pada penelitian ini. 
+Meskipun informasi ekspresi non-manual dicatat pada tahap ekstraksi, fokus penelitian diarahkan pada gerakan tangan dan tubuh sebagai pembawa makna utama isyarat. 
+Seleksi ini bertujuan untuk menghindari redundansi fitur dan meningkatkan efisiensi pemodelan. 
+Dengan proses seleksi ini, data yang digunakan memiliki representasi yang lebih ringkas dan relevan terhadap tujuan penelitian.
 
 % ------------------------------------------------
 % CATATAN:
@@ -154,14 +169,20 @@ Proses seleksi bertujuan untuk mengurangi kompleksitas data tanpa menghilangkan 
 % ------------------------------------------------
 
 \subsection{Rekayasa Fitur (\textit{Feature Engineering})}
-\subsubsection{Perhitungan Perubahan Antar-\textit{Frame}} \label{subsubsec:perhitungan-perubahan}
-Perubahan posisi \textit{landmark} antar-frame dihitung untuk menangkap dinamika gerakan. 
-Perhitungan dilakukan berdasarkan selisih koordinat dua frame berurutan. 
-Pendekatan ini memungkinkan informasi temporal direpresentasikan secara implisit. 
-Rumus perhitungan perubahan antar-frame mengikuti formulasi yang telah dijelaskan pada Bab II.
+Tahap rekayasa fitur bertujuan untuk membentuk representasi data yang sesuai dengan karakteristik model yang digunakan. 
+Rekayasa fitur dilakukan berdasarkan hasil ekstraksi \textit{landmark} yang telah melalui proses seleksi. 
+Pendekatan ini difokuskan pada pengodean dinamika gerakan secara ringkas dan terstruktur. 
+Seluruh proses rekayasa fitur dirancang agar kompatibel dengan model \textit{Convolutional Neural Network} dua dimensi.
+
+\subsubsection{Perhitungan Perubahan Antar-\textit{Frame}}
+\label{subsubsec:perhitungan-perubahan}
+Perubahan posisi \textit{landmark} antar-frame dihitung untuk menangkap dinamika gerakan bahasa isyarat. 
+Perhitungan dilakukan berdasarkan selisih koordinat \textit{landmark} pada dua frame berurutan. 
+Pendekatan ini memungkinkan informasi temporal direpresentasikan secara implisit pada tingkat fitur. 
+Formulasi perhitungan perubahan antar-frame mengikuti pendekatan yang telah dijelaskan pada Bab II.
 
 \subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
-Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
+Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-multichannel-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua frame berurutan beserta perubahan posisinya. 
 Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
 Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
 Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
@@ -189,17 +210,58 @@ Seluruh \textit{landmark} pada setiap frame disusun secara berurutan membentuk r
 Representasi ini memungkinkan data gerakan diproses oleh CNN dua dimensi. 
 Ilustrasi representasi \textit{landmark multichannel} ditunjukkan pada Tabel \ref{tab:landmark-multichannel-example}.
 
-
-\subsection{Penyusunan Tensor Masukan CNN} \label{subsubsec:penyusunan-tensor}
+\subsection{Penyusunan Tensor Masukan CNN}
+\label{subsubsec:penyusunan-tensor}
 Representasi \textit{landmark multichannel} selanjutnya disusun ke dalam bentuk tensor masukan CNN. 
-Tensor masukan disusun mengikuti format kanal-terlebih-dahulu (\textit{channel-first}). 
-Struktur tensor disesuaikan dengan arsitektur CNN dua dimensi yang digunakan. 
-Penyusunan tensor ini menjadi penghubung antara tahap rekayasa fitur dan pemodelan.
+Tensor disusun mengikuti format kanal-terlebih-dahulu (\textit{channel-first}). 
+Struktur tensor disesuaikan dengan kebutuhan arsitektur CNN dua dimensi yang digunakan. 
+Tahap ini menjadi penghubung antara proses rekayasa fitur dan pemodelan.
 
-\subsection{Konfigurasi Model dan \textit{Hyperparameter}} \label{subsec:konfigurasi-model-hyperparameter}
+\subsection{Konfigurasi Model dan \textit{Hyperparameter}}
+\label{subsec:konfigurasi-model-hyperparameter}
+Konfigurasi model dan \textit{hyperparameter} ditetapkan untuk memastikan proses pelatihan berjalan secara konsisten dan adil. 
+Seluruh eksperimen menggunakan konfigurasi pelatihan yang sama untuk setiap model. 
+Pendekatan ini bertujuan untuk menjaga keadilan perbandingan performa antar model. 
+Parameter pelatihan ditentukan berdasarkan praktik umum pembelajaran mendalam.
+
 \subsubsection{Arsitektur ResNet-2D}
+Model yang digunakan pada penelitian ini adalah arsitektur ResNet dua dimensi. 
+Arsitektur ResNet dipilih karena kemampuannya mempelajari representasi fitur secara stabil pada jaringan yang relatif dalam. 
+Model dimodifikasi agar dapat menerima masukan multichannel. 
+Jumlah kelas keluaran disesuaikan dengan jumlah kelas isyarat pada dataset.
+
 \subsubsection{Modifikasi Input \textit{Channel}}
+Lapisan konvolusi awal pada model dimodifikasi agar dapat menerima masukan dengan empat kanal fitur. 
+Kanal masukan merepresentasikan koordinat posisi dan perubahan antar-frame \textit{landmark}. 
+Modifikasi ini memungkinkan arsitektur CNN memproses representasi non-RGB. 
+Struktur dasar arsitektur model tetap dipertahankan.
+
 \subsubsection{Konfigurasi \textit{Hyperparameter}}
+Konfigurasi \textit{hyperparameter} yang digunakan pada proses pelatihan ditunjukkan pada Tabel \ref{tab:hyperparameter}. 
+Seluruh eksperimen menggunakan konfigurasi yang sama untuk menjaga konsistensi dan keadilan perbandingan performa model.
+
+\begin{table}[H]
+	\centering
+	\caption{Konfigurasi \textit{hyperparameter} pelatihan model}
+	\label{tab:hyperparameter}
+	\begin{tabular}{|l|c|}
+	\hline
+	\textbf{Parameter} & \textbf{Nilai} \\ \hline
+	Optimizer & Adam \\ \hline
+	Learning rate & $1 \times 10^{-3}$ \\ \hline
+	Weight decay & $1 \times 10^{-3}$ \\ \hline
+	Batch size & Disesuaikan eksperimen \\ \hline
+	Jumlah epoch maksimum & Ditentukan eksperimen \\ \hline
+	Early stopping patience & 5 epoch \\ \hline
+	Scheduler & ReduceLROnPlateau \\ \hline
+	Fungsi loss & Cross-entropy \\ \hline
+	Seed pelatihan & Tetap \\ \hline
+	\end{tabular}
+	
+	\vspace{0.5em}
+	{\footnotesize Catatan: Seluruh konfigurasi digunakan secara konsisten pada setiap eksperimen untuk memastikan perbandingan performa yang adil.}
+	\end{table}
+	
 
 \section{Alat dan Bahan} \label{sec:alat-bahan}
 Dalam menjalani penelitian, beberapa alat dan bahan digunakan untuk memastikan penelitian berjalan dengan baik.\par
