@@ -24,10 +24,10 @@ CONTINUE_ON_ERROR = False    # True: kalau 1 run gagal, lanjut run berikutnya
 
 SPLIT_PATH = None
 
-# Daftar eksperimen yang MAU kamu jalankan (tidak auto run semua)
+# Daftar eksperimen 
 RUNS = [
     {
-        "model": "cnn2d",     # opsi: cnn2d | resnet18 | resnet34 | resnet50
+        "model": "resnet34",     # opsi: cnn2d | resnet18 | resnet34 | resnet50
         "variant": "full",       # opsi: pose | hands | noface | full
         "epochs": 50,
         "lr": 1e-5,
@@ -36,7 +36,7 @@ RUNS = [
         "weight_decay": 1e-4,
         "scheduler": "plateau",  # opsi: none | plateau | cosine
         "no_wandb": False,       
-        "run_name": "cnn_1e5",
+        "run_name": "resnet34_1e5",
     },
 
     # kalau mau bandingin 2 model dengan setup sama
