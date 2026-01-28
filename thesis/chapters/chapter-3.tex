@@ -3,7 +3,7 @@
 
 \section{Alur Penelitian} \label{sec:alur-penelitian}
 Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan dilakukan secara sistematis dan efisien. Alur penelitian ini mencerminkan langkah-langkah utama yang dilakukan pada penelitian ini, dapat dilihat pada Gambar \ref{fig:3.alur1} dan Gambar \ref{fig:3.alur2}. \par
-
+% Gambar jadi satu aja terus ringkas
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{figure/alur1.pdf}
@@ -39,13 +39,6 @@ Literatur yang dikaji mencakup pendekatan berbasis model sekuensial, pemanfaatan
 Kajian pustaka digunakan untuk mengidentifikasi celah penelitian yang belum banyak dieksplorasi. 
 Hasil studi literatur menjadi dasar perumusan arah penelitian dan pemilihan metode yang digunakan.
 
-% ------------------------------------------------
-% CATATAN:
-% - TIDAK perlu tabel atau gambar di subbab ini
-% - Semua tabel literatur sudah ditempatkan di Bab II
-% ------------------------------------------------
-
-
 \subsection{Pengumpulan Dataset}
 \label{subsec:pengumpulan-dataset}
 
@@ -58,6 +51,29 @@ Pengumpulan dataset dilakukan secara terkontrol untuk menjaga konsistensi antar-
 Variasi gerakan tetap diperhatikan agar data mencerminkan perbedaan alami dalam melakukan isyarat. 
 Dataset yang diperoleh kemudian digunakan sebagai dasar untuk proses akuisisi dan pengolahan data lebih lanjut. 
 Tahap ini memastikan ketersediaan data yang representatif sebelum memasuki tahap pemrosesan teknis.
+\begin{table}[H]
+	\centering
+	\caption{Ringkasan konfigurasi pengambilan dataset bahasa isyarat}
+	\label{tab:dataset-config}
+	\begin{tabular}{|l|c|}
+	\hline
+	\textbf{Parameter} & \textbf{Nilai} \\ \hline
+	Jumlah penutur & 1 orang (Tuli) \\ \hline
+	Jumlah kamera & 1 (webcam) \\ \hline
+	Resolusi perekaman awal & 1920 $\times$ 1080 (Full HD) \\ \hline
+	Laju pengambilan frame & 30 fps \\ \hline
+	Jumlah frame per sequence & 60 frame \\ \hline
+	Durasi satu sequence & $\sim$2 detik \\ \hline
+	Jumlah kata isyarat & 10 kata \\ \hline
+	Jumlah sequence per kata & 30 sequence \\ \hline
+	Total sequence awal & 300 sequence \\ \hline
+	Resolusi hasil augmentasi & 1920$\times$1080, 1280$\times$720, 854$\times$480 \\ \hline
+	Total sequence setelah augmentasi & 900 sequence \\ \hline
+	\end{tabular}
+	
+	\vspace{0.5em}
+	{\footnotesize Catatan: Setiap sequence direkam secara terpisah untuk menangkap variasi alami gerakan penutur.}
+\end{table}
 
 % ------------------------------------------------
 % CATATAN:
@@ -82,7 +98,7 @@ Video hasil akuisisi selanjutnya digunakan sebagai masukan pada tahap preprocess
 
 % ------------------------------------------------
 % CATATAN:
-% - GAMBAR BOLEH:
+% - GAMBAR BOLEH: Kasih contoh gambar nanti
 %   Diagram setup kamera atau contoh frame hasil rekaman
 % - TIDAK perlu tabel numerik detail
 % ------------------------------------------------
@@ -113,6 +129,7 @@ Contoh hasil penurunan resolusi pada tingkat menengah dan rendah ditunjukkan pad
 Perbedaan tingkat detail visual pada setiap resolusi menggambarkan variasi kualitas citra yang diterima oleh sistem ekstraksi \textit{landmark}.
 Ilustrasi ini digunakan untuk memberikan gambaran kondisi data masukan sebelum dilakukan ekstraksi \textit{landmark}.
 
+% Kasih tabel aja berapa resolusinya
 
 \subsubsection{Ekstraksi \textit{Landmark} MediaPipe Holistic}
 \label{subsubsec:ekstraksi-landmark}
@@ -134,7 +151,7 @@ Format penyimpanan ini memudahkan proses pemanggilan ulang data pada tahap \text
 
 % ------------------------------------------------
 % CATATAN:
-% - GAMBAR WAJIB:
+% - GAMBAR WAJIB: hasil ekstraksinya
 %   Frame video + overlay landmark MediaPipe
 % - TIDAK perlu tabel
 % ------------------------------------------------
