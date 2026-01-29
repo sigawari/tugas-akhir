@@ -1,9 +1,13 @@
 \newpage
 \chapter{METODE PENELITIAN} \label{Bab III}
 
-\section{Alur Penelitian} \label{sec:alur-penelitian}
-Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan dilakukan secara sistematis dan efisien. 
-Alur penelitian ini mencerminkan langkah-langkah utama yang dilakukan pada penelitian ini, dapat dilihat pada Gambar \ref{fig:3.alur}. \par
+\section{Alur Penelitian}
+\label{sec:alur-penelitian}
+
+Alur penelitian dirancang untuk memastikan setiap tahapan dilakukan secara sistematis dan saling terhubung.
+Proses penelitian dimulai dari studi literatur yang bertujuan untuk memperoleh landasan teori, metode, serta pendekatan yang relevan dengan permasalahan penelitian.
+Identifikasi masalah dilakukan berdasarkan hasil studi literatur untuk merumuskan tujuan dan ruang lingkup penelitian secara jelas.
+Gambaran keseluruhan alur penelitian yang digunakan diperlihatkan pada Gambar \ref{fig:3.alur}.
 
 \begin{figure}[H]
     \centering
@@ -11,6 +15,16 @@ Alur penelitian ini mencerminkan langkah-langkah utama yang dilakukan pada penel
     \caption{Alur Penelitian}
     \label{fig:3.alur}
 \end{figure}
+
+Tahapan selanjutnya meliputi pengumpulan dataset berupa video bahasa isyarat yang direkam secara mandiri.
+Data video yang diperoleh kemudian diproses pada tahap prapemrosesan untuk mengekstraksi \textit{landmark} dan menyiapkan data dalam format yang sesuai.
+Rekayasa fitur dilakukan untuk membentuk representasi spasial dan temporal yang dapat dimanfaatkan oleh model pembelajaran mendalam.
+Tahap pemodelan menggunakan CNN dua dimensi berbasis ResNet dilakukan untuk melatih model dalam mengenali pola bahasa isyarat.
+
+Proses pelatihan model dilakukan menggunakan data latih dengan konfigurasi \textit{hyperparameter} yang telah ditentukan.
+Model yang dihasilkan selanjutnya diuji dan dievaluasi menggunakan data uji untuk mengukur performa klasifikasi.
+Evaluasi dilakukan berdasarkan metrik performa yang relevan untuk memastikan kemampuan generalisasi model.
+Tahapan penelitian diakhiri dengan diperolehnya model klasifikasi bahasa isyarat yang siap dianalisis dan dibahas lebih lanjut.
 
 \section{Penjabaran Langkah Penelitian}
 \label{sec:jabar-alur}
@@ -38,16 +52,41 @@ Berdasarkan pendekatan ini, penelitian diharapkan dapat memberikan kontribusi ya
 
 \subsection{Pengumpulan Dataset}
 \label{subsec:pengumpulan-dataset}
+Pengumpulan dataset dilakukan untuk memperoleh data bahasa isyarat yang sesuai dengan kebutuhan penelitian. 
+Dataset dikumpulkan dalam bentuk rekaman video bahasa isyarat dengan skema \textit{isolated sign}, di mana setiap isyarat direkam secara terpisah dengan batas awal dan akhir yang jelas. 
+Pendekatan ini memudahkan proses segmentasi dan pelabelan data serta menjaga konsistensi antar-sampel.
+Akuisisi video dilakukan melalui perekaman langsung menggunakan perangkat kamera dengan pengaturan sudut pandang, pencahayaan, dan jarak yang terkontrol. 
+Pengaturan tersebut bertujuan untuk memastikan gerakan tangan dan tubuh terekam dengan jelas sehingga mendukung proses ekstraksi \textit{landmark}. 
 
-Tahap pengumpulan dataset dilakukan untuk memperoleh data bahasa isyarat yang sesuai dengan kebutuhan penelitian. 
-Dataset dikumpulkan dalam bentuk rekaman video bahasa isyarat dengan skema \textit{isolated sign}. 
-Setiap isyarat direkam secara terpisah dengan batas awal dan akhir yang jelas. 
-Pendekatan ini bertujuan untuk memudahkan proses segmentasi dan pelabelan data.
+Parameter teknis perekaman, termasuk resolusi dan laju pengambilan frame, dijaga konsisten pada seluruh sesi akuisisi data. 
+Pemilihan \textit{frame rate} sebesar 30 fps dilakukan untuk memastikan kualitas representasi temporal sekaligus menjaga efisiensi pemrosesan. 
+Studi pada pengenalan aksi menekankan pentingnya \textit{sampling rate} yang konsisten untuk menyamakan durasi observasi antar-sampel \cite{kulbacki2023intelligent}. 
+Pendekatan serupa juga banyak digunakan pada dataset dan sistem pengenalan bahasa isyarat untuk menyeimbangkan kualitas temporal dan efisiensi komputasi \cite{huang2022cbamautoencoder}.
 
-Pengumpulan dataset dilakukan secara terkontrol untuk menjaga konsistensi antar-sampel. 
-Variasi gerakan tetap diperhatikan agar data mencerminkan perbedaan alami dalam melakukan isyarat. 
-Dataset yang diperoleh kemudian digunakan sebagai dasar untuk proses akuisisi dan pengolahan data lebih lanjut. 
-Tahap ini memastikan ketersediaan data yang representatif sebelum memasuki tahap pemrosesan teknis.
+\subsubsection{Spesifikasi Dataset}
+\label{subsubsec:spesifikasi-data}
+
+Dataset yang digunakan pada penelitian ini terdiri dari sepuluh kelas kata isyarat BISINDO yang direkam secara terkontrol dalam skema \textit{isolated sign}. 
+Total data awal berjumlah 300 \textit{sequence} hasil perekaman langsung, sehingga setiap kelas direpresentasikan oleh 30 \textit{sequence} yang direkam secara terpisah. 
+Pendekatan ini memungkinkan setiap isyarat memiliki variasi alami tanpa tumpang tindih konteks antar-kata. 
+Struktur dataset tersebut dirancang untuk mendukung proses pembelajaran model klasifikasi berbasis urutan gerakan.
+
+Setiap \textit{sequence} diseragamkan memiliki panjang 60 frame dengan laju pengambilan 30 frame per detik. 
+Penyeragaman jumlah frame dilakukan untuk menjaga konsistensi temporal antar-sampel dan memudahkan pembentukan tensor masukan pada model. 
+Durasi sekitar dua detik per \textit{sequence} dinilai cukup untuk merepresentasikan satu unit isyarat secara utuh tanpa mengandung gerakan berlebih. 
+Pengaturan ini juga bertujuan untuk menyeimbangkan antara kelengkapan informasi temporal dan efisiensi komputasi selama pelatihan model.
+
+Pemilihan kata isyarat dalam dataset mempertimbangkan karakteristik visual dan linguistik bahasa isyarat, khususnya tingkat kemiripan antar-kelas. 
+Beberapa pasangan kata dipilih karena memiliki bentuk tangan dan pola gerakan yang serupa, sehingga menghadirkan tantangan klasifikasi yang realistis. 
+Pasangan kata \textit{tidak punya} dan \textit{belum} memiliki gerakan tangan yang mirip dengan perbedaan utama pada tempo gerakan dan unsur non-manual seperti \textit{mouthing}. 
+Pasangan kata lain seperti \textit{teman} dan \textit{sahabat} menunjukkan kesamaan gerakan dasar yang dibedakan oleh detail kontak tangan dan ekspresi wajah. 
+Pendekatan ini mendorong model untuk mempelajari perbedaan halus yang muncul dari dinamika gerakan dan ekspresi alami bahasa isyarat.
+
+Seluruh data bahasa isyarat direkam oleh satu penutur tuli yang merupakan anggota komunitas Pusbisindo Jawa Barat. 
+Pemilihan penutur bertujuan untuk menjaga keaslian penggunaan bahasa isyarat serta konsistensi gerakan antar-sampel. 
+Penggunaan satu penutur juga membantu meminimalkan variasi antar-individu yang tidak menjadi fokus penelitian ini. 
+Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan seperti pada Tabel \ref{tab:dataset-config}.
+
 \begin{table}[H]
 	\centering
 	\caption{Ringkasan konfigurasi pengambilan dataset bahasa isyarat}
@@ -64,35 +103,11 @@ Tahap ini memastikan ketersediaan data yang representatif sebelum memasuki tahap
 	Jumlah kata isyarat & 10 kata \\ \hline
 	Jumlah sequence per kata & 30 sequence \\ \hline
 	Total sequence awal & 300 sequence \\ \hline
-	Resolusi hasil augmentasi & 1920$\times$1080, 1280$\times$720, 854$\times$480 \\ \hline
-	Total sequence setelah augmentasi & 900 sequence \\ \hline
 	\end{tabular}
 	
 	\vspace{0.5em}
-	{\footnotesize Catatan: Setiap sequence direkam secara terpisah untuk menangkap variasi alami gerakan penutur.}
+	{\footnotesize Catatan: Setiap \textit{sequence} direkam secara terpisah untuk menangkap variasi alami gerakan penutur.}
 \end{table}
-
-\subsubsection{Akuisisi Video Bahasa Isyarat}
-\label{subsubsec:akusisi-data}
-
-Akuisisi video bahasa isyarat dilakukan melalui proses perekaman langsung menggunakan perangkat kamera. 
-Proses perekaman dilakukan dengan mempertimbangkan sudut pandang, pencahayaan, dan jarak kamera terhadap subjek. 
-Pengaturan tersebut bertujuan untuk memastikan gerakan tangan dan tubuh terekam dengan jelas. 
-Setiap video direkam dengan durasi yang cukup untuk merepresentasikan satu unit isyarat secara utuh.
-
-Parameter teknis seperti resolusi video dan laju pengambilan frame disesuaikan agar mendukung proses ekstraksi \textit{landmark}. 
-Konsistensi parameter perekaman dijaga pada seluruh sesi akuisisi data. 
-Langkah ini bertujuan untuk meminimalkan variasi teknis yang dapat memengaruhi kualitas data. 
-Video hasil akuisisi selanjutnya digunakan sebagai masukan pada tahap preprocessing.
-
-Ilustrasi input video menunjukkan contoh frame video bahasa isyarat yang digunakan sebagai masukan sistem.
-Video direkam menggunakan satu kamera dengan sudut pandang tetap dan latar belakang yang konsisten.
-Ilustrasi ini bertujuan untuk menggambarkan karakteristik visual data sebelum dilakukan pemrosesan lebih lanjut.
-Contoh frame input digunakan sebagai acuan visual untuk memahami tahapan ekstraksi \textit{landmark} berikutnya.
-
-\subsubsection{Spesifikasi Dataset}
-\label{subsubsec:spesifikasi-data}
-Dataset yang digunakan pada penelitian ini terdiri dari 10 kelas kata isyarat BISINDO. Total data awal berjumlah 300 \textit{sequence} hasil perekaman langsung, sehingga setiap kelas direpresentasikan oleh 30 \textit{sequence} yang direkam secara terpisah untuk menangkap variasi alami gerakan penutur. Panjang setiap \textit{sequence} diseragamkan menjadi 60 frame agar konsistensi temporal antar-sampel tetap terjaga dan memudahkan proses penyusunan masukan model. Informasi ringkasan konfigurasi pengambilan dataset, termasuk resolusi, laju frame, dan total \textit{sequence} sebelum serta sesudah augmentasi, ditunjukkan seperti pada Tabel \ref{tab:dataset-config}. 
 
 \subsection{Prapemrosesan Data dan Rekayasa Fitur}
 \label{subsec:prapemrosesan-rekayasa}
@@ -195,27 +210,64 @@ Dengan proses seleksi ini, data yang digunakan memiliki representasi yang lebih 
 
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:normalisasi-landmark}
-Normalisasi \textit{landmark} dilakukan untuk memastikan konsistensi skala dan posisi antar-sampel pada seluruh \textit{sequence}. Koordinat \textit{landmark} dari MediaPipe memang telah dinormalisasi relatif terhadap dimensi frame, namun variasi jarak subjek ke kamera dan perbedaan postur dapat membuat sebaran koordinat antar-video masih tidak seragam. Normalisasi ulang diterapkan pada tingkat \textit{sequence} agar representasi spasial lebih stabil dan perbedaan posisi global dapat ditekan tanpa menghilangkan pola gerakan relatif antar-\textit{landmark}. Proses ini bertujuan meningkatkan ketahanan fitur terhadap variasi pengambilan data sehingga model lebih fokus pada dinamika gerakan isyarat daripada pergeseran posisi subjek.
+
+Normalisasi \textit{landmark} dilakukan untuk menyamakan representasi spasial antar-sampel dan mengurangi pengaruh pergeseran posisi global subjek di dalam frame.
+Meskipun koordinat \textit{landmark} hasil ekstraksi MediaPipe telah berada pada rentang $[0,1]$, nilai tersebut masih dipengaruhi oleh posisi tubuh subjek terhadap kamera.
+Oleh karena itu, normalisasi ulang diterapkan pada tingkat \textit{sequence} agar model lebih berfokus pada pola gerakan relatif dibandingkan posisi absolut.
+
+Misalkan sebuah \textit{sequence} terdiri dari $T$ frame dengan $L$ titik \textit{landmark}.
+Koordinat \textit{landmark} ke-$i$ pada frame ke-$t$ dinyatakan sebagai $(x_{t,i}, y_{t,i})$.
+Salah satu titik \textit{landmark} dipilih sebagai titik referensi $(x_{t,r}, y_{t,r})$, yang merepresentasikan pusat tubuh atau titik stabil tertentu.
+Normalisasi koordinat dilakukan dengan persamaan: \par
+\begin{equationcaptioned}[eq:normalize]{
+\begin{aligned}
+\hat{x}_{t,i} &= x_{t,i} - x_{t,r} \\
+\hat{y}_{t,i} &= y_{t,i} - y_{t,r}
+\end{aligned}
+}{
+Normalisasi koordinat \textit{landmark} terhadap titik referensi
+}
+\end{equationcaptioned} \par
+Pendekatan ini memusatkan seluruh koordinat \textit{landmark} terhadap titik referensi sehingga variasi posisi global antar-sampel dapat ditekan.
+Hubungan spasial dan struktur relatif antar-\textit{landmark} tetap terjaga karena operasi normalisasi diterapkan secara seragam pada setiap frame.
+Selain itu, urutan temporal \textit{sequence} tidak mengalami perubahan sehingga dinamika gerakan bahasa isyarat tetap dipertahankan.
+
+Normalisasi ini membantu meningkatkan stabilitas fitur serta ketahanan model terhadap variasi posisi subjek dan kondisi perekaman.
+Dengan demikian, fitur yang dihasilkan lebih representatif terhadap karakteristik gerakan isyarat yang menjadi fokus utama pembelajaran model.
 
 \subsubsection{Augmentasi \textit{Landmark} dan Temporal}
 \label{subsubsec:augmentasi-landmark-temporal}
-Augmentasi \textit{landmark} dan temporal dilakukan untuk meningkatkan ketahanan model terhadap variasi data serta memperkaya distribusi data pelatihan.
-Berbeda dengan augmentasi berbasis citra, augmentasi pada penelitian ini difokuskan pada domain \textit{landmark} dan \textit{sequence} temporal, sehingga tidak bergantung pada perubahan resolusi video.
 
-Augmentasi \textit{landmark} diterapkan dengan memberikan perturbasi spasial terkendali pada koordinat \textit{landmark}, seperti penambahan \textit{noise} kecil, penskalaan, dan pergeseran global.
-Pendekatan ini bertujuan untuk mensimulasikan variasi kondisi perekaman, perbedaan posisi subjek, serta ketidakstabilan deteksi \textit{landmark} yang dapat terjadi pada penggunaan perangkat yang berbeda.
+Augmentasi \textit{landmark} dan temporal diterapkan untuk meningkatkan ketahanan model terhadap variasi data yang timbul akibat perbedaan karakteristik perangkat perekaman dan kondisi lingkungan.
+Variasi tersebut mencakup perbedaan posisi relatif subjek terhadap kamera, sudut pandang, kestabilan perekaman, serta fluktuasi kualitas deteksi \textit{landmark}.
+Pendekatan augmentasi difokuskan pada domain koordinat \textit{landmark} dan urutan temporal sehingga tetap relevan dengan representasi gerakan bahasa isyarat.
+Seluruh strategi augmentasi dirancang agar tidak mengubah makna semantik dari isyarat yang direpresentasikan.
 
-Selain itu, augmentasi temporal diterapkan untuk mensimulasikan variasi tempo gerakan isyarat.
-Strategi yang digunakan meliputi pengurangan sebagian frame dan penyesuaian durasi \textit{sequence} secara terbatas, tanpa mengubah urutan gerakan.
-Dengan demikian, struktur temporal \textit{sequence} tetap terjaga, sementara model dilatih agar lebih toleran terhadap perbedaan kecepatan dan ritme gerakan.
+Augmentasi \textit{landmark} dilakukan melalui pemberian perturbasi spasial terkendali pada koordinat titik-titik \textit{landmark}.
+Bentuk augmentasi yang diterapkan meliputi penambahan \textit{noise} berskala kecil, penskalaan koordinat secara global, serta pergeseran posisi yang seragam.
+Pendekatan ini mensimulasikan variasi posisi tubuh dan tangan serta ketidakstabilan deteksi yang umum terjadi pada kondisi perekaman nyata.
+Besaran perturbasi dibatasi agar struktur geometris gerakan tetap konsisten dan tidak mengganggu interpretasi isyarat.
 
-Pendekatan augmentasi ini membantu mengurangi risiko \textit{overfitting}, khususnya karena jumlah subjek dalam dataset penelitian bersifat terbatas, sekaligus meningkatkan kemampuan generalisasi model terhadap variasi data yang wajar.
+Augmentasi temporal diterapkan untuk merepresentasikan variasi tempo dan ritme gerakan bahasa isyarat.
+Strategi yang digunakan mencakup pengurangan sebagian frame dan penyesuaian durasi \textit{sequence} secara terbatas tanpa mengubah urutan gerakan.
+Dengan demikian, struktur temporal \textit{sequence} tetap terjaga dan dinamika gerakan tidak terdistorsi selama proses pelatihan.
+
+Penerapan augmentasi \textit{landmark} dan temporal berkontribusi dalam mengurangi risiko \textit{overfitting}, khususnya karena jumlah subjek pada dataset penelitian bersifat terbatas.
+Model dilatih untuk mengenali pola gerakan yang konsisten meskipun terjadi variasi kecil pada posisi, tempo, dan kestabilan gerakan.
+Pendekatan ini mendukung peningkatan kemampuan generalisasi model pada skenario penggunaan nyata.
+
 
 \subsubsection{Perhitungan Perubahan Antar-\textit{Frame}}
 \label{subsubsec:perhitungan-perubahan}
-Perubahan posisi \textit{landmark} antar-frame dihitung untuk menangkap dinamika gerakan bahasa isyarat. 
-Perhitungan dilakukan berdasarkan selisih koordinat \textit{landmark} pada dua frame berurutan. 
-Pendekatan ini memungkinkan informasi temporal direpresentasikan secara implisit pada tingkat fitur. 
+
+Perubahan posisi \textit{landmark} antar-frame dihitung untuk menangkap dinamika gerakan bahasa isyarat secara implisit.
+Perhitungan dilakukan berdasarkan selisih koordinat \textit{landmark} pada dua frame berurutan dalam satu \textit{sequence}.
+Pendekatan ini memungkinkan informasi temporal direpresentasikan tanpa membangun pemodelan sekuensial eksplisit.
+
+Perubahan posisi antar-frame dihitung menggunakan formulasi yang telah dijelaskan pada Persamaan \ref{eq:dxdy}.
+
+Nilai $dx$ dan $dy$ merepresentasikan arah serta besaran pergerakan \textit{landmark} dari satu frame ke frame berikutnya.
+Informasi ini digunakan sebagai fitur tambahan untuk melengkapi representasi spasial dua dimensi.
 Formulasi perhitungan perubahan antar-frame mengikuti pendekatan yang telah dijelaskan pada Bab II.
 
 \subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
@@ -230,7 +282,7 @@ Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pa
   \label{tab:landmark-multichannel-example}
   \begin{tabular}{|c|c|l|c|c|c|c|}
   \hline
-  \textbf{Frame} & \textbf{Indeks} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
+  \textbf{Frame (T)} & \textbf{Indeks (L)} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
   $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
   $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
   $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
