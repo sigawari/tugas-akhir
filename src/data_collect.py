@@ -5,7 +5,7 @@
 #   data/raw/<kata>/data_video/sequence_X.mp4
 
 import cv2
-import mediapipe as mp
+import collect_photo as mp
 import json
 import time
 from pathlib import Path

@@ -47,51 +47,6 @@ class Basic2DCNN(nn.Module):
         z = self.features(x)
         return self.classifier(z)
 
-
-class CNN2DBaseline(nn.Module):
-    """
-    Baseline CNN 2D sederhana untuk input (B, 4, T, L).
-    Tujuan: jadi pembanding "CNN biasa" vs ResNet.
-    """
-    def __init__(
-        self,
-        num_classes: int,
-        in_channels: int = 4,
-        channels: Optional[List[int]] = None,
-        dropout: float = 0.5,
-        **kwargs: Any,
-    ) -> None:
-        super().__init__()
-
-        self.features = nn.Sequential(
-            # (B, 4, T, L)
-            nn.Conv2d(in_channels, 32, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(32),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/2, L/2)
-
-            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/4, L/4)
-
-            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(128),
-            nn.ReLU(inplace=True),
-
-            nn.AdaptiveAvgPool2d((1, 1)),  # (B, 128, 1, 1)
-        )
-
-        self.classifier = nn.Sequential(
-            nn.Dropout(p=dropout),
-            nn.Linear(128, num_classes),
-        )
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        z = self.features(x)
-        return self.classifier(z)
-
-
 def _make_resnet_backbone(kind: str, num_classes: int, in_channels: int) -> nn.Module:
     if kind == "resnet18":
         backbone = resnet18(weights=None)

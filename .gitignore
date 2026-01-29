@@ -39,3 +39,6 @@ archive/
 *.zip
 *.tar
 *.tar.gz
+
+# 10. Photo folder
+/photo

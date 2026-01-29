@@ -10,7 +10,7 @@ from typing import Dict, Any, List
 from collections import deque
 
 import cv2
-import mediapipe as mp
+import collect_photo as mp
 import numpy as np
 import torch
 

@@ -135,6 +135,19 @@ def show_first_landmark(dir_path: Path, channels: Optional[int] = None) -> None:
         print(first)
         print("Interpretasi per 4 angka: [x, y, dx, dy]")
 
+        # cek frame ke-5
+        t = 25
+        j = 0  # landmark 0
+
+        idx = j * 4
+        vec = X[0, t, idx:idx+4]
+
+        print(f"\nFrame {t}, landmark {j}:")
+        print("x :", vec[0])
+        print("y :", vec[1])
+        print("dx:", vec[2])
+        print("dy:", vec[3])
+
     else:  # C == 5
         x, y, dx, dy, mask = vec[0:5]
         print("\nFitur landmark #0:")
