@@ -85,8 +85,6 @@ Konsistensi parameter perekaman dijaga pada seluruh sesi akuisisi data.
 Langkah ini bertujuan untuk meminimalkan variasi teknis yang dapat memengaruhi kualitas data. 
 Video hasil akuisisi selanjutnya digunakan sebagai masukan pada tahap preprocessing.
 
-\paragraph{Ilustrasi Input Video}
-\label{subsec:ilustrasi-input}
 Ilustrasi input video menunjukkan contoh frame video bahasa isyarat yang digunakan sebagai masukan sistem.
 Video direkam menggunakan satu kamera dengan sudut pandang tetap dan latar belakang yang konsisten.
 Ilustrasi ini bertujuan untuk menggambarkan karakteristik visual data sebelum dilakukan pemrosesan lebih lanjut.
@@ -94,6 +92,7 @@ Contoh frame input digunakan sebagai acuan visual untuk memahami tahapan ekstrak
 
 \subsubsection{Spesifikasi Dataset}
 \label{subsubsec:spesifikasi-data}
+Dataset yang digunakan pada penelitian ini terdiri dari 10 kelas kata isyarat BISINDO. Total data awal berjumlah 300 \textit{sequence} hasil perekaman langsung, sehingga setiap kelas direpresentasikan oleh 30 \textit{sequence} yang direkam secara terpisah untuk menangkap variasi alami gerakan penutur. Panjang setiap \textit{sequence} diseragamkan menjadi 60 frame agar konsistensi temporal antar-sampel tetap terjaga dan memudahkan proses penyusunan masukan model. Informasi ringkasan konfigurasi pengambilan dataset, termasuk resolusi, laju frame, dan total \textit{sequence} sebelum serta sesudah augmentasi, ditunjukkan seperti pada Tabel \ref{tab:dataset-config}. 
 
 \subsection{Prapemrosesan Data dan Rekayasa Fitur}
 \label{subsec:prapemrosesan-rekayasa}
@@ -103,10 +102,15 @@ Preprocessing difokuskan pada penyesuaian format data dan ekstraksi informasi vi
 Tahapan ini memastikan data berada dalam kondisi yang konsisten dan siap diproses lebih lanjut. 
 Proses preprocessing dilakukan secara berurutan untuk menjaga integritas data.
 
+Alur prapemrosesan dan rekayasa fitur pada penelitian ini diringkas seperti pada Gambar \ref{fig:3.prapemrosesan}. 
+Diagram tersebut memperlihatkan keterkaitan tahapan mulai dari masukan video, proses ekstraksi \textit{landmark}, seleksi dan normalisasi koordinat, hingga pembentukan representasi fitur yang siap digunakan sebagai masukan model. 
+Urutan proses pada diagram digunakan sebagai acuan agar setiap tahap dapat dilakukan secara konsisten pada seluruh \textit{sequence}. 
+Penyajian alur dalam bentuk diagram juga membantu memastikan batasan antara tahap persiapan data dan tahap pelatihan model tetap jelas.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.83\textwidth]{figure/prapemrosesan.pdf}
-    \caption{Tahap Prapemrosesan Data}
+    \includegraphics[width=0.83\textwidth]{figure/pre-rekayasa.pdf}
+    \caption{Alur Tahap Prapemrosesan Data dan Rekayasa}
     \label{fig:3.prapemrosesan}
 \end{figure} \par
 
@@ -128,12 +132,10 @@ Koordinat \textit{x} dan \textit{y} merepresentasikan posisi pada bidang citra, 
 Seluruh koordinat \textit{landmark} disimpan dalam format berkas \textit{JSON} untuk setiap urutan video. 
 Format penyimpanan ini memudahkan proses pemanggilan ulang data pada tahap \textit{preprocessing} dan rekayasa fitur.
 
-\paragraph{Ilustrasi Ekstraksi \textit{Landmark}}
-\label{subsec:ilustrasi-ekstraksi}
-Ilustrasi ekstraksi \textit{landmark} menampilkan hasil pendeteksian titik-titik kunci tubuh manusia pada frame video.
-Proses ekstraksi dilakukan menggunakan MediaPipe Holistic untuk memperoleh representasi posisi tubuh dan tangan.
-\textit{Landmark} divisualisasikan sebagai titik dan garis penghubung yang merepresentasikan struktur tubuh.
-Ilustrasi ini bertujuan untuk memperlihatkan keluaran sistem ekstraksi sebelum tahap rekayasa fitur.
+Gambar \ref{fig:3.ekstraksi_landmark} menampilkan contoh keluaran proses ekstraksi berupa titik dan garis penghubung \textit{landmark} pada satu frame. 
+Visualisasi tersebut memberikan gambaran bahwa sistem mampu melokalisasi bagian tubuh yang relevan, khususnya tangan dan tubuh bagian atas, sebagai komponen utama pembawa informasi isyarat. 
+Bentuk visual ini digunakan untuk memvalidasi kualitas ekstraksi secara kualitatif sebelum data disimpan dalam format numerik. 
+Hasil ekstraksi pada tahap ini menjadi dasar bagi proses seleksi \textit{landmark} dan pembentukan fitur pada tahap berikutnya.
 
 \begin{figure}[H]
     \centering
@@ -142,9 +144,35 @@ Ilustrasi ini bertujuan untuk memperlihatkan keluaran sistem ekstraksi sebelum t
     \label{fig:3.ekstraksi_landmark}
 \end{figure} \par
 
+Proses ekstraksi \textit{landmark} pada penelitian ini bertujuan untuk mengubah data mentah berupa frame video menjadi representasi titik-titik kunci tubuh manusia.
+Data mentah yang digunakan berupa citra RGB dengan resolusi tinggi. 
+Hasil ekstraksi berupa skeleton yang mencakup \textit{landmark} wajah, pose, dan tangan. 
+Pada Gambar \ref{fig:3.before_after_extraction}, ilustrasi sebelum dan sesudah ekstraksi ditampilkan untuk memberikan gambaran visual mengenai proses ini.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figure/raw.png}
+		\caption{Sebelum Ekstraksi}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figure/extracted.png}
+		\caption{Sesudah Ekstraksi}
+	\end{subfigure}
+	\caption{Ilustrasi Proses Ekstraksi \textit{Landmark} pada Satu Frame}
+	\label{fig:3.before_after_extraction}
+\end{figure}
+
+Gambar \ref{fig:3.before_after_extraction} memperlihatkan perbedaan antara data mentah dan hasil ekstraksi.
+Citra sebelah kiri menunjukkan frame video asli sebelum diproses. 
+Citra sebelah kanan menampilkan skeleton hasil ekstraksi yang terdiri dari \textit{landmark} wajah, pose, dan tangan. 
+Representasi ini menjadi dasar untuk proses rekayasa fitur pada tahap berikutnya.
+
 \subsubsection{Seleksi \textit{Landmark} dan Fitur}
 \label{subsubsec:seleksi-normalisasi}
-
 Seleksi \textit{landmark} dilakukan untuk memfokuskan representasi data pada titik-titik yang relevan terhadap pengenalan gerakan bahasa isyarat. 
 Tidak seluruh \textit{landmark} hasil ekstraksi MediaPipe Holistic digunakan pada tahap pemrosesan selanjutnya. 
 Penelitian ini memprioritaskan \textit{landmark} tubuh bagian atas dan tangan karena komponen tersebut merepresentasikan informasi utama dalam bahasa isyarat. 
@@ -166,20 +194,22 @@ Seleksi ini bertujuan untuk menghindari redundansi fitur dan meningkatkan efisie
 Dengan proses seleksi ini, data yang digunakan memiliki representasi yang lebih ringkas dan relevan terhadap tujuan penelitian.
 
 \subsubsection{Normalisasi \textit{Landmark}}
+\label{subsubsec:normalisasi-landmark}
+Normalisasi \textit{landmark} dilakukan untuk memastikan konsistensi skala dan posisi antar-sampel pada seluruh \textit{sequence}. Koordinat \textit{landmark} dari MediaPipe memang telah dinormalisasi relatif terhadap dimensi frame, namun variasi jarak subjek ke kamera dan perbedaan postur dapat membuat sebaran koordinat antar-video masih tidak seragam. Normalisasi ulang diterapkan pada tingkat \textit{sequence} agar representasi spasial lebih stabil dan perbedaan posisi global dapat ditekan tanpa menghilangkan pola gerakan relatif antar-\textit{landmark}. Proses ini bertujuan meningkatkan ketahanan fitur terhadap variasi pengambilan data sehingga model lebih fokus pada dinamika gerakan isyarat daripada pergeseran posisi subjek.
 
 \subsubsection{Augmentasi \textit{Landmark} dan Temporal}
+\label{subsubsec:augmentasi-landmark-temporal}
+Augmentasi \textit{landmark} dan temporal dilakukan untuk meningkatkan ketahanan model terhadap variasi data serta memperkaya distribusi data pelatihan.
+Berbeda dengan augmentasi berbasis citra, augmentasi pada penelitian ini difokuskan pada domain \textit{landmark} dan \textit{sequence} temporal, sehingga tidak bergantung pada perubahan resolusi video.
 
-Tahap rekayasa fitur bertujuan untuk membentuk representasi data yang sesuai dengan karakteristik model yang digunakan. 
-Rekayasa fitur dilakukan berdasarkan hasil ekstraksi \textit{landmark} yang telah melalui proses seleksi. 
-Pendekatan ini difokuskan pada pengodean dinamika gerakan secara ringkas dan terstruktur. 
-Seluruh proses rekayasa fitur dirancang agar kompatibel dengan model \textit{Convolutional Neural Network} dua dimensi.
+Augmentasi \textit{landmark} diterapkan dengan memberikan perturbasi spasial terkendali pada koordinat \textit{landmark}, seperti penambahan \textit{noise} kecil, penskalaan, dan pergeseran global.
+Pendekatan ini bertujuan untuk mensimulasikan variasi kondisi perekaman, perbedaan posisi subjek, serta ketidakstabilan deteksi \textit{landmark} yang dapat terjadi pada penggunaan perangkat yang berbeda.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.83\textwidth]{figure/rekayasa_fitur.pdf}
-    \caption{Alur Rekayasa Fitur}
-    \label{fig:3.rekayasa_fitur}
-\end{figure} \par
+Selain itu, augmentasi temporal diterapkan untuk mensimulasikan variasi tempo gerakan isyarat.
+Strategi yang digunakan meliputi pengurangan sebagian frame dan penyesuaian durasi \textit{sequence} secara terbatas, tanpa mengubah urutan gerakan.
+Dengan demikian, struktur temporal \textit{sequence} tetap terjaga, sementara model dilatih agar lebih toleran terhadap perbedaan kecepatan dan ritme gerakan.
+
+Pendekatan augmentasi ini membantu mengurangi risiko \textit{overfitting}, khususnya karena jumlah subjek dalam dataset penelitian bersifat terbatas, sekaligus meningkatkan kemampuan generalisasi model terhadap variasi data yang wajar.
 
 \subsubsection{Perhitungan Perubahan Antar-\textit{Frame}}
 \label{subsubsec:perhitungan-perubahan}
@@ -224,8 +254,6 @@ Tensor disusun mengikuti format kanal-terlebih-dahulu (\textit{channel-first}).
 Struktur tensor disesuaikan dengan kebutuhan arsitektur CNN dua dimensi yang digunakan. 
 Tahap ini menjadi penghubung antara proses rekayasa fitur dan pemodelan.
 
-\subsubsection{Ilustrasi Pembentukan Tensor}
-\label{subsec:ilustrasi-tensor}
 Ilustrasi pembentukan tensor digunakan untuk memperjelas bagaimana representasi 
 \textit{landmark multichannel} disusun ke dalam format masukan model CNN.
 Fitur $(x, y, dx, dy)$ yang telah dibentuk pada tahap sebelumnya tidak lagi 
@@ -246,45 +274,69 @@ dan indeks \textit{landmark} dalam satu representasi terpadu.
 \end{figure} \par
 
 \subsection{Pelatihan Model ResNet-2D}
+Tahap pelatihan model bertujuan untuk mengoptimalkan parameter jaringan ResNet-2D sehingga mampu mengenali pola gerakan bahasa isyarat secara akurat.
+Proses ini mencakup inisialisasi model, konfigurasi \textit{hyperparameter}, dan prosedur pelatihan yang dilakukan secara bertahap.
+Penjelasan rinci mengenai setiap langkah pelatihan disajikan pada subbab berikut.
 \label{subsubsec:pelatihan-model}
 
 \subsubsection{Arsitektur ResNet-2D}
 \label{subsubsec:arsitektur-resnet}
 Model klasifikasi yang digunakan pada penelitian ini berbasis arsitektur \textit{Residual Network} (ResNet) dua dimensi.
-ResNet dipilih karena kemampuannya mempertahankan stabilitas pelatihan pada jaringan konvolusional yang memiliki kedalaman relatif besar.
-Arsitektur ini memanfaatkan mekanisme \textit{skip connection} untuk menjaga aliran gradien selama proses pembelajaran.
-Pendekatan tersebut memungkinkan model mempelajari representasi fitur spasial secara lebih efektif.
+Arsitektur ResNet dipilih karena kemampuannya menjaga stabilitas pelatihan pada jaringan konvolusional yang memiliki kedalaman relatif besar.
+Mekanisme \textit{skip connection} pada ResNet memungkinkan aliran gradien tetap terjaga selama proses pembelajaran berlangsung.
+Karakteristik tersebut menjadikan ResNet sesuai untuk mempelajari representasi fitur spasial dari data \textit{landmark} yang disusun dalam bentuk pseudo-citra dua dimensi.
 
-Gambaran umum arsitektur ResNet dua dimensi yang digunakan dalam penelitian ini ditunjukkan pada Gambar \ref{fig:resnet2d-architecture}.
-Model menerima masukan berupa tensor \textit{landmark multichannel} dan memprosesnya melalui beberapa lapisan konvolusi dua dimensi dan blok residual.
-Lapisan akhir arsitektur berupa \textit{fully connected layer} yang menghasilkan prediksi kelas isyarat.
-Jumlah neuron pada lapisan keluaran disesuaikan dengan jumlah kelas bahasa isyarat pada dataset yang digunakan.
+Gambaran umum arsitektur ResNet dua dimensi yang menjadi acuan dalam penelitian ini diperlihatkan pada Gambar \ref{fig:resnet2d-architecture}.
+Arsitektur tersebut menunjukkan struktur ResNet standar yang awalnya dirancang untuk memproses citra RGB dengan tiga kanal masukan.
+Model memanfaatkan serangkaian lapisan konvolusi dua dimensi dan blok residual untuk mengekstraksi fitur tingkat rendah hingga tingkat tinggi.
+Lapisan akhir berupa \textit{fully connected layer} digunakan untuk menghasilkan prediksi kelas berdasarkan fitur yang telah dipelajari.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.67\textwidth]{figure/resnet_rgb.pdf}
 	\caption{Arsitektur ResNet dua dimensi untuk klasifikasi gambar input RGB}
 	\label{fig:resnet2d-architecture}
 	{\footnotesize Sumber: Dokumentasi peneliti diadaptasi dari He et al. \cite{he2016resnet}}
-  \end{figure}
-  
-\paragraph{Ilustrasi Pemrosesan ResNet}
-\label{subsec:ilustrasi-resnet}
+\end{figure}
+
+Gambar \ref{fig:resnet2d-architecture} menggambarkan arsitektur ResNet konvensional yang digunakan sebagai dasar pengembangan model pada penelitian ini.
+Struktur tersebut mempertahankan susunan blok residual dan mekanisme \textit{skip connection} sebagaimana pada ResNet asli.
+Perbedaan utama pada penelitian ini terletak pada bentuk data masukan yang tidak berupa citra RGB.
+Penyesuaian terhadap jenis masukan dilakukan tanpa mengubah struktur dasar arsitektur ResNet.
+
+Ilustrasi pemrosesan data oleh model ResNet-2D yang telah dimodifikasi diperlihatkan pada Gambar \ref{fig:3.landresnet}.
+Gambar tersebut menunjukkan bagaimana data \textit{landmark} multichannel diperlakukan sebagai pseudo-citra dua dimensi.
+Representasi ini memungkinkan pemanfaatan lapisan konvolusi dua dimensi untuk mempelajari hubungan spasial dan temporal antar \textit{landmark}.
+Pendekatan ini tetap mempertahankan prinsip kerja ResNet sambil menyesuaikannya dengan karakteristik data non-RGB.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.97\textwidth]{figure/landresnet.pdf}
     \caption{Ilustrasi Pemrosesan oleh ResNet dengan Modifikasi Layer Input}
     \label{fig:3.landresnet}
-\end{figure} \par
+\end{figure}
+
+Gambar \ref{fig:3.landresnet} memperlihatkan alur pemrosesan data mulai dari tensor masukan hingga keluaran klasifikasi.
+Lapisan konvolusi awal dimodifikasi agar dapat menerima masukan multichannel yang merepresentasikan fitur \textit{landmark}.
+Blok residual tetap digunakan untuk menjaga stabilitas pembelajaran pada jaringan yang lebih dalam.
+Lapisan keluaran menghasilkan prediksi kelas bahasa isyarat sesuai dengan jumlah kelas pada dataset.
 
 \subsubsection{Modifikasi Input \textit{Channel}}
-Lapisan konvolusi awal pada model dimodifikasi agar dapat menerima masukan dengan empat kanal fitur. 
-Kanal masukan merepresentasikan koordinat posisi dan perubahan antar-frame \textit{landmark}. 
-Modifikasi ini memungkinkan arsitektur CNN memproses representasi non-RGB. 
-Struktur dasar arsitektur model tetap dipertahankan.
+Lapisan konvolusi awal pada model ResNet dimodifikasi agar dapat menerima masukan dengan empat kanal fitur.
+Keempat kanal tersebut merepresentasikan koordinat posisi \textit{landmark} dan perubahan antar-frame, yaitu $(x, y, dx, dy)$.
+Representasi ini memungkinkan model CNN memanfaatkan informasi spasial dan dinamika gerakan secara bersamaan.
+Struktur dasar arsitektur ResNet tetap dipertahankan sehingga karakteristik pembelajaran jaringan tidak berubah secara signifikan.
+
+Modifikasi pada lapisan masukan ini bertujuan untuk menyesuaikan arsitektur ResNet dengan data non-RGB.
+Pendekatan ini memungkinkan pemanfaatan kekuatan CNN dua dimensi pada data \textit{landmark} tanpa perlu merancang arsitektur baru dari awal.
+Pemrosesan pseudo-citra berbasis \textit{landmark} memberikan fleksibilitas dalam menangkap pola gerakan bahasa isyarat.
+Strategi ini juga menjaga kompatibilitas model dengan teknik pelatihan standar pada jaringan konvolusional.
 
 \subsubsection{Konfigurasi \textit{Hyperparameter}}
-Konfigurasi \textit{hyperparameter} yang digunakan pada proses pelatihan ditunjukkan pada Tabel \ref{tab:hyperparameter}. 
-Seluruh eksperimen menggunakan konfigurasi yang sama untuk menjaga konsistensi dan keadilan perbandingan performa model.
+Konfigurasi \textit{hyperparameter} yang digunakan pada proses pelatihan model ditunjukkan pada Tabel \ref{tab:hyperparameter}.
+Seluruh eksperimen menggunakan konfigurasi yang sama untuk menjaga konsistensi hasil dan keadilan dalam perbandingan performa antar model.
+Pemilihan nilai \textit{hyperparameter} didasarkan pada praktik umum pelatihan jaringan konvolusional dan hasil eksperimen pendahuluan.
+Pendekatan ini bertujuan untuk memperoleh keseimbangan antara kecepatan konvergensi dan stabilitas pelatihan.
 
 \begin{table}[H]
 	\centering
@@ -302,10 +354,26 @@ Seluruh eksperimen menggunakan konfigurasi yang sama untuk menjaga konsistensi d
 	\textit{Learning rate scheduler} & ReduceLROnPlateau \\ \hline
 	Fungsi \textit{loss} & Cross-Entropy \\ \hline
 	\end{tabular}
-	\end{table}
+\end{table}
+
+Tabel \ref{tab:hyperparameter} merangkum parameter utama yang digunakan selama proses pelatihan model.
+Nilai \textit{learning rate} dan \textit{weight decay} digunakan untuk mengatur proses optimasi agar tetap stabil.
+Mekanisme \textit{early stopping} diterapkan untuk mencegah terjadinya \textit{overfitting} pada data pelatihan.
+Penggunaan konfigurasi yang konsisten memastikan hasil eksperimen dapat dibandingkan secara objektif.
 
 \subsubsection{Prosedur Pelatihan Model}
 \label{subsubsec:prosedur-pelatihan}
+Prosedur pelatihan model dimulai dengan pemuatan data hasil rekayasa fitur ke dalam \textit{dataloader}.
+Data tersebut disusun dalam bentuk \textit{mini-batch} untuk data pelatihan dan data validasi.
+Model ResNet-2D yang telah dimodifikasi pada lapisan awal kemudian diinisialisasi dan ditempatkan pada perangkat komputasi yang digunakan.
+Proses optimasi parameter dilakukan menggunakan algoritma Adam sesuai dengan konfigurasi \textit{hyperparameter} yang telah ditetapkan.
+
+Pada setiap \textit{epoch}, model melakukan proses \textit{forward pass} untuk menghasilkan prediksi kelas bahasa isyarat.
+Nilai \textit{loss} dihitung menggunakan fungsi \textit{cross-entropy} sebagai ukuran kesalahan prediksi.
+Parameter jaringan diperbarui melalui mekanisme \textit{backpropagation}.
+Mekanisme \textit{early stopping} diterapkan berdasarkan nilai \textit{validation loss} untuk menghentikan pelatihan ketika tidak terjadi peningkatan performa dalam beberapa \textit{epoch} berturut-turut.
+Bobot model terbaik yang diperoleh selama pelatihan selanjutnya digunakan pada tahap evaluasi.
+
 
 \subsection{Evaluasi Model}
 Evaluasi performa model dilakukan untuk menilai kemampuan sistem dalam mengklasifikasikan isyarat bahasa isyarat secara akurat dan konsisten.
@@ -322,6 +390,7 @@ Temuan evaluasi selanjutnya dibahas secara rinci pada Bab IV.
 
 \subsubsection{Skema Evaluasi}
 \label{subsubsec:skema-evaluasi}
+Skema evaluasi dilakukan melalui pembagian dataset menjadi tiga subset, yaitu data pelatihan, data validasi, dan data uji. Data pelatihan digunakan untuk proses pembelajaran parameter model, sedangkan data validasi digunakan untuk memantau performa selama pelatihan sekaligus menjadi acuan pemilihan model terbaik. Data uji disimpan secara eksklusif dan hanya digunakan pada tahap akhir untuk mengukur performa generalisasi model terhadap data yang tidak pernah dilihat sebelumnya. Pembagian ini menjaga objektivitas evaluasi dan memastikan metrik yang dilaporkan mencerminkan kemampuan model pada kondisi penggunaan yang realistis.
 
 \subsubsection{Metrik Evaluasi}
 \label{subsubsec:metrik-evaluasi}
@@ -335,7 +404,6 @@ Recall mengukur kemampuan model dalam mendeteksi seluruh sampel positif yang ter
 F1-score digunakan sebagai ukuran harmonis antara precision dan recall.
 Pada penelitian ini, evaluasi difokuskan pada nilai F1-score makro dan tertimbang untuk memastikan performa model konsisten pada seluruh kelas.
 
-
 \subsubsection{Prosedur Pengujian}
 \label{subsubsec:prosedur-pengujian}
 Prosedur pengujian dilakukan setelah proses pelatihan model selesai dan model terbaik diperoleh.
@@ -347,35 +415,84 @@ Seluruh sampel pada data uji dievaluasi tanpa augmentasi tambahan.
 Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi.
 Hasil pengujian selanjutnya digunakan sebagai dasar analisis performa model pada Bab IV.
 
+\section{Alat dan Bahan}
+\label{sec:alat-bahan}
+Penelitian ini menggunakan berbagai alat dan bahan untuk mendukung seluruh tahapan penelitian, mulai dari akuisisi data, prapemrosesan, rekayasa fitur, pelatihan model, hingga evaluasi hasil.
+Pemilihan alat dilakukan dengan mempertimbangkan kompatibilitas, stabilitas, serta kemudahan integrasi antar komponen.
+Seluruh alat yang digunakan bersifat umum dan dapat direplikasi pada lingkungan penelitian serupa.
+Rincian alat utama yang digunakan dalam penelitian ini dijelaskan pada subseksi berikut.
 
-\section{Alat dan Bahan} \label{sec:alat-bahan}
-Dalam menjalani penelitian, beberapa alat dan bahan digunakan untuk memastikan penelitian berjalan dengan baik.\par
-\subsection{Alat} \label{subsec:alat}
-Perangkat lunak dan pustaka pemrograman yang digunakan dalam penelitian ini berperan pada tahapan akuisisi data, ekstraksi \textit{landmark}, rekayasa fitur, pelatihan model, dan evaluasi hasil.
-Daftar alat yang digunakan adalah sebagai berikut:
-\begin{enumerate}[noitemsep]
-	\item \textit{Visual Studio Code}, digunakan sebagai \textit{code editor} untuk pengembangan dan pengelolaan kode program.
-	\item Python versi 3.12.5, digunakan sebagai bahasa pemrograman utama dalam seluruh proses penelitian.
-	\item OpenCV versi 4.10.0.84, digunakan untuk pemrosesan video, pengambilan frame, serta manipulasi resolusi video.
-	\item NumPy versi 2.1.1, digunakan untuk operasi numerik dan pengolahan data berbasis matriks.
-	\item MediaPipe versi 0.10.14, digunakan untuk ekstraksi \textit{landmark} tubuh, tangan, dan wajah dari data video.
-	\item SciPy versi 1.12.0, digunakan untuk mendukung komputasi ilmiah dan pemrosesan data tambahan.
-	\item Matplotlib versi 3.8.3, digunakan untuk visualisasi data dan hasil evaluasi model.
-	\item PyTorch, digunakan sebagai kerangka kerja pembelajaran mendalam untuk implementasi dan pelatihan model CNN dua dimensi.
-	\item Weights \& Biases (W\&B), digunakan untuk pemantauan proses pelatihan model dan pencatatan metrik eksperimen.
-\end{enumerate}
+\subsection{Alat}
+\label{subsec:alat}
+Perangkat lunak, pustaka, dan perangkat keras yang digunakan pada penelitian ini mendukung seluruh tahapan pemrosesan data dan pemodelan.
+Penggunaan alat dilakukan secara terintegrasi untuk memastikan alur penelitian berjalan secara sistematis dan konsisten.
+Setiap alat memiliki peran spesifik yang saling melengkapi dalam membangun sistem penerjemahan bahasa isyarat berbasis \textit{landmark}.
+Ringkasan alat yang digunakan pada penelitian ini disajikan dalam bentuk tabel panjang seperti diperlihatkan pada Tabel \ref{tab:alat-penelitian}.
 
-\subsection{Bahan} \label{subsec:bahan}
-Bahan yang digunakan dalam penelitian ini berupa data video bahasa isyarat serta data turunan hasil pengolahan dari video tersebut.
-Dataset disusun secara mandiri dengan proses perekaman menggunakan satu kamera dan satu subjek tuli sebagai peraga bahasa isyarat.
+\renewcommand{\arraystretch}{1.2} % Spasi antar baris
+\setlength{\tabcolsep}{2pt} % Jarak antar kolom
 
-Data video direkam dalam resolusi tinggi untuk menjaga kejelasan gerakan dan memaksimalkan akurasi ekstraksi \textit{landmark}.
-Selanjutnya, variasi resolusi video dihasilkan melalui proses \textit{downscaling} sebagai bentuk augmentasi data.
-Pendekatan ini digunakan untuk mensimulasikan perbedaan kualitas perangkat perekaman serta meningkatkan keragaman data tanpa menambah jumlah pengambilan video secara langsung.
+\begin{longtable}{|>{\centering\arraybackslash}m{0.32\textwidth}|>{\raggedright\arraybackslash}m{0.6\textwidth}|}
+\caption{Ringkasan Alat yang Digunakan dalam Penelitian}
+\label{tab:alat-penelitian} \\
 
-Selain data video mentah, bahan penelitian juga mencakup data \textit{landmark} hasil ekstraksi MediaPipe Holistic.
-Data \textit{landmark} tersebut berupa koordinat titik-titik kunci tubuh dan tangan yang direpresentasikan dalam format numerik.
-Data hasil ekstraksi selanjutnya digunakan sebagai masukan pada tahap rekayasa fitur dan pemodelan.
+\hline
+\textbf{\centering Alat} & \textbf{Peran dalam Penelitian} \\ 
+\hline
+\endfirsthead
 
-Proses pengurangan resolusi video dilakukan menggunakan perangkat lunak berbasis pemrosesan citra, yaitu OpenCV, dengan pengaturan resolusi yang terkontrol.
-Langkah ini bertujuan untuk memastikan bahwa variasi kualitas video dapat dianalisis secara sistematis tanpa mengubah konteks gerakan bahasa isyarat yang direkam.
+\hline
+\textbf{\centering Alat} & \textbf{Peran dalam Penelitian} \\ 
+\hline
+\endhead
+
+\centering Visual Studio Code &
+\textit{Code editor} yang digunakan untuk pengembangan, pengelolaan, dan pemeliharaan kode program penelitian. \\ 
+\hline
+
+\centering Python 3.12.5 &
+Bahasa pemrograman utama yang digunakan untuk implementasi seluruh proses, mulai dari prapemrosesan data hingga pelatihan dan evaluasi model. \\ 
+\hline
+
+\centering OpenCV 4.10.0.84 &
+Pustaka pemrosesan citra dan video yang digunakan untuk membaca video, manipulasi frame, serta kebutuhan pemrosesan visual pendukung. \\ 
+\hline
+
+\centering NumPy 2.1.1 &
+Pustaka komputasi numerik yang digunakan untuk pengolahan data \textit{landmark}, operasi matriks, dan manipulasi tensor fitur. \\ 
+\hline
+
+\centering MediaPipe 0.10.14 &
+Pustaka \textit{computer vision} yang digunakan untuk ekstraksi \textit{landmark} tubuh dan tangan menggunakan pendekatan Holistic. \\ 
+\hline
+
+\centering SciPy 1.12.0 &
+Pustaka komputasi ilmiah yang digunakan untuk mendukung pemrosesan data tambahan dan operasi matematis lanjutan. \\ 
+\hline
+
+\centering Matplotlib 3.8.3 &
+Pustaka visualisasi yang digunakan untuk menampilkan grafik performa pelatihan dan hasil evaluasi model. \\ 
+\hline
+
+\centering PyTorch &
+Kerangka kerja \textit{deep learning} yang digunakan untuk implementasi dan pelatihan model CNN dua dimensi berbasis ResNet-2D. \\ 
+\hline
+
+\centering Weights \& Biases (W\&B) &
+Platform pemantauan eksperimen yang digunakan untuk pencatatan metrik, visualisasi proses pelatihan, dan dokumentasi eksperimen. \\ 
+\hline
+
+\centering Webcam Logitech HD 1080p &
+Perangkat keras yang digunakan untuk merekam video bahasa isyarat sebagai sumber data utama penelitian. \\ 
+\hline
+
+\end{longtable}
+
+
+Tabel \ref{tab:alat-penelitian} menunjukkan bahwa seluruh alat yang digunakan mendukung pendekatan penelitian berbasis \textit{landmark}.
+Kombinasi perangkat lunak dan perangkat keras tersebut memungkinkan proses penelitian dilakukan secara efisien dan terkontrol.
+Penggunaan pustaka populer juga memudahkan reproduktibilitas hasil penelitian.
+Seluruh alat digunakan secara konsisten pada setiap tahapan eksperimen.
+\subsection{Bahan}
+\label{subsec:bahan}
+Bahan yang digunakan dalam penelitian ini berupa data video bahasa isyarat yang direkam secara mandiri. Video ini dihasilkan oleh satu penutur menggunakan satu perangkat kamera dengan skema \textit{isolated sign}. Data ini menjadi sumber utama untuk proses ekstraksi \textit{landmark}, rekayasa fitur, dan pelatihan model ResNet-2D.
