@@ -10,7 +10,7 @@ from typing import Dict, Any, List
 from collections import deque
 
 import cv2
-import collect_photo as mp
+import mediapipe as mp
 import numpy as np
 import torch
 
@@ -21,7 +21,7 @@ from utils import (
     get_device,
     read_json,
 )
-from models import ResNet2DSign
+from models import ResNet50
 
 
 SEQUENCE_LENGTH = 30
@@ -71,7 +71,7 @@ def main():
     parser.add_argument(
         "--ckpt",
         type=str,
-        default="checkpoints/resnet18_pose_best.pt",
+        default="checkpoints/resnet50/full/full_resnet50_lr1e-04_bs16_seed3_T30__best.pt",
         help="Path ke checkpoint model pose.",
     )
     parser.add_argument(
@@ -114,7 +114,7 @@ def main():
         raise FileNotFoundError(f"Checkpoint tidak ditemukan: {ckpt_path}")
 
     ckpt = torch.load(ckpt_path, map_location=device)
-    model = ResNet2DSign(num_classes=num_classes, in_channels=4)
+    model = ResNet50(num_classes=num_classes, in_channels=4)
     model.load_state_dict(ckpt["model_state"])
     model.to(device)
     model.eval()

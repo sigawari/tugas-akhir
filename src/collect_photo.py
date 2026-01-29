@@ -5,7 +5,6 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-# FIX: jangan self-import (collect_photo as mp). Import MediaPipe yang benar.
 import mediapipe as mp
 
 # ---------- Output folders (di luar src/) ----------

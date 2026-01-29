@@ -231,7 +231,7 @@ def main():
     print("Using checkpoint:", ckpt_path)
 
     ckpt = torch.load(ckpt_path, map_location=device)
-    model = ResNet2DSign(num_classes=num_classes, in_channels=4)
+    model = Basic2DCNN(num_classes=num_classes, in_channels=4)
     model.load_state_dict(ckpt["model_state"])
     model.to(device)
 

@@ -47,6 +47,7 @@ class Basic2DCNN(nn.Module):
         z = self.features(x)
         return self.classifier(z)
 
+
 def _make_resnet_backbone(kind: str, num_classes: int, in_channels: int) -> nn.Module:
     if kind == "resnet18":
         backbone = resnet18(weights=None)
