@@ -1,12 +1,21 @@
 \newpage
 \chapter{HASIL DAN PEMBAHASAN} \label{Bab IV}
 
-\section{Penggunaan Dataset} \label{IV.Penggunaan}
-Dataset yang digunakan pada penelitian ini merupakan dataset PURE. 
-\lipsum[1-2] % Menampilkan paragraf 1 sampai 2 dari lorem ipsum
+\section{Hasil Implementasi} \label{sec:hasil-implementasi}
+\subsection{Deskripsi Dataset dan Skenario Eksperimen}
+\subsection{Prapemrosesan Dataset}
+\subsubsection{Ekstraksi Landmark MediaPipe Holistic}
+\subsubsection{Seleksi dan Representasi Landmark}
+\subsubsection{Pembentukan Tensor Landmark Multichannel}
+\subsubsection{Pembagian Data untuk Evaluasi}
+\subsection{Implementasi Model ResNet-2D}
 
+\section{Evaluasi Hasil} \label{IV.Akuisisi}
+\subsection{Evaluasi Model ResNet-2D Berbasis Landmark} \label{IV.Akuisisi}
+\subsection{Evaluasi Variasi Kombinasi Landmark MediaPipe} \label{IV.Akuisisi}
+\subsection{Analisis Confusion Matrix dan Metrik Evaluasi} \label{IV.Akuisisi}
 
-\section{Akuisisi Gambar} \label{IV.Akuisisi}
+\section{Rangkuman Hasil Keseluruhan}
 Pada tahap ini, proses pembacaan dataset dilakukan dengan seksama untuk memastikan setiap gambar diperoleh dengan urutan yang benar dan sistematis. Penting untuk memastikan bahwa gambar yang diperoleh terurut dalam format \textit{time-series} agar memudahkan analisis pergerakan wajah yang terjadi dalam video. Implementasi kode yang digunakan untuk proses ini dapat dilihat pada \cref{code:4.akuisisi}. \par
 
 \begin{lstlisting}[language=Python, caption={Akuisisi Gambar}, label={code:4.akuisisi}, basicstyle=\ttfamily\scriptsize, commentstyle=\color{green}, keywordstyle=\color{blue}, stringstyle=\color{red}, numberstyle=\tiny\color{gray}, numbers=left, breaklines=true, showstringspaces=false]
