@@ -2,20 +2,14 @@
 \chapter{METODE PENELITIAN} \label{Bab III}
 
 \section{Alur Penelitian} \label{sec:alur-penelitian}
-Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan dilakukan secara sistematis dan efisien. Alur penelitian ini mencerminkan langkah-langkah utama yang dilakukan pada penelitian ini, dapat dilihat pada Gambar \ref{fig:3.alur1} dan Gambar \ref{fig:3.alur2}. \par
-% Gambar jadi satu aja terus ringkas
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{figure/alur1.pdf}
-    \caption{Tahap Identifikasi Masalah Hingga Rekayasa Fitur}
-    \label{fig:3.alur1}
-\end{figure} \par
+Pada penelitian ini, alur dirancang untuk memastikan setiap tahapan pemrosesan dilakukan secara sistematis dan efisien. 
+Alur penelitian ini mencerminkan langkah-langkah utama yang dilakukan pada penelitian ini, dapat dilihat pada Gambar \ref{fig:3.alur}. \par
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.23\textwidth]{figure/alur2.pdf}
-    \caption{Tahap Penyusunan Tensor Hingga Hasil dan Kesimpulan}
-    \label{fig:3.alur2}
+    \includegraphics[width=0.89\textwidth]{figure/alur_penelitian.pdf}
+    \caption{Alur Penelitian}
+    \label{fig:3.alur}
 \end{figure}
 
 \section{Penjabaran Langkah Penelitian}
@@ -112,6 +106,13 @@ Preprocessing difokuskan pada penyesuaian format data dan ekstraksi informasi vi
 Tahapan ini memastikan data berada dalam kondisi yang konsisten dan siap diproses lebih lanjut. 
 Proses preprocessing dilakukan secara berurutan untuk menjaga integritas data.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.83\textwidth]{figure/prapemrosesan.pdf}
+    \caption{Tahap Prapemrosesan Data}
+    \label{fig:3.prapemrosesan}
+\end{figure} \par
+
 \subsubsection{Augmentasi Resolusi Video}
 \label{subsubsec:augmentasi-resolusi}
 Augmentasi resolusi video diterapkan untuk meningkatkan variasi kualitas masukan tanpa menambah proses perekaman data.
@@ -149,6 +150,12 @@ Koordinat \textit{x} dan \textit{y} merepresentasikan posisi pada bidang citra, 
 Seluruh koordinat \textit{landmark} disimpan dalam format berkas \textit{JSON} untuk setiap urutan video. 
 Format penyimpanan ini memudahkan proses pemanggilan ulang data pada tahap \textit{preprocessing} dan rekayasa fitur.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.28\textwidth]{figure/deteksi_landmark.pdf}
+    \caption{Ilustrasi Alur Ekstraksi Landmark}
+    \label{fig:3.ekstraksi_landmark}
+\end{figure} \par
 % ------------------------------------------------
 % CATATAN:
 % - GAMBAR WAJIB: hasil ekstraksinya
@@ -190,6 +197,13 @@ Tahap rekayasa fitur bertujuan untuk membentuk representasi data yang sesuai den
 Rekayasa fitur dilakukan berdasarkan hasil ekstraksi \textit{landmark} yang telah melalui proses seleksi. 
 Pendekatan ini difokuskan pada pengodean dinamika gerakan secara ringkas dan terstruktur. 
 Seluruh proses rekayasa fitur dirancang agar kompatibel dengan model \textit{Convolutional Neural Network} dua dimensi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.83\textwidth]{figure/rekayasa_fitur.pdf}
+    \caption{Alur Rekayasa Fitur}
+    \label{fig:3.rekayasa_fitur}
+\end{figure} \par
 
 \subsubsection{Perhitungan Perubahan Antar-\textit{Frame}}
 \label{subsubsec:perhitungan-perubahan}
@@ -234,6 +248,7 @@ Tensor disusun mengikuti format kanal-terlebih-dahulu (\textit{channel-first}).
 Struktur tensor disesuaikan dengan kebutuhan arsitektur CNN dua dimensi yang digunakan. 
 Tahap ini menjadi penghubung antara proses rekayasa fitur dan pemodelan.
 
+
 \subsection{Konfigurasi Model dan \textit{Hyperparameter}}
 \label{subsec:konfigurasi-model-hyperparameter}
 Konfigurasi model dan \textit{hyperparameter} ditetapkan untuk memastikan proses pelatihan berjalan secara konsisten dan adil. 
@@ -254,10 +269,10 @@ Lapisan akhir arsitektur berupa \textit{fully connected layer} yang menghasilkan
 Jumlah neuron pada lapisan keluaran disesuaikan dengan jumlah kelas bahasa isyarat pada dataset yang digunakan.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.2\textwidth]{figure/cnn2d.png}
-	\caption{Arsitektur umum \textit{Residual Network} dua dimensi untuk klasifikasi}
+	\includegraphics[width=0.67\textwidth]{figure/resnet_rgb.pdf}
+	\caption{Arsitektur ResNet dua dimensi untuk klasifikasi gambar input RGB}
 	\label{fig:resnet2d-architecture}
-	{\footnotesize Sumber: diadaptasi dari He et al. \cite{he2016resnet}}
+	{\footnotesize Sumber: Dokumentasi peneliti diadaptasi dari He et al. \cite{he2016resnet}}
   \end{figure}
   
 Dalam implementasinya, penelitian ini menggunakan beberapa varian arsitektur ResNet dua dimensi sebagai model pembanding.
@@ -398,10 +413,19 @@ Diagram tersebut memperlihatkan hubungan antara kanal fitur, dimensi waktu,
 dan indeks \textit{landmark} dalam satu representasi terpadu.
 
 \begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\textwidth]{figure/chapter-2-infrastructure-diagram.png}
+    \centering
+    \includegraphics[width=0.88\textwidth]{figure/input_channel.pdf}
 	\caption{Ilustrasi struktur tensor masukan CNN dengan format $(C \times T \times L)$}
-	\label{fig:tensor-illustration}
+    \label{fig:3.inputchannel}
 	{\footnotesize Sumber: dokumentasi penelitian}
-  \end{figure}
-  
+\end{figure} \par
+
+\subsection{Ilustrasi Pemrosesan ResNet}
+\label{subsec:ilustrasi-resnet}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.97\textwidth]{figure/landresnet.pdf}
+	\caption{Ilustrasi Pemrosesan oleh ResNet dengan Modifikasi Layer Input}
+    \label{fig:3.landresnet}
+	{\footnotesize Sumber: dokumentasi penelitian}
+\end{figure} \par
