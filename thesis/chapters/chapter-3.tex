@@ -219,6 +219,7 @@ Misalkan sebuah \textit{sequence} terdiri dari $T$ frame dengan $L$ titik \texti
 Koordinat \textit{landmark} ke-$i$ pada frame ke-$t$ dinyatakan sebagai $(x_{t,i}, y_{t,i})$.
 Salah satu titik \textit{landmark} dipilih sebagai titik referensi $(x_{t,r}, y_{t,r})$, yang merepresentasikan pusat tubuh atau titik stabil tertentu.
 Normalisasi koordinat dilakukan dengan persamaan: \par
+
 \begin{equationcaptioned}[eq:normalize]{
 \begin{aligned}
 \hat{x}_{t,i} &= x_{t,i} - x_{t,r} \\
@@ -227,6 +228,7 @@ Normalisasi koordinat dilakukan dengan persamaan: \par
 }{
 Normalisasi koordinat \textit{landmark} terhadap titik referensi
 }
+
 \end{equationcaptioned} \par
 Pendekatan ini memusatkan seluruh koordinat \textit{landmark} terhadap titik referensi sehingga variasi posisi global antar-sampel dapat ditekan.
 Hubungan spasial dan struktur relatif antar-\textit{landmark} tetap terjaga karena operasi normalisasi diterapkan secara seragam pada setiap frame.

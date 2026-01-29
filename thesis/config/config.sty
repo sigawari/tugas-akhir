@@ -170,6 +170,10 @@
 % Counter untuk figure dan table, agar bertambah walaupun lintas subbab
 \counterwithout{figure}{section}
 \counterwithout{table}{section}
+\counterwithout{equation}{section}
+
+\usepackage{chngcntr}
+\counterwithin{equation}{chapter}
 
 % Supaya tidak ada garis di header
 \renewcommand{\headrulewidth}{0pt}
