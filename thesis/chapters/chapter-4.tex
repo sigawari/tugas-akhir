@@ -63,4 +63,23 @@ def main():
 	\vspace{0.5em}
 	{\footnotesize Catatan: Ilustrasi digunakan untuk menunjukkan perbedaan kualitas visual akibat penurunan resolusi dan tidak merepresentasikan hasil evaluasi sistem.}
 	\end{table}
-	
+
+    
+\subsubsection{Augmentasi Resolusi Video}
+\label{subsubsec:augmentasi-resolusi}
+Augmentasi resolusi video diterapkan untuk meningkatkan variasi kualitas masukan tanpa menambah proses perekaman data.
+Seluruh video direkam menggunakan satu kamera dan satu subjek Tuli untuk menjaga konsistensi sudut pandang, jarak, dan karakteristik biologis.
+Variasi resolusi dipilih sebagai bentuk augmentasi yang bersifat terkontrol dan dapat direproduksi secara sistematis.
+Pendekatan ini merepresentasikan perbedaan kualitas citra yang umum terjadi akibat penggunaan perangkat perekaman dengan spesifikasi berbeda.
+
+Video hasil perekaman awal selanjutnya diproses melalui penurunan resolusi secara spasial.
+Proses penurunan resolusi dilakukan dengan mempertahankan rasio aspek video agar tidak terjadi distorsi geometris.
+Setiap tingkat resolusi diperlakukan sebagai entitas data yang berdiri sendiri dalam dataset.
+Langkah ini bertujuan untuk memperkaya keragaman kualitas visual tanpa mengubah urutan gerakan atau makna isyarat yang direkam.
+
+Ilustrasi kondisi video pada resolusi awal ditunjukkan pada Gambar \ref{fig:resolusi-asli}.
+Contoh hasil penurunan resolusi pada tingkat menengah dan rendah ditunjukkan pada Gambar \ref{fig:resolusi-menengah} dan Gambar \ref{fig:resolusi-rendah}.
+Perbedaan tingkat detail visual pada setiap resolusi menggambarkan variasi kualitas citra yang diterima oleh sistem ekstraksi \textit{landmark}.
+Ilustrasi ini digunakan untuk memberikan gambaran kondisi data masukan sebelum dilakukan ekstraksi \textit{landmark}.
+
+% Kasih tabel aja berapa resolusinya
