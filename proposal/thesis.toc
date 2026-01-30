@@ -1,8 +1,12 @@
 \babel@toc {bahasa}{}\relax 
 \contentsline {section}{\numberline {A.}Latar Belakang}{1}{section.0.1}%
 \contentsline {section}{\numberline {B.}Tujuan Penelitian}{2}{section.0.2}%
-\contentsline {section}{\numberline {C.}Bentuk Kerja Sama yang Diharapkan}{2}{section.0.3}%
-\contentsline {section}{\numberline {D.}Etika Penelitian dan Perlindungan Komunitas}{3}{section.0.4}%
-\contentsline {section}{\numberline {E.}Metode Pelaksanaan (Gambaran Umum)}{4}{section.0.5}%
-\contentsline {section}{\numberline {F.}Luaran yang Diharapkan}{5}{section.0.6}%
-\contentsline {section}{\numberline {G.}Penutup}{5}{section.0.7}%
+\contentsline {section}{\numberline {C.}Ruang Lingkup Penelitian}{2}{section.0.3}%
+\contentsline {section}{\numberline {D.}Urgensi dan Manfaat Kerjasama}{4}{section.0.4}%
+\contentsline {section}{\numberline {E.}Bentuk Kerja Sama yang Diharapkan}{4}{section.0.5}%
+\contentsline {section}{\numberline {F.}Etika Penelitian dan Perlindungan Komunitas}{5}{section.0.6}%
+\contentsline {section}{\numberline {G.}Metode Pelaksanaan (Gambaran Umum)}{6}{section.0.7}%
+\contentsline {section}{\numberline {H.}Waktu dan Tempat Pelaksanaan}{7}{section.0.8}%
+\contentsline {section}{\numberline {I.}Alat dan Bahan}{7}{section.0.9}%
+\contentsline {section}{\numberline {J.}Luaran yang Diharapkan}{7}{section.0.10}%
+\contentsline {section}{\numberline {K.}Penutup}{7}{section.0.11}%

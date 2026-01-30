@@ -208,6 +208,213 @@
       \verb https://www.kompas.id/artikel/menjembatani-keterbatasan-komunikasi-lewat-aplikasi
       \endverb
     \endentry
+    \entry{utomo2025islslstm}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=f1715c76478e29e99cb468800d1b0418}{%
+           family={Utomo},
+           familyi={U\bibinitperiod},
+           given={Wargijono},
+           giveni={W\bibinitperiod}}}%
+        {{hash=c49b97e3d0e0ef68be4a28cb051ea881}{%
+           family={Suhanda},
+           familyi={S\bibinitperiod},
+           given={Yogasetya},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=6e9fe12e664ad26f20b38f53c7dac36e}{%
+           family={Ar-Rasyid},
+           familyi={A\bibinithyphendelim R\bibinitperiod},
+           given={Harun},
+           giveni={H\bibinitperiod}}}%
+        {{hash=6e329747f186b3a13448b04a466a3d41}{%
+           family={Dharmalau},
+           familyi={D\bibinitperiod},
+           given={Andy},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{3df62ed113a2f15564cfd80b20909e4c}
+      \strng{fullhash}{534a64f6b98665971537ddf99ff43ec0}
+      \strng{fullhashraw}{534a64f6b98665971537ddf99ff43ec0}
+      \strng{bibnamehash}{3df62ed113a2f15564cfd80b20909e4c}
+      \strng{authorbibnamehash}{3df62ed113a2f15564cfd80b20909e4c}
+      \strng{authornamehash}{3df62ed113a2f15564cfd80b20909e4c}
+      \strng{authorfullhash}{534a64f6b98665971537ddf99ff43ec0}
+      \strng{authorfullhashraw}{534a64f6b98665971537ddf99ff43ec0}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Information and Web Engineering}
+      \field{month}{10}
+      \field{number}{3}
+      \field{title}{Indonesian Language Sign Detection Using Mediapipe with Long Short-Term Memory (LSTM) Algorithm}
+      \field{volume}{4}
+      \field{year}{2025}
+      \field{pages}{15\bibrangedash 25}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.33093/jiwe.2025.4.3.15
+      \endverb
+    \endentry
+    \entry{anturkar2025lstm3dcnn}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=3f8061329d6e69e7dc66e62d5ffa3621}{%
+           family={Anturkar},
+           familyi={A\bibinitperiod},
+           given={Anvay},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3f6d0e56a2bbb2643ce71a944c732f3a}{%
+           family={Khot},
+           familyi={K\bibinitperiod},
+           given={Anushka},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d52b838070624315970c744b940ef4a0}{%
+           family={Andure},
+           familyi={A\bibinitperiod},
+           given={Ayush},
+           giveni={A\bibinitperiod}}}%
+        {{hash=887a5a89b0d67de63a4a8f2c4bb7e1c6}{%
+           family={Ghosh},
+           familyi={G\bibinitperiod},
+           given={Aniruddha},
+           giveni={A\bibinitperiod}}}%
+        {{hash=2258fa343e326e8dce3eaff3f62c849c}{%
+           family={Magadum},
+           familyi={M\bibinitperiod},
+           given={Anvit},
+           giveni={A\bibinitperiod}}}%
+        {{hash=f6233d9b3499836e640ee0de0d88a0dc}{%
+           family={Bahadur},
+           familyi={B\bibinitperiod},
+           given={Anvay},
+           giveni={A\bibinitperiod}}}%
+        {{hash=56e5c0779af377c89c34e459ae7c234e}{%
+           family={Pol},
+           familyi={P\bibinitperiod},
+           given={Madhumati},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
+      \strng{fullhash}{8b76a38aa1049ff444cf2bbc2d1e1aea}
+      \strng{fullhashraw}{8b76a38aa1049ff444cf2bbc2d1e1aea}
+      \strng{bibnamehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
+      \strng{authorbibnamehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
+      \strng{authornamehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
+      \strng{authorfullhash}{8b76a38aa1049ff444cf2bbc2d1e1aea}
+      \strng{authorfullhashraw}{8b76a38aa1049ff444cf2bbc2d1e1aea}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Computer Applications}
+      \field{month}{11}
+      \field{number}{55}
+      \field{title}{Real-Time Sign Language to Text Translation Using Deep Learning: A Comparative Study of LSTM and 3D CNN}
+      \field{volume}{187}
+      \field{year}{2025}
+      \field{pages}{31\bibrangedash 35}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.5120/ijca2025925946
+      \endverb
+    \endentry
+    \entry{maheswara2023lstmbisindo}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=6f93c6e0ffe66f6878659ffbfce163a8}{%
+           family={Maheswara},
+           familyi={M\bibinitperiod},
+           given={Yoses\bibnamedelima Dwi},
+           giveni={Y\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=15ef25e31b3d46cbfd9668481ceccfad}{%
+           family={Al-Sulthon},
+           familyi={A\bibinithyphendelim S\bibinitperiod},
+           given={M.\bibnamedelimi Abid},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=ec9379b216877707beeeb0b127ae228e}{%
+           family={Wicaksono},
+           familyi={W\bibinitperiod},
+           given={Pradayan\bibnamedelima Adhimas},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=b70f65c628279682cf39b4fd3bc2a930}{%
+           family={Afifah},
+           familyi={A\bibinitperiod},
+           given={Khilda},
+           giveni={K\bibinitperiod}}}%
+        {{hash=2927334457b554da56cc0ab204e45245}{%
+           family={Prihatiningrum},
+           familyi={P\bibinitperiod},
+           given={Novi},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{338a32770b264e7e689fc12df133d041}
+      \strng{fullhash}{a4c2abc772fbf1b808148412567c3470}
+      \strng{fullhashraw}{a4c2abc772fbf1b808148412567c3470}
+      \strng{bibnamehash}{338a32770b264e7e689fc12df133d041}
+      \strng{authorbibnamehash}{338a32770b264e7e689fc12df133d041}
+      \strng{authornamehash}{338a32770b264e7e689fc12df133d041}
+      \strng{authorfullhash}{a4c2abc772fbf1b808148412567c3470}
+      \strng{authorfullhashraw}{a4c2abc772fbf1b808148412567c3470}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2023 6th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI)}
+      \field{title}{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models Leveraging MediaPipe}
+      \field{year}{2023}
+      \field{pages}{226\bibrangedash 232}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1109/ISRITI60336.2023.10467586
+      \endverb
+    \endentry
+    \entry{lemmuela2025dslr}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=ae02cf237818c37302cc094fddad9bc0}{%
+           family={Lemmuela},
+           familyi={L\bibinitperiod},
+           given={Ivana\bibnamedelima Valentina},
+           giveni={I\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=a83a1ebb71089035943a3695175555a6}{%
+           family={Ayub},
+           familyi={A\bibinitperiod},
+           given={Mewati},
+           giveni={M\bibinitperiod}}}%
+        {{hash=5f7de58e1836a28c7e3cfe67d8c735f4}{%
+           family={Karnalim},
+           familyi={K\bibinitperiod},
+           given={Oscar},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{c681d79732be89178e8a4fa548b42832}
+      \strng{fullhash}{65c4d36eea7d891205da5f447f03ec6a}
+      \strng{fullhashraw}{65c4d36eea7d891205da5f447f03ec6a}
+      \strng{bibnamehash}{65c4d36eea7d891205da5f447f03ec6a}
+      \strng{authorbibnamehash}{65c4d36eea7d891205da5f447f03ec6a}
+      \strng{authornamehash}{c681d79732be89178e8a4fa548b42832}
+      \strng{authorfullhash}{65c4d36eea7d891205da5f447f03ec6a}
+      \strng{authorfullhashraw}{65c4d36eea7d891205da5f447f03ec6a}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2443-2555}
+      \field{journaltitle}{Journal of Information Systems Engineering and Business Intelligence}
+      \field{month}{3}
+      \field{number}{1}
+      \field{title}{Dynamic Sign Language Recognition in Bahasa Using MediaPipe, Long Short-Term Memory, and Convolutional Neural Network}
+      \field{volume}{11}
+      \field{year}{2025}
+      \field{pages}{17\bibrangedash 29}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.20473/jisebi.11.1.17-29
+      \endverb
+      \verb{urlraw}
+      \verb https://e-journal.unair.ac.id/JISEBI/article/view/60300
+      \endverb
+      \verb{url}
+      \verb https://e-journal.unair.ac.id/JISEBI/article/view/60300
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
