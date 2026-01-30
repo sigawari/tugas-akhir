@@ -198,7 +198,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{9}
-      \field{note}{Accessed: 2025-01-13}
+      \field{note}{Accessed: 2026-01-13}
       \field{title}{Menjembatani Keterbatasan Komunikasi Lewat Aplikasi}
       \field{year}{2020}
       \verb{urlraw}
@@ -364,55 +364,6 @@
       \range{pages}{7}
       \verb{doi}
       \verb 10.1109/ISRITI60336.2023.10467586
-      \endverb
-    \endentry
-    \entry{lemmuela2025dslr}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=ae02cf237818c37302cc094fddad9bc0}{%
-           family={Lemmuela},
-           familyi={L\bibinitperiod},
-           given={Ivana\bibnamedelima Valentina},
-           giveni={I\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
-        {{hash=a83a1ebb71089035943a3695175555a6}{%
-           family={Ayub},
-           familyi={A\bibinitperiod},
-           given={Mewati},
-           giveni={M\bibinitperiod}}}%
-        {{hash=5f7de58e1836a28c7e3cfe67d8c735f4}{%
-           family={Karnalim},
-           familyi={K\bibinitperiod},
-           given={Oscar},
-           giveni={O\bibinitperiod}}}%
-      }
-      \strng{namehash}{c681d79732be89178e8a4fa548b42832}
-      \strng{fullhash}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{fullhashraw}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{bibnamehash}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{authorbibnamehash}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{authornamehash}{c681d79732be89178e8a4fa548b42832}
-      \strng{authorfullhash}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{authorfullhashraw}{65c4d36eea7d891205da5f447f03ec6a}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{2443-2555}
-      \field{journaltitle}{Journal of Information Systems Engineering and Business Intelligence}
-      \field{month}{3}
-      \field{number}{1}
-      \field{title}{Dynamic Sign Language Recognition in Bahasa Using MediaPipe, Long Short-Term Memory, and Convolutional Neural Network}
-      \field{volume}{11}
-      \field{year}{2025}
-      \field{pages}{17\bibrangedash 29}
-      \range{pages}{13}
-      \verb{doi}
-      \verb 10.20473/jisebi.11.1.17-29
-      \endverb
-      \verb{urlraw}
-      \verb https://e-journal.unair.ac.id/JISEBI/article/view/60300
-      \endverb
-      \verb{url}
-      \verb https://e-journal.unair.ac.id/JISEBI/article/view/60300
       \endverb
     \endentry
   \enddatalist

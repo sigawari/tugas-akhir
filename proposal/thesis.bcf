@@ -2382,7 +2382,6 @@
     <bcf:citekey order="5" intorder="1">utomo2025islslstm</bcf:citekey>
     <bcf:citekey order="5" intorder="2">anturkar2025lstm3dcnn</bcf:citekey>
     <bcf:citekey order="5" intorder="3">maheswara2023lstmbisindo</bcf:citekey>
-    <bcf:citekey order="5" intorder="4">lemmuela2025dslr</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

@@ -1,3 +1,6 @@
+Penelitian ini dilaksanakan menggunakan pendekatan eksperimental dengan tahapan yang disusun secara bertahap dan mudah dipahami.  
+Alur umum pelaksanaan penelitian ditunjukkan pada Gambar~\ref{fig:alur-penelitian}.  
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figure/alur_penelitian.pdf}
@@ -5,17 +8,75 @@
     \label{fig:alur-penelitian}
 \end{figure}
 
-Penelitian ini dilaksanakan menggunakan pendekatan eksperimental dengan tahapan yang disusun secara sistematis. 
-Lokasi perekaman direncanakan berada pada ruang tertutup dengan pencahayaan yang stabil untuk memastikan kualitas visual yang konsisten.
+Penelitian diawali dengan identifikasi permasalahan dan studi literatur untuk memahami karakteristik Bahasa Isyarat Indonesia serta pendekatan yang relevan.  
+Tahap berikutnya mencakup pengambilan data bahasa isyarat, pengolahan data sederhana, serta pengujian pendekatan pengenalan gerakan.  
+Seluruh proses pengambilan data dan validasi bahasa isyarat dilakukan dengan pendampingan mitra untuk memastikan kesesuaian praktik BISINDO.  
 
-Peralatan utama yang digunakan meliputi kamera digital beresolusi tinggi, tripod untuk menjaga kestabilan sudut pandang, serta perangkat komputer untuk pemrosesan data. 
-Perangkat lunak yang digunakan mencakup MediaPipe untuk ekstraksi \textit{landmark} dan lingkungan pemrograman berbasis Python untuk pemodelan dan evaluasi.
+Pengambilan data direncanakan dilakukan di ruang tertutup dengan pencahayaan yang stabil.  
+Pengaturan lingkungan ini bertujuan untuk memastikan gerakan isyarat terekam dengan jelas dan konsisten.  
+Rancangan umum pengambilan data ditunjukkan pada Gambar~\ref{fig:setup-perekaman}.  
 
-Proses perekaman dilakukan dengan merekam gerakan BISINDO pada tingkat kata secara terkontrol. 
-Satu rekaman video digunakan sebagai sumber utama yang kemudian diperkaya melalui augmentasi resolusi untuk mensimulasikan variasi kualitas pengambilan data.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure/setup_perekaman.pdf}
+    \caption{Rancangan Pengambilan Data}
+    \label{fig:setup-perekaman}
+\end{figure}
 
-Setiap video diekstraksi menjadi \textit{landmark} tubuh, tangan, dan wajah menggunakan MediaPipe. 
-Hasil ekstraksi berupa koordinat titik-titik utama tubuh yang merepresentasikan pola gerakan tanpa menyertakan identitas visual penutur.
+Peralatan yang digunakan meliputi satu kamera atau webcam, tripod, serta perangkat komputer.  
+Kamera ditempatkan pada jarak yang memungkinkan seluruh gerakan tangan dan tubuh peraga tertangkap tanpa membatasi kenyamanan bergerak.  
 
-Data \textit{landmark} selanjutnya disusun dalam bentuk struktur dua dimensi dan digunakan sebagai masukan ke dalam model ResNet-2D. 
-Model dilatih dan diuji menggunakan skema evaluasi terukur untuk menilai kemampuan pendekatan spasial dalam mengenali perbedaan gerakan BISINDO.
+Proses perekaman dilakukan dengan merekam gerakan Bahasa Isyarat Indonesia pada tingkat kata.  
+Setiap kata isyarat direkam secara terpisah dalam beberapa pengulangan untuk menangkap variasi alami gerakan.  
+Satu kali perekaman menghasilkan satu video pendek berdurasi sekitar dua detik.  
+
+Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan pada Tabel~\ref{tab:dataset-config}.  
+
+\begin{table}[H]
+	\centering
+	\caption{Ringkasan Konfigurasi Pengambilan Dataset Bahasa Isyarat}
+	\label{tab:dataset-config}
+	\begin{tabular}{|l|c|}
+	\hline
+	\textbf{Parameter} & \textbf{Nilai} \\ \hline
+	Jumlah penutur & 1 orang \\ \hline
+	Jumlah kamera & 1 (webcam) \\ \hline
+	Resolusi perekaman & 1920 $\times$ 1080 (Full HD) \\ \hline
+	Laju pengambilan gambar & 30 frame per detik (fps) \\ \hline
+	Durasi satu video & $\sim$2 detik \\ \hline
+	Jumlah kata isyarat & 13 kata \\ \hline
+	Jumlah video per kata & 30 video \\ \hline
+	Total video & 390 video \\ \hline
+	\end{tabular}
+	
+	\vspace{0.5em}
+	{\footnotesize Catatan: Setiap video direkam secara terpisah untuk menangkap variasi alami gerakan penutur.}
+\end{table}
+
+Setelah proses perekaman selesai, setiap video diolah untuk mengambil informasi gerakan utama.  
+Informasi yang diambil berfokus pada pergerakan tangan dan tubuh yang membentuk makna isyarat.  
+Proses ini dilakukan dengan mengekstraksi titik-titik kunci tubuh, tangan, dan wajah yang merepresentasikan pergerakan penutur.  
+Tujuan utama tahap ini adalah mengubah data video menjadi bentuk yang lebih sederhana dan berfokus pada pola gerakan.  
+
+Ilustrasi perbandingan antara rekaman video asli dan hasil ekstraksi titik gerakan ditunjukkan pada Gambar~\ref{fig:before_after_extraction}.  
+Gambar tersebut memperlihatkan bahwa data yang digunakan dalam penelitian berfokus pada struktur gerakan, bukan pada identitas visual individu.  
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figure/raw.png}
+		\caption{Sebelum Ekstraksi}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figure/extracted.png}
+		\caption{Sesudah Ekstraksi}
+	\end{subfigure}
+	\caption{Ilustrasi Proses Ekstraksi \textit{Landmark} pada Satu Frame}
+	\label{fig:before_after_extraction}
+\end{figure}
+
+Representasi titik gerakan yang diperoleh selanjutnya digunakan sebagai dasar analisis dan pengenalan pola gerakan bahasa isyarat.  
+Pendekatan ini membantu mengurangi ketergantungan pada citra wajah serta mendukung perlindungan privasi partisipan.  
