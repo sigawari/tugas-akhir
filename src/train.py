@@ -26,6 +26,7 @@ from utils import (
     wandb_set_summary,
 )
 from models import Basic2DCNN, ResNet18, ResNet34, ResNet50
+from metrics import accuracy_from_logits, confusion_matrix_from_preds
 
 
 # -------------------------
@@ -47,7 +48,7 @@ class SignDataset(Dataset):
         x_path = PROCESSED_DIR / word / self.variant / "X.npy"
         if not x_path.is_file():
             raise FileNotFoundError(f"X.npy tidak ditemukan: {x_path}")
-        X = np.load(x_path)  # (N, T, D)
+        X = np.load(x_path, mmap_mode="r")  # (N, T, D)
         self._cache_X[word] = X
         return X
 
@@ -79,16 +80,7 @@ class SignDataset(Dataset):
 # -------------------------
 # Metrics helpers (tanpa sklearn)
 # -------------------------
-def accuracy_from_logits(logits: torch.Tensor, y: torch.Tensor) -> float:
-    preds = torch.argmax(logits, dim=1)
-    return (preds == y).float().mean().item()
-
-
-def confusion_matrix(preds: torch.Tensor, targets: torch.Tensor, num_classes: int) -> torch.Tensor:
-    cm = torch.zeros((num_classes, num_classes), dtype=torch.int64)
-    for t, p in zip(targets.view(-1), preds.view(-1)):
-        cm[t.long(), p.long()] += 1
-    return cm
+# (dipindah ke src/metrics.py)
 
 
 def f1_from_confusion(cm: torch.Tensor) -> Tuple[float, float]:
@@ -224,7 +216,7 @@ def evaluate_test_full(model: nn.Module, loader: DataLoader, device: torch.devic
     preds_t = torch.cat(all_preds, dim=0)
     targets_t = torch.cat(all_targets, dim=0)
 
-    cm = confusion_matrix(preds_t, targets_t, num_classes)
+    cm = confusion_matrix_from_preds(preds_t, targets_t, num_classes)
     acc = (preds_t == targets_t).float().mean().item()
     bal_acc = balanced_accuracy_from_confusion(cm)
     f1_macro, f1_weighted = f1_from_confusion(cm)

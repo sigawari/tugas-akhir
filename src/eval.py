@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Dict, Any, List, Tuple, Optional
+import argparse
 
 import numpy as np
 import torch
@@ -29,7 +30,7 @@ from utils import (
     read_json,
 )
 
-from models import ResNet2DSign
+from models import Basic2DCNN, ResNet18, ResNet34, ResNet50
 
 
 # -------------------------
@@ -48,7 +49,7 @@ class SignDataset(Dataset):
         x_path = PROCESSED_DIR / word / self.variant / "X.npy"
         if not x_path.is_file():
             raise FileNotFoundError(f"X.npy tidak ditemukan: {x_path}")
-        X = np.load(x_path)  # (N, T, D)
+        X = np.load(x_path, mmap_mode="r")  # (N, T, D)
         self._cache_X[word] = X
         return X
 
@@ -205,13 +206,44 @@ def run_inference(
     return avg_loss, y_true, y_pred, y_prob
 
 
+def build_model(model_name: str, num_classes: int, in_channels: int = 4) -> torch.nn.Module:
+    model_name = model_name.lower()
+    if model_name in ("cnn2d", "basic2dcnn", "cnn"):
+        return Basic2DCNN(num_classes=num_classes, in_channels=in_channels)
+    if model_name in ("resnet18", "r18"):
+        return ResNet18(num_classes=num_classes, in_channels=in_channels)
+    if model_name in ("resnet34", "r34"):
+        return ResNet34(num_classes=num_classes, in_channels=in_channels)
+    if model_name in ("resnet50", "r50"):
+        return ResNet50(num_classes=num_classes, in_channels=in_channels)
+    raise ValueError(f"Unknown --model: {model_name}")
+
+
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser()
+    p.add_argument("--variant", type=str, default="pose", choices=["pose", "full", "noface", "hands"])
+    p.add_argument("--model", type=str, default="resnet18", choices=["cnn2d", "resnet18", "resnet34", "resnet50"])
+    p.add_argument("--batch_size", type=int, default=16)
+    p.add_argument("--split_path", type=str, default=str(DATA_DIR / "splits" / "split.json"))
+    p.add_argument(
+        "--ckpt_path",
+        type=str,
+        default=None,
+        help="Optional. Kalau tidak diisi, otomatis ambil checkpoint *__best.pt terbaru di checkpoints/<model>/<variant>/",
+    )
+    p.add_argument("--cm_normalize", type=str, default="true", choices=["none", "true", "pred", "all"])
+    return p.parse_args()
+
+
 def main():
+    args = parse_args()
+
     seed(DEFAULT_SEED)
     device = get_device(prefer_gpu=True)
     print(f"Device: {device}")
 
     # --- Load split & labels ---
-    split_path = DATA_DIR / "splits" / "split.json"
+    split_path = Path(args.split_path)
     split_data = read_json(split_path)
 
     label2idx = split_data["label2idx"]
@@ -221,19 +253,22 @@ def main():
     test_items = split_data["splits"]["test"]
     print(f"Total test samples: {len(test_items)}")
 
-    # --- pilih variant ---
-    variant = "pose"  # ganti sesuai kebutuhan
-    test_ds = SignDataset(test_items, variant=variant)
-    test_loader = DataLoader(test_ds, batch_size=16, shuffle=False, num_workers=0)
+    # --- Dataset/Loader ---
+    test_ds = SignDataset(test_items, variant=args.variant)
+    test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=0)
 
-    # --- Load checkpoint terbaru (best) ---
-    ckpt_path = max((Path("checkpoints") / variant).glob("*__best.pt"), key=lambda p: p.stat().st_mtime)
+    # --- Load checkpoint (best) ---
+    if args.ckpt_path is not None:
+        ckpt_path = Path(args.ckpt_path)
+    else:
+        ckpt_root = Path("checkpoints") / args.model / args.variant
+        ckpt_path = max(ckpt_root.glob("*__best.pt"), key=lambda p: p.stat().st_mtime)
+
     print("Using checkpoint:", ckpt_path)
 
     ckpt = torch.load(ckpt_path, map_location=device)
-    model = Basic2DCNN(num_classes=num_classes, in_channels=4)
+    model = build_model(args.model, num_classes=num_classes, in_channels=4).to(device)
     model.load_state_dict(ckpt["model_state"])
-    model.to(device)
 
     # --- Inference ---
     test_loss, y_true, y_pred, y_prob = run_inference(model, test_loader, device)
@@ -257,7 +292,7 @@ def main():
     # confusion matrix
     cm = confusion_matrix(y_true, y_pred, labels=np.arange(num_classes))
 
-    print(f"\n=== TEST RESULT (variant={variant}) ===")
+    print(f"\n=== TEST RESULT (variant={args.variant}, model={args.model}) ===")
     print(f"Test loss         : {test_loss:.4f}")
     print(f"Accuracy          : {acc:.4f}")
     print(f"Balanced Accuracy : {bal_acc:.4f}")
@@ -282,11 +317,14 @@ def main():
     out_dir = Path("reports")
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    cm_path = out_dir / f"cm_{variant}.png"
-    cmn_path = out_dir / f"cm_{variant}_norm_true.png"
+    cm_path = out_dir / f"cm_{args.model}_{args.variant}.png"
+    cmn_path = out_dir / f"cm_{args.model}_{args.variant}_norm_true.png"
 
     plot_confusion_matrix(cm, idx2label, save_path=str(cm_path), normalize=None)
-    plot_confusion_matrix(cm, idx2label, save_path=str(cmn_path), normalize="true")
+
+    normalize = None if args.cm_normalize == "none" else args.cm_normalize
+    if normalize is not None:
+        plot_confusion_matrix(cm, idx2label, save_path=str(cmn_path), normalize=normalize)
 
 
 if __name__ == "__main__":

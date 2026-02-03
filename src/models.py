@@ -137,6 +137,7 @@ class CNN2DResidual(nn.Module):
         )
 
         self.head = nn.Sequential(
+            nn.Flatten(),
             nn.Dropout(p=dropout),
             nn.Linear(base_channels * 4, num_classes),
         )

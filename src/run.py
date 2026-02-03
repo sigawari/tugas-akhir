@@ -16,13 +16,15 @@ TRAIN = os.path.join(HERE, "train.py")
 # =========================
 # CONFIG 
 # =========================
-PROJECT = "ablation-hyperparameter"
+PROJECT = "testing-setup"
 
 # Toggle
 DRY_RUN = False             
 CONTINUE_ON_ERROR = False    # True: kalau 1 run gagal, lanjut run berikutnya
 
-SPLIT_PATH = None
+# Split path bisa di-override via ENV agar reproducible di berbagai mesin
+# contoh: set SPLIT_PATH=data/splits/split_shared_index_t70_v15_te15_seed30.json
+SPLIT_PATH = os.environ.get("SPLIT_PATH", None)
 
 # Daftar eksperimen 
 RUNS = [
@@ -30,11 +32,11 @@ RUNS = [
         "model": "resnet34",     # opsi: cnn2d | resnet18 | resnet34 | resnet50
         "variant": "full",       # opsi: pose | hands | noface | full
         "epochs": 50,
-        "lr": 1e-5,
+        "lr": 5e-6,
         "batch_size": 16,
         "patience": 5,           # early stopping patience
-        "weight_decay": 1e-4,
-        "scheduler": "plateau",  # opsi: none | plateau | cosine
+        "weight_decay": 1e-5,
+        "scheduler": "cosine",  # opsi: none | plateau | cosine
         "no_wandb": False,       
         "run_name": "resnet34_1e5",
     },
@@ -101,6 +103,9 @@ def build_cmd(cfg: dict) -> list[str]:
 
 def main() -> None:
     failures = 0
+
+    if SPLIT_PATH:
+        print(f"[INFO] Using SPLIT_PATH from env: {SPLIT_PATH}")
 
     for i, cfg in enumerate(RUNS, start=1):
         cmd = build_cmd(cfg)

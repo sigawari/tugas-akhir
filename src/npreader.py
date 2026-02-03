@@ -3,7 +3,8 @@ import numpy as np
 from pathlib import Path
 from typing import Optional, List
 
-DEFAULT_DIR = "../data/processed/halo/pose"
+# Default folder relatif terhadap lokasi file ini
+DEFAULT_DIR = str((Path(__file__).resolve().parent.parent / "data" / "processed" / "halo" / "pose").resolve())
 
 
 def print_preview(name: str, arr: np.ndarray) -> None:
@@ -44,7 +45,7 @@ def detect_channels_from_D(D: int) -> int:
     return 4
 
 
-def inspect_all_npy(dir_path: Path) -> None:
+def inspect_all_npy(dir_path: Path, mmap: bool = False) -> None:
     if not dir_path.exists():
         print(f"❌ Folder tidak ditemukan: {dir_path}")
         return
@@ -62,7 +63,7 @@ def inspect_all_npy(dir_path: Path) -> None:
     for npy_file in npy_files:
         print(f"\n➡️ File: {npy_file.name}")
         try:
-            arr = np.load(npy_file)
+            arr = np.load(npy_file, mmap_mode="r" if mmap else None)
             print_preview(npy_file.name, arr)
         except Exception as e:
             print(f"❌ Gagal load {npy_file.name}: {e}")
@@ -70,7 +71,7 @@ def inspect_all_npy(dir_path: Path) -> None:
     print("\n=== SELESAI LIST FILE ===\n")
 
 
-def show_first_landmark(dir_path: Path, channels: Optional[int] = None) -> None:
+def show_first_landmark(dir_path: Path, channels: Optional[int] = None, mmap: bool = False) -> None:
     """
     Tampilkan fitur untuk landmark pertama (sample 0, frame 0).
     - Jika channels=None, auto-detect dari D.
@@ -82,7 +83,7 @@ def show_first_landmark(dir_path: Path, channels: Optional[int] = None) -> None:
         print(f"❌ X.npy tidak ditemukan di {x_path}")
         return
 
-    X = np.load(x_path)
+    X = np.load(x_path, mmap_mode="r" if mmap else None)
 
     if X.ndim != 3:
         print(f"❌ Bentuk X tidak sesuai (bukan (N, T, D)): {X.shape}")
@@ -167,6 +168,7 @@ def show_first_landmark(dir_path: Path, channels: Optional[int] = None) -> None:
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Inspect .npy dataset (X.npy, y.npy).")
     p.add_argument("--dir", type=str, default=DEFAULT_DIR, help="Folder yang berisi X.npy & y.npy")
+    p.add_argument("--mmap", action="store_true", help="Load numpy dengan mmap_mode='r' (hemat RAM)")
     p.add_argument("--channels", type=int, default=None, choices=[4, 5],
                    help="Paksa interpretasi fitur per landmark (4 atau 5). Jika tidak diisi, auto-detect.")
     return p.parse_args()
@@ -176,8 +178,8 @@ if __name__ == "__main__":
     args = parse_args()
     dir_path = Path(args.dir)
 
-    inspect_all_npy(dir_path)
-    show_first_landmark(dir_path, channels=args.channels)
+    inspect_all_npy(dir_path, mmap=args.mmap)
+    show_first_landmark(dir_path, channels=args.channels, mmap=args.mmap)
 
 """
 Cara pakai

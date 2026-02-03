@@ -2,7 +2,7 @@
 # Compute evaluation metrics:
 # accuracy, f1-score, confusion matrix, classification report.
 
-from typing import Tuple
+from typing import Tuple, Optional
 import torch
 
 
@@ -31,15 +31,46 @@ def confusion_matrix_from_preds(
     targets: torch.Tensor,
     num_classes: int,
 ) -> torch.Tensor:
-    """Bikin confusion matrix sederhana (num_classes x num_classes).
+    """Bikin confusion matrix (num_classes x num_classes).
 
     Baris = label asli (true)
     Kolom = prediksi model (pred)
     """
-    cm = torch.zeros((num_classes, num_classes), dtype=torch.int64)
-    for t, p in zip(targets.view(-1), preds.view(-1)):
-        t = int(t)
-        p = int(p)
-        if 0 <= t < num_classes and 0 <= p < num_classes:
-            cm[t, p] += 1
-    return cm
+    preds = preds.view(-1).to(torch.int64)
+    targets = targets.view(-1).to(torch.int64)
+
+    # filter out-of-range
+    mask = (targets >= 0) & (targets < num_classes) & (preds >= 0) & (preds < num_classes)
+    preds = preds[mask]
+    targets = targets[mask]
+
+    # bincount on flattened indices
+    flat = targets * num_classes + preds
+    cm = torch.bincount(flat, minlength=num_classes * num_classes).view(num_classes, num_classes)
+    return cm.to(torch.int64)
+
+
+def f1_from_confusion(cm: torch.Tensor) -> Tuple[float, float]:
+    """Return (f1_macro, f1_weighted) dari confusion matrix."""
+    cm = cm.to(torch.float32)
+    tp = torch.diag(cm)
+    fp = cm.sum(0) - tp
+    fn = cm.sum(1) - tp
+    support = cm.sum(1)
+
+    precision = tp / (tp + fp + 1e-12)
+    recall = tp / (tp + fn + 1e-12)
+    f1 = 2 * precision * recall / (precision + recall + 1e-12)
+
+    f1_macro = f1.mean().item()
+    f1_weighted = (f1 * support / (support.sum() + 1e-12)).sum().item()
+    return f1_macro, f1_weighted
+
+
+def balanced_accuracy_from_confusion(cm: torch.Tensor) -> float:
+    """Balanced accuracy = rata-rata recall per kelas."""
+    cm = cm.to(torch.float32)
+    tp = torch.diag(cm)
+    fn = cm.sum(1) - tp
+    recall = tp / (tp + fn + 1e-12)
+    return recall.mean().item()

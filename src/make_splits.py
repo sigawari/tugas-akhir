@@ -25,6 +25,9 @@ from utils import (
     seed,
 )
 
+# Sumber kebenaran label (harus konsisten dengan build_dataset.py)
+from build_dataset import WORD_LABEL_MAP
+
 # Rasio split
 TRAIN_RATIO: float = 0.70
 VAL_RATIO: float = 0.15
@@ -111,8 +114,22 @@ def _stratified_split_per_word(
     test_samples  : list of dict
     label2idx     : dict (word -> label)
     """
-    # Label index konsisten global
-    label2idx: Dict[str, int] = {w: i for i, w in enumerate(sorted(words))}
+    # Pakai WORD_LABEL_MAP sebagai satu-satunya sumber label
+    missing = [w for w in words if w not in WORD_LABEL_MAP]
+    if missing:
+        raise ValueError(
+            "Words belum ada di WORD_LABEL_MAP. Tambahkan dulu di build_dataset.py: "
+            + ", ".join(sorted(missing))
+        )
+
+    label2idx: Dict[str, int] = {w: int(WORD_LABEL_MAP[w]) for w in sorted(words)}
+
+    # Validasi label harus 0..C-1 tanpa loncat (biar metrik & idx2label aman)
+    uniq = sorted(set(label2idx.values()))
+    if uniq != list(range(len(uniq))):
+        raise ValueError(
+            f"Label di WORD_LABEL_MAP harus contiguous 0..C-1. Dapat: {uniq}"
+        )
 
     train_samples: List[Dict] = []
     val_samples: List[Dict] = []
@@ -140,7 +157,7 @@ def _stratified_split_per_word(
 
         def _make(word_indices) -> List[Dict]:
             return [
-                {"word": word, "index": int(i), "label": label2idx[word]}
+                {"word": word, "index": int(i), "label": int(label2idx[word])}
                 for i in word_indices
             ]
 

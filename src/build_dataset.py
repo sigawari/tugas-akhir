@@ -305,7 +305,7 @@ def parse_args():
     parser.add_argument(
         "--variants",
         type=str,
-nargs="*",
+        nargs="*",
         default=["full", "noface", "hands", "pose"],
         choices=["full", "noface", "hands", "pose"],
         help="Daftar variant yang mau dibuat (default: semua)."

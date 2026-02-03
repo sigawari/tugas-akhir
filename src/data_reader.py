@@ -27,6 +27,10 @@ class SignNPYDataset(Dataset):
     """
     Dataset untuk gesture BISINDO berbasis NPY.
 
+    Catatan penting:
+    - Dataset ini berbasis (word, variant) sehingga umumnya SINGLE-CLASS per instance (y.npy berisi label yang sama untuk semua sample dalam satu word).
+    - Untuk training multi-class lintas word (skema ablasi utama), gunakan pipeline train.py yang memakai split.json berisi item {word,index,label}.
+
     - word   : nama kata (folder di data/processed/<word>/)
     - variant: full | noface | hands | pose
     - root   : override PROCESSED_ROOT kalau perlu

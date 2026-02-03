@@ -222,6 +222,13 @@ def wandb_log_image(key: str, fig, step: Optional[int] = None) -> None:
     else:
         wandb.log({key: wandb.Image(fig)})
 
+    # Hindari figure menumpuk (resource leak)
+    try:
+        import matplotlib.pyplot as plt
+        plt.close(fig)
+    except Exception:
+        pass
+
 
 def wandb_finish() -> None:
     if wandb is None:
