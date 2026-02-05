@@ -36,7 +36,7 @@ Sebagai contoh, penelitian oleh Sholawati \cite{sholawati2022sibi} memanfaatkan 
 Penelitian serupa juga dilakukan oleh Saputra et al. \cite{saputra2024bisindocnn} yang menerapkan CNN untuk klasifikasi abjad dan huruf BISINDO menggunakan dataset citra statis.
 Padahal, bahasa isyarat yang digunakan dalam komunikasi sehari-hari memiliki struktur yang jauh lebih kompleks karena tersusun atas rangkaian gerakan dinamis yang berlangsung secara berurutan dalam dimensi waktu.
 
-% Kekurangan gap: tidak terlihat mana yang ingin diperbaiki
+% Rev MCT: Kekurangan gap: tidak terlihat mana yang ingin diperbaiki
 % Celah penelitian berbasis spasial, bilang bahwa paper di luar itu make actionr recognition tapi gaada yang kasus BISINDO
 Beberapa penelitian di luar konteks BISINDO menunjukkan bahwa model berbasis spasial memiliki potensi yang kuat untuk menangani data yang bersifat temporal apabila representasi datanya dirancang secara tepat.
 Sebagai contoh, Zhu et al. \cite{zhu2023f2dcnet} mengusulkan \textit{Fully 2D Convolutional Network} (F2DCNet) untuk tugas \textit{continuous sign language recognition}.
@@ -44,6 +44,7 @@ Beberapa studi lain pada domain pengenalan aksi manusia (\textit{action recognit
 Kim et al. \cite{kim2022channelsampling} memperkenalkan strategi \textit{channel sampling} untuk menyusun ulang kanal input sehingga variasi temporal antar frame dapat ditangkap oleh backbone 2D tanpa memerlukan konvolusi tiga dimensi yang berat.
 Bilen et al. \cite{bilen2017dynamicimage} merangkum seluruh video menjadi sebuah \textit{dynamic image} tunggal menggunakan mekanisme pooling terurut sehingga video tersebut dapat diproses layaknya citra oleh CNN dua dimensi.
 Selain itu, Wang et al. \cite{wang2017tsn} mengusulkan \textit{Temporal Segment Networks} yang menggunakan pengambilan sampel temporal secara \textit{spars} dan agregasi prediksi untuk menghasilkan representasi video-level pada jaringan CNN 2D.
+Namun, penelitian-penelitian tersebut sebagian besar berfokus pada domain pengenalan aksi manusia atau bahasa isyarat non-BISINDO, sehingga belum ada kajian yang secara spesifik mengeksplorasi potensi model spasial dalam menangani data temporal pada konteks BISINDO.
 Temuan-temuan tersebut menunjukkan bahwa rekayasa representasi input atau strategi sampling temporal dapat memperkaya kemampuan model spasial dalam mendeteksi pola gerakan temporal.
 Memanfaatkan prinsip yang serupa, penelitian ini menyusun \textit{landmark} tubuh manusia ke dalam struktur dua dimensi sebagai \textit{pseudo-image} agar dapat diproses oleh ResNet-2D untuk klasifikasi BISINDO.
 
@@ -55,9 +56,13 @@ Melalui pendekatan ini, diharapkan penelitian dapat memberikan pemahaman mengena
 
 % Rev MCT: Jadikan enumerate
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
-Dominasi pendekatan berbasis temporal dalam penelitian penerjemahan bahasa isyarat menimbulkan keterbatasan pemahaman mengenai potensi pendekatan alternatif yang lebih ringan dan berbasis spasial.
-Berdasarkan konteks tersebut, belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit{Convolutional Neural Network} dua dimensi, khususnya arsitektur ResNet-2D, mampu menangkap pola gerakan bahasa isyarat ketika data direpresentasikan dalam bentuk struktur dua dimensi dari \textit{landmark} tubuh manusia.
-Selain itu, pengaruh variasi kombinasi \textit{landmark} tubuh terhadap performa model spasial dalam klasifikasi gerakan Bahasa Isyarat Indonesia (BISINDO) juga belum banyak dieksplorasi secara sistematis. \par
+Berdasarkan latar belakang yang telah diuraikan, rumusan masalah dalam penelitian ini adalah sebagai berikut: \par
+
+\begin{enumerate}[noitemsep]
+    \item Dominasi pendekatan berbasis temporal dalam penelitian penerjemahan bahasa isyarat menimbulkan keterbatasan pemahaman mengenai potensi pendekatan alternatif yang lebih ringan dan berbasis spasial.
+    \item Belum banyak penelitian yang mengkaji sejauh mana model spasial berbasis \textit{Convolutional Neural Network} dua dimensi, khususnya arsitektur ResNet-2D, mampu menangkap pola gerakan bahasa isyarat ketika data temporal direpresentasikan dalam bentuk struktur spasial dua dimensi dari \textit{landmark} tubuh manusia.
+    \item Pengaruh variasi kombinasi \textit{landmark} tubuh terhadap performa model spasial dalam klasifikasi gerakan Bahasa Isyarat Indonesia (BISINDO) juga belum banyak dieksplorasi secara sistematis, terutama dalam konteks representasi spasial yang dirancang untuk menangkap informasi temporal.
+\end{enumerate} \par
 
 \section{Tujuan Penelitian} \label{sec:tujuan}
 Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penelitian ini adalah: \par
