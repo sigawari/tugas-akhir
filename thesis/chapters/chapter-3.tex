@@ -473,86 +473,31 @@ Seluruh sampel pada data uji dievaluasi tanpa augmentasi tambahan.
 Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi.
 Hasil pengujian selanjutnya digunakan sebagai dasar analisis performa model pada Bab IV.
 
-
-% Rev MCT: Revisi besar karena bukan laporan kimia
 \section{Alat dan Bahan}
 \label{sec:alat-bahan}
-Penelitian ini menggunakan berbagai alat dan bahan untuk mendukung seluruh tahapan penelitian, mulai dari akuisisi data, prapemrosesan, rekayasa fitur, pelatihan model, hingga evaluasi hasil.
-Pemilihan alat dilakukan dengan mempertimbangkan kompatibilitas, stabilitas, serta kemudahan integrasi antar komponen.
-Seluruh alat yang digunakan bersifat umum dan dapat direplikasi pada lingkungan penelitian serupa.
-Rincian alat utama yang digunakan dalam penelitian ini dijelaskan pada subseksi berikut.
+Bagian ini menjelaskan alat dan bahan yang digunakan untuk mendukung
+pelaksanaan metode penelitian, mulai dari akuisisi data, prapemrosesan,
+pelatihan model, hingga evaluasi hasil.
 
 \subsection{Alat}
-\label{subsec:alat}
-Perangkat lunak, pustaka, dan perangkat keras yang digunakan pada penelitian ini mendukung seluruh tahapan pemrosesan data dan pemodelan.
-Penggunaan alat dilakukan secara terintegrasi untuk memastikan alur penelitian berjalan secara sistematis dan konsisten.
-Setiap alat memiliki peran spesifik yang saling melengkapi dalam membangun sistem penerjemahan bahasa isyarat berbasis \textit{landmark}.
-Ringkasan alat yang digunakan pada penelitian ini disajikan dalam bentuk tabel panjang seperti diperlihatkan pada Tabel \ref{tab:alat-penelitian}.
+Alat yang digunakan dalam penelitian ini adalah sebagai berikut:
+\begin{enumerate}
+    \item \textit{Code editor} Visual Studio Code untuk pengembangan dan
+    pengelolaan kode program penelitian.
+    \item Bahasa pemrograman Python versi 3.10 sebagai bahasa utama
+    dalam implementasi sistem.
+    \item Platform Weights \& Biases (W\&B) untuk pencatatan dan
+    pemantauan eksperimen.
+    \item Perangkat keras berupa webcam sebagai sensor visual untuk
+    merekam data video bahasa isyarat.
+\end{enumerate}
 
-\renewcommand{\arraystretch}{1.2} % Spasi antar baris
-\setlength{\tabcolsep}{2pt} % Jarak antar kolom
-
-\begin{longtable}{|>{\centering\arraybackslash}m{0.32\textwidth}|>{\raggedright\arraybackslash}m{0.6\textwidth}|}
-\caption{Ringkasan Alat yang Digunakan dalam Penelitian}
-\label{tab:alat-penelitian} \\
-
-\hline
-\textbf{\centering Alat} & \textbf{Peran dalam Penelitian} \\ 
-\hline
-\endfirsthead
-
-\hline
-\textbf{\centering Alat} & \textbf{Peran dalam Penelitian} \\ 
-\hline
-\endhead
-
-\centering Visual Studio Code &
-\textit{Code editor} yang digunakan untuk pengembangan, pengelolaan, dan pemeliharaan kode program penelitian. \\ 
-\hline
-
-\centering Python 3.12.5 &
-Bahasa pemrograman utama yang digunakan untuk implementasi seluruh proses, mulai dari prapemrosesan data hingga pelatihan dan evaluasi model. \\ 
-\hline
-
-\centering OpenCV 4.10.0.84 &
-Pustaka pemrosesan citra dan video yang digunakan untuk membaca video, manipulasi frame, serta kebutuhan pemrosesan visual pendukung. \\ 
-\hline
-
-\centering NumPy 2.1.1 &
-Pustaka komputasi numerik yang digunakan untuk pengolahan data \textit{landmark}, operasi matriks, dan manipulasi tensor fitur. \\ 
-\hline
-
-\centering MediaPipe 0.10.14 &
-Pustaka \textit{computer vision} yang digunakan untuk ekstraksi \textit{landmark} tubuh dan tangan menggunakan pendekatan Holistic. \\ 
-\hline
-
-\centering SciPy 1.12.0 &
-Pustaka komputasi ilmiah yang digunakan untuk mendukung pemrosesan data tambahan dan operasi matematis lanjutan. \\ 
-\hline
-
-\centering Matplotlib 3.8.3 &
-Pustaka visualisasi yang digunakan untuk menampilkan grafik performa pelatihan dan hasil evaluasi model. \\ 
-\hline
-
-\centering PyTorch &
-Kerangka kerja \textit{deep learning} yang digunakan untuk implementasi dan pelatihan model CNN dua dimensi berbasis ResNet-2D. \\ 
-\hline
-
-\centering Weights \& Biases (W\&B) &
-Platform pemantauan eksperimen yang digunakan untuk pencatatan metrik, visualisasi proses pelatihan, dan dokumentasi eksperimen. \\ 
-\hline
-
-\centering Webcam Logitech HD 1080p &
-Perangkat keras yang digunakan untuk merekam video bahasa isyarat sebagai sumber data utama penelitian. \\ 
-\hline
-
-\end{longtable}
-
-
-Tabel \ref{tab:alat-penelitian} menunjukkan bahwa seluruh alat yang digunakan mendukung pendekatan penelitian berbasis \textit{landmark}.
-Kombinasi perangkat lunak dan perangkat keras tersebut memungkinkan proses penelitian dilakukan secara efisien dan terkontrol.
-Penggunaan pustaka populer juga memudahkan reproduktibilitas hasil penelitian.
-Seluruh alat digunakan secara konsisten pada setiap tahapan eksperimen.
 \subsection{Bahan}
-\label{subsec:bahan}
-Bahan yang digunakan dalam penelitian ini berupa data video bahasa isyarat yang direkam secara mandiri. Video ini dihasilkan oleh satu penutur menggunakan satu perangkat kamera dengan skema \textit{isolated sign}. Data ini menjadi sumber utama untuk proses ekstraksi \textit{landmark}, rekayasa fitur, dan pelatihan model ResNet-2D.
+Bahan yang digunakan dalam penelitian ini berupa dataset video bahasa
+isyarat Indonesia (BISINDO) yang direkam secara mandiri dengan skema
+\textit{isolated sign}.
+Dataset ini digunakan sebagai masukan untuk proses ekstraksi
+\textit{landmark}, rekayasa fitur, serta pelatihan dan evaluasi model
+ResNet-2D.
+Penjelasan lebih rinci mengenai spesifikasi dataset disajikan pada
+Subbab (ganti).
