@@ -111,11 +111,6 @@ Pendekatan berbasis video RGB menawarkan representasi visual yang kaya, namun se
 Alternatif berbasis pose dan landmark telah menunjukkan potensi efisiensi yang lebih baik, namun sebagian besar penelitian masih memisahkan pemodelan spasial dan temporal ke dalam modul arsitektur yang berbeda.
 Celah penelitian muncul pada minimnya eksplorasi pendekatan yang mampu mengintegrasikan informasi temporal secara implisit ke dalam representasi spasial, sehingga memungkinkan penggunaan arsitektur CNN dua dimensi murni tanpa ketergantungan pada mekanisme temporal eksplisit.
 
-Menjawab celah tersebut, penelitian ini mengusulkan pendekatan klasifikasi Isolated Bahasa Isyarat Indonesia (BISINDO) dengan memanfaatkan ResNet-2D berbasis representasi spasial landmark multichannel.
-Data video tidak diproses sebagai citra RGB, melainkan ditransformasikan menjadi pseudo-image dua dimensi yang merepresentasikan landmark tubuh, tangan, dan wajah hasil ekstraksi MediaPipe.
-Informasi dinamika gerakan antar-frame dikodekan secara implisit melalui kanal fitur [x, y, dx, dy], sehingga aspek temporal tertanam langsung dalam struktur spasial input.
-Melalui strategi ini, ResNet-2D berfungsi sebagai pemodel spasial murni yang sederhana dan efisien, sekaligus menawarkan alternatif arsitektur yang lebih ringan dan mudah diimplementasikan untuk penerjemahan bahasa isyarat BISINDO berbasis \textit{landmark}. \par
-
 \section{Dasar Teori} \label{sec:dasar-teori}
 Bagian ini menguraikan landasan teoretis yang mendukung pelaksanaan penelitian, khususnya konsep-konsep utama yang berkaitan dengan pengenalan bahasa isyarat berbasis visual dan pemodelan pola gerakan manusia.
 Pembahasan difokuskan pada konsep yang relevan secara langsung dengan pendekatan penelitian, tanpa mengulas aspek linguistik atau teori umum yang tidak berkontribusi terhadap metode yang digunakan.
