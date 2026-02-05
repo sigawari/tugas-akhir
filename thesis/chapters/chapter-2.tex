@@ -17,35 +17,35 @@ Uraian selanjutnya akan membahas beberapa penelitian terdahulu yang berkaitan de
 Salah satu pendekatan awal yang banyak digunakan dalam pengenalan bahasa isyarat adalah pemodelan berbasis informasi temporal dari rangkaian gerakan.
 Penelitian yang dilakukan oleh Yoses (2023) merepresentasikan pendekatan ini melalui pengenalan Bahasa Isyarat Indonesia (BISINDO) dengan memanfaatkan model sekuensial LSTM dan GRU.
 Informasi gerakan diekstraksi dalam bentuk landmark tangan, tubuh, dan wajah menggunakan MediaPipe Holistic, kemudian dipelajari sebagai urutan waktu untuk menangkap dinamika isyarat.
-Hasil penelitian menunjukkan bahwa model GRU lebih efektif dibandingkan LSTM dalam mempelajari pola temporal, sekaligus mengindikasikan bahwa pemodelan urutan gerakan memiliki peran penting dalam meningkatkan performa pengenalan bahasa isyarat dinamis.
+Hasil penelitian menunjukkan bahwa model GRU lebih efektif dibandingkan LSTM dalam mempelajari pola temporal, sekaligus mengindikasikan bahwa pemodelan urutan gerakan memiliki peran penting dalam meningkatkan performa pengenalan bahasa isyarat dinamis \cite{maheswara2023lstmbisindo}.
 
 % Paper 2: Paper 6 (ResNet + LSTM)
 % Video-Based Sign Language Recognition via ResNet and LSTM Network (2024)
 Seiring berkembangnya pendekatan berbasis temporal, beberapa penelitian mulai mengombinasikan informasi spasial dan temporal secara lebih terstruktur.
 Penelitian berbasis video oleh penulis pada tahun 2024 mengusulkan integrasi ResNet sebagai ekstraktor fitur spasial dan LSTM sebagai pemodel temporal untuk pengenalan bahasa isyarat dinamis.
 Pendekatan ini memisahkan proses ekstraksi fitur visual dari pembelajaran urutan waktu, sehingga memungkinkan model menangkap representasi spasial yang lebih kaya sebelum dianalisis secara temporal.
-Hasil evaluasi menunjukkan bahwa strategi penggabungan ini mampu meningkatkan akurasi secara signifikan dibandingkan metode konvensional, namun tetap bergantung pada pemrosesan video penuh yang memerlukan sumber daya komputasi relatif besar.
+Hasil evaluasi menunjukkan bahwa strategi penggabungan ini mampu meningkatkan akurasi secara signifikan dibandingkan metode konvensional, namun tetap bergantung pada pemrosesan video penuh yang memerlukan sumber daya komputasi relatif besar \cite{huang2024videoresnetlstm}.
 
 % Paper 3: Paper 7 (Isolated SLR + Pose + ResNet–Transformer)
 % Isolated Sign Language Recognition with Segmentation and Pose Estimation (2025)
 Keterbatasan komputasi pada pendekatan berbasis video mendorong munculnya penelitian yang berfokus pada representasi gerakan tingkat tinggi, salah satunya melalui data pose.
 Penelitian ini mengkaji pengenalan bahasa isyarat terisolasi dengan memanfaatkan koordinat pose yang dinormalisasi sebagai representasi utama gerakan. 
 Menggunakan Bidirectional LSTM untuk memodelkan dinamika temporal, pendekatan ini mampu mengurangi sensitivitas terhadap latar belakang dan pencahayaan yang sering menjadi kendala pada model berbasis piksel.
-Hasil penelitian menunjukkan bahwa pendekatan pose-based menawarkan efisiensi komputasi yang lebih baik, meskipun performanya masih sangat bergantung pada ketersediaan dan keberagaman data pelatihan.
+Hasil penelitian menunjukkan bahwa pendekatan pose-based menawarkan efisiensi komputasi yang lebih baik, meskipun performanya masih sangat bergantung pada ketersediaan dan keberagaman data pelatihan \cite{perkins2025islr}.
 
 % Paper 4: Paper 8 (Isolated SLR berbasis landmark MediaPipe dan kombinasi fitur)
 % Multi-Stream Isolated Sign Language Recognition Based on Finger Features Derived from Pose Data (2024)
 Selain representasi pose global, penelitian lain mulai mengeksplorasi detail spasial tingkat mikro yang berperan penting dalam membedakan makna isyarat.
 Penelitian ini memfokuskan pengenalan bahasa isyarat terisolasi pada konfigurasi dan pergerakan jari dengan memanfaatkan landmark MediaPipe.
 Pendekatan multisaluran yang memisahkan representasi setiap jari terbukti efektif dalam mengatasi masalah tumpang tindih dan kehilangan informasi visual.
-Temuan ini menunjukkan bahwa eksploitasi fitur spasial yang lebih detail dapat meningkatkan akurasi secara signifikan, meskipun berdampak pada meningkatnya kompleksitas dan waktu komputasi.
+Temuan ini menunjukkan bahwa eksploitasi fitur spasial yang lebih detail dapat meningkatkan akurasi secara signifikan, meskipun berdampak pada meningkatnya kompleksitas dan waktu komputasi \cite{akdag2024multistream}.
 
 % Paper 5: Paper 2 (Fully 2D CNN untuk CSLR)
 % Fully 2D Convolutional Network for Continuous Sign Language Recognition (2023)
 Berbeda dari pendekatan yang memisahkan atau menggabungkan modul spasial dan temporal secara eksplisit, penelitian lain mengusulkan arsitektur yang lebih sederhana dan seragam.
 Melalui Fully 2D Convolutional Network, penelitian ini mengintegrasikan informasi temporal ke dalam representasi spasial menggunakan mekanisme splicing sehingga dapat diproses sepenuhnya oleh CNN.
 Pendekatan ini menghilangkan ketergantungan pada model sekuensial seperti LSTM atau Transformer, sekaligus mempertahankan performa kompetitif pada pengenalan bahasa isyarat berkelanjutan.
-Hasil tersebut menunjukkan bahwa pemodelan spasio-temporal tidak selalu harus kompleks untuk mencapai kinerja yang baik, membuka peluang eksplorasi arsitektur yang lebih efisien.
+Hasil tersebut menunjukkan bahwa pemodelan spasio-temporal tidak selalu harus kompleks untuk mencapai kinerja yang baik, membuka peluang eksplorasi arsitektur yang lebih efisien \cite{zhu2023f2dcnet}.
 
 Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{table:2.literasi}. \par
 % Tabel Ringkasan Penelitian
@@ -87,19 +87,19 @@ Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{
     & Mencapai akurasi 86,25\% dan mengungguli beberapa model video-based lainnya. \\
     \hline
     3.
-    & Daniel Perkins, Davis Hunter, Dhrumil Patel, dan Galen Flanagan [2025] [\textit{Isolated Sign Language Recognition with Segmentation and Pose Estimation}]
+    & Daniel Perkins, Davis Hunter, Dhrumil Patel, dan Galen Flanagan [2025] [\textit{Isolated Sign Language Recognition with Segmentation and Pose Estimation}] \cite{perkins2025islr}
     & Model berbasis video sulit melakukan generalisasi akibat gangguan latar dan pencahayaan.
     & Integrasi estimasi pose, segmentasi, dan Bi-LSTM dengan Transformer berbasis pose.
     & Bi-LSTM dengan koordinat pose yang dinormalisasi mencapai performa tinggi sebesar 68,5\%.\\ 
     \hline
     4.
-    & Ali Akdag dan Ã–mer Kaan Baykan [2024] [\textit{Multi-Stream Isolated Sign Language Recognition Based on Finger Features Derived from Pose Data}] 
+    & Ali Akdag dan Ã–mer Kaan Baykan [2024] [\textit{Multi-Stream Isolated Sign Language Recognition Based on Finger Features Derived from Pose Data}] \cite{akdag2024multistream} 
     & Detail konfigurasi dan gerakan jari sering diabaikan dalam pengenalan bahasa isyarat.
     & Pendekatan \textit{multi-stream} landmark jari dengan MobileNetV2, PCA, dan SVM.
     & Akurasi tinggi hingga 99,78\% pada dataset LSA64. \\
     \hline
     5.
-    & Qidan Zhu, Jing Li, Fei Yuan dan Quan Gan [2023] [\textit{Fully 2D Convolutional Network for Continuous Sign Language Recognition}]
+    & Qidan Zhu, Jing Li, Fei Yuan dan Quan Gan [2023] [\textit{Fully 2D Convolutional Network for Continuous Sign Language Recognition}] \cite{zhu2023f2dcnet}
     & Model \textit{hybrid} spasio-temporal memiliki kompleksitas tinggi dan ketergantungan arsitektur sekuensial.
     & F2DCNet berbasis 2D CNN murni dengan penggabungan fitur temporal dalam representasi input.
     & Mencapai \textit{Word Error Rate} (WER) terendah hingga 20,0\% pada dataset skala besar.\\ 
