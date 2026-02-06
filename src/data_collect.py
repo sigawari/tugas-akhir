@@ -14,7 +14,7 @@ import os
 # KONFIGURASI GLOBAL
 
 DEFAULT_NO_SEQUENCES = 30       
-SEQUENCE_LENGTH = 30             
+SEQUENCE_LENGTH = 60             
 SAVE_VIDEO = True                
 PREVIEW_ONLY = False              # Preview data
 MIN_HAND_FRAMES = 3             
