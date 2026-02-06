@@ -101,47 +101,62 @@ class ResNet50(nn.Module):
         return self.backbone(x)
 
 
+class ResidualBlock(nn.Module):
+    def __init__(self, in_channels: int, out_channels: int, stride: int = 1):
+        super().__init__()
+        self.conv_path = nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1, bias=False),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(out_channels),
+        )
+        
+        # Shortcut connection (Skip Connection)
+        # Jika dimensi berubah (stride > 1), sesuaikan dimensi inputnya agar bisa dijumlahkan
+        self.shortcut = nn.Sequential()
+        if stride != 1 or in_channels != out_channels:
+            self.shortcut = nn.Sequential(
+                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(out_channels)
+            )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # Output = Fungsi(x) + x
+        out = self.conv_path(x)
+        out += self.shortcut(x) 
+        return torch.relu(out)
+
 class CNN2DResidual(nn.Module):
     """
-    Residual CNN 2D untuk input (B, 4, T, L).
-    Tujuan: jadi pembanding "CNN residual" vs ResNet.
+    Residual CNN 2D hasil modifikasi untuk input (B, 4, T, L).
     """
-    def __init__(
-        self,
-        num_classes: int,
-        in_channels: int = 4,
-        layers: Optional[List[int]] = None,
-        base_channels: int = 64,
-        dropout: float = 0.5,
-        **kwargs: Any,
-    ) -> None:
+    def __init__(self, num_classes: int, in_channels: int = 4, dropout: float = 0.3, **kwargs: Any):
         super().__init__()
-
-        self.features = nn.Sequential(
-            # (B, 4, T, L)
-            nn.Conv2d(in_channels, base_channels, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(base_channels),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/2, L/2)
-
-            nn.Conv2d(base_channels, base_channels * 2, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(base_channels * 2),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/4, L/4)
-
-            nn.Conv2d(base_channels * 2, base_channels * 4, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(base_channels * 4),
-            nn.ReLU(inplace=True),
-
-            nn.AdaptiveAvgPool2d((1, 1)),  # (B, base_channels * 4, 1, 1)
+        
+        # Initial Layer (Conv 1 Modified)
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(in_channels, 64, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(64),
+            nn.ReLU(inplace=True)
         )
-
+        
+        # Residual Blocks (Blok dengan Skip Connection)
+        self.layer1 = ResidualBlock(64, 64, stride=1)
+        self.layer2 = ResidualBlock(64, 128, stride=2) # Downsample T dan L
+        self.layer3 = ResidualBlock(128, 256, stride=2)
+        
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.head = nn.Sequential(
             nn.Flatten(),
             nn.Dropout(p=dropout),
-            nn.Linear(base_channels * 4, num_classes),
+            nn.Linear(256, num_classes)
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        z = self.features(x)
-        return self.head(z)
+        x = self.conv1(x)   # Conv 1 Modified
+        x = self.layer1(x)  # Residual Block 1
+        x = self.layer2(x)  # Residual Block 2
+        x = self.layer3(x)  # Residual Block 3
+        x = self.avgpool(x) # Average Pooling
+        return self.head(x) # Classification Output

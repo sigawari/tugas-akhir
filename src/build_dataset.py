@@ -257,7 +257,7 @@ def build_class(word: str, variant: str):
     np.save(x_path, X)
     np.save(y_path, y)
 
-    # ===== PREVIEW isi NPY di sini =====
+    # ===== PREVIEW isi NPY =====
     print(f"   ✅ DONE '{word}' '{variant}'")
     print(f"      X path  : {x_path}")
     print(f"      y path  : {y_path}")

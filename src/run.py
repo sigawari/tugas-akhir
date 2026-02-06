@@ -94,7 +94,7 @@ def build_cmd(cfg: dict) -> list[str]:
     if cfg.get("no_wandb", False):
         cmd.append("--no_wandb")
 
-    # Split path optional (kalau kamu set SPLIT_PATH)
+    # Split path optional (set SPLIT_PATH)
     if SPLIT_PATH:
         cmd += ["--split_path", str(SPLIT_PATH)]
 

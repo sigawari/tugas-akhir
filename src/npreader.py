@@ -39,7 +39,7 @@ def detect_channels_from_D(D: int) -> int:
         return 5
     if c4 and c5:
         # Ambigu (mis. D=300 habis dibagi 4 dan 5).
-        # Default aman untuk proyek kamu sekarang: 4.
+        # Default aman untuk proyek sekarang: 4.
         return 4
     # Kalau tidak bisa 4/5, fallback 4 tapi beri warning di caller.
     return 4
@@ -180,16 +180,3 @@ if __name__ == "__main__":
 
     inspect_all_npy(dir_path, mmap=args.mmap)
     show_first_landmark(dir_path, channels=args.channels, mmap=args.mmap)
-
-"""
-Cara pakai
-
-Default (auto, biasanya akan pilih 4):
-
-py npreader.py --dir ../data/processed/halo/full
-
-
-Paksa 5 kalau suatu saat kamu punya dataset yang memang ada mask:
-
-py npreader.py --dir ../data/processed/halo/full --channels 5
-"""
