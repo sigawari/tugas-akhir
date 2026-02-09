@@ -1,8 +1,6 @@
 \newpage
 \chapter{TINJAUAN PUSTAKA} \label{bab:tinjauan-pustaka}
 
-% Rev MCT: Bab II Keseluruhan: Banyak belum sitasi \cite{}
-% Rev MCT: Perlu penjelasan terkait model spasial dan temporal
 % Rev Siga: Perhatiin paper bang leo, liat apa aja yang dijadiin DafTer
 \section{Tinjauan Pustaka} \label{sec:tinjauan-pustaka}
 % Pembuka
@@ -117,6 +115,7 @@ Pembahasan difokuskan pada konsep yang relevan secara langsung dengan pendekatan
 Dasar teori disusun untuk membangun pemahaman konseptual mengenai bagaimana informasi visual dari bahasa isyarat dapat direpresentasikan dan dipelajari oleh sistem komputasi.
 Berdasarkan hal tersebut, bagian ini berfungsi sebagai penghubung antara permasalahan penelitian dan metode yang diusulkan.
 
+% BISINDO
 \subsection{Bahasa Isyarat Indonesia (BISINDO)} \label{subsec:bisindo}
 Bahasa Isyarat Indonesia (BISINDO) merupakan salah satu bahasa isyarat yang digunakan di Indonesia dan lebih umum digunakan dalam komunitas Tuli \cite{lavenia2023tuliindonesia}. 
 BISINDO berkembang secara alami dalam lingkungan sosial masyarakat Tuli Indonesia dan telah digunakan sejak sebelum masa kemerdekaan \cite{olivia2022tindakankomunikatif}. 
@@ -124,6 +123,7 @@ Berbeda dengan Sistem Bahasa Isyarat Indonesia (SIBI) yang disusun secara formal
 Perbedaan ini menyebabkan BISINDO tidak selalu mengikuti tata bahasa Indonesia secara langsung, melainkan memanfaatkan kombinasi gerakan tangan, orientasi tubuh, serta ekspresi non-manual untuk menyampaikan makna \cite{bentara2024sibi-bisindo}. 
 Karakteristik visual dan gestural tersebut menjadikan BISINDO sangat bergantung pada pola gerakan tubuh, wajah, dan tangan, sehingga dapat dipandang sebagai permasalahan pengenalan gerakan berbasis visual. \par
 
+% SLR
 \subsection{\textit{Sign Language Recognition} (SLR)} \label{subsec:slr}
 \textit{Sign Language Recognition} (SLR) merupakan bidang penelitian dalam visi komputer yang bertujuan untuk mengenali dan menginterpretasikan bahasa isyarat berdasarkan informasi visual yang diperoleh dari gerakan manusia.
 Bahasa isyarat dipandang sebagai bahasa visual-gestural yang memanfaatkan kombinasi gerakan tangan, orientasi tubuh, lokasi artikulasi, serta ekspresi non-manual seperti gerakan wajah dan kepala \cite{rastgoo2021slrdeepsurvey}.
@@ -142,6 +142,7 @@ Klasifikasi ini berperan penting dalam menentukan strategi representasi data dan
   {\footnotesize Sumber: diadaptasi dari Rastgoo et al. \cite{rastgoo2021slrdeepsurvey}}
 \end{figure}
 
+% ISLR
 \subsection{\textit{Isolated Sign Language Recognition}} \label{subsec:islr}
 \textit{Isolated Sign Language Recognition} (ISLR) merupakan salah satu cabang dari SLR yang berfokus pada pengenalan satu unit isyarat secara terpisah tanpa mempertimbangkan keterkaitan antar-isyarat dalam suatu rangkaian kalimat.
 Setiap sampel input pada ISLR merepresentasikan satu isyarat tunggal dengan batas awal dan akhir yang telah ditentukan secara eksplisit \cite{rastgoo2021slrdeepsurvey}.
@@ -158,6 +159,7 @@ Representasi spasial dua dimensi yang menyusun data temporal ke dalam struktur t
 Strategi ini sejalan dengan pendekatan penelitian yang mengeksplorasi kemampuan model spasial murni dalam menangkap dinamika gerakan bahasa isyarat. 
 Berdasarkan karakteristik tersebut, penelitian ini difokuskan pada skema \textit{Isolated Sign Language Recognition} untuk mengevaluasi efektivitas representasi spasial dan arsitektur model secara terkontrol. \par
 
+% Mediapipe Holistic
 \subsection{\textit{MediaPipe Holistic}} \label{subsec:mediapipe}
 \textit{MediaPipe Holistic} merupakan solusi visi komputer berbasis \textit{framework} MediaPipe yang dirancang untuk melakukan ekstraksi landmark tubuh manusia secara terintegrasi dari data visual.
 Sistem ini mampu mendeteksi dan melacak beberapa komponen utama tubuh manusia, meliputi wajah, tangan, dan pose tubuh dalam satu pipeline pemrosesan terpadu \cite{manullang2025computervision}.
@@ -272,6 +274,7 @@ Nilai $(dx_t, dy_t)$ mencerminkan arah dan intensitas gerakan antar-frame.
 Representasi ini memungkinkan dinamika gerakan ditangkap secara langsung pada level fitur. 
 Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu \textit{(x, y, dx, dy)}.
 
+% Konsep Tensor Multichannel
 \subsubsection{Struktur Tensor Masukan CNN}
 Seluruh \textit{landmark} pada setiap frame kemudian disusun menjadi sebuah tensor masukan yang selaras dengan format masukan model konvolusional dua dimensi.
 Struktur tensor masukan tersebut dapat dinyatakan seperti pada Persamaan \ref{eq:tensor-input}. \par
