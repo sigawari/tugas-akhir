@@ -52,40 +52,44 @@ Berdasarkan pendekatan ini, penelitian diharapkan dapat memberikan kontribusi ya
 
 \subsection{Pengumpulan Dataset}
 \label{subsec:pengumpulan-dataset}
-Pengumpulan dataset dilakukan untuk memperoleh data bahasa isyarat yang sesuai dengan kebutuhan penelitian. 
-Dataset dikumpulkan dalam bentuk rekaman video bahasa isyarat dengan skema \textit{isolated sign}, di mana setiap isyarat direkam secara terpisah dengan batas awal dan akhir yang jelas. 
-Pendekatan ini memudahkan proses segmentasi dan pelabelan data serta menjaga konsistensi antar-sampel.
-Akuisisi video dilakukan melalui perekaman langsung menggunakan perangkat kamera dengan pengaturan sudut pandang, pencahayaan, dan jarak yang terkontrol. 
-Pengaturan tersebut bertujuan untuk memastikan gerakan tangan dan tubuh terekam dengan jelas sehingga mendukung proses ekstraksi \textit{landmark}. 
 
-Parameter teknis perekaman, termasuk resolusi dan laju pengambilan frame, dijaga konsisten pada seluruh sesi akuisisi data. 
-Pemilihan \textit{frame rate} sebesar 30 fps dilakukan untuk memastikan kualitas representasi temporal sekaligus menjaga efisiensi pemrosesan. 
-Studi pada pengenalan aksi menekankan pentingnya \textit{sampling rate} yang konsisten untuk menyamakan durasi observasi antar-sampel \cite{kulbacki2023intelligent}. 
-Pendekatan serupa juga banyak digunakan pada dataset dan sistem pengenalan bahasa isyarat untuk menyeimbangkan kualitas temporal dan efisiensi komputasi \cite{huang2022cbamautoencoder}.
+Pengumpulan dataset bertujuan memperoleh data bahasa isyarat yang relevan terhadap kebutuhan penelitian. 
+Data direkam dalam bentuk video bahasa isyarat menggunakan skema \textit{isolated sign} sehingga setiap isyarat memiliki batas awal dan akhir yang jelas secara konseptual. 
+Pendekatan ini mempermudah proses segmentasi gestur pada tahap prapemrosesan sekaligus menjaga konsistensi struktur data antar-sampel. 
+Skema perekaman terpisah juga membantu menghindari tumpang tindih konteks gerakan yang dapat memengaruhi proses pelabelan.
 
-\subsubsection{Spesifikasi Dataset}
-\label{subsubsec:spesifikasi-data}
+Proses akuisisi data dilakukan melalui perekaman langsung menggunakan satu perangkat kamera dalam satu sesi pengambilan data. 
+Setiap kelas kata direkam melalui satu pengambilan video berkelanjutan (\textit{one continuous take}) yang memuat beberapa pengulangan isyarat secara berurutan. 
+Penutur melakukan satu isyarat kemudian berhenti sejenak sebelum melanjutkan pengulangan berikutnya untuk menjaga batas antar-gestur tetap jelas. 
+Pendekatan satu kali pengambilan bertujuan mengurangi beban fisik penutur sekaligus menjaga konsistensi kondisi perekaman.
 
-Dataset yang digunakan pada penelitian ini terdiri dari sepuluh kelas kata isyarat BISINDO yang direkam secara terkontrol dalam skema \textit{isolated sign}. 
-Total data awal berjumlah 300 \textit{sequence} hasil perekaman langsung, sehingga setiap kelas direpresentasikan oleh 30 \textit{sequence} yang direkam secara terpisah. 
-Pendekatan ini memungkinkan setiap isyarat memiliki variasi alami tanpa tumpang tindih konteks antar-kata. 
+Parameter teknis perekaman dijaga tetap pada seluruh proses pengambilan dataset. 
+Resolusi perekaman awal ditetapkan pada 1920 $\times$ 1080 p untuk mempertahankan detail visual selama proses deteksi \textit{landmark}. 
+Laju pengambilan frame ditetapkan sebesar 30 frame per detik untuk merepresentasikan dinamika temporal gerakan secara memadai. 
+Pemilihan nilai tersebut sejalan terhadap praktik umum pada penelitian pengenalan aksi yang menekankan konsistensi \textit{sampling rate} antar-sampel \cite{kulbacki2023intelligent}. 
+Pendekatan serupa juga banyak digunakan pada sistem pengenalan bahasa isyarat untuk menjaga keseimbangan antara kualitas temporal dan efisiensi komputasi \cite{huang2022cbamautoencoder}.
+
+Dataset awal terdiri dari sepuluh kelas kata isyarat BISINDO yang direkam secara terkontrol. 
+Setiap kelas kata direkam melalui satu video mentah hasil satu kali pengambilan sehingga total terdapat sepuluh video mentah pada tahap awal. 
+Dari setiap video mentah kemudian dilakukan proses segmentasi berbasis gestur untuk memperoleh beberapa \textit{sequence} terpisah. 
+Total data awal hasil segmentasi berjumlah 300 \textit{sequence}, sehingga setiap kelas direpresentasikan oleh 30 \textit{sequence}. 
 Struktur dataset tersebut dirancang untuk mendukung proses pembelajaran model klasifikasi berbasis urutan gerakan.
 
-Setiap \textit{sequence} diseragamkan memiliki panjang 60 frame dengan laju pengambilan 30 frame per detik. 
-Penyeragaman jumlah frame dilakukan untuk menjaga konsistensi temporal antar-sampel dan memudahkan pembentukan tensor masukan pada model. 
-Durasi sekitar dua detik per \textit{sequence} dinilai cukup untuk merepresentasikan satu unit isyarat secara utuh tanpa mengandung gerakan berlebih. 
-Pengaturan ini juga bertujuan untuk menyeimbangkan antara kelengkapan informasi temporal dan efisiensi komputasi selama pelatihan model.
+Setiap \textit{sequence} diseragamkan memiliki panjang 60 frame. 
+Laju pengambilan 30 frame per detik menghasilkan durasi sekitar dua detik untuk setiap \textit{sequence}. 
+Durasi tersebut dinilai cukup untuk merepresentasikan satu unit isyarat secara utuh tanpa memuat gerakan tambahan yang tidak relevan. 
+Penyeragaman panjang sekuens juga mempermudah pembentukan tensor masukan yang konsisten pada tahap pelatihan model.
 
-Pemilihan kata isyarat dalam dataset mempertimbangkan karakteristik visual dan linguistik bahasa isyarat, khususnya tingkat kemiripan antar-kelas. 
-Beberapa pasangan kata dipilih karena memiliki bentuk tangan dan pola gerakan yang serupa, sehingga menghadirkan tantangan klasifikasi yang realistis. 
-Pasangan kata \textit{tidak punya} dan \textit{belum} memiliki gerakan tangan yang mirip dengan perbedaan utama pada tempo gerakan dan unsur non-manual seperti \textit{mouthing}. 
-Pasangan kata lain seperti \textit{teman} dan \textit{sahabat} menunjukkan kesamaan gerakan dasar yang dibedakan oleh detail kontak tangan dan ekspresi wajah. 
-Pendekatan ini mendorong model untuk mempelajari perbedaan halus yang muncul dari dinamika gerakan dan ekspresi alami bahasa isyarat.
+Pemilihan kata isyarat mempertimbangkan tingkat kemiripan visual antar-kelas. 
+Beberapa pasangan kata dipilih karena memiliki bentuk tangan dan pola gerakan yang serupa sehingga menghadirkan tantangan klasifikasi yang realistis. 
+Kata \textit{tidak punya} dan \textit{belum} menunjukkan kemiripan gerakan utama yang dibedakan melalui tempo gerakan dan unsur non-manual seperti \textit{mouthing}. 
+Pasangan kata lain seperti \textit{teman} dan \textit{sahabat} memperlihatkan kesamaan gerakan dasar yang dibedakan melalui detail kontak tangan dan ekspresi wajah. 
+Pemilihan ini mendorong model untuk mempelajari perbedaan halus yang muncul dari dinamika gerakan bahasa isyarat alami.
 
 Seluruh data bahasa isyarat direkam oleh satu penutur tuli yang merupakan anggota komunitas Pusbisindo Jawa Barat. 
-Pemilihan penutur bertujuan untuk menjaga keaslian penggunaan bahasa isyarat serta konsistensi gerakan antar-sampel. 
-Penggunaan satu penutur juga membantu meminimalkan variasi antar-individu yang tidak menjadi fokus penelitian ini. 
-Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan seperti pada Tabel \ref{tab:dataset-config}.
+Penggunaan satu penutur bertujuan menjaga konsistensi gaya gestur antar-sampel sepanjang dataset. 
+Pendekatan ini juga membantu meminimalkan variasi antar-individu yang tidak menjadi fokus utama penelitian. 
+Ringkasan konfigurasi pengambilan dataset bahasa isyarat disajikan pada Tabel \ref{tab:dataset-config}.
 
 \begin{table}[H]
 	\centering
@@ -101,12 +105,13 @@ Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan seperti pad
 	Jumlah frame per sequence & 60 frame \\ \hline
 	Durasi satu sequence & $\sim$2 detik \\ \hline
 	Jumlah kata isyarat & 10 kata \\ \hline
-	Jumlah sequence per kata & 30 sequence \\ \hline
-	Total sequence awal & 300 sequence \\ \hline
+	Jumlah video mentah & 10 video \\ \hline
+	Jumlah sequence per kata & 15 sequence \\ \hline
+	Total sequence awal & 150 sequence \\ \hline
 	\end{tabular}
 	
 	\vspace{0.5em}
-	{\footnotesize Catatan: Setiap \textit{sequence} direkam secara terpisah untuk menangkap variasi alami gerakan penutur.}
+	{\footnotesize Catatan: Setiap video mentah direkam dalam satu kali pengambilan (\textit{one continuous take}) kemudian disegmentasi secara berbasis gestur menjadi beberapa \textit{sequence} berdurasi tetap.}
 \end{table}
 
 \subsection{Prapemrosesan Data dan Rekayasa Fitur}
@@ -115,12 +120,8 @@ Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan seperti pad
 Tahap preprocessing bertujuan untuk menyiapkan data video sebelum dilakukan rekayasa fitur dan pemodelan. 
 Preprocessing difokuskan pada penyesuaian format data dan ekstraksi informasi visual awal. 
 Tahapan ini memastikan data berada dalam kondisi yang konsisten dan siap diproses lebih lanjut. 
-Proses preprocessing dilakukan secara berurutan untuk menjaga integritas data.
-
 Alur prapemrosesan dan rekayasa fitur pada penelitian ini diringkas seperti pada Gambar \ref{fig:3.prapemrosesan}. 
 Diagram tersebut memperlihatkan keterkaitan tahapan mulai dari masukan video, proses ekstraksi \textit{landmark}, seleksi dan normalisasi koordinat, hingga pembentukan representasi fitur yang siap digunakan sebagai masukan model. 
-Urutan proses pada diagram digunakan sebagai acuan agar setiap tahap dapat dilakukan secara konsisten pada seluruh \textit{sequence}. 
-Penyajian alur dalam bentuk diagram juga membantu memastikan batasan antara tahap persiapan data dan tahap pelatihan model tetap jelas.
 
 % Rev MCT: Parameter dari proses deteksi perlu dijelaskan dari ekstraksi sampai normalisasi
 \begin{figure}[H]
@@ -130,40 +131,63 @@ Penyajian alur dalam bentuk diagram juga membantu memastikan batasan antara taha
     \label{fig:3.prapemrosesan}
 \end{figure} \par
 
+\subsubsection{Segmentasi dan Trimming Video}
+\label{subsubsec:segmentasi-trimming}
+
+Segmentasi dan trimming video dilakukan untuk membentuk satuan data berupa \textit{sequence} yang merepresentasikan satu gestur bahasa isyarat secara utuh.
+Video mentah direkam dalam satu kali pengambilan berkelanjutan untuk setiap kelas kata sehingga memuat beberapa pengulangan gestur secara berurutan.
+Setiap pengulangan dipisahkan oleh jeda singkat berupa posisi diam yang dilakukan oleh penutur.
+Pola tersebut dimanfaatkan sebagai dasar untuk melakukan segmentasi gestur secara konsisten.
+
+Proses trimming bertujuan memotong video mentah menjadi beberapa potongan video pendek yang masing-masing merepresentasikan satu gestur.
+Segmentasi dilakukan secara berbasis gestur berdasarkan pengamatan perubahan gerakan tangan dan tubuh bagian atas.
+Bagian awal dan akhir video yang hanya memuat posisi diam dieliminasi untuk menghindari masuknya frame yang tidak relevan.
+Hasil dari tahap ini berupa potongan video yang fokus pada fase aktif gerakan bahasa isyarat.
+
+Setiap potongan video hasil segmentasi kemudian diseragamkan menjadi \textit{sequence} berdurasi tetap.
+Panjang \textit{sequence} ditetapkan sebesar 60 frame untuk menjaga konsistensi temporal antar-sampel.
+Penetapan panjang ini didasarkan pada laju pengambilan 30 frame per detik sehingga satu \textit{sequence} merepresentasikan durasi sekitar dua detik.
+Penyeragaman durasi diperlukan agar seluruh data dapat disusun dalam bentuk tensor masukan berdimensi tetap pada tahap pemodelan.
+
+Potongan video yang mengandung lebih dari satu gestur tidak digunakan pada proses selanjutnya.
+Keputusan ini diambil untuk memastikan bahwa setiap \textit{sequence} hanya merepresentasikan satu unit makna bahasa isyarat.
+Pendekatan ini juga mencegah tercampurnya informasi gerakan yang dapat mengaburkan proses pembelajaran model.
+Hasil akhir tahap segmentasi dan trimming berupa kumpulan \textit{sequence} yang siap diproses pada tahap ekstraksi \textit{landmark}. \par
+
 \subsubsection{Ekstraksi \textit{Landmark} MediaPipe Holistic}
 \label{subsubsec:ekstraksi-landmark}
 
-Ekstraksi \textit{landmark} dilakukan menggunakan MediaPipe Holistic untuk memperoleh representasi titik-titik kunci tubuh manusia pada setiap frame video. 
-Setiap frame diproses secara independen tanpa mempertimbangkan informasi temporal antar-frame. 
-Pendekatan ini menghasilkan keluaran berupa koordinat \textit{landmark} yang merepresentasikan posisi relatif bagian tubuh terhadap kamera. 
-Seluruh proses ekstraksi dilakukan secara otomatis dan real-time.
+Tahap ekstraksi \textit{landmark} menerima masukan berupa \textit{sequence} video hasil proses segmentasi dan trimming.
+Setiap \textit{sequence} terdiri dari sejumlah frame berurutan yang merepresentasikan satu gestur bahasa isyarat.
+Frame-frame tersebut diproses secara individual sehingga tahap ini tidak melibatkan pemodelan hubungan temporal antar-frame.
+Pendekatan ini bertujuan memperoleh representasi spasial mentah yang konsisten sebelum dilakukan tahapan prapemrosesan lanjutan.
 
-MediaPipe Holistic menghasilkan beberapa kelompok \textit{landmark}, yaitu \textit{pose}, tangan kiri, tangan kanan, dan wajah. 
-\textit{Landmark pose} merepresentasikan struktur tubuh bagian atas dan bawah, sedangkan \textit{landmark} tangan merepresentasikan struktur jari dan telapak tangan secara rinci. 
-\textit{Landmark wajah} juga diekstraksi untuk mencatat informasi ekspresi non-manual. 
-Tidak seluruh komponen \textit{landmark} yang dihasilkan digunakan pada tahap pemrosesan selanjutnya.
+Proses ekstraksi dilakukan menggunakan MediaPipe Holistic pada setiap frame video.
+Sistem mendeteksi \textit{landmark} tubuh penutur yang mencakup komponen pose, tangan kiri, tangan kanan, dan wajah.
+Hasil deteksi pada setiap frame berupa kumpulan koordinat \textit{landmark} yang disusun secara berurutan mengikuti indeks waktu.
+Urutan koordinat tersebut membentuk representasi spasial mentah dari satu \textit{sequence} gestur.
 
-Setiap \textit{landmark} direpresentasikan dalam bentuk koordinat tiga dimensi \textit{(x, y, z)} yang telah dinormalisasi relatif terhadap dimensi frame. 
-Koordinat \textit{x} dan \textit{y} merepresentasikan posisi pada bidang citra, sedangkan koordinat \textit{z} merepresentasikan kedalaman relatif terhadap kamera. 
-Seluruh koordinat \textit{landmark} disimpan dalam format berkas \textit{JSON} untuk setiap urutan video. 
-Format penyimpanan ini memudahkan proses pemanggilan ulang data pada tahap \textit{preprocessing} dan rekayasa fitur.
+Struktur keluaran proses deteksi \textit{landmark} ditunjukkan pada Gambar \ref{fig:3.ekstraksi_landmark}.
+Diagram tersebut memperlihatkan alur pemrosesan mulai dari masukan video hasil trimming, pemrosesan per frame, hingga pembentukan keluaran berupa koordinat \textit{landmark} mentah.
+Informasi yang ditampilkan pada diagram digunakan untuk memperjelas jenis dan jumlah \textit{landmark} yang dihasilkan sebelum dilakukan proses seleksi.
+Representasi ini menjadi acuan dalam menentukan strategi penyederhanaan dan pemfokusan data pada tahap berikutnya.
 
-Gambar \ref{fig:3.ekstraksi_landmark} menampilkan contoh keluaran proses ekstraksi berupa titik dan garis penghubung \textit{landmark} pada satu frame. 
-Visualisasi tersebut memberikan gambaran bahwa sistem mampu melokalisasi bagian tubuh yang relevan, khususnya tangan dan tubuh bagian atas, sebagai komponen utama pembawa informasi isyarat. 
-Bentuk visual ini digunakan untuk memvalidasi kualitas ekstraksi secara kualitatif sebelum data disimpan dalam format numerik. 
-Hasil ekstraksi pada tahap ini menjadi dasar bagi proses seleksi \textit{landmark} dan pembentukan fitur pada tahap berikutnya.
-% Rev MCT: Pas bagian hasil itu jelasin x berapa y berapa z berapa
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.28\textwidth]{figure/deteksi_landmark.pdf}
+    \includegraphics[width=0.20\textwidth]{figure/deteksi_landmark.pdf}
     \caption{Ilustrasi Alur Ekstraksi Landmark}
     \label{fig:3.ekstraksi_landmark}
 \end{figure} \par
 
-Proses ekstraksi \textit{landmark} pada penelitian ini bertujuan untuk mengubah data mentah berupa frame video menjadi representasi titik-titik kunci tubuh manusia.
-Data mentah yang digunakan berupa citra RGB dengan resolusi tinggi. 
-Hasil ekstraksi berupa skeleton yang mencakup \textit{landmark} wajah, pose, dan tangan. 
-Pada Gambar \ref{fig:3.before_after_extraction}, ilustrasi sebelum dan sesudah ekstraksi ditampilkan untuk memberikan gambaran visual mengenai proses ini.
+Hasil ekstraksi \textit{landmark} dari setiap \textit{sequence} disimpan dalam bentuk data terstruktur.
+Struktur data mempertahankan keterkaitan antara indeks frame dan indeks \textit{landmark} pada setiap waktu pengamatan.
+Pendekatan penyimpanan ini memudahkan proses pemanggilan ulang data secara konsisten pada tahap seleksi \textit{landmark} dan normalisasi.
+Representasi numerik hasil ekstraksi menjadi masukan langsung bagi seluruh proses prapemrosesan lanjutan dan rekayasa fitur.
+
+Gambar \ref{fig:3.before_after_extraction} menampilkan ilustrasi perbandingan antara frame video mentah dan hasil ekstraksi \textit{landmark}.
+Citra sebelum ekstraksi menunjukkan data visual asli tanpa informasi struktural eksplisit.
+Citra sesudah ekstraksi menampilkan representasi skeleton yang memuat \textit{landmark} pose, tangan, dan wajah.
+Ilustrasi ini digunakan sebagai validasi kualitatif untuk memastikan bahwa proses ekstraksi berhasil melokalisasi bagian tubuh yang relevan terhadap bahasa isyarat.
 
 \begin{figure}[H]
 	\centering
@@ -181,11 +205,6 @@ Pada Gambar \ref{fig:3.before_after_extraction}, ilustrasi sebelum dan sesudah e
 	\caption{Ilustrasi Proses Ekstraksi \textit{Landmark} pada Satu Frame}
 	\label{fig:3.before_after_extraction}
 \end{figure}
-
-Gambar \ref{fig:3.before_after_extraction} memperlihatkan perbedaan antara data mentah dan hasil ekstraksi.
-Citra sebelah kiri menunjukkan frame video asli sebelum diproses. 
-Citra sebelah kanan menampilkan skeleton hasil ekstraksi yang terdiri dari \textit{landmark} wajah, pose, dan tangan. 
-Representasi ini menjadi dasar untuk proses rekayasa fitur pada tahap berikutnya.
 
 \subsubsection{Seleksi \textit{Landmark} dan Fitur}
 \label{subsubsec:seleksi-normalisasi}
