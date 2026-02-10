@@ -286,15 +286,36 @@ Daftar indeks \textit{landmark} wajah yang digunakan ditunjukkan pada Tabel \ref
 
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:normalisasi-landmark}
-% Rev MCT: Beri contoh normalisasi
-Normalisasi \textit{landmark} dilakukan untuk menyamakan representasi spasial antar-sampel dan mengurangi pengaruh pergeseran posisi global subjek di dalam frame.
-Meskipun koordinat \textit{landmark} hasil ekstraksi MediaPipe telah berada pada rentang $[0,1]$, nilai tersebut masih dipengaruhi oleh posisi tubuh subjek terhadap kamera.
-Oleh karena itu, normalisasi ulang diterapkan pada tingkat \textit{sequence} agar model lebih berfokus pada pola gerakan relatif dibandingkan posisi absolut.
 
-Misalkan sebuah \textit{sequence} terdiri dari $T$ frame dengan $L$ titik \textit{landmark}.
+Normalisasi \textit{landmark} dilakukan untuk menyamakan representasi spasial antar-sampel dan mengurangi pengaruh posisi global subjek di dalam frame.
+Koordinat \textit{landmark} hasil ekstraksi MediaPipe masih dipengaruhi oleh pergeseran posisi tubuh meskipun telah dinyatakan relatif terhadap dimensi citra.
+Variasi posisi ini dapat menyebabkan perbedaan representasi yang tidak berkaitan langsung terhadap makna gerakan bahasa isyarat.
+Normalisasi berbasis titik referensi tubuh diterapkan agar model lebih berfokus pada hubungan relatif antar-bagian tubuh.
+
+Normalisasi pada penelitian ini menggunakan titik bahu sebagai referensi utama.
+Bahu dipilih karena merupakan bagian tubuh yang relatif stabil selama produksi bahasa isyarat dibandingkan tangan atau kepala.
+Titik referensi ditentukan sebagai titik tengah antara bahu kiri dan bahu kanan pada setiap frame.
+Pendekatan ini menyediakan pusat koordinat yang konsisten untuk merepresentasikan gerakan tangan dan tubuh bagian atas.
+
+Setiap \textit{sequence} terdiri dari $T$ frame dan $L$ titik \textit{landmark}.
 Koordinat \textit{landmark} ke-$i$ pada frame ke-$t$ dinyatakan sebagai $(x_{t,i}, y_{t,i})$.
-Salah satu titik \textit{landmark} dipilih sebagai titik referensi $(x_{t,r}, y_{t,r})$, yang merepresentasikan pusat tubuh atau titik stabil tertentu.
-Normalisasi koordinat dilakukan dengan persamaan: \par
+Koordinat bahu kiri dan bahu kanan pada frame ke-$t$ masing-masing dinyatakan sebagai $(x_{t,ls}, y_{t,ls})$ dan $(x_{t,rs}, y_{t,rs})$.
+Titik referensi bahu $(x_{t,r}, y_{t,r})$ dihitung sebagai titik tengah kedua bahu tersebut.
+
+\begin{equationcaptioned}[eq:shoulder_ref]{
+\begin{aligned}
+x_{t,r} &= \frac{x_{t,ls} + x_{t,rs}}{2} \\
+y_{t,r} &= \frac{y_{t,ls} + y_{t,rs}}{2}
+\end{aligned}
+}{
+Perhitungan titik referensi bahu
+}
+\end{equationcaptioned}
+
+Normalisasi koordinat \textit{landmark} dilakukan melalui operasi translasi terhadap titik referensi bahu.
+Formulasi normalisasi koordinat ditunjukkan pada Persamaan \ref{eq:normalize}.
+Operasi ini memusatkan seluruh koordinat \textit{landmark} terhadap pusat tubuh sehingga variasi posisi global dapat ditekan.
+Struktur spasial relatif antar-\textit{landmark} tetap terjaga karena translasi diterapkan secara seragam.
 
 \begin{equationcaptioned}[eq:normalize]{
 \begin{aligned}
@@ -302,16 +323,45 @@ Normalisasi koordinat dilakukan dengan persamaan: \par
 \hat{y}_{t,i} &= y_{t,i} - y_{t,r}
 \end{aligned}
 }{
-Normalisasi koordinat \textit{landmark} terhadap titik referensi
+Normalisasi koordinat \textit{landmark} berbasis bahu
 }
+\end{equationcaptioned}
 
-\end{equationcaptioned} \par
-Pendekatan ini memusatkan seluruh koordinat \textit{landmark} terhadap titik referensi sehingga variasi posisi global antar-sampel dapat ditekan.
-Hubungan spasial dan struktur relatif antar-\textit{landmark} tetap terjaga karena operasi normalisasi diterapkan secara seragam pada setiap frame.
-Selain itu, urutan temporal \textit{sequence} tidak mengalami perubahan sehingga dinamika gerakan bahasa isyarat tetap dipertahankan.
+Diketahui: 
+\begin{itemize}
+	\renewcommand{\labelitemi}{}
+	\item Resolusi frame video: $1920 \times 1080$ piksel
+	\item Koordinat bahu kiri: $(960, 540)$
+	\item Koordinat bahu kanan: $(1040, 540)$
+	\item Koordinat \textit{landmark} tangan: $(1120, 520)$
+\end{itemize}
 
-Normalisasi ini membantu meningkatkan stabilitas fitur serta ketahanan model terhadap variasi posisi subjek dan kondisi perekaman.
-Dengan demikian, fitur yang dihasilkan lebih representatif terhadap karakteristik gerakan isyarat yang menjadi fokus utama pembelajaran model.
+Ditanya: 
+\begin{itemize}
+	\renewcommand{\labelitemi}{}
+	\item Koordinat referensi bahu $(x_r, y_r)$
+	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y})$
+\end{itemize}
+
+Penyelesaian:
+\begin{align*}
+x_r &= \frac{x_{\text{bahu kiri}} + x_{\text{bahu kanan}}}{2} = \frac{960 + 1040}{2} = 1000 \\
+y_r &= \frac{y_{\text{bahu kiri}} + y_{\text{bahu kanan}}}{2} = \frac{540 + 540}{2} = 540 \\
+x_{\text{rel}} &= \frac{x_{\text{landmark}}}{\text{lebar frame}} = \frac{1120}{1920} \approx 0.583 \\
+y_{\text{rel}} &= \frac{y_{\text{landmark}}}{\text{tinggi frame}} = \frac{520}{1080} \approx 0.481 \\
+x_{r,\text{rel}} &= \frac{x_r}{\text{lebar frame}} = \frac{1000}{1920} \approx 0.521 \\
+y_{r,\text{rel}} &= \frac{y_r}{\text{tinggi frame}} = \frac{540}{1080} \approx 0.500 \\
+\hat{x} &= x_{\text{rel}} - x_{r,\text{rel}} = 0.583 - 0.521 = 0.062 \\
+\hat{y} &= y_{\text{rel}} - y_{r,\text{rel}} = 0.481 - 0.500 = -0.019
+\end{align*}
+
+Hasil:
+\begin{itemize}
+	\renewcommand{\labelitemi}{}
+	\item Koordinat referensi bahu $(x_r, y_r) = (1000, 540)$
+	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y}) = (0.062, -0.019)$
+\end{itemize}
+
 
 \subsubsection{Augmentasi \textit{Landmark} dan Temporal}
 \label{subsubsec:augmentasi-landmark-temporal}

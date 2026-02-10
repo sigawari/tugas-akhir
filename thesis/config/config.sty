@@ -246,27 +246,26 @@
 
 \usepackage{etoolbox}
 
+% Setting penulisan rumus yang baru (Ardoni)
 \newenvironment{equationcaptioned}[3][]{%
   \refstepcounter{equation}
   \myequations{#3}
-  \begin{center}
-    \vspace{0.5em}
+  \begin{center} % TODO: Rumus harusnya rata kiri
+    \vspace{1em}
     % Removed the fcolorbox and kept only the minipage
     \begin{minipage}{0.9\linewidth}
-      \begin{spacing}{0.7} % ⬅️ Spasi 1.0 hanya di rumus
-      \begin{equation*}
-      \begin{gathered}
-        #2
-      \end{gathered}
-      \ifstrempty{#1}{}{\label{#1}}
-      \end{equation*}
-      \end{spacing}
+		\begin{spacing}{0.7} % ⬅️ Spasi 1.0 hanya di rumus
+			\begin{equation*}
+				#2
+				\ifstrempty{#1}{}{\label{#1}}
+			\end{equation*}
+		\end{spacing}
+		\begin{flushright}
+			(\footnotesize\theequation)
+		\end{flushright}
     \end{minipage}
   \end{center}
   \vspace{0.5em}
-  \begin{center}
-    \footnotesize \theequation\ #3
-  \end{center}
 }{}
 
 
