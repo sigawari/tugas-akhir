@@ -2,24 +2,35 @@
 %--------------------------------------------------------------------%
 %
 % Template TA LaTeX Teknik Informatika ITERA.
-% Editor: Radhinka Bagaskara, Martin C.T. Manullang, I Wayan Wiprayoga Wisesa, Ardoni Yeriko Rifana Gultom (IF 2021)
-% Version 2025.1
+% Editor: Radhinka Bagaskara, Martin C.T. Manullang, I Wayan Wiprayoga Wisesa, Jose Alfredo Sitanggang (IF 2016), Ardoni Yeriko Rifana Gultom (IF 2021), Syabana Minggus Noviantosa (IF 2018), Rizki Alfaina (IF 2021)
+% Version 2025.5
 % TELAH DISESUAIKAN DENGAN FORMAT PERPUSTAKAAN ITERA MEI 2025 (UNESCO FORMAT)
 %
 % Berdasarkan "Templat LaTeX Tesis Informatika ITB" oleh Petra Barus & Peb Ruswono Aryan
 % https://github.com/petrabarus/if-itb-latex
+% Berdasarkan Panduan Tugas Akhir Teknik Informatika ITERA v1.3
+% https://docs.google.com/document/d/1SYtSpRevbRvscXIJRAxuT41kJqqzsHyw/edit?usp=sharing&ouid=103935211052656359121&rtpof=true&sd=true
+%
 %--------------------------------------------------------------------%
 %
 % Berkas ini berisi struktur utama dokumen LaTeX yang akan dibuat.
-% VERSI OPTIMASI: Semua daftar dan elemen tambahan dimatikan untuk mempercepat kompilasi
 %
 %--------------------------------------------------------------------%
 
 % Set jenis dokumen Tugas Akhir
-\documentclass[article,twoside]{report} % Untuk versi perpustakaan
-\usepackage[paperwidth=155mm,paperheight=230mm,top=2cm, bottom=2cm, left=2cm, right=2cm, includefoot, heightrounded, bindingoffset=0.5cm]{geometry}
+\documentclass[article]{report} % Untuk versi perpustakaan
+\usepackage[paperwidth=155mm, % Setting layout kertas UNESCO (155 x 230 mm)
+			paperheight=230mm,
+			top=2cm,
+			bottom=2cm,
+			left=2cm,
+			right=2cm,
+			includefoot,
+			heightrounded,
+			bindingoffset=0.5cm]
+			{geometry}
 
-\input{config/config.sty}
+\input{config/config.sty} % Import konfigurasi laporan
 
 \bibliography{references}
 
@@ -66,8 +77,7 @@
     %----------------------------------------------------------------%
     % Aktivasi twoside (agar ada margin gutter 0.5 cm) & nomor halaman selang-seling
     % mulai dari setelah Lembar Pengesahan (Ardoni)
-    % Pastikan mulai dari halaman ganjil agar selang-seling kiri/kanan konsisten
-    \cleardoublepage
+    \clearpage
 	\newgeometry{
 		top=2cm,
 		bottom=2cm,
@@ -134,10 +144,8 @@
     \setcounter{page}{1}
     \pagenumbering{arabic}    
     \justifying
-    % Mulai selang-seling halaman
-    \forceoddpage
+    % Mulai Bab di halaman ganjil (tanpa mengubah pengaturan selang-seling yang sudah aktif)
     \cleardoublepage
-    \pagestyle{alternatingstyle}
     %----------------------------------------------------------------%
     % Daftar Bab
     % Untuk menambahkan daftar bab, buat berkas bab misalnya `chapter-6` di direktori `chapters`, dan masukkan ke sini.
