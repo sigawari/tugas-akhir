@@ -208,25 +208,81 @@ Ilustrasi ini digunakan sebagai validasi kualitatif untuk memastikan bahwa prose
 
 \subsubsection{Seleksi \textit{Landmark} dan Fitur}
 \label{subsubsec:seleksi-normalisasi}
-Seleksi \textit{landmark} dilakukan untuk memfokuskan representasi data pada titik-titik yang relevan terhadap pengenalan gerakan bahasa isyarat. 
-Tidak seluruh \textit{landmark} hasil ekstraksi MediaPipe Holistic digunakan pada tahap pemrosesan selanjutnya. 
-Penelitian ini memprioritaskan \textit{landmark} tubuh bagian atas dan tangan karena komponen tersebut merepresentasikan informasi utama dalam bahasa isyarat. 
-Pendekatan ini bertujuan untuk menyederhanakan representasi data tanpa menghilangkan informasi gerakan yang esensial.
+Seleksi \textit{landmark} dilakukan untuk memfokuskan representasi data pada bagian tubuh yang paling relevan terhadap pengenalan bahasa isyarat.
+Tidak seluruh \textit{landmark} hasil ekstraksi MediaPipe Holistic digunakan pada tahap pemrosesan selanjutnya.
+Penelitian ini memprioritaskan struktur tubuh bagian atas dan tangan sebagai pembawa utama informasi semantik isyarat.
+Pendekatan seleksi diterapkan untuk menyederhanakan struktur data sekaligus menjaga informasi gerakan yang esensial.
 
-MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk tiga dimensi \textit{(x, y, z)}. 
-Koordinat \textit{z} merepresentasikan informasi kedalaman relatif yang diestimasi dari kamera monokular. 
-Estimasi kedalaman dari kamera tunggal bersifat tidak stabil dan sangat dipengaruhi oleh sudut pandang, kemiringan tubuh, serta perubahan postur ekstrem. 
-Studi oleh Lin et al. menunjukkan bahwa nilai \textit{z} pada MediaPipe memerlukan koreksi tambahan yang kompleks agar dapat digunakan secara akurat \cite{lin2023detection}.
+MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk tiga dimensi $(x, y, z)$.
+Koordinat $z$ merepresentasikan estimasi kedalaman relatif yang diperoleh dari kamera monokular.
+Estimasi kedalaman dari kamera tunggal bersifat tidak stabil dan sangat dipengaruhi oleh sudut pandang pengambilan, perubahan jarak subjek, serta variasi postur tubuh.
+Studi oleh Lin et al.\ menunjukkan bahwa nilai $z$ pada MediaPipe memerlukan proses koreksi tambahan yang kompleks agar dapat digunakan secara akurat pada sistem pengenalan gerakan \cite{lin2023detection}.
 
-Berdasarkan pertimbangan tersebut, penelitian ini tidak menggunakan komponen koordinat \textit{z} pada tahap rekayasa fitur. 
-Representasi \textit{landmark} difokuskan pada koordinat dua dimensi \textit{(x, y)} yang memiliki tingkat kestabilan lebih tinggi. 
-Informasi dinamika gerakan selanjutnya ditangkap melalui perubahan posisi antar-frame. 
-Keputusan ini memungkinkan penyederhanaan struktur data sekaligus mengurangi kompleksitas komputasi.
+Pertimbangan tersebut mendorong penelitian ini untuk tidak menggunakan komponen koordinat $z$ pada tahap pemrosesan selanjutnya.
+Representasi \textit{landmark} difokuskan pada koordinat dua dimensi $(x, y)$ yang memiliki tingkat kestabilan lebih tinggi.
+Informasi dinamika gerakan tetap dapat direpresentasikan melalui perubahan posisi antar-frame pada tahap rekayasa fitur.
+Keputusan ini memungkinkan penyederhanaan struktur data sekaligus menurunkan kompleksitas komputasi secara signifikan.
 
-Selain itu, \textit{landmark} wajah tidak dimanfaatkan secara penuh pada penelitian ini. 
-Meskipun informasi ekspresi non-manual dicatat pada tahap ekstraksi, fokus penelitian diarahkan pada gerakan tangan dan tubuh sebagai pembawa makna utama isyarat. 
-Seleksi ini bertujuan untuk menghindari redundansi fitur dan meningkatkan efisiensi pemodelan. 
-Dengan proses seleksi ini, data yang digunakan memiliki representasi yang lebih ringkas dan relevan terhadap tujuan penelitian.
+Seleksi \textit{landmark} juga diterapkan pada tingkat bagian tubuh yang digunakan.
+\textit{Landmark} pose dan tangan dipertahankan secara penuh karena merepresentasikan mayoritas informasi gerakan bahasa isyarat.
+\textit{Landmark} wajah tidak digunakan secara keseluruhan dan hanya dipilih sebagian titik tertentu yang berkaitan dengan ekspresi non-manual.
+Ringkasan konfigurasi seleksi \textit{landmark} ditunjukkan pada Tabel \ref{tab:landmark-selection}.
+
+\begin{table}[H]
+	\centering
+	\caption{Ringkasan konfigurasi seleksi \textit{landmark}}
+	\label{tab:landmark-selection}
+	\begin{tabular}{|l|c|c|}
+	\hline
+	\textbf{Komponen} & \textbf{Jumlah Titik Awal} & \textbf{Digunakan} \\ \hline
+	Pose & 33 & Ya \\ \hline
+	Tangan kiri & 21 & Ya \\ \hline
+	Tangan kanan & 21 & Ya \\ \hline
+	Wajah (subset) & 468 & 14 \\ \hline
+	Dimensi koordinat & $(x, y, z)$ & $(x, y)$ \\ \hline
+	Total \textit{landmark} terpilih & 543 & 89 \\ \hline
+	\end{tabular}
+	
+	\vspace{0.5em}
+	{\footnotesize Catatan: Seleksi wajah dilakukan menggunakan subset titik tertentu yang berkaitan dengan area pipi, dahi, mata, bibir, dan dagu. Seluruh koordinat $z$ dieliminasi pada tahap ini.}
+\end{table}
+
+Tabel \ref{tab:landmark-selection} memperlihatkan konfigurasi seleksi \textit{landmark} yang digunakan pada penelitian ini.
+Seleksi difokuskan pada \textit{landmark} pose dan tangan karena komponen tersebut merepresentasikan struktur utama pembawa makna bahasa isyarat.
+Subset \textit{landmark} wajah dipertahankan untuk menangkap informasi ekspresi non-manual secara terbatas tanpa menambah kompleksitas data secara signifikan.
+Pengaturan ini memastikan bahwa data masukan tetap ringkas sekaligus mempertahankan komponen visual yang relevan.
+
+Subset \textit{landmark} wajah dipilih untuk merepresentasikan area wajah yang paling relevan terhadap ekspresi non-manual.
+Titik yang digunakan mencakup area pipi, dahi, dagu, mata, dan bibir.
+Pemilihan ini bertujuan menangkap perubahan ekspresi global tanpa mempertahankan detail geometris wajah secara penuh.
+Daftar indeks \textit{landmark} wajah yang digunakan ditunjukkan pada Tabel \ref{tab:face-landmark-map}.
+
+\begin{table}[H]
+	\centering
+	\caption{Subset \textit{landmark} wajah yang digunakan}
+	\label{tab:face-landmark-map}
+	\begin{tabular}{|c|l|}
+	\hline
+	\textbf{Indeks} & \textbf{Deskripsi} \\ \hline
+	234 & Pipi kiri \\ \hline
+	454 & Pipi kanan \\ \hline
+	10  & Jidat tengah \\ \hline
+	297 & Jidat kiri \\ \hline
+	338 & Jidat kanan \\ \hline
+	152 & Dagu \\ \hline
+	13  & Bibir atas tengah \\ \hline
+	14  & Bibir bawah tengah \\ \hline
+	61  & Bibir kiri \\ \hline
+	291 & Bibir kanan \\ \hline
+	33  & Mata kiri luar \\ \hline
+	133 & Mata kiri dalam \\ \hline
+	362 & Mata kanan dalam \\ \hline
+	263 & Mata kanan luar \\ \hline
+	\end{tabular}
+	
+	\vspace{0.5em}
+	{\footnotesize Catatan: Subset \textit{landmark} wajah dipilih untuk merepresentasikan area ekspresi non-manual secara global tanpa mempertahankan detail geometris wajah secara penuh.}
+\end{table}
 
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:normalisasi-landmark}
