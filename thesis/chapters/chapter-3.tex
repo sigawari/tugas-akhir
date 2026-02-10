@@ -425,28 +425,27 @@ dan indeks \textit{landmark} dalam satu representasi terpadu.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.88\textwidth]{figure/input_channel.pdf}
+    \includegraphics[width=0.70\textwidth]{figure/input_channel.pdf}
     \caption{Ilustrasi struktur tensor masukan CNN dengan format $(C \times T \times L)$}
     \label{fig:3.inputchannel}
 \end{figure} \par
 
 \subsection{Pelatihan Model ResNet-2D}
+\label{subsubsec:pelatihan-model}
 Tahap pelatihan model bertujuan untuk mengoptimalkan parameter jaringan ResNet-2D sehingga mampu mengenali pola gerakan bahasa isyarat secara akurat.
 Proses ini mencakup inisialisasi model, konfigurasi \textit{hyperparameter}, dan prosedur pelatihan yang dilakukan secara bertahap.
-Penjelasan rinci mengenai setiap langkah pelatihan disajikan pada subbab berikut.
-\label{subsubsec:pelatihan-model}
-
-\subsubsection{Arsitektur ResNet-2D}
+Proses pelatihan ini dijelaskan pada alur di Gambar \ref{fig:4.pelatihan} berikut.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure/training.pdf}
+    \caption{Ilustrasi alur pelatihan model}
+    \label{fig:4.pelatihan}
+\end{figure} \par
+\subsubsection{Arsitektur dan Modifikasi ResNet-2D}
 \label{subsubsec:arsitektur-resnet}
-Model klasifikasi yang digunakan pada penelitian ini berbasis arsitektur \textit{Residual Network} (ResNet) dua dimensi.
-Arsitektur ResNet dipilih karena kemampuannya menjaga stabilitas pelatihan pada jaringan konvolusional yang memiliki kedalaman relatif besar.
-Mekanisme \textit{skip connection} pada ResNet memungkinkan aliran gradien tetap terjaga selama proses pembelajaran berlangsung.
-Karakteristik tersebut menjadikan ResNet sesuai untuk mempelajari representasi fitur spasial dari data \textit{landmark} yang disusun dalam bentuk pseudo-citra dua dimensi.
+Model klasifikasi yang digunakan pada penelitian ini berbasis arsitektur \textit{Residual Network} (ResNet) dua dimensi. ResNet dipilih karena kemampuannya menjaga stabilitas pelatihan pada jaringan konvolusional yang dalam melalui mekanisme \textit{skip connection}. Mekanisme ini memungkinkan aliran gradien tetap terjaga selama proses pembelajaran berlangsung, menjadikannya sesuai untuk mempelajari representasi fitur spasial dari data \textit{landmark} yang disusun dalam bentuk pseudo-citra dua dimensi.
 
-Gambaran umum arsitektur ResNet dua dimensi yang menjadi acuan dalam penelitian ini diperlihatkan pada Gambar \ref{fig:resnet2d-architecture}.
-Arsitektur tersebut menunjukkan struktur ResNet standar yang awalnya dirancang untuk memproses citra RGB dengan tiga kanal masukan.
-Model memanfaatkan serangkaian lapisan konvolusi dua dimensi dan blok residual untuk mengekstraksi fitur tingkat rendah hingga tingkat tinggi.
-Lapisan akhir berupa \textit{fully connected layer} digunakan untuk menghasilkan prediksi kelas berdasarkan fitur yang telah dipelajari.
+Gambaran umum arsitektur ResNet dua dimensi diperlihatkan pada Gambar \ref{fig:resnet2d-architecture}. Struktur dasar ResNet tetap dipertahankan, termasuk susunan blok residual dan mekanisme \textit{skip connection}. Penyesuaian dilakukan pada lapisan masukan untuk menerima data \textit{landmark} multichannel $(x, y, dx, dy)$, yang merepresentasikan koordinat posisi dan perubahan antar-\textit{frame}.
 
 \begin{figure}[H]
 	\centering
@@ -456,38 +455,20 @@ Lapisan akhir berupa \textit{fully connected layer} digunakan untuk menghasilkan
 	{\footnotesize Sumber: Dokumentasi peneliti diadaptasi dari He et al. \cite{he2016resnet}}
 \end{figure}
 
-Gambar \ref{fig:resnet2d-architecture} menggambarkan arsitektur ResNet konvensional yang digunakan sebagai dasar pengembangan model pada penelitian ini.
-Struktur tersebut mempertahankan susunan blok residual dan mekanisme \textit{skip connection} sebagaimana pada ResNet asli.
-Perbedaan utama pada penelitian ini terletak pada bentuk data masukan yang tidak berupa citra RGB.
-Penyesuaian terhadap jenis masukan dilakukan tanpa mengubah struktur dasar arsitektur ResNet.
-
-Ilustrasi pemrosesan data oleh model ResNet-2D yang telah dimodifikasi diperlihatkan pada Gambar \ref{fig:3.landresnet}.
-Gambar tersebut menunjukkan bagaimana data \textit{landmark} multichannel diperlakukan sebagai pseudo-citra dua dimensi.
-Representasi ini memungkinkan pemanfaatan lapisan konvolusi dua dimensi untuk mempelajari hubungan spasial dan temporal antar \textit{landmark}.
-Pendekatan ini tetap mempertahankan prinsip kerja ResNet sambil menyesuaikannya dengan karakteristik data non-RGB.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.97\textwidth]{figure/landresnet.pdf}
-    \caption{Ilustrasi Pemrosesan oleh ResNet dengan Modifikasi Layer Input}
-    \label{fig:3.landresnet}
-\end{figure}
-
-Gambar \ref{fig:3.landresnet} memperlihatkan alur pemrosesan data mulai dari tensor masukan hingga keluaran klasifikasi.
-Lapisan konvolusi awal dimodifikasi agar dapat menerima masukan multichannel yang merepresentasikan fitur \textit{landmark}.
-Blok residual tetap digunakan untuk menjaga stabilitas pembelajaran pada jaringan yang lebih dalam.
+Ilustrasi pemrosesan data oleh ResNet-2D yang telah dimodifikasi diperlihatkan pada Gambar \ref{fig:3.landresnet}. 
+Data \textit{landmark} multichannel diperlakukan sebagai pseudo-citra dua dimensi, memungkinkan pemanfaatan lapisan konvolusi dua dimensi untuk mempelajari hubungan spasial dan temporal antar-\textit{landmark}.
 Lapisan keluaran menghasilkan prediksi kelas bahasa isyarat sesuai dengan jumlah kelas pada dataset.
 
-\subsubsection{Modifikasi Input \textit{Channel}}
-Lapisan konvolusi awal pada model ResNet dimodifikasi agar dapat menerima masukan dengan empat kanal fitur.
-Keempat kanal tersebut merepresentasikan koordinat posisi \textit{landmark} dan perubahan antar-\textit{frame}, yaitu $(x, y, dx, dy)$.
-Representasi ini memungkinkan model CNN memanfaatkan informasi spasial dan dinamika gerakan secara bersamaan.
-Struktur dasar arsitektur ResNet tetap dipertahankan sehingga karakteristik pembelajaran jaringan tidak berubah secara signifikan.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.97\textwidth]{figure/landresnet.pdf}
+	\caption{Ilustrasi Pemrosesan oleh ResNet dengan Modifikasi Layer Input}
+	\label{fig:3.landresnet}
+\end{figure}
 
-Modifikasi pada lapisan masukan ini bertujuan untuk menyesuaikan arsitektur ResNet dengan data non-RGB.
-Pendekatan ini memungkinkan pemanfaatan kekuatan CNN dua dimensi pada data \textit{landmark} tanpa perlu merancang arsitektur baru dari awal.
-Pemrosesan pseudo-citra berbasis \textit{landmark} memberikan fleksibilitas dalam menangkap pola gerakan bahasa isyarat.
-Strategi ini juga menjaga kompatibilitas model dengan teknik pelatihan standar pada jaringan konvolusional.
+Modifikasi pada lapisan masukan memungkinkan model menerima empat kanal fitur $(x, y, dx, dy)$, yang mengintegrasikan informasi spasial dan dinamika gerakan.
+Pendekatan ini memanfaatkan kekuatan CNN dua dimensi pada data non-RGB tanpa merancang arsitektur baru dari awal. 
+Dengan tetap mempertahankan struktur dasar ResNet, model dapat dilatih menggunakan teknik standar jaringan konvolusional sambil menyesuaikan dengan karakteristik data \textit{landmark}.
 
 \subsubsection{Konfigurasi \textit{Hyperparameter}}
 Konfigurasi \textit{hyperparameter} yang digunakan pada proses pelatihan model ditunjukkan pada Tabel \ref{tab:hyperparameter}.
@@ -518,6 +499,9 @@ Tabel \ref{tab:hyperparameter} merangkum parameter utama yang digunakan selama p
 Nilai \textit{learning rate} dan \textit{weight decay} digunakan untuk mengatur proses optimasi agar tetap stabil.
 Mekanisme \textit{early stopping} diterapkan untuk mencegah terjadinya \textit{overfitting} pada data pelatihan.
 Penggunaan konfigurasi yang konsisten memastikan hasil eksperimen dapat dibandingkan secara objektif.
+
+
+\subsubsection{Augmentasi Data pada Proses Pelatihan}
 
 \subsubsection{Prosedur Pelatihan Model}
 \label{subsubsec:prosedur-pelatihan}
