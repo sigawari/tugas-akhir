@@ -362,29 +362,6 @@ Hasil:
 	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y}) = (0.062, -0.019)$
 \end{itemize}
 
-
-\subsubsection{Augmentasi \textit{Landmark} dan Temporal}
-\label{subsubsec:augmentasi-landmark-temporal}
-% Rev MCT: Beri contoh juga
-Augmentasi \textit{landmark} dan temporal diterapkan untuk meningkatkan ketahanan model terhadap variasi data yang timbul akibat perbedaan karakteristik perangkat perekaman dan kondisi lingkungan.
-Variasi tersebut mencakup perbedaan posisi relatif subjek terhadap kamera, sudut pandang, kestabilan perekaman, serta fluktuasi kualitas deteksi \textit{landmark}.
-Pendekatan augmentasi difokuskan pada domain koordinat \textit{landmark} dan urutan temporal sehingga tetap relevan dengan representasi gerakan bahasa isyarat.
-Seluruh strategi augmentasi dirancang agar tidak mengubah makna semantik dari isyarat yang direpresentasikan.
-
-Augmentasi \textit{landmark} dilakukan melalui pemberian perturbasi spasial terkendali pada koordinat titik-titik \textit{landmark}.
-Bentuk augmentasi yang diterapkan meliputi penambahan \textit{noise} berskala kecil, penskalaan koordinat secara global, serta pergeseran posisi yang seragam.
-Pendekatan ini mensimulasikan variasi posisi tubuh dan tangan serta ketidakstabilan deteksi yang umum terjadi pada kondisi perekaman nyata.
-Besaran perturbasi dibatasi agar struktur geometris gerakan tetap konsisten dan tidak mengganggu interpretasi isyarat.
-
-Augmentasi temporal diterapkan untuk merepresentasikan variasi tempo dan ritme gerakan bahasa isyarat.
-Strategi yang digunakan mencakup pengurangan sebagian frame dan penyesuaian durasi \textit{sequence} secara terbatas tanpa mengubah urutan gerakan.
-Dengan demikian, struktur temporal \textit{sequence} tetap terjaga dan dinamika gerakan tidak terdistorsi selama proses pelatihan.
-
-Penerapan augmentasi \textit{landmark} dan temporal berkontribusi dalam mengurangi risiko \textit{overfitting}, khususnya karena jumlah subjek pada dataset penelitian bersifat terbatas.
-Model dilatih untuk mengenali pola gerakan yang konsisten meskipun terjadi variasi kecil pada posisi, tempo, dan kestabilan gerakan.
-Pendekatan ini mendukung peningkatan kemampuan generalisasi model pada skenario penggunaan nyata.
-
-
 \subsubsection{Perhitungan Perubahan Antar-\textit{Frame}}
 \label{subsubsec:perhitungan-perubahan}
 % Rev MCT: Beri ilustrasi
