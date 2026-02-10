@@ -123,7 +123,6 @@ Tahapan ini memastikan data berada dalam kondisi yang konsisten dan siap diprose
 Alur prapemrosesan dan rekayasa fitur pada penelitian ini diringkas seperti pada Gambar \ref{fig:3.prapemrosesan}. 
 Diagram tersebut memperlihatkan keterkaitan tahapan mulai dari masukan video, proses ekstraksi \textit{landmark}, seleksi dan normalisasi koordinat, hingga pembentukan representasi fitur yang siap digunakan sebagai masukan model. 
 
-% Rev MCT: Parameter dari proses deteksi perlu dijelaskan dari ekstraksi sampai normalisasi
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.83\textwidth]{figure/pre-rekayasa.pdf}
@@ -471,12 +470,11 @@ Pendekatan ini memanfaatkan kekuatan CNN dua dimensi pada data non-RGB tanpa mer
 Dengan tetap mempertahankan struktur dasar ResNet, model dapat dilatih menggunakan teknik standar jaringan konvolusional sambil menyesuaikan dengan karakteristik data \textit{landmark}.
 
 \subsubsection{Konfigurasi \textit{Hyperparameter}}
-Konfigurasi \textit{hyperparameter} yang digunakan pada proses pelatihan model ditunjukkan pada Tabel \ref{tab:hyperparameter}.
-Seluruh eksperimen menggunakan konfigurasi yang sama untuk menjaga konsistensi hasil dan keadilan dalam perbandingan performa antar model.
-Pemilihan nilai \textit{hyperparameter} didasarkan pada praktik umum pelatihan jaringan konvolusional dan hasil eksperimen pendahuluan.
-Pendekatan ini bertujuan untuk memperoleh keseimbangan antara kecepatan konvergensi dan stabilitas pelatihan.
+Konfigurasi \textit{hyperparameter} digunakan untuk mengatur proses optimasi parameter jaringan selama pelatihan.
+Seluruh eksperimen pada penelitian ini menggunakan konfigurasi yang sama untuk menjaga konsistensi hasil.
+Pendekatan ini diterapkan agar perbandingan performa antar eksperimen bersifat adil dan terkontrol.
+Ringkasan konfigurasi \textit{hyperparameter} ditunjukkan pada Tabel \ref{tab:hyperparameter}.
 
-% Rev MCT: "Adakah ablasi?"
 \begin{table}[H]
 	\centering
 	\caption{Konfigurasi \textit{Hyperparameter} Pelatihan Model}
@@ -496,26 +494,94 @@ Pendekatan ini bertujuan untuk memperoleh keseimbangan antara kecepatan konverge
 \end{table}
 
 Tabel \ref{tab:hyperparameter} merangkum parameter utama yang digunakan selama proses pelatihan model.
-Nilai \textit{learning rate} dan \textit{weight decay} digunakan untuk mengatur proses optimasi agar tetap stabil.
+Nilai \textit{learning rate} dan \textit{weight decay} dipilih untuk menjaga kestabilan proses optimasi.
 Mekanisme \textit{early stopping} diterapkan untuk mencegah terjadinya \textit{overfitting} pada data pelatihan.
-Penggunaan konfigurasi yang konsisten memastikan hasil eksperimen dapat dibandingkan secara objektif.
+Konfigurasi ini dipilih berdasarkan praktik umum pelatihan jaringan konvolusional dan pengujian pendahuluan.
 
+Penelitian ini tidak melakukan ablasi terhadap nilai \textit{hyperparameter} secara eksplisit.
+Seluruh eksperimen difokuskan pada evaluasi pengaruh representasi \textit{landmark} dan modifikasi masukan model.
+Pendekatan ini dipilih untuk membatasi ruang eksperimen agar tetap selaras dengan tujuan utama penelitian.
+Konfigurasi \textit{hyperparameter} dijaga tetap agar perubahan performa model dapat diatribusikan secara langsung pada variasi representasi data dan arsitektur masukan.
 
 \subsubsection{Augmentasi Data pada Proses Pelatihan}
+\label{subsubsec:augmentasi-pelatihan}
+
+Augmentasi data diterapkan pada tahap pelatihan model untuk meningkatkan kemampuan generalisasi jaringan terhadap variasi data masukan.
+Augmentasi tidak dilakukan pada tahap prapemrosesan karena tidak menghasilkan data yang disimpan secara permanen.
+Pendekatan ini memastikan bahwa variasi data hanya muncul selama proses pembelajaran dan tidak memengaruhi konsistensi dataset dasar.
+Seluruh strategi augmentasi dirancang agar tidak mengubah makna semantik dari isyarat yang direpresentasikan.
+
+Augmentasi pada penelitian ini diterapkan secara dinamis di dalam \textit{data loader} pada setiap \textit{epoch}.
+Proses augmentasi dilakukan setelah data dibaca dan sebelum data disusun ke dalam \textit{mini-batch}.
+Pendekatan ini memungkinkan setiap \textit{sequence} mengalami variasi yang berbeda pada setiap \textit{epoch}.
+Penerapan augmentasi pada tahap ini selaras dengan mekanisme pelatihan jaringan konvolusional modern.
+
+Jenis augmentasi yang digunakan pada penelitian ini dibatasi pada dua bentuk utama.
+Augmentasi temporal dilakukan melalui penghapusan sebagian frame atau duplikasi frame secara acak pada satu \textit{sequence}.
+Augmentasi spasial dilakukan melalui penghilangan sebagian \textit{landmark} tangan secara acak pada satu \textit{epoch}.
+Kedua jenis augmentasi dipilih karena mencerminkan kondisi perekaman nyata tanpa merusak struktur dasar gerakan bahasa isyarat.
+
+Augmentasi temporal bertujuan mensimulasikan variasi tempo gerakan dan ketidakstabilan laju pengambilan frame.
+Penghapusan satu frame menyebabkan selisih waktu antar-frame menjadi lebih besar.
+Duplikasi satu frame menghasilkan perlambatan temporal secara lokal pada \textit{sequence}.
+Proses ini tidak mengubah urutan gerakan sehingga struktur temporal isyarat tetap terjaga.
+
+Augmentasi spasial dilakukan melalui mekanisme \textit{random landmark masking}.
+Satu titik \textit{landmark} tangan dihilangkan secara acak pada satu \textit{epoch}.
+Pendekatan ini mensimulasikan kegagalan deteksi sebagian titik akibat occlusion atau noise sensor.
+Strategi ini mendorong model untuk tidak bergantung pada satu titik tertentu dalam mengenali pola gerakan.
+
+Contoh penerapan augmentasi temporal ditunjukkan pada Tabel \ref{tab:temporal-augmentation-example}.
+Ilustrasi disajikan untuk satu \textit{sequence} dengan jumlah frame terbatas.
+Urutan indeks frame digunakan untuk memperjelas perubahan struktur temporal.
+Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.
+
+\begin{longtable}{|c|c|}
+	\caption{Ilustrasi augmentasi temporal pada satu \textit{sequence}} \label{tab:temporal-augmentation-example} \\ \hline
+	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
+	\endfirsthead
+	\caption*{\textbf{Lanjutan Tabel \ref{tab:temporal-augmentation-example}}} \\ \hline
+	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
+	\endhead
+	\hline
+	\endfoot
+	$[1,2,3,4,5]$ & $[1,3,4,5]$ (frame 2 dihapus) \\ \hline
+	$[1,2,3,4,5]$ & $[1,2,3,3,4,5]$ (frame 3 duplikat) \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|c|c|}
+	\caption{Ilustrasi \textit{random landmark masking} pada satu frame} \label{tab:landmark-masking-example} \\ \hline
+	\textbf{Landmark} & \textbf{Nilai Asli $(x,y)$} & \textbf{Setelah Masking} \\ \hline
+	\endfirsthead
+	\caption*{\textbf{Lanjutan Tabel \ref{tab:landmark-masking-example}}} \\ \hline
+	\textbf{Landmark} & \textbf{Nilai Asli $(x,y)$} & \textbf{Setelah Masking} \\ \hline
+	\endhead
+	\hline
+	\endfoot
+	Wrist & $(0.45, 0.60)$ & $(0.45, 0.60)$ \\ \hline
+	Index MCP & $(0.48, 0.58)$ & $(0, 0)$ \\ \hline
+	Index Tip & $(0.52, 0.55)$ & $(0.52, 0.55)$ \\ \hline
+\end{longtable}
+
+Augmentasi data tidak diterapkan pada tahap evaluasi model.
+Seluruh data uji diproses tanpa augmentasi untuk memastikan hasil evaluasi mencerminkan performa model pada data asli.
+Pendekatan ini menjaga keadilan evaluasi dan mencegah distorsi hasil pengujian.
+Penerapan augmentasi terbatas pada tahap pelatihan memastikan peningkatan generalisasi tanpa mengorbankan validitas evaluasi.
+
 
 \subsubsection{Prosedur Pelatihan Model}
 \label{subsubsec:prosedur-pelatihan}
-Prosedur pelatihan model dimulai dengan pemuatan data hasil rekayasa fitur ke dalam \textit{dataloader}.
-Data tersebut disusun dalam bentuk \textit{mini-batch} untuk data pelatihan dan data validasi.
-Model ResNet-2D yang telah dimodifikasi pada lapisan awal kemudian diinisialisasi dan ditempatkan pada perangkat komputasi yang digunakan.
-Proses optimasi parameter dilakukan menggunakan algoritma Adam sesuai dengan konfigurasi \textit{hyperparameter} yang telah ditetapkan.
+Prosedur pelatihan dimulai dengan pemuatan data hasil rekayasa fitur ke dalam \textit{dataloader}.
+Data disusun dalam bentuk \textit{mini-batch} terpisah untuk pelatihan dan validasi.
+Model ResNet-2D yang telah dimodifikasi kemudian diinisialisasi dan ditempatkan pada perangkat komputasi yang digunakan.
+Proses optimasi parameter dilakukan menggunakan algoritma Adam sesuai konfigurasi yang telah ditetapkan.
 
-Pada setiap \textit{epoch}, model melakukan proses \textit{forward pass} untuk menghasilkan prediksi kelas bahasa isyarat.
-Nilai \textit{loss} dihitung menggunakan fungsi \textit{cross-entropy} sebagai ukuran kesalahan prediksi.
+Setiap \textit{epoch} mencakup proses \textit{forward pass} untuk menghasilkan prediksi kelas bahasa isyarat.
+Nilai kesalahan prediksi dihitung menggunakan fungsi \textit{cross-entropy}.
 Parameter jaringan diperbarui melalui mekanisme \textit{backpropagation}.
-Mekanisme \textit{early stopping} diterapkan berdasarkan nilai \textit{validation loss} untuk menghentikan pelatihan ketika tidak terjadi peningkatan performa dalam beberapa \textit{epoch} berturut-turut.
-Bobot model terbaik yang diperoleh selama pelatihan selanjutnya digunakan pada tahap evaluasi.
-
+Pemantauan performa dilakukan menggunakan data validasi pada setiap \textit{epoch}.
+Mekanisme \textit{early stopping} menghentikan pelatihan ketika performa validasi tidak menunjukkan peningkatan.
+Bobot model terbaik selanjutnya digunakan pada tahap evaluasi.
 
 \subsection{Evaluasi Model}
 Evaluasi performa model dilakukan untuk menilai kemampuan sistem dalam mengklasifikasikan isyarat bahasa isyarat secara akurat dan konsisten.
