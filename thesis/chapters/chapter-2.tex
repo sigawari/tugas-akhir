@@ -44,13 +44,12 @@ Berbeda dari pendekatan yang memisahkan atau menggabungkan modul spasial dan tem
 Melalui Fully 2D Convolutional Network, penelitian ini mengintegrasikan informasi temporal ke dalam representasi spasial menggunakan mekanisme splicing sehingga dapat diproses sepenuhnya oleh CNN.
 Pendekatan ini menghilangkan ketergantungan pada model sekuensial seperti LSTM atau Transformer, sekaligus mempertahankan performa kompetitif pada pengenalan bahasa isyarat berkelanjutan.
 Hasil tersebut menunjukkan bahwa pemodelan spasio-temporal tidak selalu harus kompleks untuk mencapai kinerja yang baik, membuka peluang eksplorasi arsitektur yang lebih efisien \cite{zhu2023f2dcnet}.
+Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{table:2.literasi}. 
 
-Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{table:2.literasi}. \par
 % Tabel Ringkasan Penelitian
-
 \renewcommand{\arraystretch}{1.2} % Mengatur spasi antar baris menjadi 1.2
 \setlength{\tabcolsep}{4pt} % Mengatur jarak antar kolom
-\begin{longtable}{|c|p{0.22\textwidth}|p{0.22\textwidth}|p{0.21\textwidth}|p{0.16\textwidth}|}
+\begin{longtable}{|c|p{0.22\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.22\textwidth}|}
   \caption{Literasi Penelitian Terdahulu}\label{table:2.literasi}\\
   \hline
   \textbf{No} 
@@ -73,13 +72,13 @@ Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{
   \hline
 \endlastfoot
     1. 
-    & Yoses Dwi Maheswara, M.Abid Al-Sulthon , Pradayan Adhimas Wicaksono, Khilda Afifah, dan Novi Prihatiningrum [2023] [\textit{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models Leveraging MediaPipe}] \cite{maheswara2023lstmbisindo}
+    & Maheswara et al. [2023] [\textit{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models Leveraging MediaPipe}] \cite{maheswara2023lstmbisindo}
     & Pendekatan statis kurang mampu menangkap dinamika gerakan BISINDO secara \textit{real-time}.
     & Ekstraksi \textit{landmarks} MediaPipe \textit{Holistic} dengan pemodelan temporal menggunakan LSTM dan GRU.
     & Model GRU mencapai performa terbaik dengan akurasi \textit{real-time} hingga 83\% pada kombinasi \textit{landmark} tanpa wajah. \\
     \hline
     2.
-    & Jiayu Huang dan VarinChouvatut [2024][\textit{Video-Based Sign Language Recognition via ResNet and LSTM Network}] \cite{huang2024videoresnetlstm}
+    & Jiayu Huang dan Varin Chouvatut [2024][\textit{Video-Based Sign Language Recognition via ResNet and LSTM Network}] \cite{huang2024videoresnetlstm}
     & Ekstraksi fitur spasio-temporal video sulit dilakukan secara efisien dengan model CNN konvensional.
     & Arsitektur hibrida ResNet-18 sebagai ekstraktor spasial dan LSTM untuk pemodelan temporal.
     & Mencapai akurasi 86,25\% dan mengungguli beberapa model video-based lainnya. \\
