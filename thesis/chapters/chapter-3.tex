@@ -454,6 +454,9 @@ dan indeks \textit{landmark} dalam satu representasi terpadu.
 
 \subsection{Pelatihan Model ResNet-2D}
 \label{subsec:pelatihan-modifikasi-model}
+Pelatihan model ResNet-2D dilakukan untuk mengoptimalkan kemampuan model dalam mengenali pola gerakan bahasa isyarat berdasarkan data \textit{landmark} yang telah direpresentasikan dalam bentuk multichannel. 
+Proses ini melibatkan serangkaian langkah mulai dari inisialisasi arsitektur model, konfigurasi \textit{hyperparameter}, hingga prosedur pelatihan yang dirancang untuk memaksimalkan performa klasifikasi. 
+Tahapan lebih lengkap akan dijelaskan pada bagian berikut.
 \subsubsection{Arsitektur dan Modifikasi ResNet-2D}
 \label{subsubsec:arsitektur-resnet}
 Tahap pelatihan model bertujuan untuk mengoptimalkan parameter jaringan ResNet-2D sehingga mampu mengenali pola gerakan bahasa isyarat secara akurat.
@@ -465,7 +468,7 @@ Gambaran umum arsitektur ResNet dua dimensi diperlihatkan pada Gambar \ref{fig:r
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.67\textwidth]{figure/resnet_rgb.pdf}
+	\includegraphics[width=0.73\textwidth]{figure/resnet_rgb.pdf}
 	\caption{Arsitektur ResNet dua dimensi untuk klasifikasi gambar input RGB}
 	\label{fig:resnet2d-architecture}
 	{\footnotesize Sumber: Dokumentasi peneliti diadaptasi dari He et al. \cite{he2016resnet}}
@@ -651,14 +654,15 @@ Pada penelitian ini, evaluasi difokuskan pada nilai F1-score makro dan tertimban
 
 \subsubsection{Prosedur Pengujian}
 \label{subsubsec:prosedur-pengujian}
-Prosedur pengujian dilakukan setelah proses pelatihan model selesai dan model terbaik diperoleh.
-Model terbaik ditentukan berdasarkan nilai kehilangan (\textit{validation loss}) terendah pada data validasi.
-Bobot model yang menghasilkan performa terbaik kemudian digunakan untuk evaluasi pada data uji.
+Prosedur pengujian dilakukan setelah proses pelatihan model mencapai kondisi penghentian yang ditentukan. 
+Model terbaik dipilih berdasarkan nilai akurasi validasi (\textit{validation accuracy}) tertinggi yang diperoleh selama proses pelatihan. 
+Bobot model pada \textit{epoch} dengan performa validasi terbaik disimpan sebagai model akhir. 
+Model tersebut digunakan sebagai representasi final untuk tahap evaluasi pada data uji.
 
-Data uji diproses menggunakan skema inferensi yang sama dengan data pelatihan.
-Seluruh sampel pada data uji dievaluasi tanpa augmentasi tambahan.
-Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi.
-Hasil pengujian selanjutnya digunakan sebagai dasar analisis performa model pada Bab IV.
+Data uji diproses menggunakan skema inferensi yang identik dengan struktur masukan pada tahap pelatihan. 
+Seluruh sampel pada data uji dievaluasi tanpa penerapan augmentasi tambahan. 
+Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi klasifikasi. 
+Hasil pengujian ini menjadi dasar analisis performa model yang dibahas pada Bab IV.
 
 \section{Alat dan Bahan}
 \label{sec:alat-bahan}
