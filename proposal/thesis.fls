@@ -596,6 +596,16 @@ INPUT .\sections\penutup.tex
 INPUT .\sections\penutup.tex
 INPUT .\sections\penutup.tex
 INPUT sections\penutup.tex
+INPUT .\sections\persetujuan.tex
+INPUT .\sections\persetujuan.tex
+INPUT .\sections\persetujuan.tex
+INPUT .\sections\persetujuan.tex
+INPUT sections\persetujuan.tex
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\tfm\public\newtx\ntx-Regular-tlf-ot1.tfm
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\tfm\public\newtx\ntx-Bold-tlf-ot1.tfm
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\vf\public\newtx\ntx-Bold-tlf-ot1.vf
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\tfm\public\newtx\txbmiaX.tfm
+INPUT C:\Users\hp\AppData\Local\Programs\MiKTeX\fonts\tfm\public\newtx\ntx-Bold-tlf-ot1r.tfm
 INPUT thesis.aux
 INPUT .\thesis.out
 INPUT .\thesis.out
