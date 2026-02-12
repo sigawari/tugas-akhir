@@ -342,7 +342,7 @@ Ditanya:
 	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y})$
 \end{itemize}
 
-Penyelesaian:
+Penyelesaian: \\
 \begin{align*}
 x_r &= \frac{x_{\text{bahu kiri}} + x_{\text{bahu kanan}}}{2} = \frac{960 + 1040}{2} = 1000 \\
 y_r &= \frac{y_{\text{bahu kiri}} + y_{\text{bahu kanan}}}{2} = \frac{540 + 540}{2} = 540 \\
@@ -352,7 +352,7 @@ x_{r,\text{rel}} &= \frac{x_r}{\text{lebar \textit{frame}}} = \frac{1000}{1920} 
 y_{r,\text{rel}} &= \frac{y_r}{\text{tinggi \textit{frame}}} = \frac{540}{1080} \approx 0.500 \\
 \hat{x} &= x_{\text{rel}} - x_{r,\text{rel}} = 0.583 - 0.521 = 0.062 \\
 \hat{y} &= y_{\text{rel}} - y_{r,\text{rel}} = 0.481 - 0.500 = -0.019
-\end{align*}
+\end{align*} \\
 
 Hasil:
 \begin{itemize}
@@ -361,18 +361,41 @@ Hasil:
 	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y}) = (0.062, -0.019)$
 \end{itemize}
 
-\subsubsection{Perhitungan Perubahan Antar-\textit{\textit{frame}}}
+\subsubsection{Perhitungan Perubahan Antar-\textit{Frame}}
 \label{subsubsec:perhitungan-perubahan}
-% Rev MCT: Beri ilustrasi
-Perubahan posisi \textit{landmark} antar-\textit{frame} dihitung untuk menangkap dinamika gerakan bahasa isyarat secara implisit.
-Perhitungan dilakukan berdasarkan selisih koordinat \textit{landmark} pada dua \textit{frame} berurutan dalam satu \textit{sequence}.
-Pendekatan ini memungkinkan informasi temporal direpresentasikan tanpa membangun pemodelan sekuensial eksplisit.
+Perubahan posisi \textit{landmark} antar-\textit{frame} dihitung untuk merepresentasikan dinamika gerakan bahasa isyarat secara implisit.
+Perhitungan dilakukan berdasarkan selisih koordinat hasil normalisasi pada dua \textit{frame} berurutan dalam satu \textit{sequence}.
+Pendekatan ini memungkinkan informasi temporal direpresentasikan tanpa membangun model sekuensial eksplisit.
+Representasi perubahan ini menjadi komponen tambahan pada kanal masukan model. 
+Misalkan koordinat ter-normalisasi suatu \textit{landmark} pada frame ke-$t-1$ adalah $(\hat{x}_{t-1,i}, \hat{y}_{t-1,i})$.
+Koordinat pada frame ke-$t$ dinyatakan sebagai $(\hat{x}_{t,i}, \hat{y}_{t,i})$.
+Perubahan posisi antar-\textit{frame} dihitung menggunakan selisih langsung kedua koordinat tersebut.
+Formulasi matematis ditunjukkan pada Persamaan \ref{eq:dxdy}.
 
-Perubahan posisi antar-\textit{frame} dihitung menggunakan formulasi yang telah dijelaskan pada Persamaan \ref{eq:dxdy}.
+Sebagai ilustrasi, misalkan koordinat ter-normalisasi suatu \textit{landmark} tangan pada frame ke-4 adalah $(0.12, -0.03)$.
+Koordinat pada frame ke-5 berubah menjadi $(0.18, -0.01)$.
+Perhitungan perubahan menghasilkan nilai $dx = 0.18 - 0.12 = 0.06$ dan $dy = -0.01 - (-0.03) = 0.02$.
+Nilai tersebut menunjukkan pergerakan ke arah kanan dan sedikit ke atas relatif terhadap titik referensi tubuh.
 
-Nilai $dx$ dan $dy$ merepresentasikan arah serta besaran pergerakan \textit{landmark} dari satu \textit{frame} ke \textit{frame} berikutnya.
-Informasi ini digunakan sebagai fitur tambahan untuk melengkapi representasi spasial dua dimensi.
-Formulasi perhitungan perubahan antar-\textit{frame} mengikuti pendekatan yang telah dijelaskan pada Bab II.
+\begin{table}[H]
+	\centering
+	\caption{Ilustrasi perhitungan perubahan posisi satu \textit{landmark}}
+	\label{tab:dxdy-example}
+	\begin{tabular}{|c|c|c|c|c|}
+	\hline
+	\textbf{Frame} & $\hat{x}$ & $\hat{y}$ & $dx$ & $dy$ \\ \hline
+	$t-1$ & 0.12 & -0.03 & -- & -- \\ \hline
+	$t$   & 0.18 & -0.01 & 0.06 & 0.02 \\ \hline
+	\end{tabular}
+	
+	\vspace{0.5em}
+	{\footnotesize Catatan: Nilai numerik bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.}
+\end{table}
+
+Perhitungan perubahan posisi dilakukan pada seluruh \textit{landmark} dan seluruh pasangan \textit{frame} berurutan dalam satu \textit{sequence}.
+Nilai $dx$ dan $dy$ disusun sebagai kanal tambahan bersama koordinat spasial dua dimensi.
+Pendekatan ini memungkinkan model menangkap informasi arah dan besaran gerakan secara eksplisit.
+Representasi multichannel yang dihasilkan menjadi masukan langsung bagi arsitektur ResNet-2D pada tahap pelatihan.
 
 \subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
 Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-multichannel-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua \textit{frame} berurutan beserta perubahan posisinya. 
@@ -430,20 +453,14 @@ dan indeks \textit{landmark} dalam satu representasi terpadu.
 \end{figure} \par
 
 \subsection{Pelatihan Model ResNet-2D}
-\label{subsubsec:pelatihan-model}
-Tahap pelatihan model bertujuan untuk mengoptimalkan parameter jaringan ResNet-2D sehingga mampu mengenali pola gerakan bahasa isyarat secara akurat.
-Proses ini mencakup inisialisasi model, konfigurasi \textit{hyperparameter}, dan prosedur pelatihan yang dilakukan secara bertahap.
-Proses pelatihan ini dijelaskan pada alur di Gambar \ref{fig:4.pelatihan} berikut.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figure/training.pdf}
-    \caption{Ilustrasi alur pelatihan model}
-    \label{fig:4.pelatihan}
-\end{figure} \par
+\label{subsec:pelatihan-modifikasi-model}
 \subsubsection{Arsitektur dan Modifikasi ResNet-2D}
 \label{subsubsec:arsitektur-resnet}
-Model klasifikasi yang digunakan pada penelitian ini berbasis arsitektur \textit{Residual Network} (ResNet) dua dimensi. ResNet dipilih karena kemampuannya menjaga stabilitas pelatihan pada jaringan konvolusional yang dalam melalui mekanisme \textit{skip connection}. Mekanisme ini memungkinkan aliran gradien tetap terjaga selama proses pembelajaran berlangsung, menjadikannya sesuai untuk mempelajari representasi fitur spasial dari data \textit{landmark} yang disusun dalam bentuk pseudo-citra dua dimensi.
-
+Tahap pelatihan model bertujuan untuk mengoptimalkan parameter jaringan ResNet-2D sehingga mampu mengenali pola gerakan bahasa isyarat secara akurat.
+Proses ini mencakup inisialisasi model, konfigurasi \textit{hyperparameter}, dan prosedur pelatihan yang dilakukan secara bertahap.
+Model klasifikasi yang digunakan pada penelitian ini berbasis arsitektur \textit{Residual Network} (ResNet) dua dimensi.
+ResNet dipilih karena kemampuannya menjaga stabilitas pelatihan pada jaringan konvolusional yang dalam melalui mekanisme \textit{skip connection}.
+Mekanisme ini memungkinkan aliran gradien tetap terjaga selama proses pembelajaran berlangsung, menjadikannya sesuai untuk mempelajari representasi fitur spasial dari data \textit{landmark} yang disusun dalam bentuk pseudo-citra dua dimensi.
 Gambaran umum arsitektur ResNet dua dimensi diperlihatkan pada Gambar \ref{fig:resnet2d-architecture}. Struktur dasar ResNet tetap dipertahankan, termasuk susunan blok residual dan mekanisme \textit{skip connection}. Penyesuaian dilakukan pada lapisan masukan untuk menerima data \textit{landmark} multichannel $(x, y, dx, dy)$, yang merepresentasikan koordinat posisi dan perubahan antar-\textit{frame}.
 
 \begin{figure}[H]
@@ -470,21 +487,22 @@ Pendekatan ini memanfaatkan kekuatan CNN dua dimensi pada data non-RGB tanpa mer
 Dengan tetap mempertahankan struktur dasar ResNet, model dapat dilatih menggunakan teknik standar jaringan konvolusional sambil menyesuaikan dengan karakteristik data \textit{landmark}.
 
 \subsubsection{Konfigurasi \textit{Hyperparameter}}
-Konfigurasi \textit{hyperparameter} digunakan untuk mengatur proses optimasi parameter jaringan selama pelatihan.
-Seluruh eksperimen pada penelitian ini menggunakan konfigurasi yang sama untuk menjaga konsistensi hasil.
-Pendekatan ini diterapkan agar perbandingan performa antar eksperimen bersifat adil dan terkontrol.
-Ringkasan konfigurasi \textit{hyperparameter} ditunjukkan pada Tabel \ref{tab:hyperparameter}.
+
+Konfigurasi \textit{hyperparameter} digunakan untuk mengendalikan proses optimasi parameter jaringan selama pelatihan model. 
+Seluruh eksperimen dalam penelitian ini menerapkan konfigurasi yang sama untuk menjaga konsistensi prosedur dan kestabilan hasil. 
+Pendekatan tersebut memastikan bahwa perbandingan performa antar skenario eksperimen dilakukan secara terkontrol. 
+Ringkasan konfigurasi awal \textit{hyperparameter} ditampilkan pada Tabel \ref{tab:hyperparameter}.
 
 \begin{table}[H]
 	\centering
-	\caption{Konfigurasi \textit{Hyperparameter} Pelatihan Model}
+	\caption{Konfigurasi Awal \textit{Hyperparameter} Pelatihan Model}
 	\label{tab:hyperparameter}
 	\begin{tabular}{|l|c|}
 	\hline
-	\textbf{Parameter} & \textbf{Nilai Default} \\ \hline
-	Ukuran \textit{batch} (\textit{batch size}) & 16 \\ \hline
+	\textbf{Parameter} & \textbf{Nilai Awal} \\ \hline
+	Ukuran \textit{batch} & 16 \\ \hline
 	Jumlah \textit{epoch} maksimum & 50 \\ \hline
-	\textit{Early stopping} & Diaktifkan (patience = 5) \\ \hline
+	\textit{Early stopping} & Aktif (patience = 5) \\ \hline
 	\textit{Learning rate} & $1 \times 10^{-4}$ \\ \hline
 	\textit{Optimizer} & Adam \\ \hline
 	\textit{Weight decay} & $1 \times 10^{-4}$ \\ \hline
@@ -493,97 +511,122 @@ Ringkasan konfigurasi \textit{hyperparameter} ditunjukkan pada Tabel \ref{tab:hy
 	\end{tabular}
 \end{table}
 
-Tabel \ref{tab:hyperparameter} merangkum parameter utama yang digunakan selama proses pelatihan model.
-Nilai \textit{learning rate} dan \textit{weight decay} dipilih untuk menjaga kestabilan proses optimasi.
-Mekanisme \textit{early stopping} diterapkan untuk mencegah terjadinya \textit{overfitting} pada data pelatihan.
-Konfigurasi ini dipilih berdasarkan praktik umum pelatihan jaringan konvolusional dan pengujian pendahuluan.
+Nilai \textit{learning rate} dan \textit{weight decay} ditetapkan untuk menjaga kestabilan proses pembaruan parameter selama \textit{backpropagation}. 
+Mekanisme \textit{early stopping} diterapkan untuk membatasi risiko \textit{overfitting} pada data pelatihan. 
+Konfigurasi ini mengacu pada praktik umum pelatihan jaringan konvolusional serta hasil pengujian awal yang bersifat eksploratif. 
+Penyesuaian nilai \textit{hyperparameter} dimungkinkan apabila diperlukan untuk menjaga stabilitas pelatihan pada tahap implementasi.
 
-Penelitian ini tidak melakukan ablasi terhadap nilai \textit{hyperparameter} secara eksplisit.
-Seluruh eksperimen difokuskan pada evaluasi pengaruh representasi \textit{landmark} dan modifikasi masukan model.
-Pendekatan ini dipilih untuk membatasi ruang eksperimen agar tetap selaras dengan tujuan utama penelitian.
-Konfigurasi \textit{hyperparameter} dijaga tetap agar perubahan performa model dapat diatribusikan secara langsung pada variasi representasi data dan arsitektur masukan.
+Penelitian ini tidak memfokuskan eksplorasi pada studi ablasi nilai \textit{hyperparameter}. 
+Ruang eksperimen diarahkan pada evaluasi representasi \textit{landmark} dan modifikasi kanal masukan model ResNet-2D. 
+Konsistensi konfigurasi dijaga agar perubahan performa model dapat diatribusikan secara langsung pada variasi representasi data. 
+Pembatasan ruang eksplorasi ini bertujuan mempertahankan kesesuaian dengan tujuan utama penelitian.
 
 \subsubsection{Augmentasi Data pada Proses Pelatihan}
 \label{subsubsec:augmentasi-pelatihan}
 
-Augmentasi data diterapkan pada tahap pelatihan model untuk meningkatkan kemampuan generalisasi jaringan terhadap variasi data masukan.
-Augmentasi tidak dilakukan pada tahap prapemrosesan karena tidak menghasilkan data yang disimpan secara permanen.
-Pendekatan ini memastikan bahwa variasi data hanya muncul selama proses pembelajaran dan tidak memengaruhi konsistensi dataset dasar.
-Seluruh strategi augmentasi dirancang agar tidak mengubah makna semantik dari isyarat yang direpresentasikan.
+Augmentasi data diterapkan pada tahap pelatihan untuk meningkatkan kemampuan generalisasi model terhadap variasi kondisi deteksi \textit{landmark}. 
+Augmentasi tidak dilakukan pada tahap prapemrosesan sehingga dataset dasar tetap tersimpan dalam bentuk deterministik. 
+Representasi fitur yang digunakan pada tahap ini telah mencakup empat kanal $(x, y, dx, dy)$ hasil rekayasa fitur sebelumnya. 
+Strategi augmentasi dirancang agar tidak mengubah struktur semantik gerakan bahasa isyarat.
 
-Augmentasi pada penelitian ini diterapkan secara dinamis di dalam \textit{data loader} pada setiap \textit{epoch}.
-Proses augmentasi dilakukan setelah data dibaca dan sebelum data disusun ke dalam \textit{mini-batch}.
-Pendekatan ini memungkinkan setiap \textit{sequence} mengalami variasi yang berbeda pada setiap \textit{epoch}.
-Penerapan augmentasi pada tahap ini selaras dengan mekanisme pelatihan jaringan konvolusional modern.
+Proses augmentasi dilakukan secara dinamis di dalam \textit{dataloader} pada setiap iterasi \textit{batch}. 
+Tensor masukan dengan struktur $(B, T, L, 4)$ dimodifikasi sebelum memasuki tahap \textit{forward pass}. 
+Variasi augmentasi dapat berbeda pada setiap \textit{epoch} meskipun data dasar tetap sama. 
+Pendekatan ini menghasilkan regularisasi tanpa menambah jumlah data secara eksplisit.
 
-Jenis augmentasi yang digunakan pada penelitian ini dibatasi pada dua bentuk utama.
-Augmentasi temporal dilakukan melalui penghapusan sebagian frame atau duplikasi frame secara acak pada satu \textit{sequence}.
-Augmentasi spasial dilakukan melalui penghilangan sebagian \textit{landmark} tangan secara acak pada satu \textit{epoch}.
-Kedua jenis augmentasi dipilih karena mencerminkan kondisi perekaman nyata tanpa merusak struktur dasar gerakan bahasa isyarat.
+Jenis augmentasi yang digunakan dibatasi pada augmentasi spasial berbasis \textit{landmark}. 
+Pendekatan ini meliputi \textit{random landmark masking} dan \textit{landmark jitter}. 
+Komponen perubahan antar-\textit{frame} $(dx, dy)$ tidak dihitung ulang setelah augmentasi. 
+Keputusan ini mempertahankan konsistensi rekayasa fitur temporal yang telah dibentuk pada tahap prapemrosesan.
 
-Augmentasi temporal bertujuan mensimulasikan variasi tempo gerakan dan ketidakstabilan laju pengambilan frame.
-Penghapusan satu frame menyebabkan selisih waktu antar-frame menjadi lebih besar.
-Duplikasi satu frame menghasilkan perlambatan temporal secara lokal pada \textit{sequence}.
-Proses ini tidak mengubah urutan gerakan sehingga struktur temporal isyarat tetap terjaga.
-
-Augmentasi spasial dilakukan melalui mekanisme \textit{random landmark masking}.
-Satu titik \textit{landmark} tangan dihilangkan secara acak pada satu \textit{epoch}.
-Pendekatan ini mensimulasikan kegagalan deteksi sebagian titik akibat occlusion atau noise sensor.
-Strategi ini mendorong model untuk tidak bergantung pada satu titik tertentu dalam mengenali pola gerakan.
-
-Contoh penerapan augmentasi temporal ditunjukkan pada Tabel \ref{tab:temporal-augmentation-example}.
-Ilustrasi disajikan untuk satu \textit{sequence} dengan jumlah frame terbatas.
-Urutan indeks frame digunakan untuk memperjelas perubahan struktur temporal.
+\textit{Random landmark masking} dilakukan dengan menghilangkan satu titik \textit{landmark} tangan secara acak pada satu \textit{epoch}. 
+Nilai koordinat titik tersebut diset menjadi nol untuk mensimulasikan kegagalan deteksi akibat occlusion. 
+Ilustrasi mekanisme ini ditunjukkan pada Tabel \ref{tab:landmark-masking-example}. 
 Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.
 
-\begin{longtable}{|c|c|}
-	\caption{Ilustrasi augmentasi temporal pada satu \textit{sequence}} \label{tab:temporal-augmentation-example} \\ \hline
-	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
+% \begin{longtable}{|c|c|}
+% 	\caption{Ilustrasi augmentasi temporal pada satu \textit{sequence}} \label{tab:temporal-augmentation-example} \\ \hline
+% 	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
+% 	\endfirsthead
+% 	\caption*{\textbf{Lanjutan Tabel \ref{tab:temporal-augmentation-example}}} \\ \hline
+% 	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
+% 	\endhead
+% 	\hline
+% 	\endfoot
+% 	$[1,2,3,4,5]$ & $[1,3,4,5]$ (frame 2 dihapus) \\ \hline
+% 	$[1,2,3,4,5]$ & $[1,2,3,3,4,5]$ (frame 3 duplikat) \\ \hline
+% \end{longtable}
+
+\begin{longtable}{|c|c|c|c|}
+	\caption{Ilustrasi \textit{random landmark masking} pada satu frame}
+	\label{tab:landmark-masking-example} \\ \hline
+	\textbf{Landmark} & \textbf{$(x,y)$} & \textbf{$(dx,dy)$} & \textbf{Setelah Masking} \\ \hline
 	\endfirsthead
-	\caption*{\textbf{Lanjutan Tabel \ref{tab:temporal-augmentation-example}}} \\ \hline
-	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
-	\endhead
 	\hline
-	\endfoot
-	$[1,2,3,4,5]$ & $[1,3,4,5]$ (frame 2 dihapus) \\ \hline
-	$[1,2,3,4,5]$ & $[1,2,3,3,4,5]$ (frame 3 duplikat) \\ \hline
-\end{longtable}
+	\textbf{Landmark} & \textbf{$(x,y)$} & \textbf{$(dx,dy)$} & \textbf{Setelah Masking} \\ \hline
+	\endhead
+	Wrist & (0.45, 0.60) & (0.02, -0.01) & (0.45, 0.60, 0.02, -0.01) \\ \hline
+	Index MCP & (0.48, 0.58) & (0.03, -0.02) & (0, 0, 0.03, -0.02) \\ \hline
+	Index Tip & (0.52, 0.55) & (0.02, -0.02) & (0.52, 0.55, 0.02, -0.02) \\ \hline
+	\end{longtable}
+
+\textit{Landmark jitter} dilakukan dengan menambahkan gangguan kecil pada koordinat $(x,y)$ menggunakan distribusi acak berskala rendah. 
+Besaran gangguan dibatasi agar tidak merusak struktur spasial gerakan. 
+Komponen $(dx,dy)$ tidak dimodifikasi sehingga dinamika antar-\textit{frame} tetap konsisten dengan rekayasa fitur awal. 
+Ilustrasi mekanisme \textit{landmark jitter} ditunjukkan pada Tabel \ref{tab:jitter-example}.
 
 \begin{longtable}{|c|c|c|}
-	\caption{Ilustrasi \textit{random landmark masking} pada satu frame} \label{tab:landmark-masking-example} \\ \hline
-	\textbf{Landmark} & \textbf{Nilai Asli $(x,y)$} & \textbf{Setelah Masking} \\ \hline
+	\caption{Ilustrasi \textit{landmark jitter} pada satu titik}
+	\label{tab:jitter-example} \\ \hline
+	\textbf{Landmark} & \textbf{$(x,y)$ Asli} & \textbf{$(x,y)$ Setelah Jitter} \\ \hline
 	\endfirsthead
-	\caption*{\textbf{Lanjutan Tabel \ref{tab:landmark-masking-example}}} \\ \hline
-	\textbf{Landmark} & \textbf{Nilai Asli $(x,y)$} & \textbf{Setelah Masking} \\ \hline
-	\endhead
 	\hline
-	\endfoot
-	Wrist & $(0.45, 0.60)$ & $(0.45, 0.60)$ \\ \hline
-	Index MCP & $(0.48, 0.58)$ & $(0, 0)$ \\ \hline
-	Index Tip & $(0.52, 0.55)$ & $(0.52, 0.55)$ \\ \hline
-\end{longtable}
+	\textbf{Landmark} & \textbf{$(x,y)$ Asli} & \textbf{$(x,y)$ Setelah Jitter} \\ \hline
+	\endhead
+	Wrist & (0.45, 0.60) & (0.46, 0.59) \\ \hline
+	Index MCP & (0.48, 0.58) & (0.47, 0.57) \\ \hline
+	\end{longtable}	
 
-Augmentasi data tidak diterapkan pada tahap evaluasi model.
-Seluruh data uji diproses tanpa augmentasi untuk memastikan hasil evaluasi mencerminkan performa model pada data asli.
-Pendekatan ini menjaga keadilan evaluasi dan mencegah distorsi hasil pengujian.
-Penerapan augmentasi terbatas pada tahap pelatihan memastikan peningkatan generalisasi tanpa mengorbankan validitas evaluasi.
-
-
+Augmentasi tidak diterapkan pada data validasi dan data uji. 
+Evaluasi model dilakukan menggunakan representasi asli tanpa modifikasi. 
+Pendekatan ini memastikan bahwa performa yang diperoleh mencerminkan kemampuan model pada data nyata. 
+Penerapan augmentasi terbatas pada tahap pelatihan untuk menjaga validitas evaluasi.
+	
 \subsubsection{Prosedur Pelatihan Model}
 \label{subsubsec:prosedur-pelatihan}
-Prosedur pelatihan dimulai dengan pemuatan data hasil rekayasa fitur ke dalam \textit{dataloader}.
-Data disusun dalam bentuk \textit{mini-batch} terpisah untuk pelatihan dan validasi.
-Model ResNet-2D yang telah dimodifikasi kemudian diinisialisasi dan ditempatkan pada perangkat komputasi yang digunakan.
-Proses optimasi parameter dilakukan menggunakan algoritma Adam sesuai konfigurasi yang telah ditetapkan.
 
-Setiap \textit{epoch} mencakup proses \textit{forward pass} untuk menghasilkan prediksi kelas bahasa isyarat.
-Nilai kesalahan prediksi dihitung menggunakan fungsi \textit{cross-entropy}.
-Parameter jaringan diperbarui melalui mekanisme \textit{backpropagation}.
-Pemantauan performa dilakukan menggunakan data validasi pada setiap \textit{epoch}.
-Mekanisme \textit{early stopping} menghentikan pelatihan ketika performa validasi tidak menunjukkan peningkatan.
-Bobot model terbaik selanjutnya digunakan pada tahap evaluasi.
+Prosedur pelatihan diawali dengan inisialisasi arsitektur ResNet-2D yang telah dimodifikasi pada lapisan masukan untuk menerima empat kanal fitur. 
+Model ditempatkan pada perangkat komputasi yang tersedia sebelum proses iterasi \textit{epoch} dimulai. 
+Data hasil prapemrosesan dipanggil melalui komponen \textit{data reader} yang membaca representasi koordinat \textit{landmark} tersimpan. 
+Representasi tersebut dibungkus ke dalam objek \textit{dataset} dan dihubungkan dengan \textit{dataloader} untuk membentuk aliran data menuju model.
+
+\textit{Dataloader} membentuk \textit{mini-batch} dengan struktur tensor $(B, T, L, 4)$ yang merepresentasikan ukuran \textit{batch}, panjang urutan waktu, jumlah \textit{landmark}, dan jumlah kanal fitur. 
+Setiap \textit{batch} memasuki tahap augmentasi sebelum dilakukan proses \textit{forward pass}. 
+Augmentasi yang diterapkan meliputi \textit{random landmark masking} dan \textit{landmark jitter} untuk mensimulasikan gangguan deteksi ringan pada kondisi nyata. 
+Transformasi ini dilakukan pada tingkat \textit{batch} sehingga variasi data muncul secara dinamis pada setiap iterasi pelatihan.
+
+Tahap \textit{forward pass} memproses \textit{batch} masukan melalui lapisan konvolusi awal yang menerima empat kanal fitur. 
+Hasil prediksi kelas bahasa isyarat dibandingkan dengan label sebenarnya untuk menghitung nilai \textit{loss} menggunakan fungsi \textit{cross-entropy}. 
+Gradien kesalahan dihitung melalui mekanisme \textit{backpropagation}. 
+Parameter jaringan diperbarui menggunakan algoritma \textit{Adam} sesuai konfigurasi \textit{hyperparameter} yang telah ditentukan.
+
+Proses tersebut berlangsung dalam struktur \textit{batch loop} hingga seluruh \textit{batch} pada satu \textit{epoch} selesai diproses. 
+Evaluasi performa dilakukan menggunakan data validasi pada akhir setiap \textit{epoch}. 
+Mekanisme \textit{early stopping} memantau peningkatan performa validasi untuk menentukan penghentian pelatihan. 
+Bobot model dengan performa validasi terbaik disimpan sebagai model akhir untuk digunakan pada tahap evaluasi.
+Proses pelatihan ini dijelaskan pada alur di Gambar \ref{fig:4.pelatihan} berikut.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure/training.pdf}
+    \caption{Ilustrasi alur pelatihan model}
+    \label{fig:4.pelatihan}
+\end{figure} \par
+
+
 
 \subsection{Evaluasi Model}
+\label{subsec:evaluasi-model}
 Evaluasi performa model dilakukan untuk menilai kemampuan sistem dalam mengklasifikasikan isyarat bahasa isyarat secara akurat dan konsisten.
 Proses evaluasi dilakukan menggunakan metrik klasifikasi yang telah didefinisikan pada Bab II.
 Pengujian diterapkan pada data uji yang tidak digunakan selama proses pelatihan maupun validasi.
@@ -593,12 +636,6 @@ Hasil evaluasi dianalisis secara kuantitatif untuk membandingkan performa antar 
 Analisis dilakukan dengan memperhatikan keseimbangan performa antar kelas, bukan hanya akurasi keseluruhan.
 Pendekatan ini penting mengingat potensi ketidakseimbangan jumlah sampel antar kelas isyarat.
 Temuan evaluasi selanjutnya dibahas secara rinci pada Bab IV.
-
-\label{subsec:evaluasi-model}
-
-\subsubsection{Skema Evaluasi}
-\label{subsubsec:skema-evaluasi}
-Skema evaluasi dilakukan melalui pembagian dataset menjadi tiga subset, yaitu data pelatihan, data validasi, dan data uji. Data pelatihan digunakan untuk proses pembelajaran parameter model, sedangkan data validasi digunakan untuk memantau performa selama pelatihan sekaligus menjadi acuan pemilihan model terbaik. Data uji disimpan secara eksklusif dan hanya digunakan pada tahap akhir untuk mengukur performa generalisasi model terhadap data yang tidak pernah dilihat sebelumnya. Pembagian ini menjaga objektivitas evaluasi dan memastikan metrik yang dilaporkan mencerminkan kemampuan model pada kondisi penggunaan yang realistis.
 
 \subsubsection{Metrik Evaluasi}
 \label{subsubsec:metrik-evaluasi}
