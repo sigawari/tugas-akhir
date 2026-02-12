@@ -451,10 +451,10 @@ CNN digunakan pada citra kedalaman untuk tugas pengenalan aktivitas dan estimasi
 Pendekatan serupa diterapkan pada data optikal aliran (\textit{optical flow}), di mana vektor gerak direpresentasikan sebagai kanal masukan terpisah \cite{simonyan2014twostream}. 
 Hasil penelitian tersebut menunjukkan bahwa CNN mampu mengekstraksi fitur bermakna dari kanal yang tidak merepresentasikan warna.
 
-Penggunaan CNN pada data berbasis \textit{landmark} juga telah dieksplorasi dalam berbagai studi pengenalan gerakan dan bahasa isyarat. 
-Koordinat \textit{landmark} dan fitur turunannya diperlakukan sebagai kanal masukan yang membentuk representasi spasial terstruktur. 
-Pendekatan ini memungkinkan CNN mempelajari pola gerakan tanpa memerlukan citra asli sebagai masukan. 
-Berdasarkan landasan teoretis tersebut, penggunaan kanal masukan \textit{(x, y, dx, dy)} pada penelitian ini berada dalam kerangka konseptual CNN yang valid. \par
+Penggunaan CNN tidak terbatas pada citra RGB, melainkan pada data yang memiliki struktur spasial teratur. 
+Operasi konvolusi dua dimensi bekerja berdasarkan kedekatan lokal antar elemen pada grid masukan. 
+Representasi koordinat \textit{landmark} yang disusun dalam bentuk tensor dua dimensi memenuhi prinsip tersebut karena memiliki struktur indeks yang konsisten. 
+Pendekatan ini memungkinkan CNN mempelajari pola spasial dan dinamika gerakan tanpa bergantung pada citra asli sebagai masukan.
 
 \subsection{Metrik Evaluasi Klasifikasi}
 \label{subsec:metrik-evaluasi}
