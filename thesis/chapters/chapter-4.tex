@@ -1,94 +1,191 @@
 \newpage
-\chapter{HASIL DAN PEMBAHASAN} \label{Bab IV}
+\chapter{HASIL DAN PEMBAHASAN}\label{bab:hasil-dan-pembahasan}
 
-\section{Hasil Implementasi} \label{sec:hasil-implementasi}
-\subsection{Deskripsi Dataset dan Skenario Eksperimen}
-\subsection{Prapemrosesan Dataset}
-\subsubsection{Ekstraksi Landmark MediaPipe Holistic}
-\subsubsection{Seleksi dan Representasi Landmark}
-\subsubsection{Pembentukan Tensor Landmark Multichannel}
-\subsubsection{Pembagian Data untuk Evaluasi}
-\subsection{Implementasi Model ResNet-2D}
+% Catatan: Kerangka BAB IV disusun mengikuti alur pada BAB III (data → prapemrosesan → pembentukan masukan → pelatihan → evaluasi → analisis).
 
-\section{Evaluasi Hasil} \label{IV.Akuisisi}
-\subsection{Evaluasi Model ResNet-2D Berbasis Landmark} \label{IV.Akuisisi}
-\subsection{Evaluasi Variasi Kombinasi Landmark MediaPipe} \label{IV.Akuisisi}
-\subsection{Analisis Confusion Matrix dan Metrik Evaluasi} \label{IV.Akuisisi}
+\section{Deskripsi Dataset dan Skenario Eksperimen}\label{sec:4-dataset-skenario}
+\subsection{Dataset dan Kelas Isyarat}\label{subsec:4-dataset}
+% Jelaskan: jumlah kelas, jumlah sampel/video per kelas, durasi, fps, resolusi awal, format data.
 
-\section{Rangkuman Hasil Keseluruhan}
-Pada tahap ini, proses pembacaan dataset dilakukan dengan seksama untuk memastikan setiap gambar diperoleh dengan urutan yang benar dan sistematis. Penting untuk memastikan bahwa gambar yang diperoleh terurut dalam format \textit{time-series} agar memudahkan analisis pergerakan wajah yang terjadi dalam video. Implementasi kode yang digunakan untuk proses ini dapat dilihat pada \cref{code:4.akuisisi}. \par
+\subsection{Skenario Eksperimen dan Pembagian Data}\label{subsec:4-skenario}
+% Jelaskan: split train/val/test atau k-fold, subject-independent/subject-dependent (jika ada), serta seed.
 
-\begin{lstlisting}[language=Python, caption={Akuisisi Gambar}, label={code:4.akuisisi}, basicstyle=\ttfamily\scriptsize, commentstyle=\color{green}, keywordstyle=\color{blue}, stringstyle=\color{red}, numberstyle=\tiny\color{gray}, numbers=left, breaklines=true, showstringspaces=false]
-DATASET_ROOT = os.path.join(os.getcwd(), 'PURE Dataset')
-def get_all_dataset_folders(root_path):
-    dataset_folders = []
-    for root, dirs, files in os.walk(root_path):
-        if any(file.endswith('.png') for file in files):
-            dataset_folders.append(root)
-    return dataset_folder
-def process_dataset(dataset_path):
-    image_files = glob(os.path.join(dataset_path, '*.png'))
-    image_files.sort()
-    for image_file in image_files:
-        frame = cv2.imread(image_file)
-        if frame is None:
-            continue
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        cv2.imshow('Frame', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    cv2.destroyAllWindows()
-def main():
-    datasets = get_all_dataset_folders(DATASET_ROOT)
-    for dataset in datasets:
-        process_dataset(dataset)
+% --- Contoh tabel ringkasan dataset ---
+\begin{table}[H]
+\centering
+\caption{Ringkasan dataset dan skenario pembagian data}
+\label{tab:4-ringkasan-dataset}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Komponen} & \textbf{Train} & \textbf{Validasi} & \textbf{Uji} \\ \hline
+Jumlah kelas & \multicolumn{3}{c|}{\textit{\{isi\}}} \\ \hline
+Jumlah sampel (video) & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} \\ \hline
+Rata-rata durasi (detik) & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} \\ \hline
+FPS & \multicolumn{3}{c|}{\textit{\{isi\}}} \\ \hline
+Resolusi awal & \multicolumn{3}{c|}{\textit{\{isi\}}} \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Hasil Prapemrosesan dan Rekayasa Fitur}\label{sec:4-prapemrosesan}
+\subsection{Alur Prapemrosesan}\label{subsec:4-alur-prapemrosesan}
+% Ringkas pipeline: trimming/segmentasi (jika ada) → ekstraksi landmark → seleksi → normalisasi → delta antar-frame → pembentukan tensor.
+
+\subsection{Ekstraksi Landmark MediaPipe Holistic}\label{subsec:4-ekstraksi-landmark}
+% Jelaskan: komponen landmark yang dipakai (wajah/tangan/pose), jumlah titik, serta penanganan missing.
+
+% --- Contoh gambar: visualisasi landmark ---
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{figure/placeholder-landmark.png}
+\caption{Contoh visualisasi hasil ekstraksi landmark MediaPipe Holistic pada satu frame}
+\label{fig:4-landmark}
+\end{figure}
+
+\subsection{Seleksi, Normalisasi, dan Pengodean Dinamika Antar-Frame}\label{subsec:4-seleksi-normalisasi-delta}
+% Jelaskan: landmark apa saja yang dipilih, normalisasi (mis. relatif terhadap titik acuan), serta fitur delta (x,y,z atau kecepatan).
+
+\subsection{Pembentukan Tensor Landmark Multichannel}\label{subsec:4-tensor-multichannel}
+% Jelaskan dimensi: (T \times P \times C) atau (C \times H \times W) sesuai desain CNN 2D.
+
+% --- Contoh tabel: spesifikasi tensor masukan ---
+\begin{table}[H]
+\centering
+\caption{Spesifikasi tensor masukan berbasis landmark}
+\label{tab:4-spesifikasi-tensor}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Komponen} & \textbf{Deskripsi} \\ \hline
+T (panjang sekuens) & \textit{\{isi\}} frame \\ \hline
+P (jumlah landmark terpilih) & \textit{\{isi\}} titik \\ \hline
+C (jumlah kanal) & \textit{\{mis. x,y,z,\u0394x,\u0394y,\u0394z\}} \\ \hline
+Bentuk tensor akhir & \textit{\{mis. C \times T \times P\}} \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Implementasi Model dan Konfigurasi Pelatihan}\label{sec:4-implementasi-model}
+\subsection{Arsitektur ResNet-2D dan Modifikasi Kanal Masukan}\label{subsec:4-arsitektur-resnet}
+% Paparkan: varian ResNet, perubahan conv pertama (in\_channels), serta alasan pemilihan.
+
+\subsection{Konfigurasi Eksperimen (Hyperparameter)}\label{subsec:4-hyperparameter}
+% Jelaskan: optimizer, lr, batch size, epoch, scheduler, loss, early stopping.
+
+% --- Contoh tabel hyperparameter ---
+\begin{table}[H]
+\centering
+\caption{Konfigurasi hyperparameter pelatihan}
+\label{tab:4-hyperparameter}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Parameter} & \textbf{Nilai} \\ \hline
+Optimizer & \textit{\{isi\}} \\ \hline
+Learning rate & \textit{\{isi\}} \\ \hline
+Batch size & \textit{\{isi\}} \\ \hline
+Epoch & \textit{\{isi\}} \\ \hline
+Loss & \textit{\{isi\}} \\ \hline
+Scheduler & \textit{\{isi\}} \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Hasil Pelatihan Model}\label{sec:4-hasil-pelatihan}
+\subsection{Kurva Loss dan Akurasi}\label{subsec:4-kurva}
+% Sertakan grafik train/val.
+
+% --- Contoh grafik (gambar) ---
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/placeholder-learning-curve.png}
+\caption{Kurva pelatihan: loss dan akurasi pada data train dan validasi}
+\label{fig:4-learning-curve}
+\end{figure}
+
+\subsection{Cuplikan Implementasi (Kode)}\label{subsec:4-kode}
+% Pastikan hanya potongan penting yang ditampilkan.
+
+\begin{lstlisting}[language=Python, caption={Contoh modifikasi \texttt{in\_channels} pada ResNet untuk masukan multichannel}, label={code:4-resnet-inchannels}, basicstyle=\ttfamily\scriptsize, commentstyle=\color{green!50!black}, keywordstyle=\color{blue}, stringstyle=\color{red}, numberstyle=\tiny\color{gray}, numbers=left, breaklines=true, showstringspaces=false]
+# ...existing imports...
+import torch
+import torch.nn as nn
+from torchvision.models import resnet18
+
+def build_resnet18_multichannel(in_channels: int, num_classes: int):
+    model = resnet18(weights=None)
+    # ganti conv pertama agar menerima C kanal (bukan RGB=3)
+    model.conv1 = nn.Conv2d(
+        in_channels=in_channels,
+        out_channels=model.conv1.out_channels,
+        kernel_size=model.conv1.kernel_size,
+        stride=model.conv1.stride,
+        padding=model.conv1.padding,
+        bias=False,
+    )
+    model.fc = nn.Linear(model.fc.in_features, num_classes)
+    return model
 \end{lstlisting}
 
+\section{Evaluasi Model}\label{sec:4-evaluasi}
+\subsection{Metrik Evaluasi dan Prosedur Pengujian}\label{subsec:4-metrik-prosedur}
+% Jelaskan: accuracy, precision, recall, F1 (macro/weighted), serta cara menghitungnya.
 
-\cref{code:4.akuisisi} merupakan baris kode untuk melakukan akuisisi gambar. 
-
-
-\section{Analisis Hasil Penelitian} \label{IV.Analisis}
-\lipsum[1-2] % Menampilkan paragraf 1 sampai 2 dari lorem ipsum
-
-
-\section{Pembahasan} \label{IV.Bahas}
-\lipsum[1-2] % Menampilkan paragraf 1 sampai 2 dari lorem ipsum
-
+\subsection{Hasil Evaluasi Utama}\label{subsec:4-hasil-utama}
+% Tampilkan metrik utama pada split uji.
 
 \begin{table}[H]
-	\centering
-	\caption{Ilustrasi perbandingan visual pada berbagai tingkat resolusi}
-	\label{tab:ilustrasi-resolusi}
-	\begin{tabular}{|c|c|c|}
-	\hline
-	\textbf{Resolusi} & \textbf{Contoh Frame} & \textbf{Keterangan} \\ \hline
-	3840 $\times$ 2160 & \includegraphics[width=0.25\textwidth]{figure/cnn2d.png} & Resolusi asli \\ \hline
-	1920 $\times$ 1080 & \includegraphics[width=0.25\textwidth]{figure/cnn2d.png} & Hasil penurunan resolusi \\ \hline
-	1280 $\times$ 720  & \includegraphics[width=0.25\textwidth]{figure/cnn2d.png} & Hasil penurunan resolusi \\ \hline
-	854 $\times$ 480   & \includegraphics[width=0.25\textwidth]{figure/cnn2d.png} & Hasil penurunan resolusi \\ \hline
-	\end{tabular}
-	
-	\vspace{0.5em}
-	{\footnotesize Catatan: Ilustrasi digunakan untuk menunjukkan perbedaan kualitas visual akibat penurunan resolusi dan tidak merepresentasikan hasil evaluasi sistem.}
-	\end{table}
+\centering
+\caption{Hasil evaluasi model pada data uji}
+\label{tab:4-hasil-evaluasi}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metrik} & \textbf{Nilai} \\ \hline
+Accuracy & \textit{\{isi\}} \\ \hline
+Precision (macro) & \textit{\{isi\}} \\ \hline
+Recall (macro) & \textit{\{isi\}} \\ \hline
+F1-score (macro) & \textit{\{isi\}} \\ \hline
+\end{tabular}
+\end{table}
 
-    
-\subsubsection{Augmentasi Resolusi Video}
-\label{subsubsec:augmentasi-resolusi}
-Augmentasi resolusi video diterapkan untuk meningkatkan variasi kualitas masukan tanpa menambah proses perekaman data.
-Seluruh video direkam menggunakan satu kamera dan satu subjek Tuli untuk menjaga konsistensi sudut pandang, jarak, dan karakteristik biologis.
-Variasi resolusi dipilih sebagai bentuk augmentasi yang bersifat terkontrol dan dapat direproduksi secara sistematis.
-Pendekatan ini merepresentasikan perbedaan kualitas citra yang umum terjadi akibat penggunaan perangkat perekaman dengan spesifikasi berbeda.
+\subsection{Analisis Confusion Matrix}\label{subsec:4-confusion-matrix}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figure/placeholder-confusion-matrix.png}
+\caption{Confusion matrix hasil pengujian pada data uji}
+\label{fig:4-confusion-matrix}
+\end{figure}
 
-Video hasil perekaman awal selanjutnya diproses melalui penurunan resolusi secara spasial.
-Proses penurunan resolusi dilakukan dengan mempertahankan rasio aspek video agar tidak terjadi distorsi geometris.
-Setiap tingkat resolusi diperlakukan sebagai entitas data yang berdiri sendiri dalam dataset.
-Langkah ini bertujuan untuk memperkaya keragaman kualitas visual tanpa mengubah urutan gerakan atau makna isyarat yang direkam.
+\subsection{Eksperimen Variasi Kombinasi Landmark}\label{subsec:4-variasi-landmark}
+% Contoh: (Face), (Hands), (Pose), (Face+Hands), dst.
 
-Ilustrasi kondisi video pada resolusi awal ditunjukkan pada Gambar \ref{fig:resolusi-asli}.
-Contoh hasil penurunan resolusi pada tingkat menengah dan rendah ditunjukkan pada Gambar \ref{fig:resolusi-menengah} dan Gambar \ref{fig:resolusi-rendah}.
-Perbedaan tingkat detail visual pada setiap resolusi menggambarkan variasi kualitas citra yang diterima oleh sistem ekstraksi \textit{landmark}.
-Ilustrasi ini digunakan untuk memberikan gambaran kondisi data masukan sebelum dilakukan ekstraksi \textit{landmark}.
+\begin{table}[H]
+\centering
+\caption{Perbandingan performa pada variasi kombinasi landmark}
+\label{tab:4-variasi-landmark}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Kombinasi Landmark} & \textbf{Acc} & \textbf{Prec (macro)} & \textbf{Rec (macro)} & \textbf{F1 (macro)} \\ \hline
+Face & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} \\ \hline
+Hands & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} \\ \hline
+Pose & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} \\ \hline
+Face+Hands & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} \\ \hline
+Face+Hands+Pose & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} & \textit{\{isi\}} \\ \hline
+\end{tabular}
+\end{table}
 
-% Kasih tabel aja berapa resolusinya
+% --- Contoh grafik perbandingan (sebagai gambar hasil plot) ---
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figure/placeholder-barplot-variasi.png}
+\caption{Grafik perbandingan F1-score untuk variasi kombinasi landmark}
+\label{fig:4-barplot-variasi}
+\end{figure}
+
+\section{Pembahasan}\label{sec:4-pembahasan}
+\subsection{Interpretasi Hasil dan Temuan Utama}\label{subsec:4-interpretasi}
+% Bahas: pola error, kelas yang sering tertukar, pengaruh dinamika antar-frame, pengaruh resolusi.
+
+\subsection{Analisis Kesalahan (Error Analysis)}\label{subsec:4-error-analysis}
+% Ambil beberapa contoh salah klasifikasi untuk dibahas.
+
+\subsection{Keterbatasan dan Implikasi}\label{subsec:4-keterbatasan}
+% Keterbatasan data, generalisasi, variasi subjek/lingkungan, dsb.
+
+\section{Rangkuman BAB IV}\label{sec:4-rangkuman}
+% Ringkas poin: konfigurasi terbaik, metrik utama, hasil variasi landmark, dan insight pembahasan.
