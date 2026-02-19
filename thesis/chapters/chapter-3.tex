@@ -224,6 +224,7 @@ Informasi dinamika gerakan tetap dapat direpresentasikan melalui perubahan posis
 Keputusan ini memungkinkan penyederhanaan struktur data sekaligus menurunkan kompleksitas komputasi secara signifikan.
 
 Seleksi \textit{landmark} juga diterapkan pada tingkat bagian tubuh yang digunakan.
+% Setup 68 titik: https://www.researchgate.net/figure/The-face-shape-with-68-landmarks_fig3_330402357
 \textit{Landmark} pose dan tangan dipertahankan secara penuh karena merepresentasikan mayoritas informasi gerakan bahasa isyarat.
 \textit{Landmark} wajah tidak digunakan secara keseluruhan dan hanya dipilih sebagian titik tertentu yang berkaitan dengan ekspresi non-manual.
 Ringkasan konfigurasi seleksi \textit{landmark} ditunjukkan pada Tabel \ref{tab:landmark-selection}.
@@ -238,9 +239,9 @@ Ringkasan konfigurasi seleksi \textit{landmark} ditunjukkan pada Tabel \ref{tab:
 	Pose & 33 & Ya \\ \hline
 	Tangan kiri & 21 & Ya \\ \hline
 	Tangan kanan & 21 & Ya \\ \hline
-	Wajah (subset) & 468 & 14 \\ \hline
+	Wajah (subset) & 468 & 68 \\ \hline
 	Dimensi koordinat & $(x, y, z)$ & $(x, y)$ \\ \hline
-	Total \textit{landmark} terpilih & 543 & 89 \\ \hline
+	Total \textit{landmark} terpilih & 543 & 143 \\ \hline
 	\end{tabular}
 	
 	\vspace{0.5em}
@@ -255,34 +256,42 @@ Pengaturan ini memastikan bahwa data masukan tetap ringkas sekaligus mempertahan
 Subset \textit{landmark} wajah dipilih untuk merepresentasikan area wajah yang paling relevan terhadap ekspresi non-manual.
 Titik yang digunakan mencakup area pipi, dahi, dagu, mata, dan bibir.
 Pemilihan ini bertujuan menangkap perubahan ekspresi global tanpa mempertahankan detail geometris wajah secara penuh.
-Daftar indeks \textit{landmark} wajah yang digunakan ditunjukkan pada Tabel \ref{tab:face-landmark-map}.
+Ilustrasi hasil pemilihan titik pada wajah diperlihatkan pada Gambar \ref{fig:face_seleksi}.
 
-\begin{table}[H]
-	\centering
-	\caption{Subset \textit{landmark} wajah yang digunakan}
-	\label{tab:face-landmark-map}
-	\begin{tabular}{|c|l|}
-	\hline
-	\textbf{Indeks} & \textbf{Deskripsi} \\ \hline
-	234 & Pipi kiri \\ \hline
-	454 & Pipi kanan \\ \hline
-	10  & Jidat tengah \\ \hline
-	297 & Jidat kiri \\ \hline
-	338 & Jidat kanan \\ \hline
-	152 & Dagu \\ \hline
-	13  & Bibir atas tengah \\ \hline
-	14  & Bibir bawah tengah \\ \hline
-	61  & Bibir kiri \\ \hline
-	291 & Bibir kanan \\ \hline
-	33  & Mata kiri luar \\ \hline
-	133 & Mata kiri dalam \\ \hline
-	362 & Mata kanan dalam \\ \hline
-	263 & Mata kanan luar \\ \hline
-	\end{tabular}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.56\textwidth]{figure/face_landmark.png}
+    \caption{Ilustrasi 68 \textit{face landmark}}
+    \label{fig:face_seleksi}
+	{\footnotesize Sumber: Gambar diadaptasi dari repositori penelitian \cite{li2019acialexpression}}
+\end{figure} \par
+
+% \begin{table}[H]
+% 	\centering
+% 	\caption{Subset \textit{landmark} wajah yang digunakan}
+% 	\label{tab:face-landmark-map}
+% 	\begin{tabular}{|c|l|}
+% 	\hline
+% 	\textbf{Indeks} & \textbf{Deskripsi} \\ \hline
+% 	234 & Pipi kiri \\ \hline
+% 	454 & Pipi kanan \\ \hline
+% 	10  & Jidat tengah \\ \hline
+% 	297 & Jidat kiri \\ \hline
+% 	338 & Jidat kanan \\ \hline
+% 	152 & Dagu \\ \hline
+% 	13  & Bibir atas tengah \\ \hline
+% 	14  & Bibir bawah tengah \\ \hline
+% 	61  & Bibir kiri \\ \hline
+% 	291 & Bibir kanan \\ \hline
+% 	33  & Mata kiri luar \\ \hline
+% 	133 & Mata kiri dalam \\ \hline
+% 	362 & Mata kanan dalam \\ \hline
+% 	263 & Mata kanan luar \\ \hline
+% 	\end{tabular}
 	
-	\vspace{0.5em}
-	{\footnotesize Catatan: Subset \textit{landmark} wajah dipilih untuk merepresentasikan area ekspresi non-manual secara global tanpa mempertahankan detail geometris wajah secara penuh.}
-\end{table}
+% 	\vspace{0.5em}
+% 	{\footnotesize Catatan: Subset \textit{landmark} wajah dipilih untuk merepresentasikan area ekspresi non-manual secara global tanpa mempertahankan detail geometris wajah secara penuh.}
+% \end{table}
 
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:normalisasi-landmark}
@@ -545,18 +554,18 @@ Nilai koordinat titik tersebut diset menjadi nol untuk mensimulasikan kegagalan 
 Ilustrasi mekanisme ini ditunjukkan pada Tabel \ref{tab:landmark-masking-example}. 
 Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.
 
-% \begin{longtable}{|c|c|}
-% 	\caption{Ilustrasi augmentasi temporal pada satu \textit{sequence}} \label{tab:temporal-augmentation-example} \\ \hline
-% 	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
-% 	\endfirsthead
-% 	\caption*{\textbf{Lanjutan Tabel \ref{tab:temporal-augmentation-example}}} \\ \hline
-% 	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
-% 	\endhead
-% 	\hline
-% 	\endfoot
-% 	$[1,2,3,4,5]$ & $[1,3,4,5]$ (frame 2 dihapus) \\ \hline
-% 	$[1,2,3,4,5]$ & $[1,2,3,3,4,5]$ (frame 3 duplikat) \\ \hline
-% \end{longtable}
+\begin{longtable}{|c|c|}
+	\caption{Ilustrasi augmentasi temporal pada satu \textit{sequence}} \label{tab:temporal-augmentation-example} \\ \hline
+	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
+	\endfirsthead
+	\caption*{\textbf{Lanjutan Tabel \ref{tab:temporal-augmentation-example}}} \\ \hline
+	\textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
+	\endhead
+	\hline
+	\endfoot
+	$[1,2,3,4,5]$ & $[1,3,4,5]$ (frame 2 dihapus) \\ \hline
+	$[1,2,3,4,5]$ & $[1,2,3,3,4,5]$ (frame 3 duplikat) \\ \hline
+\end{longtable}
 
 \begin{longtable}{|c|c|c|c|}
 	\caption{Ilustrasi \textit{random landmark masking} pada satu frame}
