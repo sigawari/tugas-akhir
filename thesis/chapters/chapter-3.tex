@@ -534,9 +534,6 @@ Strategi augmentasi dirancang agar tidak mengubah struktur semantik gerakan baha
 
 Proses augmentasi dilakukan secara dinamis di dalam \textit{dataloader} pada setiap iterasi \textit{batch}. 
 Tensor masukan dengan struktur $(B, T, L, 4)$ dimodifikasi sebelum memasuki tahap \textit{forward pass}. 
-Variasi augmentasi dapat berbeda pada setiap \textit{epoch} meskipun data dasar tetap sama. 
-Pendekatan ini menghasilkan regularisasi tanpa menambah jumlah data secara eksplisit.
-
 Jenis augmentasi yang digunakan dibatasi pada augmentasi spasial berbasis \textit{landmark}. 
 Pendekatan ini meliputi \textit{random landmark masking} dan \textit{landmark jitter}. 
 Komponen perubahan antar-\textit{frame} $(dx, dy)$ tidak dihitung ulang setelah augmentasi. 
