@@ -47,16 +47,16 @@ Hasil tersebut menunjukkan bahwa pemodelan spasio-temporal tidak selalu harus ko
 Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{table:2.literasi}. 
 
 % Tabel Ringkasan Penelitian
-\renewcommand{\arraystretch}{1.2} % Mengatur spasi antar baris menjadi 1.2
-\setlength{\tabcolsep}{4pt} % Mengatur jarak antar kolom
-\begin{longtable}{|c|p{0.22\textwidth}|p{0.18\textwidth}|p{0.17\textwidth}|p{0.22\textwidth}|}
+\renewcommand{\arraystretch}{1.5} % Increase row spacing to prevent glue shrinkage
+\setlength{\tabcolsep}{8pt} % Further increase column spacing for better alignment
+\begin{longtable}{|c|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
   \caption{Literasi Penelitian Terdahulu}\label{table:2.literasi}\\
   \hline
   \textbf{No} 
     & \textbf{Penulis [Tahun] [Judul]} 
     & \textbf{Permasalahan} 
     & \textbf{Metode} 
-    & \textbf{Hasil} \\ % ← you must end the row here
+    & \textbf{Hasil} \\ % Ensure rows are properly ended
   \hline
 \endfirsthead
   \hline
@@ -64,7 +64,7 @@ Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{
     & \textbf{Penulis [Tahun] [Judul]} 
     & \textbf{Permasalahan} 
     & \textbf{Metode} 
-    & \textbf{Hasil} \\ % ← and here too
+    & \textbf{Hasil} \\ % Ensure rows are properly ended
   \hline
 \endhead
   \hline
@@ -72,13 +72,13 @@ Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{
   \hline
 \endlastfoot
     1. 
-    & Maheswara et al. [2023] [\textit{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models Leveraging MediaPipe}] \cite{maheswara2023lstmbisindo}
+    & Maheswara et al. [2023] [\textit{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models}] \cite{maheswara2023lstmbisindo}
     & Pendekatan statis kurang mampu menangkap dinamika gerakan BISINDO secara \textit{real-time}.
     & Ekstraksi \textit{landmarks} MediaPipe \textit{Holistic} dengan pemodelan temporal menggunakan LSTM dan GRU.
     & Model GRU mencapai performa terbaik dengan akurasi \textit{real-time} hingga 83\% pada kombinasi \textit{landmark} tanpa wajah. \\
     \hline
     2.
-    & Jiayu Huang dan Varin Chouvatut [2024][\textit{Video-Based Sign Language Recognition via ResNet and LSTM Network}] \cite{huang2024videoresnetlstm}
+    & Jiayu Huang dan Varin Chouvatut [2024][\textit{Video-Based Sign Language Recognition via ResNet and LSTM}] \cite{huang2024videoresnetlstm}
     & Ekstraksi fitur spasio-temporal video sulit dilakukan secara efisien dengan model CNN konvensional.
     & Arsitektur hibrida ResNet-18 sebagai ekstraktor spasial dan LSTM untuk pemodelan temporal.
     & Mencapai akurasi 86,25\% dan mengungguli beberapa model video-based lainnya. \\
@@ -109,8 +109,8 @@ Alternatif berbasis pose dan landmark telah menunjukkan potensi efisiensi yang l
 Celah penelitian muncul pada minimnya eksplorasi pendekatan yang mampu mengintegrasikan informasi temporal secara implisit ke dalam representasi spasial, sehingga memungkinkan penggunaan arsitektur CNN dua dimensi murni tanpa ketergantungan pada mekanisme temporal eksplisit.
 
 \section{Dasar Teori} \label{sec:dasar-teori}
-Bagian ini menguraikan landasan teoretis yang mendukung pelaksanaan penelitian, khususnya konsep-konsep utama yang berkaitan dengan pengenalan bahasa isyarat berbasis visual dan pemodelan pola gerakan manusia.
-Pembahasan difokuskan pada konsep yang relevan secara langsung dengan pendekatan penelitian, tanpa mengulas aspek linguistik atau teori umum yang tidak berkontribusi terhadap metode yang digunakan.
+Bagian ini menguraikan landasan teoretis yang mendukung pelaksanaan penelitian, khususnya konsep-konsep utama yang berkaitan dengan pengenalan bahasa isyarat berbasis visual dan pemodelan pola gerakan manusia. 
+Pembahasan difokuskan pada konsep yang relevan secara langsung dengan pendekatan penelitian, tanpa mengulas aspek linguistik atau teori umum yang tidak berkontribusi terhadap metode yang digunakan. % Adjust spacing for better justification
 % BISINDO
 \subsection{Bahasa Isyarat Indonesia (BISINDO)} \label{subsec:bisindo}
 Bahasa Isyarat Indonesia (BISINDO) merupakan salah satu bahasa isyarat yang digunakan di Indonesia dan lebih umum digunakan dalam komunitas Tuli \cite{lavenia2023tuliindonesia}. 
