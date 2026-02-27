@@ -130,6 +130,7 @@ Diagram tersebut memperlihatkan keterkaitan tahapan mulai dari masukan video, pr
     \label{fig:3.prapemrosesan}
 \end{figure} \par
 
+% Rev MCT: Apakah sequence nya sudah pas atau belum?
 \subsubsection{Segmentasi dan Trimming Video}
 \label{subsubsec:segmentasi-trimming}
 
@@ -266,33 +267,7 @@ Ilustrasi hasil pemilihan titik pada wajah diperlihatkan pada Gambar \ref{fig:fa
 	{\footnotesize Sumber: Gambar diadaptasi dari repositori penelitian \cite{li2019acialexpression}}
 \end{figure} \par
 
-% \begin{table}[H]
-% 	\centering
-% 	\caption{Subset \textit{landmark} wajah yang digunakan}
-% 	\label{tab:face-landmark-map}
-% 	\begin{tabular}{|c|l|}
-% 	\hline
-% 	\textbf{Indeks} & \textbf{Deskripsi} \\ \hline
-% 	234 & Pipi kiri \\ \hline
-% 	454 & Pipi kanan \\ \hline
-% 	10  & Jidat tengah \\ \hline
-% 	297 & Jidat kiri \\ \hline
-% 	338 & Jidat kanan \\ \hline
-% 	152 & Dagu \\ \hline
-% 	13  & Bibir atas tengah \\ \hline
-% 	14  & Bibir bawah tengah \\ \hline
-% 	61  & Bibir kiri \\ \hline
-% 	291 & Bibir kanan \\ \hline
-% 	33  & Mata kiri luar \\ \hline
-% 	133 & Mata kiri dalam \\ \hline
-% 	362 & Mata kanan dalam \\ \hline
-% 	263 & Mata kanan luar \\ \hline
-% 	\end{tabular}
-	
-% 	\vspace{0.5em}
-% 	{\footnotesize Catatan: Subset \textit{landmark} wajah dipilih untuk merepresentasikan area ekspresi non-manual secara global tanpa mempertahankan detail geometris wajah secara penuh.}
-% \end{table}
-
+% Rev MCT: Ga dapet logic intuisinya harusnya kalau biar ga ketuker ya dibagi di titik tengah w x h dari p nya video dong
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:normalisasi-landmark}
 
@@ -462,6 +437,7 @@ dan indeks \textit{landmark} dalam satu representasi terpadu.
     \label{fig:3.inputchannel}
 \end{figure} \par
 
+% Rev MCT: Siga, apakah conv doang yang diubah, gimana paper lain melakukannya
 \subsection{Pelatihan Model ResNet-2D}
 \label{subsec:pelatihan-modifikasi-model}
 Pelatihan model ResNet-2D dilakukan untuk mengoptimalkan kemampuan model dalam mengenali pola gerakan bahasa isyarat berdasarkan data \textit{landmark} yang telah direpresentasikan dalam bentuk multichannel. 
@@ -534,6 +510,7 @@ Ruang eksperimen diarahkan pada evaluasi representasi \textit{landmark} dan modi
 Konsistensi konfigurasi dijaga agar perubahan performa model dapat diatribusikan secara langsung pada variasi representasi data. 
 Pembatasan ruang eksplorasi ini bertujuan mempertahankan kesesuaian dengan tujuan utama penelitian.
 
+% Rev MCT: Cari tahu augmentasi terbaik menurut paper lain
 \subsubsection{Augmentasi Data pada Proses Pelatihan}
 \label{subsubsec:augmentasi-pelatihan}
 
