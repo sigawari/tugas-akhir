@@ -48,66 +48,67 @@ Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{
 
 % Rev MCT: Perhatikan lagi susunan paper agar sesuai argumen. Buat dari yang paling mendekati ke paling kurang
 % Tabel Ringkasan Penelitian
-\renewcommand{\arraystretch}{1.5} % Increase row spacing to prevent glue shrinkage
-\setlength{\tabcolsep}{8pt} % Further increase column spacing for better alignment
-\begin{longtable}{|c|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
+\renewcommand{\arraystretch}{1.0} % Mengatur spasi antar baris menjadi 1
+\begin{longtable}{|c|p{0.25\textwidth}|p{0.21\textwidth}|p{0.145\textwidth}|p{0.2\textwidth}|}
   \caption{Literasi Penelitian Terdahulu}\label{table:2.literasi}\\
   \hline
-  \textbf{No} 
-    & \textbf{Penulis [Tahun] [Judul]} 
-    & \textbf{Permasalahan} 
-    & \textbf{Metode} 
-    & \textbf{Hasil} \\ % Ensure rows are properly ended
+   \textbf{No} 
+     & \textbf{Penulis [Tahun] [Judul]} 
+     & \textbf{Permasalahan} 
+     & \textbf{Metode} 
+     & \textbf{Hasil} \\
   \hline
 \endfirsthead
   \hline
-  \textbf{No} 
-    & \textbf{Penulis [Tahun] [Judul]} 
-    & \textbf{Permasalahan} 
-    & \textbf{Metode} 
-    & \textbf{Hasil} \\ % Ensure rows are properly ended
-  \hline
-\endhead
-  \hline
-\endfoot
-  \hline
-\endlastfoot
-    1. 
-    & Maheswara et al. [2023] [\textit{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models}] \cite{maheswara2023lstmbisindo}
-    & Pendekatan statis kurang mampu menangkap dinamika gerakan BISINDO secara \textit{real-time}.
-    & Ekstraksi \textit{landmarks} MediaPipe \textit{Holistic} dengan pemodelan temporal menggunakan LSTM dan GRU.
-    & Model GRU mencapai performa terbaik dengan akurasi \textit{real-time} hingga 83\% pada kombinasi \textit{landmark} tanpa wajah. \\
-    \hline
-    2.
-    & Jiayu Huang dan Varin Chouvatut [2024][\textit{Video-Based Sign Language Recognition via ResNet and LSTM}] \cite{huang2024videoresnetlstm}
-    & Ekstraksi fitur spasio-temporal video sulit dilakukan secara efisien dengan model CNN konvensional.
-    & Arsitektur hibrida ResNet-18 sebagai ekstraktor spasial dan LSTM untuk pemodelan temporal.
-    & Mencapai akurasi 86,25\% dan mengungguli beberapa model video-based lainnya. \\
-    \hline
-    3.
-    & Daniel Perkins, Davis Hunter, Dhrumil Patel, dan Galen Flanagan [2025] [\textit{Isolated Sign Language Recognition with Segmentation and Pose Estimation}] \cite{perkins2025islr}
-    & Model berbasis video sulit melakukan generalisasi akibat gangguan latar dan pencahayaan.
-    & Integrasi estimasi pose, segmentasi, dan Bi-LSTM dengan Transformer berbasis pose.
-    & Bi-LSTM dengan koordinat pose yang dinormalisasi mencapai performa tinggi sebesar 68,5\%.\\ 
-    \hline
-    4.
-    & Ali Akdag dan Ã–mer Kaan Baykan [2024] [\textit{Multi-Stream Isolated Sign Language Recognition Based on Finger Features Derived from Pose Data}] \cite{akdag2024multistream} 
-    & Detail konfigurasi dan gerakan jari sering diabaikan dalam pengenalan bahasa isyarat.
-    & Pendekatan \textit{multi-stream} landmark jari dengan MobileNetV2, PCA, dan SVM.
-    & Akurasi tinggi hingga 99,78\% pada dataset LSA64. \\
-    \hline
-    5.
-    & Qidan Zhu, Jing Li, Fei Yuan dan Quan Gan [2023] [\textit{Fully 2D Convolutional Network for Continuous Sign Language Recognition}] \cite{zhu2023f2dcnet}
-    & Model \textit{hybrid} spasio-temporal memiliki kompleksitas tinggi dan ketergantungan arsitektur sekuensial.
-    & F2DCNet berbasis 2D CNN murni dengan penggabungan fitur temporal dalam representasi input.
-    & Mencapai \textit{Word Error Rate} (WER) terendah hingga 20,0\% pada dataset skala besar.\\ 
-\end{longtable}
+   \textbf{No} 
+     & \textbf{Penulis [Tahun] [Judul]} 
+     & \textbf{Permasalahan} 
+     & \textbf{Metode} 
+     & \textbf{Hasil} \\
+   \hline
+ \endhead
+   \hline
+ \endfoot
+   \hline
+ \endlastfoot
+     1. 
+     & Maheswara et al. [2023] [\textit{Real-Time BISINDO Sign Language Recognition: A Dynamic Approach with GRU and LSTM Models}] \cite{maheswara2023lstmbisindo}
+     & Pendekatan statis kurang mampu menangkap dinamika gerakan BISINDO secara \textit{real-time}.
+     & Ekstraksi \textit{landmarks} MediaPipe \textit{Holistic} dengan pemodelan temporal menggunakan LSTM dan GRU.
+     & Model GRU mencapai performa terbaik dengan akurasi \textit{real-time} hingga 83\% pada kombinasi \textit{landmark} tanpa wajah. \\
+     \hline
+     2.
+     & Jiayu Huang dan Varin Chouvatut [2024] [\textit{Video-Based Sign Language Recognition via ResNet and LSTM}] \cite{huang2024videoresnetlstm}
+     & Ekstraksi fitur spasio-temporal video sulit dilakukan secara efisien dengan model CNN konvensional.
+     & Arsitektur hibrida ResNet-18 sebagai ekstraktor spasial dan LSTM untuk pemodelan temporal.
+     & Mencapai akurasi 86,25\% dan mengungguli beberapa model \textit{video-based} lainnya. \\
+     \hline
+     3.
+     & Daniel Perkins, Davis Hunter, Dhrumil Patel, dan Galen Flanagan [2025] [\textit{Isolated Sign Language Recognition with Segmentation and Pose Estimation}] \cite{perkins2025islr}
+     & Model berbasis video sulit melakukan generalisasi akibat gangguan latar dan pencahayaan.
+     & Integrasi estimasi pose, segmentasi, dan Bi-LSTM dengan Transformer berbasis pose.
+     & Bi-LSTM dengan koordinat pose yang dinormalisasi mencapai performa tinggi sebesar 68,5\%.\\
+     \hline
+     4.
+     & Ali Akdag dan \"Omer Kaan Baykan [2024] [\textit{Multi-Stream Isolated Sign Language Recognition Based on Finger Features Derived from Pose Data}] \cite{akdag2024multistream} 
+     & Detail konfigurasi dan gerakan jari sering diabaikan dalam pengenalan bahasa isyarat.
+     & Pendekatan \textit{multi-stream} landmark jari dengan MobileNetV2, PCA, dan SVM.
+     & Akurasi tinggi hingga 99,78\% pada dataset LSA64. \\
+     \hline
+     5.
+     & Qidan Zhu, Jing Li, Fei Yuan dan Quan Gan [2023] [\textit{Fully 2D Convolutional Network for Continuous Sign Language Recognition}] \cite{zhu2023f2dcnet}
+     & Model \textit{hybrid} spasio-temporal memiliki kompleksitas tinggi dan ketergantungan arsitektur sekuensial.
+     & F2DCNet berbasis 2D CNN murni dengan penggabungan fitur temporal dalam representasi input.
+     & Mencapai \textit{Word Error Rate} (WER) terendah hingga 20,0\% pada dataset skala besar.\\
+ \end{longtable}
 
-% Analisis Celah Penelitian
+% Kurangi underfull hbox pada paragraf setelah tabel (font/justifikasi tertentu bisa sensitif)
+\begingroup\sloppy
 Berdasarkan tinjauan terhadap berbagai penelitian terdahulu, terlihat bahwa pengenalan bahasa isyarat umumnya masih bergantung pada pemodelan temporal eksplisit melalui arsitektur sekuensial seperti LSTM, GRU, Transformer, maupun pendekatan berbasis 3D CNN yang menuntut kompleksitas komputasi tinggi.
 Pendekatan berbasis video RGB menawarkan representasi visual yang kaya, namun sensitif terhadap gangguan latar belakang, pencahayaan, serta kurang efisien untuk diterapkan pada sistem dengan keterbatasan sumber daya.
 Alternatif berbasis pose dan landmark telah menunjukkan potensi efisiensi yang lebih baik, namun sebagian besar penelitian masih memisahkan pemodelan spasial dan temporal ke dalam modul arsitektur yang berbeda.
 Celah penelitian muncul pada minimnya eksplorasi pendekatan yang mampu mengintegrasikan informasi temporal secara implisit ke dalam representasi spasial, sehingga memungkinkan penggunaan arsitektur CNN dua dimensi murni tanpa ketergantungan pada mekanisme temporal eksplisit.
+\endgroup
 
 % Sampe sini
 \section{Dasar Teori} \label{sec:dasar-teori}
