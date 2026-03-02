@@ -6,88 +6,82 @@
 
 \section{Latar Belakang} \label{sec:latar-belakang}
 % Penjelasan teman tuli dan bahasa isyarat di Indonesia secara umum
-Komunitas Tuli di Indonesia umumnya menggunakan bahasa isyarat sebagai alat komunikasi utama.
-Istilah Tuli digunakan untuk merujuk pada individu dengan identitas budaya dan bahasa isyarat, sementara istilah Teman Tuli sering digunakan secara sosial sebagai bentuk pendekatan inklusif dalam masyarakat.
-Di dalam konteks linguistik, terdapat dua bahasa isyarat yang digunakan di Indonesia, yaitu Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO) \cite{olivia2022tindakankomunikatif,verushka2024signlanguages}.
-SIBI lebih umum digunakan pada kegiatan formal dan akademis karena dibuat oleh pemerintah dan orang dengar dengan mengadaptasi sistem bahasa isyarat Amerika (\textit{American Sign Language} (ASL)). 
-Sementara itu, BISINDO lebih umum digunakan untuk percakapan sehari-hari karena merupakan bahasa yang lahir secara alami dari komunitas tuli \cite{saraswati2022bisindo}.
-Namun, keterbatasan pemahaman BISINDO masih menjadi masalah bagi masyarakat umum dalam berkomunikasi dengan teman-teman Tuli \cite{lavenia2023tuliindonesia,arlinta2020keterbatasan}, sehingga dibutuhkan pemanfaatan teknologi untuk mendukung proses penerjemahan bahasa isyarat secara efektif.
+% Urgensi komunikasi BISINDO dan kebutuhan teknologi
+Komunitas Tuli di Indonesia menggunakan bahasa isyarat sebagai sarana komunikasi utama dalam kehidupan sehari-hari.
+Dalam konteks nasional, dikenal dua sistem bahasa isyarat, yaitu Sistem Bahasa Isyarat Indonesia (SIBI) dan Bahasa Isyarat Indonesia (BISINDO) \cite{olivia2022tindakankomunikatif,verushka2024signlanguages}.
+SIBI dikembangkan secara formal melalui adaptasi dari \textit{American Sign Language} (ASL) dan lebih banyak digunakan pada ranah pendidikan maupun institusi resmi.
+Sebaliknya, BISINDO tumbuh secara alami dari komunitas Tuli dan lebih dominan digunakan dalam interaksi sosial sehari-hari \cite{saraswati2022bisindo}.
+Namun, keterbatasan pemahaman masyarakat umum terhadap BISINDO masih menjadi hambatan komunikasi yang signifikan \cite{lavenia2023tuliindonesia,arlinta2020keterbatasan}.
+Kondisi tersebut menunjukkan urgensi pengembangan sistem pengenalan maupun penerjemahan bahasa isyarat berbasis teknologi yang akurat, adaptif, serta efisien untuk mendukung berbagai skenario penggunaan.
 
-% Deep learning sudah luas digunakan di dunia SLR
-Berkembangnya teknologi \textit{computer vision} dan kecerdasan buatan kemudian menginspirasi berbagai penelitian untuk merancang sistem penerjemahan bahasa isyarat ke dalam bentuk teks maupun suara \cite{pathak2025signtospeech, kavitha2023signtospeech}.
-Pendekatan berbasis \textit{deep learning} menjadi metode yang dominan karena kemampuannya dalam mempelajari pola kompleks dari data visual maupun data berurutan, seperti citra dan video bahasa isyarat.
-Beberapa penelitian menunjukkan bahwa model \textit{deep learning} mampu mencapai performa yang tinggi dalam pengenalan gerakan bahasa isyarat.
-Sebagai contoh, Anturkar et al. \cite{anturkar2025lstm3dcnn} membandingkan model \textit{Long Short-Term Memory} (LSTM) dan \textit{3D Convolutional Neural Network} (3D CNN) pada dataset video berbasis \textit{landmark} dan melaporkan bahwa model 3D CNN mampu mencapai akurasi sebesar 92,4\%.
-Penelitian lain mengombinasikan CNN dan LSTM berbasis mekanisme \textit{attention} untuk pengenalan bahasa isyarat tingkat kata dan memperoleh akurasi sebesar 84,65\% pada dataset \textit{American Sign Language} \cite{kumari2024cnn-lstmatt}.
-Selain itu, salah satu penelitian di Indonesia juga menunjukkan pemanfaatan model \textit{deep learning} berbasis LSTM dan GRU untuk klasifikasi BISINDO dengan akurasi mencapai 83\% \cite{maheswara2023lstmbisindo}.
+% Paradigma Pemodelan Temporal dalam SLR
+Kebutuhan sistem otomatis untuk mengenali bahasa isyarat mendorong berkembangnya bidang \textit{Sign Language Recognition} (SLR) sebagai bagian dari \textit{computer vision}.
+Literatur global menunjukkan kecenderungan kuat untuk memandang dinamika temporal sebagai komponen sentral dalam pemodelan bahasa isyarat dinamis \cite{rastgoo2021slrdeepsurvey}.
+Paradigma ini didasarkan pada karakteristik isyarat yang tersusun atas rangkaian gerakan berurutan dan saling bergantung terhadap waktu.
+Konsekuensinya, banyak arsitektur SLR dirancang untuk menangkap dependensi temporal secara eksplisit melalui mekanisme sekuensial atau volumetrik.
 
-% Dominasi pendekatan temporal
-Sayangnya, pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa isyarat seperti BISINDO hingga saat ini masih didominasi oleh pendekatan berbasis temporal \cite{anturkar2025lstm3dcnn, maheswara2023lstmbisindo, lemmuela2025dslr}.
-Pendekatan ini menempatkan dimensi waktu sebagai komponen utama dalam pemodelan bahasa isyarat, mengingat gerakan tangan, ekspresi tubuh, serta transisi antar gerakan bersifat berurutan dan saling bergantung secara temporal.
-Meskipun pendekatan berbasis temporal menunjukkan performa yang baik, sejumlah studi melaporkan bahwa model-model tersebut cenderung memiliki kompleksitas pelatihan yang tinggi serta sensitif terhadap panjang dan kualitas urutan data, terutama pada pemodelan video dengan dinamika temporal yang kompleks \cite{zhu2020comprehensivestudydeepvideo, wani2022videoreview}.
-Selain itu, kebutuhan data yang relatif besar serta biaya komputasi yang tinggi sering kali menjadi kendala dalam penerapan model temporal, khususnya pada skenario dengan keterbatasan data atau sumber daya komputasi \cite{gu2021surveyhumanactivity, gong2025surveyaction}.
-Kelemahan mendasar pada model temporal seperti LSTM adalah adanya ketergantungan sekuensial (\textit{sequential dependency}), di mana setiap unit waktu harus diproses secara berurutan. Hal ini membatasi kemampuan paralelisasi perangkat keras (GPU). Sebaliknya, mentransformasikan urutan gerakan menjadi satu representasi spasial (\textit{pseudo-image}) memungkinkan seluruh dinamika temporal diproses secara paralel dalam satu tahap inferensi tunggal oleh ResNet-2D.
-Berdasarkan konteks tersebut, pemanfaatan model berbasis spasial seperti \textit{Convolutional Neural Network} (CNN) atau ResNet dalam klasifikasi bahasa isyarat dengan dataset temporal masih relatif terbatas.
+% Implementasi Model Sekuensial dan Volumetrik
+Evolusi metodologi SLR saat ini sangat dipengaruhi oleh penggunaan arsitektur yang mampu menangkap dependensi temporal secara eksplisit.
+Model berbasis \textit{Recurrent Neural Network} (RNN), khususnya \textit{Long Short-Term Memory} (LSTM) dan \textit{Gated Recurrent Unit} (GRU), memodelkan hubungan antarwaktu melalui propagasi keadaan tersembunyi (\textit{hidden state}) dari waktu sebelumnya ke waktu berikutnya.
+Dengan demikian, representasi pada waktu ke-$t$ dihitung berdasarkan input pada waktu tersebut serta keadaan tersembunyi pada waktu ke-$(t-1)$ sehingga informasi dibangun secara berurutan.
+Selain itu, arsitektur \textit{3D Convolutional Neural Network} (3D-CNN) juga digunakan untuk mengekstraksi fitur spasial dan temporal secara simultan melalui konvolusi pada volume video \cite{anturkar2025lstm3dcnn}.
+Kecenderungan penggunaan model sekuensial ini juga terlihat pada penelitian bahasa isyarat lokal; beberapa studi awal pada BISINDO melaporkan capaian akurasi yang signifikan menggunakan LSTM dan GRU \cite{maheswara2023lstmbisindo}.
 
-Secara fundamental, pendekatan berbasis temporal merepresentasikan bahasa isyarat sebagai rangkaian urutan waktu melalui pemanfaatan ketergantungan antar \textit{frame}.
-Sebaliknya, pendekatan berbasis spasial menitikberatkan proses pada ekstraksi pola visual dalam satuan representasi dua dimensi tanpa memodelkan hubungan temporal secara eksplisit \cite{szeliski2022computervision}.
-Informasi waktu pada model spasial diharapkan dapat terwakili secara implisit melalui rekayasa representasi \textit{input} atau strategi agregasi tertentu.
-Perbedaan mendasar ini menuntut perancangan struktur data yang tepat agar fitur dinamis tetap dapat ditangkap oleh filter konvolusi dua dimensi.
-Keunggulan utama model spasial terletak pada efisiensi parameter serta kecepatan proses inferensi dibandingkan model berbasis volume atau sekuensial.
+% Tantangan Struktural dan Efisiensi Komputasi
+Meskipun model-model berbasis temporal tersebut menunjukkan performa yang baik, terdapat tantangan struktural terkait efisiensi komputasi.
+Sifat sekuensial pada LSTM/GRU menciptakan ketergantungan antarwaktu (\textit{sequential dependency}) sehingga proses kalkulasi tidak dapat diparalelkan sepenuhnya pada unit pemroses grafis (GPU) \cite{zhu2020comprehensivestudydeepvideo}.
+Hal ini berpotensi menimbulkan hambatan komputasi (\textit{computational bottleneck}), terutama saat menangani urutan video yang panjang.
+Di sisi lain, penggunaan 3D-CNN sering kali dihadapkan pada ledakan jumlah parameter (parameter explosion) yang menuntut sumber daya memori dan daya komputasi yang besar \cite{gu2021surveyhumanactivity}.
+Kondisi tersebut dapat menjadi kendala dalam pengembangan sistem untuk lingkungan bersumber daya terbatas, kebutuhan \textit{real-time}, atau implementasi pada perangkat komputasi ringan.
+% Peluang Pendekatan Spasial dan Rekayasa Representasi
+Keterbatasan sumber daya komputasi pada perangkat pengguna mendorong eksplorasi arsitektur yang lebih efisien, termasuk model spasial dua dimensi (2D).
+Arsitektur seperti \textit{Residual Network} (ResNet) memiliki karakteristik paralelisasi yang baik karena seluruh representasi dapat diproses secara serentak tanpa ketergantungan eksplisit antarwaktu.
+Jumlah parameter yang lebih terkendali serta struktur konvolusi dua dimensi menjadikannya lebih ringan dibandingkan model berbasis volume atau sekuensial.
+Tantangan utama pendekatan ini terletak pada bagaimana mempertahankan informasi dinamika gerakan tanpa menggunakan mekanisme temporal eksplisit.
+Sejumlah penelitian internasional menunjukkan bahwa rekayasa representasi input, seperti \textit{dynamic image} maupun transformasi koordinat menjadi \textit{feature maps} \textit{multichannel}, mampu mengintegrasikan informasi gerakan ke dalam struktur spasial dua dimensi secara efektif \cite{bilen2017dynamicimage,zhu2023f2dcnet}.
+Temuan tersebut menegaskan bahwa kualitas representasi input berperan penting dalam memungkinkan model spasial menangkap pola temporal secara implisit.
 
-% Kalaupun ada, penelitiannya make data statis
-Terbatas pada beberapa studi, pendekatan spasial dalam klasifikasi bahasa isyarat umumnya diterapkan pada pemodelan frame tunggal atau citra hasil ekstraksi video, yang banyak digunakan pada tugas pengenalan alfabet atau angka isyarat.
-Sebagai contoh, penelitian oleh Sholawati \cite{sholawati2022sibi} memanfaatkan citra digital untuk klasifikasi abjad SIBI menggunakan CNN.
-Penelitian serupa juga dilakukan oleh Saputra et al. \cite{saputra2024bisindocnn} yang menerapkan CNN untuk klasifikasi abjad dan huruf BISINDO menggunakan dataset citra statis.
-Padahal, bahasa isyarat yang digunakan dalam komunikasi sehari-hari memiliki struktur yang jauh lebih kompleks karena tersusun atas rangkaian gerakan dinamis yang berlangsung secara berurutan dalam dimensi waktu.
+% Gap penelitian pada konteks BISINDO
+Penelitian terkait BISINDO dinamis yang tersedia masih banyak memanfaatkan arsitektur berbasis temporal.
+Pendekatan spasial yang dilaporkan umumnya terbatas pada klasifikasi citra statis seperti pengenalan alfabet atau angka isyarat \cite{sholawati2022sibi,saputra2024bisindocnn}.
+Kajian yang secara khusus mengevaluasi efektivitas model spasial murni seperti ResNet-2D untuk isyarat dinamis berbasis koordinat \textit{landmark} masih sangat terbatas.
+Keterbatasan tersebut menunjukkan adanya ruang eksplorasi terhadap alternatif arsitektur yang lebih ringan namun tetap mampu menangkap pola gerakan.
+Kondisi ini memunculkan pertanyaan apakah dinamika temporal harus selalu dimodelkan secara eksplisit melalui arsitektur sekuensial, atau dapat direpresentasikan secara implisit melalui rekayasa fitur yang tepat.
 
-% Celah penelitian berbasis spasial, bilang bahwa paper di luar itu make actionr recognition tapi gaada yang kasus BISINDO
-Beberapa penelitian di luar konteks BISINDO membuktikan bahwa model berbasis spasial memiliki potensi kuat dalam menangani data temporal melalui perancangan representasi input yang tepat.
-Sebagai contoh, Zhu et al. \cite{zhu2023f2dcnet} mengusulkan \textit{Fully 2D Convolutional Network} (F2DCNet) guna menyelesaikan tugas \textit{continuous sign language recognition}. 
-Strategi rekayasa representasi tersebut memungkinkan jaringan konvolusi dua dimensi menangkap variasi informasi antar frame tanpa ketergantungan pada konvolusi tiga dimensi yang berat \cite{kim2022channelsampling}. 
-Bilen et al. \cite{bilen2017dynamicimage} mengonversi seluruh durasi video menjadi sebuah \textit{dynamic image} tunggal agar dapat diproses layaknya citra statis oleh CNN. 
-Temuan-temuan ini menegaskan bahwa model spasial mampu mendeteksi pola gerakan kompleks asalkan fitur temporal telah diintegrasikan ke dalam struktur input dua dimensi.
-
-% Gap penelitian (scratch)
-Berdasarkan telaah terhadap berbagai literatur terdahulu, identifikasi masalah menunjukkan ketergantungan studi penerjemahan BISINDO pada pendekatan temporal bermekanisme kompleks.
-Model sekuensial yang umum digunakan memerlukan sumber daya komputasi besar bagi pengolahan data video.
-Penelitian di luar konteks bahasa isyarat lokal memang membuktikan efektivitas model spasial dua dimensi melalui rekayasa representasi input. 
-Meskipun rekayasa input terbukti efektif pada dataset \textit{action recognition} global, adaptasi strategi tersebut menggunakan koordinat landmark untuk bahasa isyarat lokal seperti BISINDO masih belum dieksplorasi.
-Keterbatasan pemahaman mengenai kemampuan model spasial murni layaknya ResNet-2D dalam menangkap dinamika gerakan isyarat lokal menjadi celah utama yang ingin diatasi.
-
-% Arah kontribusi penelitian
-Penelitian ini bertujuan mengeksplorasi potensi penggunaan model ResNet-2D bagi klasifikasi BISINDO berbasis \textit{landmark} tubuh manusia. 
-Data koordinat diselaraskan ke dalam struktur dua dimensi bermodelkan pseudo-image guna memfasilitasi proses konvolusi spasial.
-Penggunaan empat kanal fitur meliputi posisi beserta kecepatan bertujuan memperkaya informasi temporal tanpa meningkatkan beban parameter model secara berlebihan.
-Fitur dinamis berupa perubahan koordinat antar-frame ($dx, dy$) disuntikkan ke dalam kanal input untuk mengompensasi hilangnya informasi urutan waktu pada model spasial. 
-Secara fisik, $dx$ dan $dy$ merepresentasikan vektor perpindahan yang berbanding lurus dengan kecepatan relatif gerakan. 
-Pemetaan posisi ($x, y$) dan perubahan posisi ($dx, dy$) ke dalam struktur empat kanal (RGB+Alpha) memungkinkan ResNet-2D mengenali pola isyarat tidak hanya berdasarkan letak tangan, tetapi juga arah dan intensitas gerakannya. 
-Variasi representasi input dianalisis secara mendalam demi mengukur akurasi pengenalan pola gerakan tangan yang bersifat dinamis.
-Melalui pendekatan rekayasa fitur tersebut, kontribusi utama studi ini terletak pada pembuktian efisiensi model spasial dalam menyelesaikan tugas pengenalan aksi temporal.
-Hasil akhirnya diharapkan mampu memberikan alternatif solusi arsitektur yang lebih ringan namun tetap kompetitif untuk pengenalan bahasa isyarat lokal.
+% Arah solusi dan novelty penelitian
+Penelitian ini mengusulkan transformasi urutan koordinat \textit{landmark} tubuh menjadi representasi \textit{pseudo-image} empat kanal yang memuat informasi posisi $(x,y)$ serta perubahan posisi antar \textit{frame} $(dx,dy)$.
+Komponen $(dx,dy)$ merepresentasikan vektor perpindahan yang berkaitan langsung dengan arah dan intensitas gerakan sehingga informasi temporal dikodekan secara implisit dalam struktur spasial dua dimensi.
+Struktur empat kanal tersebut mengintegrasikan informasi spasial dan dinamika gerakan dalam format dua dimensi yang dapat diproses secara paralel.
+Arsitektur ResNet-2D digunakan untuk mempelajari pola gerakan tanpa ketergantungan sekuensial eksplisit.
+Pendekatan ini bertujuan mengevaluasi sejauh mana dinamika temporal dapat direpresentasikan secara implisit melalui rekayasa fitur spasial pada klasifikasi bahasa isyarat dinamis berbasis \textit{landmark} dalam konteks BISINDO.
 
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
-Berdasarkan latar belakang yang telah diuraikan, identifikasi masalah dalam penelitian ini berfokus pada dominasi pendekatan temporal yang memiliki kompleksitas komputasi tinggi, sementara potensi arsitektur spasial seperti ResNet-2D dalam mengolah representasi pseudo-image berbasis landmark BISINDO belum dieksplorasi secara mendalam.
-Maka, pertanyaan penelitian yang diajukan adalah:
 
-Sejauh mana variasi kedalaman arsitektur ResNet-2D dan penggunaan fitur multichannel ($x, y, dx, dy$) efektif dalam mengklasifikasikan gerakan BISINDO melalui representasi spasial berbasis landmark?
+Berdasarkan latar belakang yang telah diuraikan, penelitian ini berangkat dari kecenderungan penggunaan pemodelan temporal eksplisit dalam klasifikasi bahasa isyarat dinamis, yang memiliki implikasi terhadap kompleksitas komputasi. 
+Di sisi lain, potensi arsitektur spasial seperti ResNet-2D dalam mengolah representasi \textit{pseudo-image} berbasis \textit{landmark} pada konteks BISINDO dinamis masih terbatas dalam kajian empiris. 
+Kondisi tersebut memunculkan kebutuhan untuk mengevaluasi alternatif representasi yang lebih efisien tanpa mengabaikan dinamika gerakan. 
+Maka, pertanyaan penelitian yang diajukan adalah sebagai berikut:
+
+\begin{enumerate}[noitemsep]
+\item Sejauh mana dinamika temporal pada gerakan BISINDO dapat direpresentasikan melalui pendekatan spasial berbasis \textit{pseudo-image} tanpa pemodelan sekuensial eksplisit?
+\item Seberapa besar pengaruh variasi kedalaman arsitektur ResNet-2D dan integrasi fitur \textit{multichannel} ($x, y, dx, dy$) terhadap performa klasifikasi dalam pendekatan tersebut?
+\end{enumerate}
 
 \section{Tujuan Penelitian} \label{sec:tujuan}
-Tujuan dari penelitian ini dirancang untuk menjawab pertanyaan penelitian secara sistematis, yaitu:
+Tujuan penelitian ini dirumuskan untuk menjawab rumusan masalah secara sistematis sebagai berikut:
+
 \begin{enumerate}[noitemsep]
-    \item Menilai kelayakan penggunaan model spasial berbasis \textit{Residual Network} (ResNet-2D) dengan berbagai variasi kedalaman (18, 34, 50, 101, 152) dalam klasifikasi gerakan BISINDO berdasarkan metrik evaluasi \textit{Accuracy, Precision, Recall,} dan \textit{F1-Score}.
-    \item Menilai signifikansi kontribusi fitur dinamis ($dx, dy$) dalam meningkatkan performa model berdasarkan perbandingan selisih akurasi (ablation study) antara penggunaan koordinat posisi murni ($x, y$) dengan koordinat multichannel ($x, y, dx, dy$).
-    \item Menganalisis efektivitas arsitektur ResNet-2D sebagai alternatif model klasifikasi isyarat berdasarkan perbandingan nilai akurasi dan jumlah parameter model terhadap arsitektur CNN konvensional.
+\item Menganalisis tingkat efektivitas representasi spasial berbasis \textit{pseudo-image} dalam menangkap dinamika gerakan BISINDO tanpa pemodelan temporal eksplisit.
+\item Mengidentifikasi pengaruh variasi kedalaman arsitektur ResNet-2D dan integrasi fitur dinamis ($dx, dy$) terhadap performa klasifikasi.
 \end{enumerate} \par
 
 \section{Batasan Masalah} \label{sec:batasan}
-Adapun batasan masalah dari penelitian ini agar sesuai dengan yang diharapkan adalah sebagai berikut: \par
-
+Penelitian ini difokuskan pada skenario terkontrol untuk mengevaluasi efektivitas representasi dan arsitektur secara terisolasi dari kompleksitas linguistik skala besar. Batasan yang diterapkan meliputi: \par
 \begin{enumerate}[noitemsep]
     \item Bahasa isyarat yang digunakan adalah Bahasa Isyarat Indonesia (BISINDO) dengan lingkup cakupan wilayah Jawa Barat.
-    \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO yaitu \textit{teman}, \textit{sahabat}, \textit{maaf}, \textit{izin}, \textit{terima kasih}, \textit{belum}, \textit{tidak punya}, \textit{hobi}, \textit{hati-hati}, dan \textit{ulang}.
+    \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO, yaitu \textit{teman}, \textit{sahabat}, \textit{maaf}, \textit{izin}, \textit{terima kasih}, \textit{belum}, \textit{tidak punya}, \textit{hobi}, \textit{hati-hati}, dan \textit{ulang}.
     \item Model utama yang digunakan adalah model spasial berbasis \textit{Residual Network} (ResNet-2D).
-    \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai model pembanding (baseline) untuk memberikan konteks performa terhadap model ResNet-2D.
+    \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai model pembanding (\textit{baseline}) untuk memberikan konteks performa terhadap model ResNet-2D.
 \end{enumerate} \par
 
 \section{Manfaat Penelitian} \label{sec:manfaat}
@@ -99,26 +93,3 @@ Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: 
     \item Menjadi referensi bagi penelitian selanjutnya yang ingin mengeksplorasi pendekatan spasial dalam pengolahan data gerakan atau \textit{action recognition} berbasis data berurutan atau temporal.
     \item Menjadi bahan evaluasi dan pembelajaran tambahan dalam penerapan model \textit{deep learning} untuk pengenalan pola gerakan berbasis titik koordinat.
 \end{enumerate} \par
-
-% \section{Sistematika Penulisan} \label{sec:sistematika}
-% Penulisan tugas akhir ini disusun secara sistematis ke dalam lima bab untuk memudahkan pemahaman terhadap alur dan substansi penelitian. Adapun sistematika penulisan penelitian ini dijelaskan sebagai berikut.
-
-% \noindent\textbf{Bab I Pendahuluan}
-
-% Bab ini memuat latar belakang penelitian, rumusan masalah, tujuan penelitian, batasan masalah, manfaat penelitian, serta sistematika penulisan tugas akhir.
-
-% \noindent\textbf{Bab II Tinjauan Pustaka}
-
-% Bab ini membahas penelitian-penelitian terdahulu yang relevan dengan topik penelitian, serta menguraikan landasan teori yang mendukung konsep dan metode yang digunakan dalam penelitian.
-
-% \noindent\textbf{Bab III Metodologi Penelitian}
-
-% Bab ini menjelaskan tahapan dan alur kerja penelitian, meliputi teknik pengumpulan dan pengolahan data, perancangan model yang digunakan, serta metode evaluasi performa model.
-
-% \noindent\textbf{Bab IV Hasil dan Pembahasan}
-
-% Bab ini menyajikan hasil implementasi dan pengujian model yang telah dilakukan, disertai dengan analisis dan pembahasan terhadap hasil yang diperoleh.
-
-% \noindent\textbf{Bab V Kesimpulan dan Saran}
-
-% Bab ini memuat kesimpulan yang diperoleh dari hasil penelitian serta saran untuk pengembangan dan penelitian selanjutnya.
