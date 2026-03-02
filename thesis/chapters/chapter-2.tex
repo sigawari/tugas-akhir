@@ -185,7 +185,7 @@ Gambar \ref{fig:mediapipe-pose} di bawah ini memperlihatkan ilustrasi dari konse
 \end{figure}
 
 Selain pose tubuh, MediaPipe Holistic juga menyediakan \textit{landmark} tangan dan wajah untuk menangkap detail gerakan serta ekspresi non-manual. 
-\textit{Landmark} tangan direpresentasikan oleh 21 titik kunci pada setiap tangan yang mencerminkan struktur jari dan telapak secara rinci, sehingga mampu menggambarkan konfigurasi dan dinamika gerakan tangan secara presisi \cite{googlemediapipeholistic}. 
+\textit{Landmark} tangan direpresentasikan oleh 21 titik kunci pada setiap tangan yang mencerminkan struktur jari dan telapak secara rinci, sehingga mampu menggambarkan konfigurasi dan dinamika gerakan tangan secara presisi. 
 \textit{Landmark} wajah direpresentasikan oleh 468 titik kunci yang mencakup kontur wajah, mata, hidung, dan mulut, sehingga memungkinkan analisis ekspresi wajah sebagai komponen non-manual dalam bahasa isyarat \cite{googlemediapipeholistic}. 
 Representasi terperinci ini memungkinkan analisis koordinasi gerakan tangan dan ekspresi wajah dilakukan secara bersamaan dalam satu sistem terintegrasi. 
 Struktur \textit{landmark} tangan yang digunakan oleh MediaPipe Holistic ditunjukkan pada Gambar \ref{fig:mediapipe-hand}. \par
@@ -303,7 +303,7 @@ Struktur representasi ini selanjutnya menjadi dasar pemodelan menggunakan arsite
 \textit{Convolutional Neural Network} (CNN) merupakan arsitektur jaringan saraf yang dirancang untuk mempelajari pola lokal pada data yang memiliki struktur grid teratur \cite{lecun1998gradientbased,wu2017introductiontc}. 
 CNN bekerja melalui operasi konvolusi yang menerapkan kernel untuk mengekstraksi fitur dari masukan secara bertahap. 
 Pendekatan ini memungkinkan pembelajaran fitur dilakukan secara hierarkis dari tingkat sederhana hingga kompleks. 
-Masukan CNN dua dimensi direpresentasikan dalam bentuk tensor berdimensi empat, yaitu $(B, C, H, W)$, di mana $H$ dan $W$ merepresentasikan dua dimensi spasial data \cite{wu2017introductiontc}. 
+Masukan CNN dua dimensi direpresentasikan dalam bentuk tensor berdimensi empat, yaitu $(B, C, H, W)$, di mana $H$ dan $W$ merepresentasikan dua dimensi spasial data. 
 
 CNN satu dimensi melakukan konvolusi hanya pada satu sumbu, sedangkan CNN dua dimensi melakukan konvolusi pada dua sumbu secara simultan. 
 Perbedaan ini menjadikan CNN 2D lebih sesuai untuk data yang memiliki keterkaitan spasial dua arah. 
@@ -466,7 +466,7 @@ Pada penelitian ini, evaluasi dilakukan menggunakan metrik klasifikasi yang umum
 \textit{Confusion matrix} merupakan dasar perhitungan berbagai metrik evaluasi klasifikasi. 
 Matriks ini merepresentasikan hubungan antara label prediksi dan label sebenarnya. 
 Setiap elemen pada matriks menunjukkan jumlah prediksi benar maupun salah untuk setiap kelas. 
-Komponen utama pada \textit{confusion matrix} meliputi \textit{True Positive}, \textit{True Negative}, \textit{False Positive}, dan \textit{False Negative} \cite{powers2011evaluation}.
+Komponen utama pada \textit{confusion matrix} meliputi \textit{True Positive}, \textit{True Negative}, \textit{False Positive}, dan \textit{False Negative} \cite{powers2020evaluation}.
 
 \subsubsection{\textit{Accuracy}}
 \textit{Accuracy} mengukur proporsi prediksi yang benar terhadap seluruh jumlah data yang diuji. 
