@@ -26,6 +26,7 @@ Sayangnya, pemanfaatan model \textit{deep learning} dalam penerjemahan bahasa is
 Pendekatan ini menempatkan dimensi waktu sebagai komponen utama dalam pemodelan bahasa isyarat, mengingat gerakan tangan, ekspresi tubuh, serta transisi antar gerakan bersifat berurutan dan saling bergantung secara temporal.
 Meskipun pendekatan berbasis temporal menunjukkan performa yang baik, sejumlah studi melaporkan bahwa model-model tersebut cenderung memiliki kompleksitas pelatihan yang tinggi serta sensitif terhadap panjang dan kualitas urutan data, terutama pada pemodelan video dengan dinamika temporal yang kompleks \cite{zhu2020comprehensivestudydeepvideo, wani2022videoreview}.
 Selain itu, kebutuhan data yang relatif besar serta biaya komputasi yang tinggi sering kali menjadi kendala dalam penerapan model temporal, khususnya pada skenario dengan keterbatasan data atau sumber daya komputasi \cite{gu2021surveyhumanactivity, gong2025surveyaction}.
+Kelemahan mendasar pada model temporal seperti LSTM adalah adanya ketergantungan sekuensial (\textit{sequential dependency}), di mana setiap unit waktu harus diproses secara berurutan. Hal ini membatasi kemampuan paralelisasi perangkat keras (GPU). Sebaliknya, mentransformasikan urutan gerakan menjadi satu representasi spasial (\textit{pseudo-image}) memungkinkan seluruh dinamika temporal diproses secara paralel dalam satu tahap inferensi tunggal oleh ResNet-2D.
 Berdasarkan konteks tersebut, pemanfaatan model berbasis spasial seperti \textit{Convolutional Neural Network} (CNN) atau ResNet dalam klasifikasi bahasa isyarat dengan dataset temporal masih relatif terbatas.
 
 Secara fundamental, pendekatan berbasis temporal merepresentasikan bahasa isyarat sebagai rangkaian urutan waktu melalui pemanfaatan ketergantungan antar \textit{frame}.
@@ -58,31 +59,25 @@ Keterbatasan pemahaman mengenai kemampuan model spasial murni layaknya ResNet-2D
 Penelitian ini bertujuan mengeksplorasi potensi penggunaan model ResNet-2D bagi klasifikasi BISINDO berbasis \textit{landmark} tubuh manusia. 
 Data koordinat diselaraskan ke dalam struktur dua dimensi bermodelkan pseudo-image guna memfasilitasi proses konvolusi spasial.
 Penggunaan empat kanal fitur meliputi posisi beserta kecepatan bertujuan memperkaya informasi temporal tanpa meningkatkan beban parameter model secara berlebihan.
+Fitur dinamis berupa perubahan koordinat antar-frame ($dx, dy$) disuntikkan ke dalam kanal input untuk mengompensasi hilangnya informasi urutan waktu pada model spasial. 
+Secara fisik, $dx$ dan $dy$ merepresentasikan vektor perpindahan yang berbanding lurus dengan kecepatan relatif gerakan. 
+Pemetaan posisi ($x, y$) dan perubahan posisi ($dx, dy$) ke dalam struktur empat kanal (RGB+Alpha) memungkinkan ResNet-2D mengenali pola isyarat tidak hanya berdasarkan letak tangan, tetapi juga arah dan intensitas gerakannya. 
 Variasi representasi input dianalisis secara mendalam demi mengukur akurasi pengenalan pola gerakan tangan yang bersifat dinamis.
 Melalui pendekatan rekayasa fitur tersebut, kontribusi utama studi ini terletak pada pembuktian efisiensi model spasial dalam menyelesaikan tugas pengenalan aksi temporal.
 Hasil akhirnya diharapkan mampu memberikan alternatif solusi arsitektur yang lebih ringan namun tetap kompetitif untuk pengenalan bahasa isyarat lokal.
 
-% Rev MCT: Jangan sampai gapunya RQ walau mau bikin dalam pernyataan
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
-Berdasarkan latar belakang yang telah diuraikan, rumusan masalah dalam penelitian ini diidentifikasi melalui poin-poin berikut: \par
-% \begin{enumerate}
-%     \item Pendekatan penerjemahan Bahasa Isyarat Indonesia (BISINDO) saat ini masih didominasi oleh pemodelan temporal sekuensial yang memiliki tingkat kompleksitas pelatihan serta kebutuhan sumber daya komputasi yang tinggi.
-%     \item Potensi penggunaan model spasial dua dimensi, khususnya arsitektur ResNet-2D, dalam merepresentasikan informasi gerakan temporal BISINDO melalui data \textit{landmark} belum banyak dieksplorasi sebagai alternatif solusi yang lebih efisien.
-% \end{enumerate} \par
-Potensi penggunaan arsitektur ResNet-2D belum terhadap data landmark yang dimodelkan spasial belum pernah dieksplorasi.
+Berdasarkan latar belakang yang telah diuraikan, identifikasi masalah dalam penelitian ini berfokus pada dominasi pendekatan temporal yang memiliki kompleksitas komputasi tinggi, sementara potensi arsitektur spasial seperti ResNet-2D dalam mengolah representasi pseudo-image berbasis landmark BISINDO belum dieksplorasi secara mendalam.
+Maka, pertanyaan penelitian yang diajukan adalah:
 
-% Berdasarkan rumusan masalah di atas, maka pertanyaan dalam penelitian ini adalah sebagai berikut: \par
-% \begin{enumerate}
-%     \item Apakah arsitektur ResNet-2D layak digunakan untuk mengklasifikasikan gerakan BISINDO dengan memanfaatkan representasi koordinat multichannel ($x, y, dx, dy$)? 
-%     \item Kombinasi fitur landmark MediaPipe manakah (antara pose, tangan, dan wajah) yang memberikan kontribusi paling signifikan terhadap performa akurasi pada model ResNet-2D? 
-% \end{enumerate}
+Sejauh mana variasi kedalaman arsitektur ResNet-2D dan penggunaan fitur multichannel ($x, y, dx, dy$) efektif dalam mengklasifikasikan gerakan BISINDO melalui representasi spasial berbasis landmark?
 
 \section{Tujuan Penelitian} \label{sec:tujuan}
-Berdasarkan rumusan masalah yang telah diuraikan di atas, maka tujuan dari penelitian ini adalah: \par
-
+Tujuan dari penelitian ini dirancang untuk menjawab pertanyaan penelitian secara sistematis, yaitu:
 \begin{enumerate}[noitemsep]
-    \item Menilai kelayakan penggunaan model spasial berbasis \textit{Residual Network} (ResNet-2D) dalam klasifikasi gerakan Bahasa Isyarat Indonesia (BISINDO) berbasis \textit{landmark} berdasarkan metrik \textit{Accuracy, Precision, Recall, F1-Score}, serta \textit{Confusion Matrix}.
-    \item Mengkaji pengaruh variasi kombinasi \textit{landmark} MediaPipe (pose, tangan, dan wajah) terhadap performa model ResNet-2D berdasarkan metrik yang sama.
+    \item Menilai kelayakan penggunaan model spasial berbasis \textit{Residual Network} (ResNet-2D) dengan berbagai variasi kedalaman (18, 34, 50, 101, 152) dalam klasifikasi gerakan BISINDO berdasarkan metrik evaluasi \textit{Accuracy, Precision, Recall,} dan \textit{F1-Score}.
+    \item Menilai signifikansi kontribusi fitur dinamis ($dx, dy$) dalam meningkatkan performa model berdasarkan perbandingan selisih akurasi (ablation study) antara penggunaan koordinat posisi murni ($x, y$) dengan koordinat multichannel ($x, y, dx, dy$).
+    \item Menganalisis efektivitas arsitektur ResNet-2D sebagai alternatif model klasifikasi isyarat berdasarkan perbandingan nilai akurasi dan jumlah parameter model terhadap arsitektur CNN konvensional.
 \end{enumerate} \par
 
 \section{Batasan Masalah} \label{sec:batasan}
