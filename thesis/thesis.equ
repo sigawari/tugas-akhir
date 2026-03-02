@@ -1,9 +1,9 @@
-\contentsline {myequations}{\numberline {Rumus~2.1} Perubahan posisi \textit {landmark} antar-frame }{21}{equation.2.1}%
-\contentsline {myequations}{\numberline {Rumus~2.2} Struktur tensor masukan \textit {landmark multichannel} }{22}{equation.2.2}%
+\contentsline {myequations}{\numberline {Rumus~2.1} Perubahan posisi \textit {landmark} antar-frame }{20}{equation.2.1}%
+\contentsline {myequations}{\numberline {Rumus~2.2} Struktur tensor masukan \textit {landmark multichannel} }{21}{equation.2.2}%
 \contentsline {myequations}{\numberline {Rumus~2.3} Operasi konvolusi dua dimensi }{23}{equation.2.3}%
-\contentsline {myequations}{\numberline {Rumus~2.4} Perhitungan \textit {Accuracy} }{29}{equation.2.4}%
+\contentsline {myequations}{\numberline {Rumus~2.4} Perhitungan \textit {Accuracy} }{28}{equation.2.4}%
 \contentsline {myequations}{\numberline {Rumus~2.5} Perhitungan \textit {Precision} }{29}{equation.2.5}%
-\contentsline {myequations}{\numberline {Rumus~2.6} Perhitungan \textit {Recall} }{30}{equation.2.6}%
-\contentsline {myequations}{\numberline {Rumus~2.7} Perhitungan \textit {F1-score} }{30}{equation.2.7}%
-\contentsline {myequations}{\numberline {Rumus~2.1} Perhitungan titik referensi bahu }{42}{equation.3.1}%
-\contentsline {myequations}{\numberline {Rumus~2.2} Normalisasi koordinat \textit {landmark} berbasis bahu }{42}{equation.3.2}%
+\contentsline {myequations}{\numberline {Rumus~2.6} Perhitungan \textit {Recall} }{29}{equation.2.6}%
+\contentsline {myequations}{\numberline {Rumus~2.7} Perhitungan \textit {F1-score} }{29}{equation.2.7}%
+\contentsline {myequations}{\numberline {Rumus~2.1} Perhitungan titik referensi bahu }{41}{equation.3.1}%
+\contentsline {myequations}{\numberline {Rumus~2.2} Normalisasi koordinat \textit {landmark} berbasis bahu }{41}{equation.3.2}%
