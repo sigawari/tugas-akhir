@@ -28,11 +28,15 @@ Selain itu, arsitektur \textit{3D Convolutional Neural Network} (3D-CNN) juga di
 Kecenderungan penggunaan model sekuensial ini juga terlihat pada penelitian bahasa isyarat lokal; beberapa studi awal pada BISINDO melaporkan capaian akurasi yang signifikan menggunakan LSTM dan GRU \cite{maheswara2023lstmbisindo}.
 
 % Tantangan Struktural dan Efisiensi Komputasi
-Meskipun model-model berbasis temporal tersebut menunjukkan performa yang baik, terdapat tantangan struktural terkait efisiensi komputasi.
-Sifat sekuensial pada LSTM/GRU menciptakan ketergantungan antarwaktu (\textit{sequential dependency}) sehingga proses kalkulasi tidak dapat diparalelkan sepenuhnya pada unit pemroses grafis (GPU) \cite{zhu2020comprehensivestudydeepvideo}.
-Hal ini berpotensi menimbulkan hambatan komputasi (\textit{computational bottleneck}), terutama saat menangani urutan video yang panjang.
-Di sisi lain, penggunaan 3D-CNN sering kali dihadapkan pada ledakan jumlah parameter (parameter explosion) yang menuntut sumber daya memori dan daya komputasi yang besar \cite{gu2021surveyhumanactivity}.
-Kondisi tersebut dapat menjadi kendala dalam pengembangan sistem untuk lingkungan bersumber daya terbatas, kebutuhan \textit{real-time}, atau implementasi pada perangkat komputasi ringan.
+Meskipun model sekuensial seperti LSTM/GRU efektif untuk data berurutan, mekanisme rekuren membuat komputasi antar-\textit{time step} bersifat berurutan karena keadaan tersembunyi pada waktu ke-$t$ bergantung pada waktu ke-$(t-1)$.
+Karakteristik ini membatasi paralelisasi komputasi di dalam satu contoh pelatihan, dan dapat menjadi pertimbangan saat menangani urutan yang panjang atau kebutuhan inferensi cepat \cite{zhu2020comprehensivestudydeepvideo}.
+Di sisi lain, 3D-CNN memproses dimensi spasial-temporal secara simultan, namun umumnya menuntut sumber daya komputasi dan memori yang lebih besar dibanding konvolusi 2D, sehingga pemilihan arsitektur perlu disesuaikan dengan kebutuhan dan skenario implementasi.
+Kondisi tersebut dapat menjadi kendala dalam pengembangan sistem untuk lingkungan bersumber daya terbatas, kebutuhan \textit{real-time}, atau implementasi pada perangkat komputasi ringan \cite{gu2021surveyhumanactivity}.
+
+Selain pemilihan arsitektur, bentuk representasi input juga berperan penting dalam efisiensi sistem.
+Representasi berbasis \textit{landmark} atau kerangka tubuh (\textit{skeleton}) bersifat lebih ringkas dibandingkan representasi piksel mentah dan berfokus pada struktur gerakan, sehingga relatif lebih robust terhadap variasi latar belakang dan pencahayaan.
+Pendekatan ini banyak digunakan dalam penelitian \textit{skeleton-based action recognition} karena mampu memusatkan pembelajaran pada dinamika tubuh tanpa distraksi visual yang tidak relevan \cite{duan2022skeleton}.
+
 % Peluang Pendekatan Spasial dan Rekayasa Representasi
 Keterbatasan sumber daya komputasi pada perangkat pengguna mendorong eksplorasi arsitektur yang lebih efisien, termasuk model spasial dua dimensi (2D).
 Arsitektur seperti \textit{Residual Network} (ResNet) memiliki karakteristik paralelisasi yang baik karena seluruh representasi dapat diproses secara serentak tanpa ketergantungan eksplisit antarwaktu.
@@ -49,30 +53,29 @@ Keterbatasan tersebut menunjukkan adanya ruang eksplorasi terhadap alternatif ar
 Kondisi ini memunculkan pertanyaan apakah dinamika temporal harus selalu dimodelkan secara eksplisit melalui arsitektur sekuensial, atau dapat direpresentasikan secara implisit melalui rekayasa fitur yang tepat.
 
 % Arah solusi dan novelty penelitian
-Penelitian ini mengusulkan transformasi urutan koordinat \textit{landmark} tubuh menjadi representasi \textit{pseudo-image} empat kanal yang memuat informasi posisi $(x,y)$ serta perubahan posisi antar \textit{frame} $(dx,dy)$.
-Komponen $(dx,dy)$ merepresentasikan vektor perpindahan yang berkaitan langsung dengan arah dan intensitas gerakan sehingga informasi temporal dikodekan secara implisit dalam struktur spasial dua dimensi.
+Penelitian ini mengusulkan transformasi urutan koordinat \textit{landmark} tubuh menjadi representasi \textit{pseudo-image} empat kanal yang memuat informasi posisi $(x,y)$ serta perubahan posisi antar \textit{frame} $(dx,dy)$. 
+Komponen $(dx,dy)$ dibentuk sebagai selisih koordinat antar-\textit{frame} untuk merepresentasikan informasi perubahan gerakan (motion cues) secara eksplisit di level fitur. 
+Prinsip penggunaan selisih koordinat antar-\textit{frame} sebagai informasi gerak juga sejalan dengan praktik pada literatur pengenalan aksi berbasis rangka tubuh (\textit{skeleton-based action recognition}) \cite{shi2019skeletonaction}. 
+Dengan demikian, kontribusi penelitian ini terletak pada perancangan representasi \textit{pseudo-image} empat kanal $(x, y, dx, dy)$ berbasis \textit{landmark} MediaPipe serta evaluasi efektivitasnya menggunakan arsitektur ResNet-2D pada konteks BISINDO dinamis. 
 Struktur empat kanal tersebut mengintegrasikan informasi spasial dan dinamika gerakan dalam format dua dimensi yang dapat diproses secara paralel.
-Arsitektur ResNet-2D digunakan untuk mempelajari pola gerakan tanpa ketergantungan sekuensial eksplisit.
-Pendekatan ini bertujuan mengevaluasi sejauh mana dinamika temporal dapat direpresentasikan secara implisit melalui rekayasa fitur spasial pada klasifikasi bahasa isyarat dinamis berbasis \textit{landmark} dalam konteks BISINDO.
+Evaluasi dilakukan melalui perbandingan representasi dengan dan tanpa komponen perubahan antar-\textit{frame} serta variasi kedalaman ResNet-2D untuk mengidentifikasi pengaruh masing-masing faktor terhadap performa klasifikasi.
 
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
-
-Berdasarkan latar belakang yang telah diuraikan, penelitian ini berangkat dari kecenderungan penggunaan pemodelan temporal eksplisit dalam klasifikasi bahasa isyarat dinamis, yang memiliki implikasi terhadap kompleksitas komputasi. 
-Di sisi lain, potensi arsitektur spasial seperti ResNet-2D dalam mengolah representasi \textit{pseudo-image} berbasis \textit{landmark} pada konteks BISINDO dinamis masih terbatas dalam kajian empiris. 
-Kondisi tersebut memunculkan kebutuhan untuk mengevaluasi alternatif representasi yang lebih efisien tanpa mengabaikan dinamika gerakan. 
-Maka, pertanyaan penelitian yang diajukan adalah sebagai berikut:
+Berdasarkan latar belakang yang telah diuraikan, penelitian ini berangkat dari kecenderungan penggunaan pemodelan temporal eksplisit dalam klasifikasi bahasa isyarat dinamis.
+Di sisi lain, potensi arsitektur spasial seperti ResNet-2D dalam mengolah representasi \textit{pseudo-image} berbasis \textit{landmark} pada konteks BISINDO dinamis masih terbatas dalam kajian empiris.
+Kondisi tersebut memunculkan kebutuhan untuk mengevaluasi pendekatan representasi spasial yang tetap mengintegrasikan informasi perubahan gerakan tanpa pemodelan sekuensial eksplisit.
+Maka, pertanyaan penelitian yang akan dijawab pada penelitian ini adalah:
 
 \begin{enumerate}[noitemsep]
-\item Sejauh mana dinamika temporal pada gerakan BISINDO dapat direpresentasikan melalui pendekatan spasial berbasis \textit{pseudo-image} tanpa pemodelan sekuensial eksplisit?
-\item Seberapa besar pengaruh variasi kedalaman arsitektur ResNet-2D dan integrasi fitur \textit{multichannel} ($x, y, dx, dy$) terhadap performa klasifikasi dalam pendekatan tersebut?
+\item Seberapa besar pengaruh integrasi fitur perubahan antar-\textit{frame} $(dx,dy)$ pada representasi \textit{pseudo-image} berbasis \textit{landmark} terhadap performa klasifikasi gerakan BISINDO dinamis tanpa pemodelan sekuensial eksplisit?
+\item Seberapa besar pengaruh variasi kedalaman arsitektur ResNet-2D terhadap performa klasifikasi gerakan BISINDO dinamis pada representasi \textit{pseudo-image} tersebut?
 \end{enumerate}
 
 \section{Tujuan Penelitian} \label{sec:tujuan}
 Tujuan penelitian ini dirumuskan untuk menjawab rumusan masalah secara sistematis sebagai berikut:
-
 \begin{enumerate}[noitemsep]
-\item Menganalisis tingkat efektivitas representasi spasial berbasis \textit{pseudo-image} dalam menangkap dinamika gerakan BISINDO tanpa pemodelan temporal eksplisit.
-\item Mengidentifikasi pengaruh variasi kedalaman arsitektur ResNet-2D dan integrasi fitur dinamis ($dx, dy$) terhadap performa klasifikasi.
+\item Mengevaluasi pengaruh integrasi fitur perubahan antar-\textit{frame} $(dx,dy)$ pada representasi \textit{pseudo-image} berbasis \textit{landmark} terhadap performa klasifikasi gerakan BISINDO dinamis (akurasi, \textit{precision}, \textit{recall}, dan \textit{F1-score}).
+\item Mengevaluasi pengaruh variasi kedalaman arsitektur ResNet-2D terhadap performa klasifikasi gerakan BISINDO dinamis pada representasi \textit{pseudo-image} berbasis \textit{landmark}.
 \end{enumerate} \par
 
 \section{Batasan Masalah} \label{sec:batasan}
@@ -82,6 +85,7 @@ Penelitian ini difokuskan pada skenario terkontrol untuk mengevaluasi efektivita
     \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO, yaitu \textit{teman}, \textit{sahabat}, \textit{maaf}, \textit{izin}, \textit{terima kasih}, \textit{belum}, \textit{tidak punya}, \textit{hobi}, \textit{hati-hati}, dan \textit{ulang}.
     \item Model utama yang digunakan adalah model spasial berbasis \textit{Residual Network} (ResNet-2D).
     \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai model pembanding (\textit{baseline}) untuk memberikan konteks performa terhadap model ResNet-2D.
+    \item Penelitian ini berfokus pada evaluasi performa klasifikasi dan tidak melakukan pengukuran efisiensi komputasi (misalnya FLOPs, penggunaan memori, atau waktu inferensi).
 \end{enumerate} \par
 
 \section{Manfaat Penelitian} \label{sec:manfaat}
