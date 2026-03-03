@@ -2,52 +2,46 @@
 \chapter{TINJAUAN PUSTAKA} \label{bab:tinjauan-pustaka}
 
 \section{Tinjauan Pustaka} \label{sec:tinjauan-pustaka}
-% Pembuka
-Penelitian ini berangkat dari berbagai penelitian terdahulu yang membahas pengenalan bahasa isyarat (\textit{sign language recognition}) sebagai bagian dari pengenalan pola gerakan berbasis visual.
-Beragam pendekatan telah dikembangkan untuk memodelkan dinamika isyarat melalui strategi representasi spasial dan temporal.
-Secara umum, penelitian-penelitian tersebut dapat dikelompokkan berdasarkan bagaimana dimensi waktu dimodelkan, baik secara eksplisit melalui arsitektur sekuensial maupun secara implisit melalui rekayasa representasi.
-Oleh karena itu, tinjauan pustaka pada bagian ini disusun secara tematik untuk mengkaji penelitian-penelitian relevan sebagai bahan perbandingan sekaligus dasar dalam mengidentifikasi celah penelitian.
+Penelitian mengenai SLR berkembang melalui berbagai strategi representasi dan arsitektur untuk memodelkan dinamika gerakan. 
+Perbedaan mendasar antarpenelitian terletak pada bagaimana dimensi waktu diperlakukan dalam sistem, baik sebagai komponen eksplisit melalui arsitektur sekuensial maupun sebagai informasi yang diintegrasikan dalam struktur representasi. 
+Sejumlah studi memisahkan proses ekstraksi spasial dan pemodelan temporal, sementara penelitian lain mencoba menyatukan keduanya dalam satu kerangka komputasi. 
+Tinjauan pustaka pada bagian ini disusun secara tematik untuk memetakan kecenderungan metodologis serta mengidentifikasi ruang eksplorasi yang relevan dengan penelitian yang diusulkan.
 
-\subsection {Pendekatan Temporal Eksplisit} \label{subsec:temporal-eksplisit}
-Sebagian besar penelitian awal memodelkan dinamika bahasa isyarat melalui pendekatan temporal eksplisit berbasis arsitektur sekuensial.
-Penelitian yang dilakukan oleh Maheswara (2023) merepresentasikan pendekatan ini melalui pengenalan Bahasa Isyarat Indonesia (BISINDO) dengan memanfaatkan model sekuensial LSTM dan GRU.
-Informasi gerakan diekstraksi dalam bentuk \textit{landmark} tangan, tubuh, dan wajah menggunakan \textit{MediaPipe Holistic}, kemudian dipelajari sebagai urutan waktu untuk menangkap dinamika isyarat.
-Hasil penelitian menunjukkan bahwa model GRU lebih efektif dibandingkan LSTM dalam mempelajari pola temporal, sekaligus mengindikasikan bahwa pemodelan urutan gerakan memiliki peran penting dalam meningkatkan performa pengenalan bahasa isyarat dinamis \cite{maheswara2023lstmbisindo}.
-Meskipun demikian, pendekatan ini mempertahankan ketergantungan sekuensial antar-\textit{frame} sehingga dinamika gerakan dimodelkan secara eksplisit melalui arsitektur temporal, yang berdampak pada keterbatasan paralelisasi komputasi.
+\subsection{Pendekatan Temporal Eksplisit} \label{subsec:temporal-eksplisit}
 
-Seiring berkembangnya pendekatan berbasis temporal, beberapa penelitian mengombinasikan informasi spasial dan temporal secara lebih terstruktur.
-Penelitian berbasis video \cite{huang2024videoresnetlstm} pada tahun 2024 mengusulkan integrasi ResNet sebagai ekstraktor fitur spasial dan LSTM sebagai pemodel temporal untuk pengenalan bahasa isyarat dinamis.
-Pendekatan ini memisahkan proses ekstraksi fitur visual dari pembelajaran urutan waktu, sehingga memungkinkan model menangkap representasi spasial yang lebih kaya sebelum dianalisis secara temporal.
-Strategi ini menunjukkan peningkatan performa melalui pemisahan ekstraksi spasial dan pemodelan temporal.
-Namun, ketergantungan pada modul sekuensial seperti LSTM tetap menjadikan dimensi waktu sebagai komponen eksplisit dalam arsitektur, sehingga kompleksitas komputasi belum sepenuhnya tereduksi.
+Pendekatan temporal eksplisit memodelkan bahasa isyarat sebagai urutan gerakan yang dipelajari melalui mekanisme sekuensial. 
+Maheswara et al. \cite{maheswara2023lstmbisindo} memanfaatkan \textit{landmark} MediaPipe Holistic sebagai representasi gerakan yang kemudian diproses menggunakan LSTM dan GRU untuk mengenali BISINDO secara dinamis. 
+Skema tersebut memposisikan perubahan antar-\textit{frame} sebagai sumber informasi utama sehingga hubungan waktu dipelajari secara langsung melalui propagasi keadaan tersembunyi. 
+Hasil penelitian menunjukkan bahwa GRU memberikan performa yang kompetitif pada skenario \textit{real-time}, sekaligus menegaskan pentingnya pemodelan dependensi temporal pada isyarat dinamis.
 
-\subsection {Representasi Berbasis Pose dan \textit{Skeleton}} \label{subsec:berbasis-pose}
-Sebagai upaya untuk meningkatkan efisiensi dan mengurangi sensitivitas terhadap latar belakang, beberapa penelitian beralih pada representasi tingkat tinggi berupa koordinat pose atau \textit{skeleton}.
-Penelitian ini mengkaji pengenalan bahasa isyarat terisolasi dengan memanfaatkan koordinat pose yang dinormalisasi sebagai representasi utama gerakan.
-Menggunakan \textit{Bidirectional} LSTM untuk memodelkan dinamika temporal, pendekatan ini mampu mengurangi sensitivitas terhadap latar belakang dan pencahayaan yang sering menjadi kendala pada model berbasis piksel.
-Hasil penelitian menunjukkan bahwa pendekatan \textit{pose-based} menawarkan efisiensi komputasi yang lebih baik, meskipun performanya masih sangat bergantung pada ketersediaan dan keberagaman data pelatihan \cite{perkins2025islr}.
-Pendekatan berbasis pose tersebut mengurangi ketergantungan pada informasi piksel mentah.
-Akan tetapi, dinamika gerakan masih dimodelkan melalui mekanisme temporal eksplisit, sehingga struktur sekuens tetap menjadi bagian utama dalam pembelajaran representasi.
+Strategi lain memisahkan ekstraksi fitur spasial dan pemodelan temporal dalam arsitektur hibrida. 
+Huang dan Chouvatut \cite{huang2024videoresnetlstm} menggunakan ResNet sebagai ekstraktor fitur visual dari segmen video, kemudian memasukkan fitur tersebut ke LSTM untuk menangkap hubungan antar-segmen. 
+Pendekatan ini memperkaya representasi spasial sebelum dianalisis secara sekuensial sehingga menghasilkan peningkatan performa pada pengenalan berbasis video. 
+Meskipun demikian, modul LSTM tetap mempertahankan dimensi waktu sebagai komponen arsitektural yang eksplisit, sehingga pemodelan temporal masih bergantung pada mekanisme berurutan.
 
-Perkembangan lebih lanjut dalam pengenalan gerakan berbasis \textit{skeleton} menunjukkan upaya untuk merepresentasikan dinamika temporal dalam struktur spasial dua dimensi agar dapat diproses oleh \textit{Convolutional Neural Network} (CNN) secara langsung.
-Penelitian ini mentransformasikan urutan koordinat \textit{skeleton} berdimensi $T \times N \times 3$ menjadi citra dua dimensi dengan memetakan dimensi waktu sebagai salah satu sumbu spasial dan koordinat sendi sebagai sumbu lainnya.
-Melalui strategi \textit{encoding} tersebut, CNN dua dimensi dapat menangkap pola spasio-temporal tanpa menggunakan arsitektur graf seperti \textit{Graph Convolutional Network} (GCN) yang umum digunakan pada \textit{skeleton-based action recognition}.
-Hasil eksperimen menunjukkan bahwa CNN mampu mencapai performa yang sebanding dengan pendekatan berbasis GCN, meskipun dimensi temporal tetap dipertahankan secara eksplisit dalam struktur representasi input \cite{ali2023skeletonaction}.
-Meskipun strategi ini memungkinkan CNN dua dimensi menangkap pola spasio-temporal, dimensi waktu tetap dipertahankan sebagai salah satu sumbu dalam representasi citra.
-Dengan demikian, dinamika temporal belum sepenuhnya diintegrasikan secara implisit, melainkan direpresentasikan ulang dalam bentuk spasial yang tetap menyimpan urutan \textit{frame} secara eksplisit.
+\subsection{Representasi Berbasis Pose dan \textit{Skeleton}} \label{subsec:berbasis-pose}
 
-\subsection {Integrasi Temporal dalam CNN 2D} \label{subsec:temporal-cnn}
-Pendekatan yang lebih mutakhir berupaya mengintegrasikan informasi temporal ke dalam representasi spasial tanpa mempertahankan modul sekuensial terpisah.
-Melalui \textit{Fully 2D Convolutional Network}, penelitian ini mengintegrasikan informasi temporal ke dalam representasi spasial menggunakan mekanisme \textit{splicing} sehingga dapat diproses sepenuhnya oleh CNN.
-Pendekatan ini menghilangkan ketergantungan pada model sekuensial seperti LSTM atau Transformer, sekaligus mempertahankan performa kompetitif pada pengenalan bahasa isyarat berkelanjutan.
-Hasil tersebut menunjukkan bahwa pemodelan spasio-temporal tidak selalu harus kompleks untuk mencapai kinerja yang baik, membuka peluang eksplorasi arsitektur yang lebih efisien \cite{zhu2023f2dcnet}.
-Pendekatan ini menunjukkan bahwa integrasi informasi temporal ke dalam representasi spasial memungkinkan penggunaan arsitektur dua dimensi murni tanpa modul sekuensial tambahan.
-Namun, penelitian tersebut difokuskan pada pengenalan bahasa isyarat berkelanjutan berbasis video RGB skala besar dan belum secara khusus mengeksplorasi representasi \textit{pseudo-image} \textit{multichannel} berbasis koordinat \textit{landmark} pada konteks bahasa isyarat lokal seperti BISINDO.
-Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{table:2.literasi}.
+Sebagian penelitian beralih dari citra piksel mentah ke representasi tingkat tinggi berupa koordinat pose atau \textit{skeleton}. 
+Perkins et al. \cite{perkins2025islr} menunjukkan bahwa variasi latar belakang, pencahayaan, dan perbedaan karakteristik penutur dapat mengganggu model berbasis video langsung. 
+Ekstraksi koordinat sendi menghasilkan representasi yang lebih terstruktur dan berfokus pada konfigurasi tubuh, sehingga pembelajaran diarahkan pada pola gerakan yang relevan. 
+Walaupun pendekatan ini meningkatkan ketahanan terhadap gangguan visual, banyak studi pose-based tetap menggunakan arsitektur temporal seperti Bi-LSTM untuk memodelkan urutan gerakan.
 
+Bidang \textit{skeleton-based action recognition} juga mengembangkan strategi untuk mengadaptasi data gerakan agar kompatibel dengan CNN dua dimensi. 
+Ali et al. \cite{ali2023skeletonaction} mentransformasikan urutan \textit{skeleton} berdimensi $T \times N \times 3$ menjadi citra dua dimensi dengan memetakan indeks waktu dan indeks sendi sebagai sumbu spasial. 
+CNN 2D kemudian digunakan untuk mempelajari pola spasio-temporal tanpa memanfaatkan \textit{Graph Convolutional Network}. 
+Walaupun pendekatan ini menunjukkan performa yang kompetitif, dimensi waktu tetap dipertahankan sebagai salah satu sumbu dalam struktur citra sehingga urutan \textit{frame} masih direpresentasikan secara eksplisit.
+
+\subsection{Integrasi Temporal dalam CNN 2D} \label{subsec:temporal-cnn}
+
+Penelitian yang lebih mutakhir mengeksplorasi integrasi informasi temporal langsung dalam representasi spasial tanpa modul sekuensial terpisah. 
+Zhu et al. \cite{zhu2023f2dcnet} mengusulkan \textit{Fully 2D Convolutional Network} yang menggabungkan informasi temporal melalui rekayasa representasi masukan sehingga seluruh pemrosesan dapat dilakukan oleh CNN dua dimensi. 
+Pendekatan ini menunjukkan bahwa pemodelan spasio-temporal tidak selalu memerlukan LSTM atau Transformer apabila informasi waktu telah dikodekan dalam struktur fitur. 
+Konteks penelitian tersebut berfokus pada bahasa isyarat berkelanjutan berbasis video RGB skala besar, sehingga bentuk masukan dan tujuan evaluasi berbeda dari skenario pengenalan isyarat terisolasi berbasis koordinat \textit{landmark}.
+
+Uraian komparatif terhadap penelitian-penelitian yang menjadi rujukan dirangkum secara sistematis pada tabel berikut untuk memperjelas perbedaan pendekatan, representasi, serta hasil yang dicapai masing-masing studi.
 % Tabel Ringkasan Penelitian
 \renewcommand{\arraystretch}{1.0} % Mengatur spasi antar baris menjadi 1
-\begin{longtable}{|c|p{0.25\textwidth}|p{0.21\textwidth}|p{0.145\textwidth}|p{0.2\textwidth}|}
+\begin{longtable}{|c|p{0.23\textwidth}|p{0.18\textwidth}|p{0.165\textwidth}|p{0.2\textwidth}|}
   \caption{Literasi Penelitian Terdahulu}\label{table:2.literasi}\\
   \hline
    \textbf{No} 
@@ -101,11 +95,10 @@ Penelitian-penelitian yang menjadi referensi penulis dijabarkan pada Tabel \ref{
  \end{longtable}
 
 \begingroup\sloppy
-
-Berdasarkan tinjauan terhadap berbagai penelitian terdahulu, terlihat bahwa pemodelan dinamika bahasa isyarat umumnya masih mempertahankan dimensi temporal secara eksplisit, baik melalui arsitektur sekuensial (misalnya LSTM dan Transformer) maupun melalui pemetaan dimensi waktu ke dalam struktur spasial dua dimensi.
-Pendekatan berbasis \textit{landmark} dan \textit{skeleton} telah meningkatkan efisiensi dibandingkan model berbasis piksel, namun sebagian besar penelitian tetap menyimpan informasi waktu secara eksplisit pada struktur input atau arsitektur model.
-Sementara itu, eksplorasi integrasi dinamika gerakan secara implisit melalui rekayasa fitur spasial \textit{multichannel} pada representasi \textit{pseudo-image} berbasis koordinat \textit{landmark} masih terbatas, khususnya pada konteks pengenalan bahasa isyarat dinamis BISINDO.
-Kondisi tersebut membuka ruang penelitian untuk menguji sejauh mana informasi temporal dapat direpresentasikan melalui fitur turunan posisi (misalnya $(x, y, dx, dy)$) tanpa mempertahankan dimensi waktu eksplisit dalam arsitektur CNN dua dimensi.
+Berdasarkan telaah terhadap berbagai pendekatan tersebut, terlihat bahwa sebagian besar penelitian masih mempertahankan dimensi temporal secara eksplisit, baik melalui arsitektur sekuensial maupun melalui pemetaan sumbu waktu dalam struktur citra. 
+Representasi berbasis \textit{landmark} dan \textit{skeleton} telah terbukti mampu memusatkan pembelajaran pada struktur gerakan, tetapi strategi integrasi perubahan posisi sebagai fitur turunan dalam format \textit{pseudo-image} multichannel belum banyak dievaluasi pada konteks bahasa isyarat lokal. 
+Kondisi ini membuka peluang untuk menguji perancangan representasi yang menyuntikkan informasi gerak melalui komponen perubahan antar-\textit{frame}. 
+Penelitian ini memposisikan fitur $(dx,dy)$ sebagai pelengkap $(x,y)$ dalam struktur \textit{pseudo-image} empat kanal yang diproses menggunakan ResNet-2D tanpa modul temporal eksplisit.
 \endgroup
 
 \section{Dasar Teori} \label{sec:dasar-teori}
