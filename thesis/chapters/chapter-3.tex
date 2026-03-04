@@ -156,7 +156,7 @@ Hasil akhir tahap segmentasi dan trimming berupa kumpulan \textit{sequence} yang
 
 \subsubsection{Ekstraksi \textit{Landmark} MediaPipe Holistic}
 \label{subsubsec:ekstraksi-landmark}
-
+% Rev Siga: Tambahin kalau dia ga kedeteksi langsung 0 aja
 Tahap ekstraksi \textit{landmark} menerima masukan berupa \textit{sequence} video hasil proses segmentasi dan trimming.
 Setiap \textit{sequence} terdiri dari sejumlah \textit{frame} berurutan yang merepresentasikan satu gestur bahasa isyarat.
 \textit{frame}-\textit{frame} tersebut diproses secara individual sehingga tahap ini tidak melibatkan pemodelan hubungan temporal antar-\textit{frame}.
@@ -269,7 +269,7 @@ Ilustrasi hasil pemilihan titik pada wajah diperlihatkan pada Gambar \ref{fig:fa
 
 % Rev MCT: Ga dapet logic intuisinya harusnya kalau biar ga ketuker ya dibagi di titik tengah w x h dari p nya video dong
 \subsubsection{Normalisasi \textit{Landmark}}
-\label{subsubsec:normalisasi-landmark}
+\label{subsubsec:step-normalisasi-landmark}
 
 Normalisasi \textit{landmark} dilakukan untuk menyamakan representasi spasial antar-sampel dan mengurangi pengaruh posisi global subjek di dalam \textit{frame}.
 Koordinat \textit{landmark} hasil ekstraksi MediaPipe masih dipengaruhi oleh pergeseran posisi tubuh meskipun telah dinyatakan relatif terhadap dimensi citra.

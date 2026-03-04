@@ -214,7 +214,6 @@ Oleh karena itu, diperlukan strategi representasi data yang mampu menyusun infor
 
 \subsection{Representasi \textit{Landmark} sebagai Struktur Spasial}
 \label{subsec:representasi-spasial}
-
 Pada penelitian ini, data bahasa isyarat yang bersifat berurutan direpresentasikan dalam bentuk struktur spasial agar kompatibel dengan model pembelajaran berbasis spasial.
 Setiap frame video diekstraksi menjadi sekumpulan titik \textit{landmark} tubuh manusia yang merepresentasikan posisi bagian tubuh pada waktu tertentu. 
 Titik-titik \textit{landmark} tersebut kemudian disusun ke dalam sebuah matriks dua dimensi dengan sumbu waktu dan indeks \textit{landmark}. 
@@ -232,7 +231,17 @@ Penelitian lain bahkan menerapkan metode tambahan untuk memperbaiki estimasi ked
 Temuan tersebut menunjukkan bahwa pemanfaatan koordinat \textit{z} memerlukan perlakuan khusus agar tidak memperkenalkan noise pada representasi data. 
 Pertimbangan ini menjadi dasar pemilihan representasi dua dimensi pada penelitian ini.
 
-\subsubsection{Pengodean Dinamika Gerakan Antar-Frame}
+\subsubsection{Normalisasi \textit{Landmark}}
+Normalisasi \textit{landmark} bertujuan untuk mengurangi variasi posisi global subjek dalam \textit{frame} dengan merepresentasikan koordinat \textit{landmark} relatif terhadap titik referensi tubuh.
+Variasi posisi subjek pada citra dapat menyebabkan perbedaan koordinat yang tidak berkaitan langsung dengan makna gerakan bahasa isyarat.
+Oleh karena itu, normalisasi digunakan untuk memusatkan representasi data sehingga model dapat lebih berfokus pada hubungan relatif antarbagian tubuh.
+
+Pendekatan normalisasi berbasis titik referensi tubuh banyak digunakan pada penelitian pengenalan bahasa isyarat berbasis koordinat pose. 
+Pada pendekatan ini, koordinat \textit{landmark} direpresentasikan relatif terhadap titik referensi tertentu pada tubuh sehingga variasi translasi global dapat diminimalkan. 
+Representasi relatif tersebut membantu model untuk lebih berfokus pada pola gerakan dan hubungan antarbagian tubuh dibandingkan posisi absolut pada citra \cite{perkins2025islr}. 
+Dengan demikian, normalisasi \textit{landmark} dapat meningkatkan konsistensi representasi gerakan antar sampel dan membantu proses pembelajaran model klasifikasi.
+
+\subsubsection{Pengodean Dinamika Gerakan Antar-Frame} \label{subsubsec:pengodean-dinamika}
 Berdasarkan pertimbangan kestabilan koordinat, penelitian ini memfokuskan representasi \textit{landmark} pada komponen dua dimensi \textit{(x, y)}. 
 Informasi dinamika gerakan ditangkap melalui perubahan posisi antar-frame yang direpresentasikan sebagai \textit{(dx, dy)}. 
 Pendekatan ini memungkinkan pengodean informasi temporal secara implisit tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial \cite{wang2017tsn}. 
@@ -262,6 +271,9 @@ Persamaan tersebut menunjukkan bahwa perubahan posisi diperoleh dari selisih koo
 Nilai $(dx_t, dy_t)$ mencerminkan arah dan intensitas gerakan antar-frame. 
 Representasi ini memungkinkan dinamika gerakan ditangkap secara langsung pada level fitur. 
 Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu \textit{(x, y, dx, dy)}.
+
+% Augmentasi Landmark
+\subsubsection{Augmentasi Landmark} \label{subsubsec:augmentasi-landmark}
 
 % Konsep Tensor Multichannel
 \subsubsection{Struktur Tensor Masukan CNN}
@@ -411,59 +423,42 @@ Varian implementasi ini dikenal sebagai ResNet V1.5 dan dilaporkan memberikan pe
 
 \subsection{Modifikasi Input Channel pada CNN}
 \label{subsec:modifikasi-cnn}
-\subsubsection{CNN Tidak Terbatas pada Input RGB}
-\textit{Convolutional Neural Network} (CNN) pada awalnya banyak dikembangkan untuk pemrosesan citra berwarna dengan tiga kanal masukan, yaitu merah, hijau, dan biru (RGB). 
-Pendekatan ini menyebabkan persepsi umum bahwa CNN hanya dapat digunakan untuk data citra konvensional. 
-Faktanya, secara konseptual CNN tidak bergantung pada makna semantik kanal masukan, melainkan pada struktur spasial dan hubungan lokal antar-elemen data \cite{lecun1998gradientbased}. 
-Setiap kanal masukan diperlakukan sebagai dimensi fitur yang diproses secara simultan melalui operasi konvolusi.
+\textit{Convolutional Neural Network} (CNN) pada awalnya banyak digunakan untuk pemrosesan citra berwarna yang terdiri atas tiga kanal masukan, yaitu merah, hijau, dan biru (RGB). 
+Penggunaan tiga kanal tersebut sering menimbulkan persepsi bahwa CNN secara inheren terbatas pada citra RGB. 
+Secara konseptual, CNN tidak bergantung pada makna semantik kanal masukan, melainkan pada struktur spasial data serta hubungan lokal antar-elemen yang diproses melalui operasi konvolusi \cite{lecun1998gradientbased}. 
+Setiap kanal diperlakukan sebagai dimensi fitur yang dianalisis secara simultan oleh kernel konvolusi untuk mengekstraksi pola spasial dari tensor masukan.
 
-Operasi konvolusi dua dimensi pada CNN didefinisikan untuk bekerja pada tensor masukan dengan jumlah kanal yang bersifat fleksibel. 
-Kernel konvolusi memiliki dimensi yang menyesuaikan jumlah kanal masukan tanpa mengubah prinsip dasar operasinya. 
-Karakteristik ini memungkinkan CNN menerima masukan dengan jumlah kanal lebih dari tiga atau bahkan kurang dari tiga. 
-Oleh karena itu, pembatasan CNN pada input RGB bersifat historis dan aplikatif, bukan batasan teoretis.
+Secara umum, masukan pada CNN dua dimensi direpresentasikan dalam bentuk tensor berdimensi empat $(B, C, H, W)$, di mana $B$ menyatakan ukuran \textit{batch}, $C$ jumlah kanal masukan, serta $H$ dan $W$ dimensi spasial data \cite{wu2017introductiontc}. 
+Nilai $C$ tidak bersifat tetap dan dapat disesuaikan dengan kebutuhan representasi data. 
+Pada setiap operasi konvolusi, kernel melakukan perkalian dan penjumlahan terhadap seluruh kanal masukan pada lokasi spasial tertentu untuk menghasilkan peta fitur keluaran. 
+Karakteristik ini memungkinkan CNN memproses data dengan jumlah kanal yang beragam tanpa mengubah prinsip dasar operasi konvolusi.
 
-\subsubsection{Penerimaan \textit{Arbitrary Number of Channels}}
+Fleksibilitas jumlah kanal tersebut memungkinkan CNN diterapkan pada berbagai jenis data non-RGB. 
+Contohnya meliputi citra kedalaman untuk pengenalan aktivitas manusia dan estimasi pose \cite{shotton2011realtime}, serta data gerakan berbasis \textit{optical flow} yang merepresentasikan komponen vektor gerak sebagai kanal masukan terpisah \cite{simonyan2014twostream}. 
+Selain itu, CNN juga digunakan pada data multispektral, peta gradien, maupun representasi sensor lainnya yang memiliki dimensi fitur tambahan \cite{goodfellow2016deeplearning}. 
+Temuan tersebut menunjukkan bahwa CNN mampu mengekstraksi representasi fitur bermakna dari kanal yang tidak merepresentasikan warna.
 
-Secara matematis, masukan CNN dua dimensi direpresentasikan dalam bentuk tensor berdimensi empat, yaitu $(B, C, H, W)$, di mana $C$ menyatakan jumlah kanal masukan. 
-Nilai $C$ tidak ditentukan secara tetap dan dapat disesuaikan dengan kebutuhan representasi data \cite{wu2017introductiontc}. 
-Operasi konvolusi dilakukan dengan menjumlahkan hasil perkalian kernel terhadap seluruh kanal masukan pada setiap posisi spasial. 
-Pendekatan ini memastikan bahwa informasi dari seluruh kanal berkontribusi terhadap pembentukan peta fitur keluaran.
-
-Fleksibilitas jumlah kanal masukan memungkinkan CNN digunakan untuk berbagai jenis data non-citra. 
-Contoh kanal non-RGB meliputi peta kedalaman, peta gradien, citra multispektral, serta data berbasis sensor \cite{goodfellow2016deeplearning}. 
-Dalam konteks data sekuensial, dimensi kanal juga dapat digunakan untuk merepresentasikan fitur yang berbeda pada setiap elemen spasial. 
-Kemampuan ini menjadi dasar teoritis penggunaan CNN pada representasi data multichannel yang tidak berbasis warna.
-
-\subsubsection{Contoh Penerapan CNN pada Data Non-RGB}
-
-Berbagai penelitian menunjukkan keberhasilan CNN dalam memproses data non-RGB melalui modifikasi jumlah kanal masukan. 
-CNN digunakan pada citra kedalaman untuk tugas pengenalan aktivitas dan estimasi pose manusia, di mana satu kanal kedalaman menggantikan tiga kanal warna \cite{shotton2011realtime}. 
-Pendekatan serupa diterapkan pada data optikal aliran (\textit{optical flow}), di mana vektor gerak direpresentasikan sebagai kanal masukan terpisah \cite{simonyan2014twostream}. 
-Hasil penelitian tersebut menunjukkan bahwa CNN mampu mengekstraksi fitur bermakna dari kanal yang tidak merepresentasikan warna.
-
-Penggunaan CNN tidak terbatas pada citra RGB, melainkan pada data yang memiliki struktur spasial teratur. 
-Operasi konvolusi dua dimensi bekerja berdasarkan kedekatan lokal antar elemen pada grid masukan. 
-Representasi koordinat \textit{landmark} yang disusun dalam bentuk tensor dua dimensi memenuhi prinsip tersebut karena memiliki struktur indeks yang konsisten. 
-Pendekatan ini memungkinkan CNN mempelajari pola spasial dan dinamika gerakan tanpa bergantung pada citra asli sebagai masukan.
+Secara prinsip, CNN bekerja pada data yang memiliki struktur spasial teratur dalam bentuk grid dua dimensi. 
+Representasi koordinat \textit{landmark} yang disusun dalam tensor dua dimensi memenuhi karakteristik tersebut karena memiliki indeks spasial yang konsisten. 
+Oleh karena itu, data koordinat \textit{landmark} multichannel dapat diproses oleh CNN untuk mempelajari pola spasial dan dinamika gerakan tanpa bergantung pada citra RGB sebagai masukan.
 
 \subsection{Metrik Evaluasi Klasifikasi}
 \label{subsec:metrik-evaluasi}
+
 Evaluasi performa model klasifikasi diperlukan untuk menilai kemampuan sistem dalam mengenali kelas secara benar. 
 Metrik evaluasi memberikan ukuran kuantitatif yang merepresentasikan tingkat ketepatan dan keandalan prediksi model. 
 Pemilihan metrik yang sesuai penting untuk memastikan hasil evaluasi mencerminkan kinerja model secara objektif. 
-Pada penelitian ini, evaluasi dilakukan menggunakan metrik klasifikasi yang umum digunakan pada permasalahan pengenalan pola.
+Pada penelitian ini, evaluasi dilakukan menggunakan beberapa metrik klasifikasi yang umum digunakan dalam permasalahan pengenalan pola.
 
-\subsubsection{\textit{Confusion Matrix}}
-\textit{Confusion matrix} merupakan dasar perhitungan berbagai metrik evaluasi klasifikasi. 
-Matriks ini merepresentasikan hubungan antara label prediksi dan label sebenarnya. 
-Setiap elemen pada matriks menunjukkan jumlah prediksi benar maupun salah untuk setiap kelas. 
-Komponen utama pada \textit{confusion matrix} meliputi \textit{True Positive}, \textit{True Negative}, \textit{False Positive}, dan \textit{False Negative} \cite{powers2020evaluation}.
+\textit{Confusion matrix} menjadi dasar perhitungan berbagai metrik evaluasi klasifikasi. 
+Matriks ini merepresentasikan hubungan antara label prediksi yang dihasilkan model dan label sebenarnya pada data uji. 
+Setiap elemen pada matriks menunjukkan jumlah prediksi yang benar maupun salah untuk setiap kelas. 
+Komponen utama dalam \textit{confusion matrix} meliputi \textit{True Positive} ($TP$), \textit{True Negative} ($TN$), \textit{False Positive} ($FP$), dan \textit{False Negative} ($FN$) \cite{powers2020evaluation}.
 
-\subsubsection{\textit{Accuracy}}
-\textit{Accuracy} mengukur proporsi prediksi yang benar terhadap seluruh jumlah data yang diuji. 
-Metrik ini memberikan gambaran umum kinerja model klasifikasi. 
-Nilai \textit{accuracy} tinggi menunjukkan banyak prediksi yang sesuai dengan label sebenarnya. 
-Rumus perhitungan \textit{accuracy} ditunjukkan pada Persamaan \ref{eq:accuracy}. \par
+\textit{Accuracy} digunakan untuk mengukur proporsi prediksi yang benar terhadap seluruh jumlah data yang diuji. 
+Metrik ini memberikan gambaran umum mengenai kinerja model klasifikasi secara keseluruhan. 
+Nilai \textit{accuracy} yang tinggi menunjukkan bahwa sebagian besar prediksi model sesuai dengan label sebenarnya. 
+Rumus perhitungan \textit{accuracy} ditunjukkan pada Persamaan \ref{eq:accuracy}.
 
 \begin{equationcaptioned}[eq:accuracy]{
 Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
@@ -481,11 +476,11 @@ dengan keterangan:
   \item $FN$ = jumlah prediksi salah sebagai kelas negatif (\textit{False Negative})
 \end{itemize}
 
-\subsubsection{\textit{Precision}}
+Selain \textit{accuracy}, metrik lain yang umum digunakan adalah \textit{precision}. 
 \textit{Precision} mengukur tingkat ketepatan prediksi positif yang dihasilkan oleh model. 
-Metrik ini menunjukkan seberapa besar proporsi prediksi positif yang benar. 
-Nilai \textit{precision} tinggi menandakan rendahnya tingkat kesalahan prediksi positif. 
-Rumus perhitungan \textit{precision} ditunjukkan pada Persamaan \ref{eq:precision}. \par
+Metrik ini menunjukkan seberapa besar proporsi prediksi positif yang benar dibandingkan seluruh prediksi positif yang dihasilkan model. 
+Nilai \textit{precision} yang tinggi menandakan rendahnya tingkat kesalahan prediksi positif. 
+Rumus perhitungan \textit{precision} ditunjukkan pada Persamaan \ref{eq:precision}.
 
 \begin{equationcaptioned}[eq:precision]{
 Precision = \frac{TP}{TP + FP}
@@ -494,11 +489,10 @@ Perhitungan \textit{Precision}
 }
 \end{equationcaptioned}
 
-\subsubsection{\textit{Recall}}
-\textit{Recall} mengukur kemampuan model dalam mendeteksi seluruh sampel yang benar-benar termasuk dalam kelas positif. 
+\textit{Recall} digunakan untuk mengukur kemampuan model dalam mendeteksi seluruh sampel yang benar-benar termasuk dalam kelas positif. 
 Metrik ini menunjukkan seberapa besar proporsi data positif yang berhasil dikenali oleh model. 
-Nilai \textit{recall} tinggi menandakan sedikit data positif yang terlewatkan. 
-Rumus perhitungan \textit{recall} ditunjukkan pada Persamaan \ref{eq:recall}. \par
+Nilai \textit{recall} yang tinggi menandakan bahwa sedikit data positif yang terlewatkan oleh sistem klasifikasi. 
+Rumus perhitungan \textit{recall} ditunjukkan pada Persamaan \ref{eq:recall}.
 
 \begin{equationcaptioned}[eq:recall]{
 Recall = \frac{TP}{TP + FN}
@@ -507,11 +501,10 @@ Perhitungan \textit{Recall}
 }
 \end{equationcaptioned}
 
-\subsubsection{\textit{F1-Score}}
-\textit{F1-score} merupakan metrik yang menggabungkan \textit{precision} dan \textit{recall} dalam satu nilai harmonik. 
-Metrik ini digunakan untuk menyeimbangkan ketepatan dan kelengkapan prediksi model. 
-\textit{F1-score} relevan pada kondisi ketidakseimbangan jumlah data antar-kelas. 
-Rumus perhitungan \textit{F1-score} ditunjukkan pada Persamaan \ref{eq:f1}. \par
+Untuk menyeimbangkan antara ketepatan prediksi dan kelengkapan deteksi, digunakan metrik \textit{F1-score}. 
+\textit{F1-score} merupakan rata-rata harmonik antara \textit{precision} dan \textit{recall}. 
+Metrik ini sering digunakan pada kondisi ketidakseimbangan jumlah data antar kelas karena mampu memberikan gambaran performa model secara lebih seimbang. 
+Rumus perhitungan \textit{F1-score} ditunjukkan pada Persamaan \ref{eq:f1}.
 
 \begin{equationcaptioned}[eq:f1]{
 F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}
