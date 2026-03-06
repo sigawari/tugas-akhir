@@ -272,9 +272,9 @@ Nilai $(dx_t, dy_t)$ mencerminkan arah dan intensitas gerakan antar-frame.
 Representasi ini memungkinkan dinamika gerakan ditangkap secara langsung pada level fitur. 
 Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu \textit{(x, y, dx, dy)}.
 
-% Augmentasi Landmark
-\subsubsection{Augmentasi Landmark} \label{subsubsec:augmentasi-landmark}
-
+% Rev MCT: dx dy kita contek jadi velocity feature
+% Rev Siga: Bagaimana menangani missing point?
+% Rev Siga: 2d sama 3d in skeleton bedanya apa? Apakah x, y, z otomatis 3D?
 % Konsep Tensor Multichannel
 \subsubsection{Struktur Tensor Masukan CNN}
 Seluruh \textit{landmark} pada setiap frame kemudian disusun menjadi sebuah tensor masukan yang selaras dengan format masukan model konvolusional dua dimensi.

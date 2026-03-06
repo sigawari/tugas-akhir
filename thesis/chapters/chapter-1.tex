@@ -67,10 +67,11 @@ Arsitektur ResNet-2D digunakan sebagai pengklasifikasi untuk menguji kemampuan m
 Variasi kedalaman ResNet-2D digunakan untuk menilai pengaruh kapasitas model terhadap performa klasifikasi pada data gerak berbasis koordinat.
 Studi ablasi membandingkan representasi dengan dan tanpa komponen perubahan antar-\textit{frame} untuk mengisolasi kontribusi fitur $(dx,dy)$ terhadap metrik evaluasi.
 
+% Rev Siga: Kalau "apakah bisa dimodelkan atau ngga" nya gimana?
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
-Latar belakang menunjukkan dominasi pemodelan temporal eksplisit pada klasifikasi bahasa isyarat dinamis serta munculnya kebutuhan efisiensi pada pemrosesan data berurutan.
-Pendekatan spasial berbasis ResNet-2D menawarkan pemrosesan \textit{feed-forward} yang paralel, tetapi efektivitasnya pada konteks BISINDO dinamis berbasis \textit{landmark} masih belum banyak dievaluasi.
-Rekayasa representasi \textit{pseudo-image} \textit{multichannel} berpotensi mengintegrasikan informasi perubahan gerak tanpa mekanisme sekuensial eksplisit.
+% Latar belakang menunjukkan dominasi pemodelan temporal eksplisit pada klasifikasi bahasa isyarat dinamis serta munculnya kebutuhan efisiensi pada pemrosesan data berurutan.
+% Pendekatan spasial berbasis ResNet-2D menawarkan pemrosesan \textit{feed-forward} yang paralel, tetapi efektivitasnya pada konteks BISINDO dinamis berbasis \textit{landmark} masih belum banyak dievaluasi.
+% Rekayasa representasi \textit{pseudo-image} \textit{multichannel} berpotensi mengintegrasikan informasi perubahan gerak tanpa mekanisme sekuensial eksplisit.
 Pertanyaan penelitian berikut diajukan untuk menilai kontribusi fitur perubahan antar-\textit{frame} dan variasi kedalaman ResNet-2D terhadap performa klasifikasi.
 \begin{enumerate}[noitemsep]
     \item Seberapa besar pengaruh integrasi fitur perubahan antar-\textit{frame} $(dx,dy)$ pada representasi \textit{pseudo-image} berbasis \textit{landmark} terhadap performa klasifikasi gerakan BISINDO dinamis?
@@ -87,7 +88,6 @@ Tujuan penelitian dirumuskan untuk menjawab pertanyaan penelitian secara terukur
 \section{Batasan Masalah} \label{sec:batasan}
 Penelitian ini difokuskan pada skenario terkontrol untuk mengevaluasi efektivitas representasi dan arsitektur secara terisolasi dari kompleksitas linguistik skala besar. Batasan yang diterapkan meliputi: \par
 \begin{enumerate}[noitemsep]
-    \item Bahasa isyarat yang digunakan adalah Bahasa Isyarat Indonesia (BISINDO) dengan lingkup cakupan wilayah Jawa Barat.
     \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO, yaitu \textit{teman}, \textit{sahabat}, \textit{maaf}, \textit{izin}, \textit{terima kasih}, \textit{belum}, \textit{tidak punya}, \textit{hobi}, \textit{hati-hati}, dan \textit{ulang}.
     \item Model utama yang digunakan adalah model spasial berbasis \textit{Residual Network} (ResNet-2D).
     \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai model pembanding (\textit{baseline}) untuk memberikan konteks performa terhadap model ResNet-2D.
