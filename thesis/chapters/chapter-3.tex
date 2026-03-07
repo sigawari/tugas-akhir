@@ -280,7 +280,6 @@ Ketahanan tambahan terhadap gangguan koordinat tetap diperkuat pada tahap pelati
 
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:step-normalisasi-landmark}
-
 Normalisasi \textit{landmark} dilakukan untuk mengurangi pengaruh variasi posisi subjek di dalam \textit{frame} serta perbedaan skala tubuh antar individu.
 Meskipun koordinat \textit{landmark} dari MediaPipe telah dinyatakan relatif terhadap dimensi citra, posisi tubuh dalam video masih dapat berubah akibat pergeseran subjek maupun perubahan jarak terhadap kamera.
 Tanpa normalisasi, model dapat mempelajari variasi posisi global tersebut alih-alih pola gerakan bahasa isyarat yang sebenarnya.
@@ -310,6 +309,13 @@ Koordinat setiap \textit{landmark} wajah dinyatakan relatif terhadap posisi hidu
 Normalisasi tangan menggunakan pendekatan \textit{bounding box}.
 Metode ini dipilih karena konfigurasi tangan dapat berubah secara signifikan selama gerakan bahasa isyarat.
 Koordinat setiap \textit{landmark} tangan dinyatakan relatif terhadap pusat \textit{bounding box} yang dibentuk oleh koordinat minimum dan maksimum dari seluruh \textit{hand landmark} pada \textit{frame} tersebut.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figure/normalization.png}
+	\caption{Perbedaan ketika dinormalisasi dan tidak}
+	\label{fig:normalisasi-landmark}
+  \end{figure}
 
 \subsection{Pelatihan Model ResNet-2D}
 \label{subsec:pelatihan-modifikasi-model}
