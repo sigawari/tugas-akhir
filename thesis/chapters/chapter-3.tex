@@ -114,7 +114,7 @@ Ringkasan konfigurasi pengambilan dataset bahasa isyarat disajikan pada Tabel \r
 	{\footnotesize Catatan: Setiap video mentah direkam dalam satu kali pengambilan (\textit{one continuous take}) kemudian disegmentasi secara berbasis gestur menjadi beberapa \textit{sequence} berdurasi tetap.}
 \end{table}
 
-\subsection{Prapemrosesan Data dan Rekayasa Fitur}
+\subsection{Prapemrosesan Data}
 \label{subsec:prapemrosesan-rekayasa}
 
 Tahap preprocessing bertujuan untuk menyiapkan data video sebelum dilakukan rekayasa fitur dan pemodelan. 
@@ -125,8 +125,8 @@ Diagram tersebut memperlihatkan keterkaitan tahapan mulai dari masukan video, pr
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.83\textwidth]{figure/pre-rekayasa.pdf}
-    \caption{Alur Tahap Prapemrosesan Data dan Rekayasa}
+    \includegraphics[width=0.83\textwidth]{figure/preprocessing.pdf}
+    \caption{Alur Tahap Prapemrosesan Data}
     \label{fig:3.prapemrosesan}
 \end{figure} \par
 
@@ -272,6 +272,8 @@ Ilustrasi hasil pemilihan titik pada wajah diperlihatkan pada Gambar \ref{fig:fa
 	{\footnotesize Sumber: Gambar diadaptasi dari repositori penelitian \cite{li2019acialexpression}}
 \end{figure} \par
 
+\subsubsection{Penanganan \textit{Missing} Data} \label{subsubsec:forward-fill}
+
 % Rev MCT: Ga dapet logic intuisinya harusnya kalau biar ga ketuker ya dibagi di titik tengah w x h dari p nya video dong
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:step-normalisasi-landmark}
@@ -351,103 +353,79 @@ Hasil:
 	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y}) = (0.062, -0.019)$
 \end{itemize}
 
-\subsubsection{Perhitungan Perubahan Antar-\textit{Frame}}
-\label{subsubsec:perhitungan-perubahan}
-Perubahan posisi \textit{landmark} antar-\textit{frame} dihitung untuk merepresentasikan dinamika gerakan bahasa isyarat secara implisit.
-Perhitungan dilakukan berdasarkan selisih koordinat hasil normalisasi pada dua \textit{frame} berurutan dalam satu \textit{sequence}.
-Pendekatan ini memungkinkan informasi temporal direpresentasikan tanpa membangun model sekuensial eksplisit.
-Representasi perubahan ini menjadi komponen tambahan pada kanal masukan model. 
-Misalkan koordinat ter-normalisasi suatu \textit{landmark} pada frame ke-$t-1$ adalah $(\hat{x}_{t-1,i}, \hat{y}_{t-1,i})$.
-Koordinat pada frame ke-$t$ dinyatakan sebagai $(\hat{x}_{t,i}, \hat{y}_{t,i})$.
-Perubahan posisi antar-\textit{frame} dihitung menggunakan selisih langsung kedua koordinat tersebut.
-Formulasi matematis ditunjukkan pada Persamaan \ref{eq:dxdy}.
+% \subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
+% Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-multichannel-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua \textit{frame} berurutan beserta perubahan posisinya. 
+% Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
+% Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
+% Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
 
-Sebagai ilustrasi, misalkan koordinat ter-normalisasi suatu \textit{landmark} tangan pada frame ke-4 adalah $(0.12, -0.03)$.
-Koordinat pada frame ke-5 berubah menjadi $(0.18, -0.01)$.
-Perhitungan perubahan menghasilkan nilai $dx = 0.18 - 0.12 = 0.06$ dan $dy = -0.01 - (-0.03) = 0.02$.
-Nilai tersebut menunjukkan pergerakan ke arah kanan dan sedikit ke atas relatif terhadap titik referensi tubuh.
+% \begin{table}[H]
+%   \centering
+%   \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
+%   \label{tab:landmark-multichannel-example}
+%   \begin{tabular}{|c|c|l|c|c|c|c|}
+%   \hline
+%   \textbf{\textit{frame} (T)} & \textbf{Indeks (L)} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
+%   $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
+%   $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
+%   $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
+%   $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
+%   $t+2$ & 0 & Wrist & 0.52 & 0.54 & 0.02  & -0.02 \\ \hline
+%   \end{tabular}
 
-\begin{table}[H]
-	\centering
-	\caption{Ilustrasi perhitungan perubahan posisi satu \textit{landmark}}
-	\label{tab:dxdy-example}
-	\begin{tabular}{|c|c|c|c|c|}
-	\hline
-	\textbf{Frame} & $\hat{x}$ & $\hat{y}$ & $dx$ & $dy$ \\ \hline
-	$t-1$ & 0.12 & -0.03 & -- & -- \\ \hline
-	$t$   & 0.18 & -0.01 & 0.06 & 0.02 \\ \hline
-	\end{tabular}
-	
-	\vspace{0.5em}
-	{\footnotesize Catatan: Nilai numerik bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.}
-\end{table}
+%   \vspace{0.5em}
+%   {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa \textit{frame} berurutan.}
+% \end{table}  
 
-Perhitungan perubahan posisi dilakukan pada seluruh \textit{landmark} dan seluruh pasangan \textit{frame} berurutan dalam satu \textit{sequence}.
-Nilai $dx$ dan $dy$ disusun sebagai kanal tambahan bersama koordinat spasial dua dimensi.
-Pendekatan ini memungkinkan model menangkap informasi arah dan besaran gerakan secara eksplisit.
-Representasi multichannel yang dihasilkan menjadi masukan langsung bagi arsitektur ResNet-2D pada tahap pelatihan.
+% Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu $(x, y, dx, dy)$. 
+% Seluruh \textit{landmark} pada setiap \textit{frame} disusun secara berurutan membentuk representasi spasial multichannel. 
+% Representasi ini memungkinkan data gerakan diproses oleh CNN dua dimensi. 
+% Ilustrasi representasi \textit{landmark multichannel} ditunjukkan pada Tabel \ref{tab:landmark-multichannel-example}.
 
-\subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
-Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-multichannel-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua \textit{frame} berurutan beserta perubahan posisinya. 
-Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
-Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
-Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
 
-\begin{table}[H]
-  \centering
-  \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
-  \label{tab:landmark-multichannel-example}
-  \begin{tabular}{|c|c|l|c|c|c|c|}
-  \hline
-  \textbf{\textit{frame} (T)} & \textbf{Indeks (L)} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
-  $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
-  $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
-  $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
-  $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
-  $t+2$ & 0 & Wrist & 0.52 & 0.54 & 0.02  & -0.02 \\ \hline
-  \end{tabular}
+% Rev MCT: Siga, apakah conv doang yang diubah, gimana paper lain melakukannya
 
-  \vspace{0.5em}
-  {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa \textit{frame} berurutan.}
-\end{table}  
+\subsection{Pelatihan Model ResNet-2D}
+\label{subsec:pelatihan-modifikasi-model}
 
-Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu $(x, y, dx, dy)$. 
-Seluruh \textit{landmark} pada setiap \textit{frame} disusun secara berurutan membentuk representasi spasial multichannel. 
-Representasi ini memungkinkan data gerakan diproses oleh CNN dua dimensi. 
-Ilustrasi representasi \textit{landmark multichannel} ditunjukkan pada Tabel \ref{tab:landmark-multichannel-example}.
+Pelatihan model ResNet-2D dilakukan untuk mengoptimalkan kemampuan model dalam mengenali pola gerakan bahasa isyarat berdasarkan data \textit{landmark} yang telah direpresentasikan dalam bentuk multichannel. 
+Tahap ini memanfaatkan data hasil prapemrosesan yang telah disimpan dalam bentuk koordinat \textit{landmark} dua dimensi. 
+Selama proses pelatihan, data tersebut diproses secara bertahap melalui mekanisme pembentukan \textit{batch}, augmentasi data, rekayasa fitur temporal, serta proses optimisasi parameter jaringan.
 
-\subsection{Penyusunan Tensor Masukan CNN}
-\label{subsubsec:penyusunan-tensor}
-Representasi \textit{landmark multichannel} selanjutnya disusun ke dalam bentuk tensor masukan CNN. 
-Tensor disusun mengikuti format kanal-terlebih-dahulu (\textit{channel-first}). 
-Struktur tensor disesuaikan dengan kebutuhan arsitektur CNN dua dimensi yang digunakan. 
-Tahap ini menjadi penghubung antara proses rekayasa fitur dan pemodelan.
+Secara umum, prosedur pelatihan dimulai dengan inisialisasi arsitektur ResNet-2D yang telah dimodifikasi pada lapisan masukan untuk menerima empat kanal fitur. 
+Model kemudian ditempatkan pada perangkat komputasi yang tersedia sebelum proses iterasi \textit{epoch} dimulai. 
+Data hasil prapemrosesan dipanggil melalui komponen \textit{data reader} yang membaca representasi koordinat \textit{landmark} tersimpan. 
+Representasi tersebut dibungkus ke dalam objek \textit{dataset} dan dihubungkan dengan \textit{dataloader} untuk membentuk aliran data menuju model.
 
-Ilustrasi pembentukan tensor digunakan untuk memperjelas bagaimana representasi 
-\textit{landmark multichannel} disusun ke dalam format masukan model CNN.
-Fitur $(x, y, dx, dy)$ yang telah dibentuk pada tahap sebelumnya tidak lagi 
-dipandang sebagai nilai individual, tetapi sebagai kanal fitur dalam satu kesatuan tensor.
-Setiap urutan gerakan direpresentasikan sebagai tumpukan data dengan dimensi kanal, waktu, dan indeks \textit{landmark}.
-Struktur ini memastikan keterkaitan spasial dan temporal tetap terjaga saat diproses oleh CNN dua dimensi.
+\textit{Dataloader} membentuk \textit{mini-batch} dengan struktur tensor $(B, T, L, 2)$ yang merepresentasikan ukuran \textit{batch}, panjang urutan waktu, jumlah \textit{landmark}, dan koordinat posisi. 
+Setiap \textit{batch} kemudian memasuki tahap augmentasi sebelum dilakukan rekayasa fitur temporal. 
+Augmentasi yang diterapkan meliputi \textit{random landmark masking} dan \textit{landmark jitter} untuk mensimulasikan gangguan deteksi ringan yang mungkin terjadi pada kondisi nyata. 
+Transformasi ini dilakukan pada tingkat \textit{batch} sehingga variasi data muncul secara dinamis pada setiap iterasi pelatihan.
 
-Struktur tensor masukan CNN dengan format kanal-terlebih-dahulu 
-ditunjukkan pada Gambar \ref{fig:3.inputchannel}.
-Diagram tersebut memperlihatkan hubungan antara kanal fitur, dimensi waktu,
-dan indeks \textit{landmark} dalam satu representasi terpadu.
+Setelah proses augmentasi, dilakukan perhitungan perubahan posisi antar-\textit{frame} untuk memperoleh fitur gerakan \textit{(dx, dy)}. 
+Fitur tersebut kemudian digabungkan dengan koordinat posisi \textit{(x, y)} sehingga membentuk representasi multichannel yang terdiri dari empat kanal fitur. 
+Representasi akhir yang menjadi masukan model memiliki struktur tensor $(B, T, L, 4)$ yang memuat informasi posisi serta dinamika gerakan \textit{landmark}.
+
+Tahap selanjutnya adalah proses \textit{forward pass} yang memproses \textit{batch} masukan melalui jaringan ResNet-2D untuk menghasilkan prediksi kelas bahasa isyarat. 
+Nilai prediksi tersebut dibandingkan dengan label sebenarnya untuk menghitung nilai \textit{loss} menggunakan fungsi \textit{cross-entropy}. 
+Gradien kesalahan dihitung melalui mekanisme \textit{backpropagation} dan parameter jaringan diperbarui menggunakan algoritma optimisasi \textit{Adam} sesuai konfigurasi \textit{hyperparameter} yang telah ditentukan.
+
+Proses pelatihan berlangsung dalam struktur \textit{batch loop} hingga seluruh \textit{batch} pada satu \textit{epoch} selesai diproses. 
+Evaluasi performa dilakukan menggunakan data validasi pada akhir setiap \textit{epoch}. 
+Mekanisme \textit{early stopping} memantau peningkatan performa validasi untuk menentukan penghentian pelatihan. 
+Bobot model dengan performa validasi terbaik disimpan sebagai model akhir untuk digunakan pada tahap evaluasi.
+
+Alur lengkap proses pelatihan model ditunjukkan pada Gambar \ref{fig:4.pelatihan}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.70\textwidth]{figure/input_channel.pdf}
-    \caption{Ilustrasi struktur tensor masukan CNN dengan format $(C \times T \times L)$}
-    \label{fig:3.inputchannel}
-\end{figure} \par
+    \includegraphics[width=0.85\textwidth]{figure/training.pdf}
+    \caption{Ilustrasi alur pelatihan model}
+    \label{fig:4.pelatihan}
+\end{figure}
 
-% Rev MCT: Siga, apakah conv doang yang diubah, gimana paper lain melakukannya
-\subsection{Pelatihan Model ResNet-2D}
-\label{subsec:pelatihan-modifikasi-model}
-Pelatihan model ResNet-2D dilakukan untuk mengoptimalkan kemampuan model dalam mengenali pola gerakan bahasa isyarat berdasarkan data \textit{landmark} yang telah direpresentasikan dalam bentuk multichannel. 
-Proses ini melibatkan serangkaian langkah mulai dari inisialisasi arsitektur model, konfigurasi \textit{hyperparameter}, hingga prosedur pelatihan yang dirancang untuk memaksimalkan performa klasifikasi. 
-Tahapan lebih lengkap akan dijelaskan pada bagian berikut.
+Tahapan berikutnya menjelaskan arsitektur ResNet-2D yang digunakan serta modifikasi yang diterapkan pada lapisan masukan untuk menyesuaikan jumlah kanal fitur pada representasi \textit{landmark}.
+
 \subsubsection{Arsitektur dan Modifikasi ResNet-2D}
 \label{subsubsec:arsitektur-resnet}
 Tahap pelatihan model bertujuan untuk mengoptimalkan parameter jaringan ResNet-2D sehingga mampu mengenali pola gerakan bahasa isyarat secara akurat.
@@ -480,40 +458,8 @@ Modifikasi pada lapisan masukan memungkinkan model menerima empat kanal fitur $(
 Pendekatan ini memanfaatkan kekuatan CNN dua dimensi pada data non-RGB tanpa merancang arsitektur baru dari awal. 
 Dengan tetap mempertahankan struktur dasar ResNet, model dapat dilatih menggunakan teknik standar jaringan konvolusional sambil menyesuaikan dengan karakteristik data \textit{landmark}.
 
-\subsubsection{Konfigurasi \textit{Hyperparameter}}
-
-Konfigurasi \textit{hyperparameter} digunakan untuk mengendalikan proses optimasi parameter jaringan selama pelatihan model. 
-Seluruh eksperimen dalam penelitian ini menerapkan konfigurasi yang sama untuk menjaga konsistensi prosedur dan kestabilan hasil. 
-Pendekatan tersebut memastikan bahwa perbandingan performa antar skenario eksperimen dilakukan secara terkontrol. 
-Ringkasan konfigurasi awal \textit{hyperparameter} ditampilkan pada Tabel \ref{tab:hyperparameter}.
-
-\begin{table}[H]
-	\centering
-	\caption{Konfigurasi Awal \textit{Hyperparameter} Pelatihan Model}
-	\label{tab:hyperparameter}
-	\begin{tabular}{|l|c|}
-	\hline
-	\textbf{Parameter} & \textbf{Nilai Awal} \\ \hline
-	Ukuran \textit{batch} & 16 \\ \hline
-	Jumlah \textit{epoch} maksimum & 50 \\ \hline
-	\textit{Early stopping} & Aktif (patience = 5) \\ \hline
-	\textit{Learning rate} & $1 \times 10^{-4}$ \\ \hline
-	\textit{Optimizer} & Adam \\ \hline
-	\textit{Weight decay} & $1 \times 10^{-4}$ \\ \hline
-	\textit{Learning rate scheduler} & ReduceLROnPlateau \\ \hline
-	Fungsi \textit{loss} & Cross-Entropy \\ \hline
-	\end{tabular}
-\end{table}
-
-Nilai \textit{learning rate} dan \textit{weight decay} ditetapkan untuk menjaga kestabilan proses pembaruan parameter selama \textit{backpropagation}. 
-Mekanisme \textit{early stopping} diterapkan untuk membatasi risiko \textit{overfitting} pada data pelatihan. 
-Konfigurasi ini mengacu pada praktik umum pelatihan jaringan konvolusional serta hasil pengujian awal yang bersifat eksploratif. 
-Penyesuaian nilai \textit{hyperparameter} dimungkinkan apabila diperlukan untuk menjaga stabilitas pelatihan pada tahap implementasi.
-
-Penelitian ini tidak memfokuskan eksplorasi pada studi ablasi nilai \textit{hyperparameter}. 
-Ruang eksperimen diarahkan pada evaluasi representasi \textit{landmark} dan modifikasi kanal masukan model ResNet-2D. 
-Konsistensi konfigurasi dijaga agar perubahan performa model dapat diatribusikan secara langsung pada variasi representasi data. 
-Pembatasan ruang eksplorasi ini bertujuan mempertahankan kesesuaian dengan tujuan utama penelitian.
+\subsubsection{Pembentukan \textit{Batch} Data}
+\label{subsubsec:pembentukan-batch}
 
 % Rev MCT: Cari tahu augmentasi terbaik menurut paper lain
 \subsubsection{Augmentasi Data pada Proses Pelatihan}
@@ -584,38 +530,105 @@ Evaluasi model dilakukan menggunakan representasi asli tanpa modifikasi.
 Pendekatan ini memastikan bahwa performa yang diperoleh mencerminkan kemampuan model pada data nyata. 
 Penerapan augmentasi terbatas pada tahap pelatihan untuk menjaga validitas evaluasi.
 	
-\subsubsection{Prosedur Pelatihan Model}
-\label{subsubsec:prosedur-pelatihan}
+\subsubsection{Rekayasa Fitur Temporal}
+\label{subsubsec:perhitungan-perubahan}
+Perubahan posisi \textit{landmark} antar-\textit{frame} dihitung untuk merepresentasikan dinamika gerakan bahasa isyarat secara implisit.
+Perhitungan dilakukan berdasarkan selisih koordinat hasil normalisasi pada dua \textit{frame} berurutan dalam satu \textit{sequence}.
+Pendekatan ini memungkinkan informasi temporal direpresentasikan tanpa membangun model sekuensial eksplisit.
+Representasi perubahan ini menjadi komponen tambahan pada kanal masukan model. 
+Misalkan koordinat ter-normalisasi suatu \textit{landmark} pada frame ke-$t-1$ adalah $(\hat{x}_{t-1,i}, \hat{y}_{t-1,i})$.
+Koordinat pada frame ke-$t$ dinyatakan sebagai $(\hat{x}_{t,i}, \hat{y}_{t,i})$.
+Perubahan posisi antar-\textit{frame} dihitung menggunakan selisih langsung kedua koordinat tersebut.
+Formulasi matematis ditunjukkan pada Persamaan \ref{eq:dxdy}.
 
-Prosedur pelatihan diawali dengan inisialisasi arsitektur ResNet-2D yang telah dimodifikasi pada lapisan masukan untuk menerima empat kanal fitur. 
-Model ditempatkan pada perangkat komputasi yang tersedia sebelum proses iterasi \textit{epoch} dimulai. 
-Data hasil prapemrosesan dipanggil melalui komponen \textit{data reader} yang membaca representasi koordinat \textit{landmark} tersimpan. 
-Representasi tersebut dibungkus ke dalam objek \textit{dataset} dan dihubungkan dengan \textit{dataloader} untuk membentuk aliran data menuju model.
+Sebagai ilustrasi, misalkan koordinat ter-normalisasi suatu \textit{landmark} tangan pada frame ke-4 adalah $(0.12, -0.03)$.
+Koordinat pada frame ke-5 berubah menjadi $(0.18, -0.01)$.
+Perhitungan perubahan menghasilkan nilai $dx = 0.18 - 0.12 = 0.06$ dan $dy = -0.01 - (-0.03) = 0.02$.
+Nilai tersebut menunjukkan pergerakan ke arah kanan dan sedikit ke atas relatif terhadap titik referensi tubuh.
 
-\textit{Dataloader} membentuk \textit{mini-batch} dengan struktur tensor $(B, T, L, 4)$ yang merepresentasikan ukuran \textit{batch}, panjang urutan waktu, jumlah \textit{landmark}, dan jumlah kanal fitur. 
-Setiap \textit{batch} memasuki tahap augmentasi sebelum dilakukan proses \textit{forward pass}. 
-Augmentasi yang diterapkan meliputi \textit{random landmark masking} dan \textit{landmark jitter} untuk mensimulasikan gangguan deteksi ringan pada kondisi nyata. 
-Transformasi ini dilakukan pada tingkat \textit{batch} sehingga variasi data muncul secara dinamis pada setiap iterasi pelatihan.
+\begin{table}[H]
+	\centering
+	\caption{Ilustrasi perhitungan perubahan posisi satu \textit{landmark}}
+	\label{tab:dxdy-example}
+	\begin{tabular}{|c|c|c|c|c|}
+	\hline
+	\textbf{Frame} & $\hat{x}$ & $\hat{y}$ & $dx$ & $dy$ \\ \hline
+	$t-1$ & 0.12 & -0.03 & -- & -- \\ \hline
+	$t$   & 0.18 & -0.01 & 0.06 & 0.02 \\ \hline
+	\end{tabular}
+	
+	\vspace{0.5em}
+	{\footnotesize Catatan: Nilai numerik bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.}
+\end{table}
 
-Tahap \textit{forward pass} memproses \textit{batch} masukan melalui lapisan konvolusi awal yang menerima empat kanal fitur. 
-Hasil prediksi kelas bahasa isyarat dibandingkan dengan label sebenarnya untuk menghitung nilai \textit{loss} menggunakan fungsi \textit{cross-entropy}. 
-Gradien kesalahan dihitung melalui mekanisme \textit{backpropagation}. 
-Parameter jaringan diperbarui menggunakan algoritma \textit{Adam} sesuai konfigurasi \textit{hyperparameter} yang telah ditentukan.
+Perhitungan perubahan posisi dilakukan pada seluruh \textit{landmark} dan seluruh pasangan \textit{frame} berurutan dalam satu \textit{sequence}.
+Nilai $dx$ dan $dy$ disusun sebagai kanal tambahan bersama koordinat spasial dua dimensi.
+Pendekatan ini memungkinkan model menangkap informasi arah dan besaran gerakan secara eksplisit.
+Representasi multichannel yang dihasilkan menjadi masukan langsung bagi arsitektur ResNet-2D pada tahap pelatihan.
 
-Proses tersebut berlangsung dalam struktur \textit{batch loop} hingga seluruh \textit{batch} pada satu \textit{epoch} selesai diproses. 
-Evaluasi performa dilakukan menggunakan data validasi pada akhir setiap \textit{epoch}. 
-Mekanisme \textit{early stopping} memantau peningkatan performa validasi untuk menentukan penghentian pelatihan. 
-Bobot model dengan performa validasi terbaik disimpan sebagai model akhir untuk digunakan pada tahap evaluasi.
-Proses pelatihan ini dijelaskan pada alur di Gambar \ref{fig:4.pelatihan} berikut.
+\subsection{Penyusunan Tensor Masukan CNN}
+\label{subsubsec:penyusunan-tensor}
+Representasi \textit{landmark multichannel} selanjutnya disusun ke dalam bentuk tensor masukan CNN. 
+Tensor disusun mengikuti format kanal-terlebih-dahulu (\textit{channel-first}). 
+Struktur tensor disesuaikan dengan kebutuhan arsitektur CNN dua dimensi yang digunakan. 
+Tahap ini menjadi penghubung antara proses rekayasa fitur dan pemodelan.
+
+Ilustrasi pembentukan tensor digunakan untuk memperjelas bagaimana representasi 
+\textit{landmark multichannel} disusun ke dalam format masukan model CNN.
+Fitur $(x, y, dx, dy)$ yang telah dibentuk pada tahap sebelumnya tidak lagi 
+dipandang sebagai nilai individual, tetapi sebagai kanal fitur dalam satu kesatuan tensor.
+Setiap urutan gerakan direpresentasikan sebagai tumpukan data dengan dimensi kanal, waktu, dan indeks \textit{landmark}.
+Struktur ini memastikan keterkaitan spasial dan temporal tetap terjaga saat diproses oleh CNN dua dimensi.
+
+Struktur tensor masukan CNN dengan format kanal-terlebih-dahulu 
+ditunjukkan pada Gambar \ref{fig:3.inputchannel}.
+Diagram tersebut memperlihatkan hubungan antara kanal fitur, dimensi waktu,
+dan indeks \textit{landmark} dalam satu representasi terpadu.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{figure/training.pdf}
-    \caption{Ilustrasi alur pelatihan model}
-    \label{fig:4.pelatihan}
+    \includegraphics[width=0.70\textwidth]{figure/input_channel.pdf}
+    \caption{Ilustrasi struktur tensor masukan CNN dengan format $(C \times T \times L)$}
+    \label{fig:3.inputchannel}
 \end{figure} \par
 
+\subsubsection{Konfigurasi \textit{Hyperparameter}}
 
+Konfigurasi \textit{hyperparameter} digunakan untuk mengendalikan proses optimasi parameter jaringan selama pelatihan model. 
+Seluruh eksperimen dalam penelitian ini menerapkan konfigurasi yang sama untuk menjaga konsistensi prosedur dan kestabilan hasil. 
+Pendekatan tersebut memastikan bahwa perbandingan performa antar skenario eksperimen dilakukan secara terkontrol. 
+Ringkasan konfigurasi awal \textit{hyperparameter} ditampilkan pada Tabel \ref{tab:hyperparameter}.
+
+\begin{table}[H]
+	\centering
+	\caption{Konfigurasi Awal \textit{Hyperparameter} Pelatihan Model}
+	\label{tab:hyperparameter}
+	\begin{tabular}{|l|c|}
+	\hline
+	\textbf{Parameter} & \textbf{Nilai Awal} \\ \hline
+	Ukuran \textit{batch} & 16 \\ \hline
+	Jumlah \textit{epoch} maksimum & 50 \\ \hline
+	\textit{Early stopping} & Aktif (patience = 5) \\ \hline
+	\textit{Learning rate} & $1 \times 10^{-4}$ \\ \hline
+	\textit{Optimizer} & Adam \\ \hline
+	\textit{Weight decay} & $1 \times 10^{-4}$ \\ \hline
+	\textit{Learning rate scheduler} & ReduceLROnPlateau \\ \hline
+	Fungsi \textit{loss} & Cross-Entropy \\ \hline
+	\end{tabular}
+\end{table}
+
+Nilai \textit{learning rate} dan \textit{weight decay} ditetapkan untuk menjaga kestabilan proses pembaruan parameter selama \textit{backpropagation}. 
+Mekanisme \textit{early stopping} diterapkan untuk membatasi risiko \textit{overfitting} pada data pelatihan. 
+Konfigurasi ini mengacu pada praktik umum pelatihan jaringan konvolusional serta hasil pengujian awal yang bersifat eksploratif. 
+Penyesuaian nilai \textit{hyperparameter} dimungkinkan apabila diperlukan untuk menjaga stabilitas pelatihan pada tahap implementasi.
+
+Penelitian ini tidak memfokuskan eksplorasi pada studi ablasi nilai \textit{hyperparameter}. 
+Ruang eksperimen diarahkan pada evaluasi representasi \textit{landmark} dan modifikasi kanal masukan model ResNet-2D. 
+Konsistensi konfigurasi dijaga agar perubahan performa model dapat diatribusikan secara langsung pada variasi representasi data. 
+Pembatasan ruang eksplorasi ini bertujuan mempertahankan kesesuaian dengan tujuan utama penelitian.
+
+\subsection{Desain Eksperimen dan Studi Ablasi}
+\label{subsec:eksperimen-ablasi}
 
 \subsection{Evaluasi Model}
 \label{subsec:evaluasi-model}
@@ -653,31 +666,3 @@ Seluruh sampel pada data uji dievaluasi tanpa penerapan augmentasi tambahan.
 Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi klasifikasi. 
 Hasil pengujian ini menjadi dasar analisis performa model yang dibahas pada Bab IV.
 
-% \section{Alat dan Bahan}
-% \label{sec:alat-bahan}
-% Bagian ini menjelaskan alat dan bahan yang digunakan untuk mendukung
-% pelaksanaan metode penelitian, mulai dari akuisisi data, prapemrosesan,
-% pelatihan model, hingga evaluasi hasil.
-
-% \subsection{Alat}
-% Alat yang digunakan dalam penelitian ini adalah sebagai berikut:
-% \begin{enumerate}
-%     \item \textit{Code editor} Visual Studio Code untuk pengembangan dan
-%     pengelolaan kode program penelitian.
-%     \item Bahasa pemrograman Python versi 3.10 sebagai bahasa utama
-%     dalam implementasi sistem.
-%     \item Platform Weights \& Biases (W\&B) untuk pencatatan dan
-%     pemantauan eksperimen.
-%     \item Perangkat keras berupa webcam sebagai sensor visual untuk
-%     merekam data video bahasa isyarat.
-% \end{enumerate}
-
-% \subsection{Bahan}
-% Bahan yang digunakan dalam penelitian ini berupa dataset video bahasa
-% isyarat Indonesia (BISINDO) yang direkam secara mandiri dengan skema
-% \textit{isolated sign}.
-% Dataset ini digunakan sebagai masukan untuk proses ekstraksi
-% \textit{landmark}, rekayasa fitur, serta pelatihan dan evaluasi model
-% ResNet-2D.
-% Penjelasan lebih rinci mengenai spesifikasi dataset disajikan pada
-% Subbab (ganti).
