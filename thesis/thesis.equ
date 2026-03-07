@@ -1,6 +1,6 @@
 \contentsline {myequations}{\numberline {Rumus~2.1} Koordinat titik referensi leher }{18}{equation.2.1}%
 \contentsline {myequations}{\numberline {Rumus~2.2} Normalisasi koordinat \textit {landmark} tubuh }{18}{equation.2.2}%
-\contentsline {myequations}{\numberline {Rumus~2.3} Normalisasi koordinat \textit {landmark} wajah (terhadap hidung) }{19}{equation.2.3}%
+\contentsline {myequations}{\numberline {Rumus~2.3} Normalisasi koordinat \textit {landmark} wajah (terhadap hidung) }{18}{equation.2.3}%
 \contentsline {myequations}{\numberline {Rumus~2.4} Normalisasi koordinat \textit {landmark} lengan }{19}{equation.2.4}%
 \contentsline {myequations}{\numberline {Rumus~2.5} Koordinat batas \textit {bounding box} \textit {landmark} tangan }{19}{equation.2.5}%
 \contentsline {myequations}{\numberline {Rumus~2.6} Koordinat pusat \textit {bounding box} \textit {landmark} tangan }{19}{equation.2.6}%
@@ -12,5 +12,5 @@
 \contentsline {myequations}{\numberline {Rumus~2.12} Perhitungan \textit {Precision} }{27}{equation.2.12}%
 \contentsline {myequations}{\numberline {Rumus~2.13} Perhitungan \textit {Recall} }{27}{equation.2.13}%
 \contentsline {myequations}{\numberline {Rumus~2.14} Perhitungan \textit {F1-score} }{27}{equation.2.14}%
-\contentsline {myequations}{\numberline {Rumus~2.1} Perhitungan titik referensi bahu }{39}{equation.3.1}%
-\contentsline {myequations}{\numberline {Rumus~2.2} Normalisasi koordinat \textit {landmark} berbasis bahu }{39}{equation.3.2}%
+\contentsline {myequations}{\numberline {Rumus~2.1} Perhitungan titik referensi bahu }{40}{equation.3.1}%
+\contentsline {myequations}{\numberline {Rumus~2.2} Normalisasi koordinat \textit {landmark} berbasis bahu }{40}{equation.3.2}%

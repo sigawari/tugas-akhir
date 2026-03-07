@@ -189,9 +189,6 @@ Selanjutnya, urutan temporal direpresentasikan dalam struktur spasial yang teror
 Pada praktiknya, koordinat \textit{landmark} yang digunakan sangat bergantung pada metode ekstraksi yang diterapkan.
 MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk \textit{(x, y, z)} yang merepresentasikan posisi relatif titik kunci tubuh manusia terhadap kamera \cite{googlemediapipeholistic}.
 Komponen \textit{x} dan \textit{y} menyatakan posisi pada bidang citra yang telah dinormalisasi, sedangkan komponen \textit{z} merepresentasikan informasi kedalaman relatif.
-Estimasi nilai kedalaman tersebut diperoleh dari kamera monokular sehingga sensitif terhadap sudut pandang dan kondisi pengambilan gambar.
-Evaluasi akurasi menunjukkan bahwa nilai \textit{z} bawaan MediaPipe tidak selalu stabil dan sering memerlukan koreksi tambahan agar dapat digunakan secara andal \cite{accuracy3dmediapipe,lin2023detection}.
-Pada penelitian ini hanya koordinat \textit{(x, y)} yang digunakan sebagai representasi posisi \textit{landmark}.
 
 \subsubsection{Normalisasi \textit{Landmark}}
 Koordinat \textit{landmark} hasil estimasi pose masih dipengaruhi oleh variasi posisi subjek di dalam \textit{frame}, jarak terhadap kamera, serta perbedaan proporsi tubuh antar individu.
@@ -199,10 +196,10 @@ Variasi tersebut dapat menghasilkan perbedaan koordinat yang tidak berkaitan lan
 Kondisi ini dapat menyebabkan model mempelajari perubahan posisi global alih-alih pola gerakan yang sebenarnya.
 Oleh karena itu diperlukan proses normalisasi untuk mengurangi pengaruh translasi dan skala global pada data koordinat pose.
 
-Salah satu pendekatan normalisasi pada pengenalan bahasa isyarat berbasis pose adalah \textit{reference-based normalization} yang diperkenalkan oleh Toby Perkins \cite{perkins2025islr}.
+Salah satu pendekatan normalisasi pada pengenalan bahasa isyarat berbasis pose adalah \textit{reference-based normalization} yang diperkenalkan oleh Purbojo dan Wijaya \cite{purbojo2025normalization}.
 Pendekatan ini merupakan pengembangan dari metode \textit{anchor-based normalization} dengan menambahkan normalisasi pada beberapa bagian tubuh.
 Penelitian tersebut melaporkan bahwa penambahan normalisasi pada wajah dan lengan di atas normalisasi tubuh dan tangan mampu meningkatkan performa pengenalan.
-Eksperimen menunjukkan peningkatan akurasi sebesar 3,10\% pada model LSTM dan 0,77\% pada model GRU \cite{perkins2025islr}.
+Eksperimen menunjukkan peningkatan akurasi sebesar 3,10\% pada model LSTM dan 0,77\% pada model GRU \cite{purbojo2025normalization}.
 
 Penelitian ini mengadopsi pendekatan tersebut untuk meningkatkan konsistensi representasi \textit{landmark}.
 Normalisasi tubuh penuh dilakukan dengan menjadikan titik leher sebagai referensi utama.
@@ -248,10 +245,7 @@ Rumus normalisasi lengan ditunjukkan pada Persamaan \ref{eq:arm_norm}.
 
 \begin{equationcaptioned}[eq:arm_norm]{
 (x''_l,\, y''_l)=
-\left(
-\frac{x'_l}{\sqrt{(x'_{12}-x'_{14})^2 + (y'_{12}-y'_{14})^2}},\,
-\frac{y'_l}{\sqrt{(x'_{12}-x'_{14})^2 + (y'_{12}-y'_{14})^2}}
-\right),\quad l \in L
+\frac{(x'_l,\, y'_l)}{\sqrt{(x'_{12}-x'_{14})^2 + (y'_{12}-y'_{14})^2}},\quad l \in L
 }{
 Normalisasi koordinat \textit{landmark} lengan
 }

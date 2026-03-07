@@ -4,10 +4,10 @@
 \section{Alur Penelitian}
 \label{sec:alur-penelitian}
 
-Alur penelitian dirancang untuk memastikan setiap tahapan dilakukan secara sistematis dan saling terhubung.
-Proses penelitian dimulai dari studi literatur yang bertujuan untuk memperoleh landasan teori, metode, serta pendekatan yang relevan dengan permasalahan penelitian.
-Identifikasi masalah dilakukan berdasarkan hasil studi literatur untuk merumuskan tujuan dan ruang lingkup penelitian secara jelas.
-Gambaran keseluruhan alur penelitian yang digunakan diperlihatkan pada Gambar \ref{fig:3.alur}.
+Alur penelitian disusun untuk memastikan setiap tahapan penelitian dilakukan secara sistematis dan terstruktur. 
+Proses penelitian diawali dengan studi literatur untuk memperoleh pemahaman mengenai konsep bahasa isyarat, metode \textit{Sign Language Recognition}, serta pendekatan pemodelan berbasis \textit{landmark} dan pembelajaran mendalam. 
+Berdasarkan kajian tersebut dilakukan identifikasi masalah untuk merumuskan tujuan penelitian serta menentukan pendekatan metodologis yang digunakan. 
+Gambaran keseluruhan alur penelitian ditunjukkan pada Gambar \ref{fig:3.alur}.
 
 \begin{figure}[H]
     \centering
@@ -16,15 +16,21 @@ Gambaran keseluruhan alur penelitian yang digunakan diperlihatkan pada Gambar \r
     \label{fig:3.alur}
 \end{figure}
 
-Tahapan selanjutnya meliputi pengumpulan dataset berupa video bahasa isyarat yang direkam secara mandiri.
-Data video yang diperoleh kemudian diproses pada tahap prapemrosesan untuk mengekstraksi \textit{landmark} dan menyiapkan data dalam format yang sesuai.
-Rekayasa fitur dilakukan untuk membentuk representasi spasial dan temporal yang dapat dimanfaatkan oleh model pembelajaran mendalam.
-Tahap pemodelan menggunakan CNN dua dimensi berbasis ResNet dilakukan untuk melatih model dalam mengenali pola bahasa isyarat.
+Tahap berikutnya adalah pengumpulan dataset berupa video bahasa isyarat yang direkam secara mandiri. 
+Data video yang diperoleh kemudian diproses pada tahap prapemrosesan untuk mengekstraksi koordinat \textit{landmark} menggunakan MediaPipe Holistic. 
+Koordinat yang dihasilkan selanjutnya melalui beberapa tahapan pemrosesan seperti seleksi \textit{landmark}, penanganan nilai yang hilang, serta normalisasi koordinat untuk memperoleh representasi pose yang lebih konsisten.
 
-Proses pelatihan model dilakukan menggunakan data latih dengan konfigurasi \textit{hyperparameter} yang telah ditentukan.
-Model yang dihasilkan selanjutnya diuji dan dievaluasi menggunakan data uji untuk mengukur performa klasifikasi.
-Evaluasi dilakukan berdasarkan metrik performa yang relevan untuk memastikan kemampuan generalisasi model.
-Tahapan penelitian diakhiri dengan diperolehnya model klasifikasi bahasa isyarat yang siap dianalisis dan dibahas lebih lanjut.
+Data \textit{landmark} yang telah dipraproses kemudian digunakan sebagai masukan pada tahap pelatihan model. 
+Pada tahap ini dilakukan rekayasa fitur temporal dengan menghitung perubahan posisi antar-\textit{frame} sehingga setiap \textit{landmark} direpresentasikan menggunakan fitur multichannel $(x, y, dx, dy)$. 
+Representasi tersebut kemudian diproses oleh model CNN dua dimensi berbasis ResNet untuk mempelajari pola gerakan bahasa isyarat.
+
+Model dilatih menggunakan data latih dengan konfigurasi \textit{hyperparameter} yang telah ditentukan. 
+Selama proses pelatihan, model melakukan pembaruan parameter untuk meminimalkan nilai \textit{loss}. 
+Model yang telah dilatih kemudian diuji menggunakan data uji untuk mengevaluasi kemampuan klasifikasi terhadap isyarat yang diberikan.
+
+Tahap akhir penelitian adalah evaluasi performa model menggunakan metrik klasifikasi yang relevan. 
+Hasil evaluasi kemudian dianalisis untuk menilai efektivitas representasi \textit{landmark} dan arsitektur model yang digunakan dalam mengenali bahasa isyarat. 
+Temuan yang diperoleh selanjutnya menjadi dasar dalam pembahasan hasil penelitian.
 
 \section{Penjabaran Langkah Penelitian}
 \label{sec:jabar-alur}
@@ -43,53 +49,33 @@ Kondisi ini mendorong perlunya eksplorasi metode alternatif yang lebih sederhana
 
 \subsection{Studi Literatur}
 \label{subsec:studi-literatur}
-Studi literatur dilakukan secara sistematis untuk mengidentifikasi pendekatan yang telah digunakan dalam pengenalan bahasa isyarat berbasis visual.
-Literatur yang dikaji mencakup penelitian yang memanfaatkan representasi landmark tubuh manusia, model pembelajaran mendalam berbasis CNN dua dimensi, serta pendekatan yang menghindari pemodelan temporal eksplisit.
-Fokus kajian diarahkan pada metode yang memiliki potensi untuk menyederhanakan proses pengenalan tanpa mengurangi akurasi.
-Hasil studi literatur digunakan sebagai dasar dalam menentukan representasi data, pemilihan arsitektur model, serta skema evaluasi yang digunakan.
-Tahap ini memastikan bahwa metodologi yang dirancang selaras dengan perkembangan penelitian terkini dan memiliki landasan ilmiah yang kuat.
-Berdasarkan pendekatan ini, penelitian diharapkan dapat memberikan kontribusi yang signifikan dalam pengembangan sistem pengenalan bahasa isyarat.
+Studi literatur dilakukan untuk mengidentifikasi pendekatan yang telah digunakan dalam pengenalan bahasa isyarat berbasis visual. 
+Kajian difokuskan pada metode yang memanfaatkan representasi \textit{landmark} tubuh manusia, arsitektur CNN dua dimensi, serta pendekatan yang menghindari pemodelan temporal eksplisit. 
+Hasil studi literatur digunakan sebagai dasar dalam menentukan representasi data, pemilihan arsitektur model, dan perancangan metodologi penelitian. 
+Pembahasan lebih rinci mengenai kajian literatur tersebut disajikan pada BAB II.
 
 \subsection{Pengumpulan Dataset}
 \label{subsec:pengumpulan-dataset}
 
-Pengumpulan dataset bertujuan memperoleh data bahasa isyarat yang relevan terhadap kebutuhan penelitian. 
-Data direkam dalam bentuk video bahasa isyarat menggunakan skema \textit{isolated sign} sehingga setiap isyarat memiliki batas awal dan akhir yang jelas secara konseptual. 
-Pendekatan ini mempermudah proses segmentasi gestur pada tahap prapemrosesan sekaligus menjaga konsistensi struktur data antar-sampel. 
-Skema perekaman terpisah juga membantu menghindari tumpang tindih konteks gerakan yang dapat memengaruhi proses pelabelan.
+Dataset bahasa isyarat pada penelitian ini diperoleh melalui proses perekaman mandiri menggunakan satu penutur tuli yang merupakan anggota komunitas Pusbisindo Jawa Barat. 
+Penggunaan satu penutur bertujuan menjaga konsistensi gaya gestur antar-sampel serta meminimalkan variasi gerakan yang disebabkan oleh perbedaan individu. 
+Perekaman dilakukan dalam skema \textit{isolated sign} sehingga setiap kata isyarat direpresentasikan sebagai unit gestur yang berdiri sendiri. 
+Pendekatan ini mempermudah proses pemisahan gerakan pada tahap prapemrosesan serta menjaga konsistensi struktur data antar-sampel.
 
-Proses akuisisi data dilakukan melalui perekaman langsung menggunakan satu perangkat kamera dalam satu sesi pengambilan data. 
-Setiap kelas kata direkam melalui satu pengambilan video berkelanjutan (\textit{one continuous take}) yang memuat beberapa pengulangan isyarat secara berurutan. 
-Penutur melakukan satu isyarat kemudian berhenti sejenak sebelum melanjutkan pengulangan berikutnya untuk menjaga batas antar-gestur tetap jelas. 
-Pendekatan satu kali pengambilan bertujuan mengurangi beban fisik penutur sekaligus menjaga konsistensi kondisi perekaman.
+Proses perekaman dilakukan menggunakan webcam Logitech dengan resolusi 1920 $\times$ 1080 piksel pada laju pengambilan 30 \textit{frame} per detik. 
+Lingkungan perekaman dibuat terkontrol dengan latar belakang polos serta pencahayaan yang memadai untuk mendukung proses deteksi \textit{landmark}. 
+Area pengambilan gambar mencakup bagian tubuh dari kepala hingga pinggul sehingga seluruh gerakan tangan dan tubuh bagian atas dapat terekam dengan jelas. 
+Kondisi perekaman yang konsisten bertujuan mengurangi gangguan visual yang dapat memengaruhi proses ekstraksi \textit{landmark} pada tahap selanjutnya.
 
-Parameter teknis perekaman dijaga tetap pada seluruh proses pengambilan dataset. 
-Resolusi perekaman awal ditetapkan pada 1920 $\times$ 1080 p untuk mempertahankan detail visual selama proses deteksi \textit{landmark}. 
-Laju pengambilan \textit{frame} ditetapkan sebesar 30 \textit{frame} per detik untuk merepresentasikan dinamika temporal gerakan secara memadai. 
-Pemilihan nilai tersebut sejalan terhadap praktik umum pada penelitian pengenalan aksi yang menekankan konsistensi \textit{sampling rate} antar-sampel \cite{kulbacki2023intelligent}. 
-Pendekatan serupa juga banyak digunakan pada sistem pengenalan bahasa isyarat untuk menjaga keseimbangan antara kualitas temporal dan efisiensi komputasi \cite{huang2022cbamautoencoder}.
+Dataset terdiri dari sepuluh kata isyarat BISINDO yang direkam secara terkontrol, yaitu \textit{belum}, \textit{hati-hati}, \textit{hobi}, \textit{izin}, \textit{maaf}, \textit{sahabat}, \textit{teman}, \textit{terima kasih}, \textit{tidak punya}, dan \textit{ulang}. 
+Pemilihan kata mempertimbangkan variasi bentuk tangan serta kemiripan pola gerakan pada beberapa pasangan kata sehingga menghadirkan tantangan klasifikasi yang lebih realistis. 
+Setiap kata direkam dalam satu pengambilan video berkelanjutan (\textit{one continuous take}) yang memuat beberapa pengulangan isyarat secara berurutan. 
+Penutur melakukan satu isyarat kemudian berhenti sejenak sebelum melanjutkan pengulangan berikutnya sehingga batas antar-gestur tetap jelas sebelum diproses pada tahap prapemrosesan.
 
-Dataset awal terdiri dari sepuluh kelas kata isyarat BISINDO yang direkam secara terkontrol. 
-Setiap kelas kata direkam melalui satu video mentah hasil satu kali pengambilan sehingga total terdapat sepuluh video mentah pada tahap awal. 
-Dari setiap video mentah kemudian dilakukan proses segmentasi berbasis gestur untuk memperoleh beberapa \textit{sequence} terpisah. 
-Total data awal hasil segmentasi berjumlah 300 \textit{sequence}, sehingga setiap kelas direpresentasikan oleh 30 \textit{sequence}. 
-Struktur dataset tersebut dirancang untuk mendukung proses pembelajaran model klasifikasi berbasis urutan gerakan.
-
-Setiap \textit{sequence} diseragamkan memiliki panjang 60 \textit{frame}. 
-Laju pengambilan 30 \textit{frame} per detik menghasilkan durasi sekitar dua detik untuk setiap \textit{sequence}. 
-Durasi tersebut dinilai cukup untuk merepresentasikan satu unit isyarat secara utuh tanpa memuat gerakan tambahan yang tidak relevan. 
-Penyeragaman panjang sekuens juga mempermudah pembentukan tensor masukan yang konsisten pada tahap pelatihan model.
-
-Pemilihan kata isyarat mempertimbangkan tingkat kemiripan visual antar-kelas. 
-Beberapa pasangan kata dipilih karena memiliki bentuk tangan dan pola gerakan yang serupa sehingga menghadirkan tantangan klasifikasi yang realistis. 
-Kata \textit{tidak punya} dan \textit{belum} menunjukkan kemiripan gerakan utama yang dibedakan melalui tempo gerakan dan unsur non-manual seperti \textit{mouthing}. 
-Pasangan kata lain seperti \textit{teman} dan \textit{sahabat} memperlihatkan kesamaan gerakan dasar yang dibedakan melalui detail kontak tangan dan ekspresi wajah. 
-Pemilihan ini mendorong model untuk mempelajari perbedaan halus yang muncul dari dinamika gerakan bahasa isyarat alami.
-
-Seluruh data bahasa isyarat direkam oleh satu penutur tuli yang merupakan anggota komunitas Pusbisindo Jawa Barat. 
-Penggunaan satu penutur bertujuan menjaga konsistensi gaya gestur antar-sampel sepanjang dataset. 
-Pendekatan ini juga membantu meminimalkan variasi antar-individu yang tidak menjadi fokus utama penelitian. 
-Ringkasan konfigurasi pengambilan dataset bahasa isyarat disajikan pada Tabel \ref{tab:dataset-config}.
+Video mentah yang dihasilkan selanjutnya digunakan sebagai masukan pada tahap prapemrosesan untuk mengekstraksi koordinat \textit{landmark} menggunakan MediaPipe Holistic. 
+Pada tahap tersebut, video dipotong menjadi beberapa \textit{sequence} isyarat yang memiliki panjang seragam untuk mendukung proses pelatihan model. 
+Setiap \textit{sequence} kemudian direpresentasikan sebagai urutan koordinat \textit{landmark} yang merepresentasikan posisi tubuh sepanjang waktu. 
+Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan pada Tabel \ref{tab:dataset-config}.
 
 \begin{table}[H]
 	\centering
@@ -98,20 +84,19 @@ Ringkasan konfigurasi pengambilan dataset bahasa isyarat disajikan pada Tabel \r
 	\begin{tabular}{|l|c|}
 	\hline
 	\textbf{Parameter} & \textbf{Nilai} \\ \hline
-	Jumlah penutur & 1 orang (Tuli) \\ \hline
-	Jumlah kamera & 1 (webcam) \\ \hline
-	Resolusi perekaman awal & 1920 $\times$ 1080 (Full HD) \\ \hline
+	Jumlah penutur & 1 orang (Tuli, Pusbisindo Jawa Barat) \\ \hline
+	Jumlah kamera & 1 (Webcam Logitech) \\ \hline
+	Resolusi perekaman & 1920 $\times$ 1080 (Full HD) \\ \hline
 	Laju pengambilan \textit{frame} & 30 fps \\ \hline
-	Jumlah \textit{frame} per sequence & 60 \textit{frame} \\ \hline
-	Durasi satu sequence & $\sim$2 detik \\ \hline
+	Area perekaman & Kepala hingga pinggul \\ \hline
+	Latar belakang & Polos \\ \hline
+	Pencahayaan & Pencahayaan ruangan memadai \\ \hline
 	Jumlah kata isyarat & 10 kata \\ \hline
-	Jumlah video mentah & 10 video \\ \hline
-	Jumlah sequence per kata & 15 sequence \\ \hline
-	Total sequence awal & 150 sequence \\ \hline
+	Metode perekaman & \textit{One continuous take} \\ \hline
 	\end{tabular}
-	
+
 	\vspace{0.5em}
-	{\footnotesize Catatan: Setiap video mentah direkam dalam satu kali pengambilan (\textit{one continuous take}) kemudian disegmentasi secara berbasis gestur menjadi beberapa \textit{sequence} berdurasi tetap.}
+	{\footnotesize Catatan: Video mentah direkam dalam satu kali pengambilan (\textit{one continuous take}) untuk setiap kata isyarat sebelum diproses lebih lanjut pada tahap prapemrosesan.}
 \end{table}
 
 \subsection{Prapemrosesan Data}
@@ -223,7 +208,10 @@ MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk tiga di
 Koordinat $z$ merepresentasikan estimasi kedalaman relatif yang diperoleh dari kamera monokular.
 Estimasi kedalaman dari kamera tunggal bersifat tidak stabil dan sangat dipengaruhi oleh sudut pandang pengambilan, perubahan jarak subjek, serta variasi postur tubuh.
 Studi oleh Lin et al.\ menunjukkan bahwa nilai $z$ pada MediaPipe memerlukan proses koreksi tambahan yang kompleks agar dapat digunakan secara akurat pada sistem pengenalan gerakan \cite{lin2023detection}.
-
+Estimasi nilai kedalaman tersebut diperoleh dari kamera monokular sehingga sensitif terhadap sudut pandang dan kondisi pengambilan gambar.
+Evaluasi akurasi menunjukkan bahwa nilai \textit{z} bawaan MediaPipe tidak selalu stabil dan sering memerlukan koreksi tambahan agar dapat digunakan secara andal \cite{accuracy3dmediapipe,lin2023detection}.
+Pada penelitian ini hanya koordinat \textit{(x, y)} yang digunakan sebagai representasi posisi \textit{landmark}.
+Salah satu peneltiian yang menerapkan hal serupa adalah \cite{purbojo2025normalization}
 Pertimbangan tersebut mendorong penelitian ini untuk tidak menggunakan komponen koordinat $z$ pada tahap pemrosesan selanjutnya.
 Representasi \textit{landmark} difokuskan pada koordinat dua dimensi $(x, y)$ yang memiliki tingkat kestabilan lebih tinggi.
 Informasi dinamika gerakan tetap dapat direpresentasikan melalui perubahan posisi antar-\textit{frame} pada tahap rekayasa fitur.
@@ -352,36 +340,6 @@ Hasil:
 	\item Koordinat referensi bahu $(x_r, y_r) = (1000, 540)$
 	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y}) = (0.062, -0.019)$
 \end{itemize}
-
-% \subsubsection{Representasi \textit{Landmark Multichannel}} \label{subsubsec:representasi-multichannel}
-% Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-multichannel-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua \textit{frame} berurutan beserta perubahan posisinya. 
-% Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
-% Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
-% Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
-
-% \begin{table}[H]
-%   \centering
-%   \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
-%   \label{tab:landmark-multichannel-example}
-%   \begin{tabular}{|c|c|l|c|c|c|c|}
-%   \hline
-%   \textbf{\textit{frame} (T)} & \textbf{Indeks (L)} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
-%   $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
-%   $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
-%   $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
-%   $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
-%   $t+2$ & 0 & Wrist & 0.52 & 0.54 & 0.02  & -0.02 \\ \hline
-%   \end{tabular}
-
-%   \vspace{0.5em}
-%   {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa \textit{frame} berurutan.}
-% \end{table}  
-
-% Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu $(x, y, dx, dy)$. 
-% Seluruh \textit{landmark} pada setiap \textit{frame} disusun secara berurutan membentuk representasi spasial multichannel. 
-% Representasi ini memungkinkan data gerakan diproses oleh CNN dua dimensi. 
-% Ilustrasi representasi \textit{landmark multichannel} ditunjukkan pada Tabel \ref{tab:landmark-multichannel-example}.
-
 
 % Rev MCT: Siga, apakah conv doang yang diubah, gimana paper lain melakukannya
 
@@ -566,6 +524,34 @@ Nilai $dx$ dan $dy$ disusun sebagai kanal tambahan bersama koordinat spasial dua
 Pendekatan ini memungkinkan model menangkap informasi arah dan besaran gerakan secara eksplisit.
 Representasi multichannel yang dihasilkan menjadi masukan langsung bagi arsitektur ResNet-2D pada tahap pelatihan.
 
+Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-multichannel-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua \textit{frame} berurutan beserta perubahan posisinya. 
+Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
+Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
+Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
+
+\begin{table}[H]
+  \centering
+  \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
+  \label{tab:landmark-multichannel-example}
+  \begin{tabular}{|c|c|l|c|c|c|c|}
+  \hline
+  \textbf{\textit{frame} (T)} & \textbf{Indeks (L)} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
+  $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
+  $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
+  $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
+  $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
+  $t+2$ & 0 & Wrist & 0.52 & 0.54 & 0.02  & -0.02 \\ \hline
+  \end{tabular}
+
+  \vspace{0.5em}
+  {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa \textit{frame} berurutan.}
+\end{table}  
+
+Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu $(x, y, dx, dy)$. 
+Seluruh \textit{landmark} pada setiap \textit{frame} disusun secara berurutan membentuk representasi spasial multichannel. 
+Representasi ini memungkinkan data gerakan diproses oleh CNN dua dimensi. 
+Ilustrasi representasi \textit{landmark multichannel} ditunjukkan pada Tabel \ref{tab:landmark-multichannel-example}.
+
 \subsection{Penyusunan Tensor Masukan CNN}
 \label{subsubsec:penyusunan-tensor}
 Representasi \textit{landmark multichannel} selanjutnya disusun ke dalam bentuk tensor masukan CNN. 
@@ -633,7 +619,7 @@ Pembatasan ruang eksplorasi ini bertujuan mempertahankan kesesuaian dengan tujua
 \subsection{Evaluasi Model}
 \label{subsec:evaluasi-model}
 Evaluasi performa model dilakukan untuk menilai kemampuan sistem dalam mengklasifikasikan isyarat bahasa isyarat secara akurat dan konsisten.
-Proses evaluasi dilakukan menggunakan metrik klasifikasi yang telah didefinisikan pada Bab II.
+Proses evaluasi dilakukan menggunakan metrik klasifikasi yang telah didefinisikan pada \ref{sec:tinjauan-pustaka}.
 Pengujian diterapkan pada data uji yang tidak digunakan selama proses pelatihan maupun validasi.
 Pendekatan ini bertujuan untuk mengukur kemampuan generalisasi model terhadap data yang belum pernah dilihat sebelumnya.
 
