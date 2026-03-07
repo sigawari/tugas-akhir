@@ -313,10 +313,14 @@ Koordinat setiap \textit{landmark} tangan dinyatakan relatif terhadap pusat \tex
 
 \subsection{Pelatihan Model ResNet-2D}
 \label{subsec:pelatihan-modifikasi-model}
-
 Pelatihan model ResNet-2D dilakukan untuk mengoptimalkan kemampuan model dalam mengenali pola gerakan bahasa isyarat berdasarkan data \textit{landmark} yang telah direpresentasikan dalam bentuk multichannel. 
 Tahap ini memanfaatkan data hasil prapemrosesan yang telah disimpan dalam bentuk koordinat \textit{landmark} dua dimensi. 
 Selama proses pelatihan, data tersebut diproses secara bertahap melalui mekanisme pembentukan \textit{batch}, augmentasi data, rekayasa fitur temporal, serta proses optimisasi parameter jaringan.
+
+Sebelum proses pelatihan dimulai, dataset dibagi menjadi tiga subset, yaitu data latih, data validasi, dan data uji dengan rasio 80\%:10\%:10\%. 
+Data latih digunakan untuk mengoptimalkan parameter model selama iterasi \textit{epoch}. 
+Data validasi digunakan untuk memantau performa selama pelatihan serta menjadi dasar penerapan \textit{early stopping} dan pemilihan bobot model terbaik. 
+Data uji tidak dilibatkan dalam proses pelatihan maupun validasi, dan hanya digunakan pada tahap evaluasi akhir untuk mengukur kemampuan generalisasi model pada data yang belum pernah dilihat.
 
 Secara umum, prosedur pelatihan dimulai dengan inisialisasi arsitektur ResNet-2D yang telah dimodifikasi pada lapisan masukan untuk menerima empat kanal fitur. 
 Model kemudian ditempatkan pada perangkat komputasi yang tersedia sebelum proses iterasi \textit{epoch} dimulai. 
@@ -455,7 +459,7 @@ Ilustrasi mekanisme \textit{landmark jitter} ditunjukkan pada Tabel \ref{tab:jit
 	\textbf{Landmark} & \textbf{$(x,y)$ Asli} & \textbf{$(x,y)$ Setelah Jitter} \\ \hline
 	\endhead
 	Wrist & (0.45, 0.60) & (0.46, 0.59) \\ \hline
-	Index MCP & (0.48, 0.58) & (0.47, 0.57) \\ \hline
+	Index MCP & (0.48, 0.58) & (0.47, 0.57) \\
 \end{longtable}
 
 Augmentasi tidak diterapkan pada data validasi serta data uji. 
@@ -558,45 +562,123 @@ Representasi terstruktur ini menjadi dasar bagi proses ekstraksi fitur spasial d
     \label{fig:3.inputchannel}
 \end{figure}
 
-\subsubsection{Konfigurasi \textit{hyperparameter}}
+\subsubsection{Konfigurasi \textit{Hyperparameter}}
 \label{subsubsec:konfigurasi-hyperparameter}
+
+Konfigurasi \textit{hyperparameter} digunakan untuk mengendalikan proses optimisasi parameter jaringan selama pelatihan model. 
+Parameter ini menentukan dinamika pembelajaran jaringan konvolusional selama proses \textit{forward pass} dan \textit{backpropagation}. 
+Pemilihan nilai \textit{hyperparameter} dilakukan untuk menjaga stabilitas pelatihan sekaligus memastikan konvergensi model pada representasi gerakan bahasa isyarat. 
+Seluruh eksperimen dalam penelitian ini menggunakan konfigurasi yang sama untuk menjaga konsistensi evaluasi antar skenario pengujian.
+
+Ukuran \textit{batch} menentukan jumlah sampel yang diproses secara bersamaan dalam satu iterasi pelatihan. 
+Jumlah \textit{epoch} maksimum membatasi jumlah iterasi pelatihan terhadap seluruh data pelatihan. 
+Fungsi \textit{loss} yang digunakan adalah \textit{cross-entropy} karena tugas yang dilakukan merupakan klasifikasi multi-kelas. 
+Algoritma optimisasi yang digunakan adalah Adam karena memiliki kemampuan adaptasi \textit{learning rate} yang baik pada pelatihan jaringan konvolusional.
+
+Mekanisme \textit{early stopping} diterapkan untuk menghentikan pelatihan apabila performa validasi tidak lagi mengalami peningkatan dalam sejumlah \textit{epoch}. 
+Pendekatan ini membantu mencegah terjadinya \textit{overfitting} pada data pelatihan. 
+Penyesuaian \textit{learning rate} selama pelatihan dikendalikan menggunakan skema \textit{learning rate scheduler}. 
+Scheduler yang digunakan adalah \textit{ReduceLROnPlateau} yang menurunkan nilai \textit{learning rate} ketika performa validasi tidak mengalami peningkatan.
+
+Ringkasan konfigurasi \textit{hyperparameter} yang digunakan pada penelitian ini ditunjukkan pada Tabel \ref{tab:hyperparameter}.
+
+\begin{table}[H]
+\centering
+\caption{Konfigurasi \textit{Hyperparameter} Pelatihan Model}
+\label{tab:hyperparameter}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Parameter} & \textbf{Nilai} \\ \hline
+Ukuran \textit{batch} & 16 \\ \hline
+Jumlah \textit{epoch} maksimum & 50 \\ \hline
+\textit{Optimizer} & Adam \\ \hline
+\textit{Learning rate} & $1 \times 10^{-4}$ \\ \hline
+\textit{Weight decay} & $1 \times 10^{-4}$ \\ \hline
+Fungsi \textit{loss} & Cross-Entropy \\ \hline
+\textit{Early stopping} & Aktif (patience = 5) \\ \hline
+\textit{Learning rate scheduler} & ReduceLROnPlateau \\ \hline
+\end{tabular}
+\end{table}
+
+Konfigurasi tersebut digunakan secara konsisten pada seluruh eksperimen untuk memastikan bahwa perubahan performa model disebabkan oleh variasi representasi data, bukan oleh perbedaan parameter pelatihan. 
+Pendekatan ini memungkinkan evaluasi yang lebih terkontrol terhadap pengaruh representasi \textit{landmark multichannel} pada kinerja model ResNet-2D. 
+Fokus utama penelitian ini berada pada representasi fitur gerakan serta modifikasi kanal masukan model. 
+Eksplorasi mendalam terhadap variasi \textit{hyperparameter} tidak dilakukan agar ruang eksperimen tetap terfokus pada kontribusi metodologi yang diusulkan.
 
 \subsection{Desain Eksperimen dan Studi Ablasi}
 \label{subsec:eksperimen-ablasi}
 
+Desain eksperimen pada penelitian ini bertujuan mengevaluasi kontribusi representasi fitur gerakan serta variasi kompleksitas arsitektur jaringan terhadap performa klasifikasi bahasa isyarat. 
+Pendekatan evaluasi dilakukan menggunakan metode studi ablasi untuk mengisolasi pengaruh setiap komponen utama pada pipeline pemodelan. 
+Komponen yang dianalisis meliputi penggunaan fitur perubahan antar-frame $(dx,dy)$ serta variasi arsitektur jaringan konvolusional. 
+Pendekatan ini memungkinkan analisis yang lebih terkontrol terhadap kontribusi masing-masing komponen terhadap kinerja model.
+
+Eksperimen pertama dirancang untuk mengevaluasi pengaruh fitur perubahan posisi antar-frame terhadap performa klasifikasi. 
+Representasi dasar menggunakan koordinat posisi \textit{landmark} dua dimensi $(x,y)$ yang diperoleh dari tahap prapemrosesan. 
+Representasi tersebut kemudian dibandingkan dengan representasi multichannel yang menambahkan fitur perubahan posisi $(dx,dy)$. 
+Perbandingan ini bertujuan mengukur sejauh mana informasi dinamika gerakan meningkatkan kemampuan model dalam mengenali gestur bahasa isyarat dinamis.
+
+Eksperimen kedua berfokus pada evaluasi variasi kompleksitas arsitektur jaringan konvolusional. 
+Arsitektur jaringan mempengaruhi kapasitas representasi fitur yang dapat dipelajari oleh model. 
+Model dengan struktur residual umumnya mampu mempelajari representasi yang lebih stabil pada jaringan yang lebih dalam. 
+Perbandingan dilakukan antara arsitektur CNN dua dimensi dasar serta beberapa varian ResNet dengan kedalaman jaringan yang berbeda.
+
+Penelitian ini menggunakan empat arsitektur model yang terdiri dari CNN dua dimensi dasar, ResNet-18, ResNet-34, serta ResNet-50. 
+CNN dua dimensi dasar digunakan sebagai model pembanding tanpa mekanisme residual. 
+Arsitektur ResNet dipilih karena struktur \textit{skip connection} memungkinkan pelatihan jaringan yang lebih dalam tetap stabil. 
+Variasi kedalaman jaringan digunakan untuk mengamati pengaruh kapasitas representasi terhadap performa klasifikasi gerakan bahasa isyarat.
+
+Kedua faktor eksperimen tersebut dikombinasikan untuk menghasilkan beberapa konfigurasi model yang berbeda. 
+Setiap konfigurasi menggunakan prosedur pelatihan yang sama sehingga perbedaan performa hanya dipengaruhi oleh variasi fitur masukan serta arsitektur jaringan. 
+Evaluasi performa dilakukan menggunakan metrik klasifikasi yang dijelaskan pada bagian berikutnya. 
+Ringkasan konfigurasi eksperimen yang digunakan pada penelitian ini ditunjukkan pada Tabel \ref{tab:experiment-config}.
+
+\begin{table}[H]
+\centering
+\caption{Konfigurasi eksperimen pada studi ablasi}
+\label{tab:experiment-config}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Fitur Input} & \textbf{Jumlah Kanal} \\ \hline
+CNN 2D dasar & $(x,y)$ & 2 \\ \hline
+CNN 2D dasar & $(x,y,dx,dy)$ & 4 \\ \hline
+ResNet-18 & $(x,y)$ & 2 \\ \hline
+ResNet-18 & $(x,y,dx,dy)$ & 4 \\ \hline
+ResNet-34 & $(x,y)$ & 2 \\ \hline
+ResNet-34 & $(x,y,dx,dy)$ & 4 \\ \hline
+ResNet-50 & $(x,y)$ & 2 \\ \hline
+ResNet-50 & $(x,y,dx,dy)$ & 4 \\ \hline
+\end{tabular}
+\end{table}
+
+Konfigurasi eksperimen tersebut menghasilkan delapan skenario pelatihan yang berbeda. 
+Setiap model dilatih menggunakan dataset yang sama serta konfigurasi \textit{hyperparameter} yang identik. 
+Pendekatan ini memastikan bahwa perubahan performa model dapat diatribusikan secara langsung pada variasi fitur masukan dan kedalaman arsitektur jaringan. 
+Hasil eksperimen kemudian dianalisis untuk menjawab pertanyaan penelitian mengenai kontribusi fitur dinamika gerakan serta pengaruh kompleksitas arsitektur ResNet-2D terhadap performa klasifikasi bahasa isyarat dinamis.
+
 \subsection{Evaluasi Model}
 \label{subsec:evaluasi-model}
-Evaluasi performa model dilakukan untuk menilai kemampuan sistem dalam mengklasifikasikan isyarat bahasa isyarat secara akurat dan konsisten.
-Proses evaluasi dilakukan menggunakan metrik klasifikasi yang telah didefinisikan pada \ref{subsec:metrik-evaluasi}.
-Pengujian diterapkan pada data uji yang tidak digunakan selama proses pelatihan maupun validasi.
-Pendekatan ini bertujuan untuk mengukur kemampuan generalisasi model terhadap data yang belum pernah dilihat sebelumnya.
 
-Hasil evaluasi dianalisis secara kuantitatif untuk membandingkan performa antar konfigurasi model.
-Analisis dilakukan dengan memperhatikan keseimbangan performa antar kelas, bukan hanya akurasi keseluruhan.
+Evaluasi model dilakukan untuk mengukur kemampuan sistem dalam mengklasifikasikan gerakan bahasa isyarat berdasarkan representasi \textit{landmark} yang dihasilkan pada tahap pelatihan.
+Pengujian dilakukan menggunakan data uji yang tidak digunakan selama proses pelatihan maupun validasi.
+Pendekatan ini memastikan bahwa performa yang diperoleh mencerminkan kemampuan generalisasi model terhadap data yang belum pernah dilihat sebelumnya.
+Analisis hasil evaluasi digunakan untuk membandingkan performa berbagai konfigurasi model yang diuji pada studi ablasi.
+
+Proses pengujian dilakukan setelah pelatihan model selesai dan kondisi penghentian pelatihan tercapai.
+Model terbaik dipilih berdasarkan performa validasi tertinggi yang diperoleh selama proses pelatihan.
+Bobot model pada \textit{epoch} dengan performa validasi terbaik disimpan sebagai model akhir.
+Model tersebut kemudian digunakan untuk melakukan inferensi terhadap seluruh sampel pada data uji.
+
+Seluruh sampel pada data uji diproses menggunakan pipeline yang identik dengan tahap pelatihan tanpa penerapan augmentasi tambahan.
+Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi klasifikasi.
+Metrik evaluasi yang digunakan meliputi \textit{accuracy}, \textit{precision}, \textit{recall}, dan \textit{F1-score}.
+Metrik tersebut dipilih karena mampu memberikan gambaran performa model secara menyeluruh pada tugas klasifikasi multi-kelas.
+
+Akurasi digunakan untuk mengukur proporsi prediksi yang benar terhadap seluruh sampel pengujian.
+Precision mengukur tingkat ketepatan prediksi model pada setiap kelas yang dihasilkan.
+Recall mengukur kemampuan model dalam mendeteksi seluruh sampel yang benar pada setiap kelas.
+F1-score digunakan sebagai ukuran harmonis antara precision dan recall untuk menilai keseimbangan performa klasifikasi.
+
+Evaluasi pada penelitian ini difokuskan pada nilai F1-score makro dan tertimbang untuk memastikan konsistensi performa model pada seluruh kelas.
 Pendekatan ini penting mengingat potensi ketidakseimbangan jumlah sampel antar kelas isyarat.
-Temuan evaluasi selanjutnya dibahas secara rinci pada Bab IV.
-
-\subsubsection{Metrik Evaluasi}
-\label{subsubsec:metrik-evaluasi}
-Metrik evaluasi yang digunakan pada penelitian ini meliputi \textit{accuracy}, \textit{precision}, \textit{recall}, dan \textit{F1-score}.
-Metrik-metrik tersebut dipilih karena mampu memberikan gambaran performa model secara menyeluruh.
-Akurasi digunakan untuk mengukur proporsi prediksi yang benar terhadap seluruh sampel.
-Namun, akurasi saja tidak selalu mencerminkan performa yang adil pada kondisi distribusi kelas yang tidak seimbang.
-
-Precision mengukur ketepatan prediksi positif yang dihasilkan oleh model.
-Recall mengukur kemampuan model dalam mendeteksi seluruh sampel positif yang tersedia.
-F1-score digunakan sebagai ukuran harmonis antara precision dan recall.
-Pada penelitian ini, evaluasi difokuskan pada nilai F1-score makro dan tertimbang untuk memastikan performa model konsisten pada seluruh kelas.
-
-\subsubsection{Prosedur Pengujian}
-\label{subsubsec:prosedur-pengujian}
-Prosedur pengujian dilakukan setelah proses pelatihan model mencapai kondisi penghentian yang ditentukan. 
-Model terbaik dipilih berdasarkan nilai akurasi validasi (\textit{validation accuracy}) tertinggi yang diperoleh selama proses pelatihan. 
-Bobot model pada \textit{epoch} dengan performa validasi terbaik disimpan sebagai model akhir. 
-Model tersebut digunakan sebagai representasi final untuk tahap evaluasi pada data uji.
-
-Data uji diproses menggunakan skema inferensi yang identik dengan struktur masukan pada tahap pelatihan. 
-Seluruh sampel pada data uji dievaluasi tanpa penerapan augmentasi tambahan. 
-Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi klasifikasi. 
-Hasil pengujian ini menjadi dasar analisis performa model yang dibahas pada Bab IV.
-
+Hasil evaluasi kuantitatif selanjutnya digunakan sebagai dasar analisis performa model pada Bab IV.
