@@ -106,23 +106,19 @@ Bagian ini menguraikan landasan teoretis yang mendukung pelaksanaan penelitian, 
 Pembahasan difokuskan pada konsep yang relevan secara langsung dengan pendekatan penelitian, tanpa mengulas aspek linguistik atau teori umum yang tidak berkontribusi terhadap metode yang digunakan. % Adjust spacing for better justification
 % BISINDO
 \subsection{Bahasa Isyarat Indonesia (BISINDO)} \label{subsec:bisindo}
-Bahasa Isyarat Indonesia (BISINDO) merupakan salah satu bahasa isyarat yang digunakan di Indonesia dan lebih umum digunakan dalam komunitas Tuli \cite{lavenia2023tuliindonesia}. 
-BISINDO berkembang secara alami dalam lingkungan sosial masyarakat Tuli Indonesia dan telah digunakan sejak sebelum masa kemerdekaan \cite{olivia2022tindakankomunikatif}. 
-Berbeda dengan Sistem Bahasa Isyarat Indonesia (SIBI) yang disusun secara formal dengan mengadopsi struktur bahasa lisan, BISINDO memiliki susunan kata dan pola ekspresi yang lebih bebas serta kontekstual. 
-Perbedaan ini menyebabkan BISINDO tidak selalu mengikuti tata bahasa Indonesia secara langsung, melainkan memanfaatkan kombinasi gerakan tangan, orientasi tubuh, serta ekspresi non-manual untuk menyampaikan makna \cite{bentara2024sibi-bisindo}. 
-Karakteristik visual dan gestural tersebut menjadikan BISINDO sangat bergantung pada pola gerakan tubuh, wajah, dan tangan, sehingga dapat dipandang sebagai permasalahan pengenalan gerakan berbasis visual. \par
+Bahasa Isyarat Indonesia (BISINDO) merupakan bahasa isyarat yang paling umum digunakan dalam komunitas Tuli di Indonesia \cite{lavenia2023tuliindonesia}. 
+BISINDO berkembang secara alami dalam interaksi sosial dan telah digunakan sejak sebelum masa kemerdekaan \cite{olivia2022tindakankomunikatif}. 
+Berbeda dengan Sistem Bahasa Isyarat Indonesia (SIBI) yang disusun formal mengikuti bahasa lisan, BISINDO lebih fleksibel dan kontekstual \cite{bentara2024sibi-bisindo}. 
+Makna disampaikan melalui kombinasi gerakan tangan, orientasi tubuh, dan ekspresi non-manual, sehingga BISINDO dapat dipandang sebagai permasalahan pengenalan gerakan berbasis visual. \par
 
 % SLR
 \subsection{\textit{Sign Language Recognition} (SLR)} \label{subsec:slr}
-\textit{Sign Language Recognition} (SLR) merupakan bidang penelitian dalam visi komputer yang bertujuan untuk mengenali dan menginterpretasikan bahasa isyarat berdasarkan informasi visual yang diperoleh dari gerakan manusia.
-Bahasa isyarat dipandang sebagai bahasa visual-gestural yang memanfaatkan kombinasi gerakan tangan, orientasi tubuh, lokasi artikulasi, serta ekspresi non-manual seperti gerakan wajah dan kepala \cite{rastgoo2021slrdeepsurvey}.
-Karakteristik visual dan multimodal tersebut menjadikan SLR sebagai permasalahan pengenalan pola yang kompleks karena mengandung variasi spasial dan temporal yang tinggi.
-Pendekatan modern dalam SLR didominasi oleh metode berbasis visi komputer dan \textit{deep learning} yang memproses data citra maupun video secara langsung \cite{shende2024mlslr}.
+\textit{Sign Language Recognition} (SLR) merupakan bidang visi komputer yang bertujuan mengenali dan menginterpretasikan bahasa isyarat dari informasi visual gerak manusia. 
+Bahasa isyarat bersifat visual–gestural dan memadukan gerakan tangan, orientasi serta konfigurasi tubuh, lokasi artikulasi, dan ekspresi non-manual (misalnya wajah dan kepala), sehingga SLR melibatkan variasi spasial dan temporal secara bersamaan \cite{rastgoo2021slrdeepsurvey}. 
+Pendekatan modern umumnya memanfaatkan metode visi komputer dan \textit{deep learning} pada masukan berupa citra atau video \cite{shende2024mlslr}.
 
-Pendekatan SLR dapat diklasifikasikan berdasarkan beberapa aspek utama, meliputi jenis fitur yang digunakan, modalitas input, serta tingkat kompleksitas tugas pengenalan \cite{rastgoo2021slrdeepsurvey}. 
-Modalitas input visual yang umum digunakan mencakup citra RGB, data kedalaman (\textit{depth}), serta representasi rangka tubuh manusia atau \textit{skeleton}. 
-Data tersebut dapat berasal dari citra statis maupun video dinamis, tergantung pada karakteristik isyarat yang dianalisis. 
-Klasifikasi ini berperan penting dalam menentukan strategi representasi data dan pemilihan arsitektur model yang sesuai. Berikut adalah ilustrasi konsep yang digunakan seperti pada Gambar \ref{fig:slr-taxonomy}. \par
+Pendekatan SLR dapat dibedakan berdasarkan fitur dan modalitas input yang digunakan, seperti citra RGB, data kedalaman (\textit{depth}), maupun representasi pose/\textit{skeleton} \cite{rastgoo2021slrdeepsurvey}. 
+Ringkasan taksonomi strategi \textit{deep learning} dalam SLR ditunjukkan pada Gambar \ref{fig:slr-taxonomy}.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{figure/slr_taxonomy.png}
@@ -131,41 +127,24 @@ Klasifikasi ini berperan penting dalam menentukan strategi representasi data dan
   {\footnotesize Sumber: diadaptasi dari Rastgoo et al. \cite{rastgoo2021slrdeepsurvey}}
 \end{figure}
 
-% ISLR
-\subsection{\textit{Isolated Sign Language Recognition}} \label{subsec:islr}
-\textit{Isolated Sign Language Recognition} (ISLR) merupakan salah satu cabang dari SLR yang berfokus pada pengenalan satu unit isyarat secara terpisah tanpa mempertimbangkan keterkaitan antar-isyarat dalam suatu rangkaian kalimat.
-Setiap sampel input pada ISLR merepresentasikan satu isyarat tunggal dengan batas awal dan akhir yang telah ditentukan secara eksplisit \cite{rastgoo2021slrdeepsurvey}.
-Karakteristik tersebut memungkinkan proses pengenalan difokuskan pada pola gerakan inti dari suatu isyarat. 
-Pendekatan ini banyak digunakan sebagai tahap awal penelitian untuk mengevaluasi efektivitas representasi data dan arsitektur model secara terkontrol \cite{shende2024mlslr}.
-
-Perbedaan mendasar antara ISLR dan \textit{Continuous Sign Language Recognition} terletak pada bentuk keluaran yang dihasilkan oleh sistem.
-Pendekatan ISLR menghasilkan satu label kelas yang merepresentasikan satu isyarat, sedangkan pendekatan berkelanjutan menghasilkan urutan label atau transkripsi kalimat isyarat \cite{rastgoo2021slrdeepsurvey}.
-Kebutuhan untuk memodelkan dependensi temporal jangka panjang pada CSLR menyebabkan kompleksitas pemodelannya menjadi lebih tinggi.
-Kondisi tersebut menjadikan ISLR lebih sesuai untuk penelitian yang berfokus pada analisis representasi data dan evaluasi arsitektur model secara langsung.
-
-Pendekatan ISLR memungkinkan penggunaan representasi input yang lebih terkontrol tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial. 
-Representasi spasial dua dimensi yang menyusun data temporal ke dalam struktur terorganisasi memungkinkan pemanfaatan model CNN dua dimensi untuk pengenalan pola gerakan \cite{rastgoo2021slrdeepsurvey}. 
-Strategi ini sejalan dengan pendekatan penelitian yang mengeksplorasi kemampuan model spasial murni dalam menangkap dinamika gerakan bahasa isyarat. 
-Berdasarkan karakteristik tersebut, penelitian ini difokuskan pada skema \textit{Isolated Sign Language Recognition} untuk mengevaluasi efektivitas representasi spasial dan arsitektur model secara terkontrol. \par
-
-% Mediapipe Holistic
+Berdasarkan bentuk keluaran, SLR dibagi menjadi \textit{Isolated Sign Language Recognition} (ISLR) dan \textit{Continuous Sign Language Recognition} (CSLR) \cite{rastgoo2021slrdeepsurvey}. 
+ISLR mengenali satu isyarat per sampel dengan batas awal–akhir yang jelas, sedangkan CSLR mengenali rangkaian isyarat dalam urutan panjang sehingga membutuhkan pemodelan dependensi temporal antar-isyarat dan umumnya lebih kompleks. 
+Penelitian ini menggunakan ISLR agar evaluasi efektivitas representasi berbasis \textit{landmark} untuk klasifikasi gerakan BISINDO dapat dilakukan secara lebih terkontrol \cite{shende2024mlslr}.
 \subsection{\textit{MediaPipe Holistic}} \label{subsec:mediapipe}
-\textit{MediaPipe Holistic} merupakan solusi visi komputer berbasis \textit{framework} MediaPipe yang dirancang untuk melakukan ekstraksi landmark tubuh manusia secara terintegrasi dari data visual.
-Sistem ini mampu mendeteksi dan melacak beberapa komponen utama tubuh manusia, meliputi wajah, tangan, dan pose tubuh dalam satu pipeline pemrosesan terpadu \cite{manullang2025computervision}.
-Pendekatan ini memungkinkan analisis gerak manusia dilakukan secara menyeluruh tanpa memerlukan pemisahan model untuk setiap bagian tubuh.
-Karakteristik tersebut menjadikan MediaPipe Holistic sesuai untuk aplikasi analisis gerakan berbasis video secara real-time.
+\textit{MediaPipe Holistic} merupakan solusi visi komputer berbasis \textit{framework} MediaPipe untuk mengekstraksi \textit{landmark} tubuh manusia secara terintegrasi dari data visual. 
+Sistem ini mampu mendeteksi dan melacak komponen utama tubuh, yaitu wajah, tangan, dan pose tubuh, dalam satu \textit{pipeline} pemrosesan terpadu \cite{manullang2025computervision}. 
+Integrasi tersebut memungkinkan analisis gerak manusia dilakukan secara menyeluruh tanpa memisahkan model untuk tiap bagian tubuh. 
+Karakteristik ini menjadikan MediaPipe Holistic relevan untuk aplikasi analisis gerakan berbasis video secara \textit{real-time}.
 
-MediaPipe dikembangkan sebagai \textit{framework} lintas platform dan bersifat sumber terbuka yang mendukung pemrosesan data streaming seperti video secara efisien.
-Arsitektur MediaPipe disusun dalam bentuk graf komputasi modular yang terdiri atas komponen-komponen bernama \textit{Calculator}.
-Struktur ini memungkinkan penyusunan pipeline persepsi yang fleksibel dan dapat disesuaikan dengan kebutuhan aplikasi \cite{manullang2025computervision}.
-Implementasi inti MediaPipe menggunakan bahasa C++ untuk menjamin performa tinggi dan efisiensi memori. 
-Lapisan antarmuka tambahan disediakan untuk bahasa Python dan JavaScript sehingga integrasi pada berbagai platform dapat dilakukan secara cepat.
+MediaPipe dikembangkan sebagai \textit{framework} lintas platform, bersifat sumber terbuka, dan dioptimalkan untuk pemrosesan data streaming (misalnya video) secara efisien. 
+Arsitekturnya dibangun sebagai graf komputasi modular yang tersusun dari komponen \textit{Calculator}, sehingga \textit{pipeline} persepsi dapat dirancang fleksibel sesuai kebutuhan \cite{manullang2025computervision}. 
+Implementasi inti MediaPipe menggunakan C++ untuk menjaga performa dan efisiensi memori. 
+Selain itu, tersedia lapisan antarmuka untuk Python dan JavaScript agar integrasi pada berbagai platform dapat dilakukan lebih cepat.
 
-MediaPipe Holistic menghasilkan representasi \textit{landmark} dalam bentuk koordinat spasial yang merepresentasikan titik-titik kunci pada tubuh manusia.
-\textit{Landmark} pose tubuh direpresentasikan oleh 33 titik kunci yang mencakup kepala, badan, lengan, dan kaki, masing-masing disertai indeks numerik yang konsisten \cite{googlemediapipeholistic}.
-Informasi ini memungkinkan pemodelan struktur tubuh dan hubungan antarbagian tubuh secara eksplisit.
-Representasi \textit{landmark} tersebut menjadi dasar bagi analisis gerakan manusia berbasis data terstruktur.
-Gambar \ref{fig:mediapipe-pose} di bawah ini memperlihatkan ilustrasi dari konsep \textit{\textit{landmark} pose} \par
+MediaPipe Holistic menghasilkan representasi \textit{landmark} berupa titik-titik kunci tubuh yang konsisten indeksnya dan dapat digunakan sebagai data terstruktur untuk pemodelan gerakan. 
+Untuk pose tubuh, MediaPipe menyediakan 33 titik \textit{landmark} yang mencakup kepala, badan, lengan, dan kaki \cite{googlemediapipeholistic}. 
+Representasi ini memudahkan pemodelan struktur tubuh dan hubungan antarbagian tubuh secara eksplisit dalam setiap \textit{frame}. 
+Ilustrasi 33 \textit{landmark} pose ditunjukkan pada Gambar \ref{fig:mediapipe-pose}. \par
 
 \begin{figure}[H]
   \centering
@@ -175,11 +154,10 @@ Gambar \ref{fig:mediapipe-pose} di bawah ini memperlihatkan ilustrasi dari konse
   {\footnotesize Sumber: ai.google.dev dan \cite{gyamenah2025clumm}}
 \end{figure}
 
-Selain pose tubuh, MediaPipe Holistic juga menyediakan \textit{landmark} tangan dan wajah untuk menangkap detail gerakan serta ekspresi non-manual. 
-\textit{Landmark} tangan direpresentasikan oleh 21 titik kunci pada setiap tangan yang mencerminkan struktur jari dan telapak secara rinci, sehingga mampu menggambarkan konfigurasi dan dinamika gerakan tangan secara presisi. 
-\textit{Landmark} wajah direpresentasikan oleh 468 titik kunci yang mencakup kontur wajah, mata, hidung, dan mulut, sehingga memungkinkan analisis ekspresi wajah sebagai komponen non-manual dalam bahasa isyarat \cite{googlemediapipeholistic}. 
-Representasi terperinci ini memungkinkan analisis koordinasi gerakan tangan dan ekspresi wajah dilakukan secara bersamaan dalam satu sistem terintegrasi. 
-Struktur \textit{landmark} tangan yang digunakan oleh MediaPipe Holistic ditunjukkan pada Gambar \ref{fig:mediapipe-hand}. \par
+Selain pose, MediaPipe Holistic juga menyediakan \textit{landmark} tangan dan wajah untuk menangkap detail konfigurasi tangan serta ekspresi non-manual. 
+\textit{Landmark} tangan direpresentasikan oleh 21 titik kunci pada setiap tangan untuk memodelkan struktur jari dan telapak secara rinci, sehingga mendukung analisis dinamika gerakan tangan secara presisi. 
+\textit{Landmark} wajah direpresentasikan oleh 468 titik yang mencakup kontur wajah, mata, hidung, dan mulut untuk memungkinkan analisis ekspresi wajah sebagai komponen non-manual \cite{googlemediapipeholistic}. 
+Ilustrasi struktur \textit{landmark} tangan dan sebaran \textit{landmark} wajah ditunjukkan pada Gambar \ref{fig:mediapipe-hand} dan Gambar \ref{fig:mediapipe-face}. \par
 
 \begin{figure}[H]
   \centering
@@ -189,7 +167,6 @@ Struktur \textit{landmark} tangan yang digunakan oleh MediaPipe Holistic ditunju
   {\footnotesize Sumber: Gyamenah et al. \cite{gyamenah2025clumm}}
 \end{figure}
 
-Sebaran \textit{landmark} wajah yang digunakan untuk merepresentasikan ekspresi non-manual ditampilkan pada Gambar \ref{fig:mediapipe-face}. \par
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.25\textwidth]{figure/mediapipe_face_landmark.jpg}
@@ -198,48 +175,134 @@ Sebaran \textit{landmark} wajah yang digunakan untuk merepresentasikan ekspresi 
   {\footnotesize Sumber: \cite{komajou2023mediapipe}}
 \end{figure}
 
-MediaPipe Holistic menghasilkan keluaran berupa koordinat spasial \textit{landmark} yang merepresentasikan posisi titik-titik kunci tubuh manusia pada setiap frame video. 
-Setiap \textit{landmark} direpresentasikan dalam bentuk koordinat \textit{(x, y, z)}, di mana komponen \textit{x} dan \textit{y} menyatakan posisi relatif terhadap bidang citra, sedangkan komponen \textit{z} merepresentasikan informasi kedalaman relatif terhadap kamera \cite{googlemediapipeholistic}.
-Nilai koordinat \textit{x} dan \textit{y} dinormalisasi terhadap dimensi citra sehingga bersifat invariant terhadap resolusi video.
-Representasi terstandarisasi ini memungkinkan data \textit{landmark} digunakan secara konsisten sebagai masukan model pembelajaran.
-
-Informasi koordinat \textit{landmark} yang dihasilkan MediaPipe Holistic bersifat berurutan dan tersinkronisasi antar-frame.
-Karakteristik ini memungkinkan analisis perubahan posisi titik-titik kunci tubuh manusia dari waktu ke waktu.
-Komponen koordinat tersebut dapat dimanfaatkan untuk menyusun representasi spasial yang mengenkapsulasi dinamika gerakan tanpa memerlukan pemodelan temporal eksplisit. 
-Oleh karena itu, keluaran \textit{landmark} MediaPipe Holistic relevan sebagai dasar penyusunan representasi spasial multichannel pada penelitian ini.
-
-Keluaran berupa koordinat \textit{landmark} dari MediaPipe Holistic menyediakan data spasial berurutan yang merepresentasikan gerakan tubuh manusia dari waktu ke waktu.
-Namun, representasi koordinat mentah tersebut belum secara langsung sesuai untuk diproses oleh arsitektur CNN dua dimensi.
-Oleh karena itu, diperlukan strategi representasi data yang mampu menyusun informasi spasial dan temporal ke dalam struktur yang kompatibel dengan CNN 2D. \par
+Keluaran MediaPipe Holistic berupa koordinat spasial \textit{landmark} pada setiap \textit{frame} video yang direpresentasikan sebagai \textit{(x, y, z)}. 
+Komponen \textit{x} dan \textit{y} menyatakan posisi relatif pada bidang citra dan dinormalisasi terhadap dimensi citra, sedangkan \textit{z} merepresentasikan kedalaman relatif terhadap kamera \cite{googlemediapipeholistic}. 
+Karena keluaran bersifat berurutan dan tersinkronisasi antar-\textit{frame}, perubahan posisi titik-titik kunci dapat dianalisis dari waktu ke waktu. 
+Dengan demikian, data \textit{landmark} ini dapat dimanfaatkan untuk menyusun representasi spasial yang mengenkapsulasi dinamika gerakan tanpa harus bergantung pada pemodelan temporal eksplisit.
 
 \subsection{Representasi \textit{Landmark} sebagai Struktur Spasial}
 \label{subsec:representasi-spasial}
-Pada penelitian ini, data bahasa isyarat yang bersifat berurutan direpresentasikan dalam bentuk struktur spasial agar kompatibel dengan model pembelajaran berbasis spasial.
-Setiap frame video diekstraksi menjadi sekumpulan titik \textit{landmark} tubuh manusia yang merepresentasikan posisi bagian tubuh pada waktu tertentu. 
-Titik-titik \textit{landmark} tersebut kemudian disusun ke dalam sebuah matriks dua dimensi dengan sumbu waktu dan indeks \textit{landmark}. 
-Penyusunan ini memungkinkan data temporal diperlakukan sebagai representasi spasial yang terorganisasi \cite{rastgoo2021slrdeepsurvey}.
-Pendekatan ini menekankan penyusunan data pada tingkat representasi, terlepas dari arsitektur pembelajaran yang digunakan pada tahap selanjutnya. \par
-
+Pada penelitian ini, data bahasa isyarat yang berurutan direpresentasikan sebagai struktur spasial agar kompatibel dengan model pembelajaran berbasis spasial.
+Setiap \textit{frame} diekstraksi menjadi sekumpulan titik \textit{landmark} yang merepresentasikan posisi tubuh pada waktu tertentu.
+Selanjutnya, \textit{landmark} disusun dalam matriks dua dimensi dengan sumbu waktu dan indeks \textit{landmark} sehingga informasi temporal diperlakukan sebagai representasi spasial yang terorganisasi \cite{rastgoo2021slrdeepsurvey}. \par
 \subsubsection{Koordinat \textit{Landmark} MediaPipe}
-Pada praktiknya, koordinat \textit{landmark} yang digunakan sangat bergantung pada metode ekstraksi yang diterapkan. 
-MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk \textit{(x, y, z)} yang merepresentasikan posisi relatif titik kunci tubuh manusia terhadap kamera \cite{googlemediapipeholistic}. 
-Komponen \textit{x} dan \textit{y} menyatakan posisi pada bidang citra yang telah dinormalisasi, sedangkan komponen \textit{z} merepresentasikan informasi kedalaman relatif. 
-Estimasi nilai kedalaman tersebut diperoleh dari kamera monokular sehingga sensitif terhadap sudut pandang dan kondisi pengambilan gambar.
-
-Evaluasi akurasi menunjukkan bahwa nilai \textit{z} bawaan MediaPipe tidak selalu stabil dan sering memerlukan koreksi tambahan agar dapat digunakan secara andal \cite{accuracy3dmediapipe,lin2023detection}. 
-Penelitian lain bahkan menerapkan metode tambahan untuk memperbaiki estimasi kedalaman sebelum digunakan lebih lanjut. 
-Temuan tersebut menunjukkan bahwa pemanfaatan koordinat \textit{z} memerlukan perlakuan khusus agar tidak memperkenalkan noise pada representasi data. 
-Pertimbangan ini menjadi dasar pemilihan representasi dua dimensi pada penelitian ini.
+Pada praktiknya, koordinat \textit{landmark} yang digunakan sangat bergantung pada metode ekstraksi yang diterapkan. MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk \textit{(x, y, z)} yang merepresentasikan posisi relatif titik kunci tubuh manusia terhadap kamera \cite{googlemediapipeholistic}. Komponen \textit{x} dan \textit{y} menyatakan posisi pada bidang citra yang telah dinormalisasi, sedangkan komponen \textit{z} merepresentasikan informasi kedalaman relatif. Estimasi nilai kedalaman tersebut diperoleh dari kamera monokular sehingga sensitif terhadap sudut pandang dan kondisi pengambilan gambar. Evaluasi akurasi menunjukkan bahwa nilai \textit{z} bawaan MediaPipe tidak selalu stabil dan sering memerlukan koreksi tambahan agar dapat digunakan secara andal \cite{accuracy3dmediapipe,lin2023detection}.
 
 \subsubsection{Normalisasi \textit{Landmark}}
-Normalisasi \textit{landmark} bertujuan untuk mengurangi variasi posisi global subjek dalam \textit{frame} dengan merepresentasikan koordinat \textit{landmark} relatif terhadap titik referensi tubuh.
-Variasi posisi subjek pada citra dapat menyebabkan perbedaan koordinat yang tidak berkaitan langsung dengan makna gerakan bahasa isyarat.
-Oleh karena itu, normalisasi digunakan untuk memusatkan representasi data sehingga model dapat lebih berfokus pada hubungan relatif antarbagian tubuh.
 
-Pendekatan normalisasi berbasis titik referensi tubuh banyak digunakan pada penelitian pengenalan bahasa isyarat berbasis koordinat pose. 
-Pada pendekatan ini, koordinat \textit{landmark} direpresentasikan relatif terhadap titik referensi tertentu pada tubuh sehingga variasi translasi global dapat diminimalkan. 
-Representasi relatif tersebut membantu model untuk lebih berfokus pada pola gerakan dan hubungan antarbagian tubuh dibandingkan posisi absolut pada citra \cite{perkins2025islr}. 
-Dengan demikian, normalisasi \textit{landmark} dapat meningkatkan konsistensi representasi gerakan antar sampel dan membantu proses pembelajaran model klasifikasi.
+Koordinat \textit{landmark} hasil estimasi pose masih dipengaruhi oleh variasi posisi subjek di dalam \textit{frame}, jarak terhadap kamera, serta perbedaan proporsi tubuh antar individu.
+Variasi tersebut dapat menghasilkan perbedaan koordinat yang tidak berkaitan langsung dengan makna gerakan bahasa isyarat.
+Kondisi ini berpotensi menyebabkan model mempelajari perubahan posisi global alih-alih pola gerakan yang sebenarnya.
+Proses normalisasi diperlukan untuk mengurangi pengaruh translasi dan skala global pada data koordinat pose.
+
+Salah satu pendekatan normalisasi pada pengenalan bahasa isyarat berbasis pose adalah \textit{reference-based normalization} yang diperkenalkan oleh Toby Perkins \cite{perkins2025islr}.
+Pendekatan tersebut merupakan pengembangan dari metode \textit{anchor-based normalization} dengan menambahkan normalisasi khusus pada beberapa bagian tubuh.
+Penelitian tersebut melaporkan bahwa normalisasi tambahan pada wajah dan lengan, di atas normalisasi tubuh dan tangan, dapat meningkatkan performa pengenalan.
+Eksperimen menunjukkan peningkatan akurasi sebesar 3,10\% pada model LSTM dan 0,77\% pada model GRU \cite{perkins2025islr}.
+
+Penelitian ini mengadopsi pendekatan normalisasi tersebut untuk meningkatkan konsistensi representasi \textit{landmark}.
+Normalisasi tubuh penuh dilakukan dengan menjadikan titik leher sebagai referensi utama.
+Koordinat titik referensi leher dihitung sebagai rata-rata koordinat bahu kiri dan bahu kanan.
+Perhitungan tersebut ditunjukkan pada Persamaan \ref{eq:neck_anchor}.
+
+\begin{equationcaptioned}[eq:neck_anchor]{
+(x_{neck},\, y_{neck}) = \left(\frac{x_{11} + x_{12}}{2},\, \frac{y_{11} + y_{12}}{2}\right)
+}{
+Koordinat titik referensi leher
+}
+\end{equationcaptioned}
+
+Setiap \textit{landmark} dinormalisasi relatif terhadap titik leher setelah titik referensi diperoleh.
+Proses normalisasi tubuh penuh dilakukan dengan menggeser koordinat terhadap titik leher dan menskalakannya menggunakan jarak antar bahu.
+Formulasi normalisasi tersebut ditunjukkan pada Persamaan \ref{eq:body_norm} dan Persamaan \ref{eq:body_norm}.
+Pendekatan ini bertujuan mengurangi variasi translasi dan skala pada koordinat tubuh.
+
+\begin{equationcaptioned}[eq:body_norm]{
+\begin{aligned}
+x'_k &= \frac{x_k - x_{neck}}{\sqrt{(x_{11}-x_{12})^2 + (y_{11}-y_{12})^2}} \\
+y'_k &= \frac{y_k - y_{neck}}{\sqrt{(x_{11}-x_{12})^2 + (y_{11}-y_{12})^2}}
+\end{aligned}
+}{
+Normalisasi koordinat \textit{landmark} tubuh
+}
+\end{equationcaptioned}
+
+Normalisasi tambahan diterapkan pada \textit{landmark} wajah untuk meningkatkan konsistensi posisi fitur non-manual.
+Normalisasi wajah menggunakan hidung sebagai titik referensi lokal.
+Koordinat wajah dinyatakan relatif terhadap koordinat hidung setelah normalisasi tubuh dilakukan.
+Rumus normalisasi wajah ditunjukkan pada Persamaan \ref{eq:face_norm}.
+
+\begin{equationcaptioned}[eq:face_norm]{
+\begin{aligned}
+x''_f &= x'_f - x'_0 \\
+y''_f &= y'_f - y'_0
+\end{aligned}
+}{
+Normalisasi koordinat \textit{landmark} wajah (terhadap hidung)
+}
+\end{equationcaptioned}
+
+Normalisasi lengan diterapkan untuk mengurangi pengaruh perbedaan proporsi panjang lengan antar individu.
+Koordinat lengan diskalakan menggunakan panjang segmen antara bahu dan siku.
+Skala tersebut dihitung dari jarak Euclidean antara \textit{landmark} bahu dan siku pada koordinat yang sudah ternormalisasi.
+Rumus normalisasi lengan ditunjukkan pada Persamaan \ref{eq:arm_norm}.
+
+\begin{equationcaptioned}[eq:arm_norm]{
+\begin{aligned}
+x''_l &= \frac{x'_l}{\sqrt{(x'_{12}-x'_{14})^2 + (y'_{12}-y'_{14})^2}} \\
+y''_l &= \frac{y'_l}{\sqrt{(x'_{12}-x'_{14})^2 + (y'_{12}-y'_{14})^2}}
+\end{aligned}
+}{
+Normalisasi koordinat \textit{landmark} lengan
+}
+\end{equationcaptioned}
+
+Normalisasi tangan menggunakan pendekatan \textit{bounding box} karena bentuk tangan dapat berubah secara signifikan selama gerakan bahasa isyarat.
+Batas kotak pembatas dihitung dari koordinat minimum dan maksimum seluruh \textit{landmark} tangan.
+Perhitungan batas kotak pembatas ditunjukkan pada Persamaan \ref{eq:hand_bbox}.
+Koordinat batas ini digunakan untuk menentukan pusat dan skala normalisasi tangan.
+
+\begin{equationcaptioned}[eq:hand_bbox]{
+\begin{aligned}
+x_{min} &= \min(x_h), & x_{max} &= \max(x_h) \\
+y_{min} &= \min(y_h), & y_{max} &= \max(y_h)
+\end{aligned}
+}{
+Koordinat batas \textit{bounding box} \textit{landmark} tangan
+}
+\end{equationcaptioned}
+
+Titik pusat \textit{bounding box} dihitung dari rata-rata koordinat minimum dan maksimum.
+Koordinat pusat digunakan sebagai referensi translasi untuk seluruh \textit{landmark} tangan.
+Perhitungan pusat ditunjukkan pada Persamaan \ref{eq:hand_center}.
+Skema ini menstabilkan posisi tangan terhadap pergeseran global di dalam \textit{frame}.
+
+\begin{equationcaptioned}[eq:hand_center]{
+(x_{center},\, y_{center}) =
+\left(\frac{x_{min} + x_{max}}{2},\, \frac{y_{min} + y_{max}}{2}\right)
+}{
+Koordinat pusat \textit{bounding box} \textit{landmark} tangan
+}
+\end{equationcaptioned}
+
+Koordinat setiap \textit{landmark} tangan dinormalisasi relatif terhadap pusat kotak pembatas.
+Skala normalisasi ditentukan oleh lebar dan tinggi kotak pembatas, yaitu $(x_{max}-x_{min})$ dan $(y_{max}-y_{min})$.
+Rumus normalisasi tangan ditunjukkan pada Persamaan \ref{eq:hand_norm}.
+Pendekatan ini membantu menekan pengaruh variasi ukuran tangan pada citra.
+\begin{equationcaptioned}[eq:hand_norm]{
+(x'_h,\, y'_h)=\left(
+\frac{x_h - x_{center}}{x_{max}-x_{min}},\,
+\frac{y_h - y_{center}}{y_{max}-y_{min}}
+\right),\quad h \in H
+}{
+Normalisasi koordinat \textit{landmark} tangan
+}
+\end{equationcaptioned}
+
+Pendekatan normalisasi bertingkat ini menghasilkan representasi \textit{landmark} yang lebih stabil terhadap variasi posisi, skala, dan proporsi tubuh antar subjek.
+Representasi yang lebih stabil membantu model memusatkan pembelajaran pada pola gerakan yang relevan.
+Normalisasi juga mengurangi risiko model bergantung pada perbedaan antropometri individu.
+Hasil akhirnya adalah masukan \textit{landmark} yang lebih konsisten untuk tahap pemodelan.
 
 \subsubsection{Pengodean Dinamika Gerakan Antar-Frame} \label{subsubsec:pengodean-dinamika}
 
@@ -283,13 +346,11 @@ Nilai $(dx_t, dy_t)$ mencerminkan arah dan intensitas gerakan antar-frame.
 Representasi ini memungkinkan dinamika gerakan ditangkap secara langsung pada level fitur. 
 Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu \textit{(x, y, dx, dy)}.
 
-% Rev MCT: dx dy kita contek jadi velocity feature
-% Rev Siga: Bagaimana menangani missing point?
-% Rev Siga: 2d sama 3d in skeleton bedanya apa? Apakah x, y, z otomatis 3D?
 % Konsep Tensor Multichannel
 \subsubsection{Struktur Tensor Masukan CNN}
-Seluruh \textit{landmark} pada setiap frame kemudian disusun menjadi sebuah tensor masukan yang selaras dengan format masukan model konvolusional dua dimensi.
-Struktur tensor masukan tersebut dapat dinyatakan seperti pada Persamaan \ref{eq:tensor-input}. \par
+
+Seluruh \textit{landmark} pada setiap \textit{frame} disusun menjadi tensor masukan yang kompatibel dengan model konvolusional dua dimensi. 
+Struktur tensor tersebut dinyatakan pada Persamaan \ref{eq:tensor-input}.
 
 \begin{equationcaptioned}[eq:tensor-input]{
 \mathbf{X} \in \mathbb{R}^{B \times C \times T \times L}, \quad C = 4
@@ -303,26 +364,26 @@ Keterangan:
   \renewcommand{\labelitemi}{}
   \item $B$ = jumlah sampel dalam satu \textit{batch}
   \item $C$ = jumlah kanal fitur, yaitu $4$ $(x, y, dx, dy)$
-  \item $T$ = jumlah frame dalam satu urutan
+  \item $T$ = jumlah \textit{frame} dalam satu urutan
   \item $L$ = jumlah \textit{landmark}
 \end{itemize}
 
-Struktur tensor tersebut memungkinkan urutan \textit{landmark} diperlakukan sebagai representasi spasial multichannel. 
-Format ini selaras dengan masukan CNN dua dimensi yang memproses data multichannel secara spasial. 
-Konsistensi temporal antar-frame berperan penting dalam mencerminkan pola gerakan manusia secara realistis. 
-Representasi ini memungkinkan CNN dua dimensi mempelajari pola gerakan bahasa isyarat dalam skema \textit{Isolated Sign Language Recognition}.
-Struktur representasi ini selanjutnya menjadi dasar pemodelan menggunakan arsitektur konvolusional dua dimensi yang dibahas pada bagian berikutnya.
+Representasi tersebut memperlakukan urutan \textit{landmark} sebagai struktur spasial multichannel. 
+Format ini selaras dengan masukan CNN dua dimensi yang memproses data multichannel pada grid spasial. 
+Konsistensi antar-\textit{frame} memungkinkan pola gerakan direpresentasikan dalam bentuk spasio-temporal yang terorganisasi. 
+Struktur ini menjadi dasar pemodelan menggunakan arsitektur konvolusional dua dimensi pada penelitian ini.
 
 \subsection{\textit{Convolutional Neural Network} (CNN) 2D} \label{subsec:cnn2d}
-\textit{Convolutional Neural Network} (CNN) merupakan arsitektur jaringan saraf yang dirancang untuk mempelajari pola lokal pada data yang memiliki struktur grid teratur \cite{lecun1998gradientbased,wu2017introductiontc}. 
-CNN bekerja melalui operasi konvolusi yang menerapkan kernel untuk mengekstraksi fitur dari masukan secara bertahap. 
-Pendekatan ini memungkinkan pembelajaran fitur dilakukan secara hierarkis dari tingkat sederhana hingga kompleks. 
-Masukan CNN dua dimensi direpresentasikan dalam bentuk tensor berdimensi empat, yaitu $(B, C, H, W)$, di mana $H$ dan $W$ merepresentasikan dua dimensi spasial data. 
 
-CNN satu dimensi melakukan konvolusi hanya pada satu sumbu, sedangkan CNN dua dimensi melakukan konvolusi pada dua sumbu secara simultan. 
-Perbedaan ini menjadikan CNN 2D lebih sesuai untuk data yang memiliki keterkaitan spasial dua arah. 
-Karakteristik tersebut memungkinkan CNN 2D digunakan untuk memproses representasi spasial non-citra yang disusun dalam bentuk matriks dua dimensi. 
-Arsitektur dasar CNN dua dimensi sebagai landasan pemodelan ditunjukkan pada Gambar \ref{fig:cnn2d-architecture}.
+\textit{Convolutional Neural Network} (CNN) merupakan arsitektur jaringan saraf yang dirancang untuk mempelajari pola lokal pada data dengan struktur grid teratur. 
+Pembelajaran dilakukan melalui operasi konvolusi yang menerapkan kernel untuk mengekstraksi fitur dari masukan secara bertahap. 
+Proses tersebut menghasilkan representasi fitur secara hierarkis dari pola sederhana menuju pola yang lebih kompleks. 
+Masukan CNN dua dimensi direpresentasikan dalam bentuk tensor berdimensi empat $(B, C, H, W)$, di mana $H$ dan $W$ merepresentasikan dimensi spasial data \cite{lecun1998gradientbased,wu2017introductiontc}.
+
+Berbeda dengan CNN satu dimensi yang melakukan konvolusi pada satu sumbu, CNN dua dimensi melakukan konvolusi pada dua sumbu spasial secara simultan. 
+Karakteristik ini membuat CNN 2D sesuai untuk memproses data yang memiliki keterkaitan spasial dua arah. 
+Representasi spasial non-citra yang disusun dalam bentuk matriks dua dimensi juga dapat diproses menggunakan arsitektur ini. 
+Arsitektur dasar CNN dua dimensi ditunjukkan pada Gambar \ref{fig:cnn2d-architecture}.
 
 \begin{figure}[H]
   \centering
@@ -332,7 +393,8 @@ Arsitektur dasar CNN dua dimensi sebagai landasan pemodelan ditunjukkan pada Gam
   {\footnotesize Sumber: diadaptasi dari LeCun et al. \cite{lecun1998gradientbased}}
 \end{figure}
 
-Operasi konvolusi dua dimensi pada CNN dapat dinyatakan secara matematis seperti pada Persamaan \ref{eq:conv2d}. \par
+Operasi konvolusi dua dimensi pada CNN dinyatakan pada Persamaan \ref{eq:conv2d}.
+
 \begin{equationcaptioned}[eq:conv2d]{
 Y(i,j) = \sum_{m} \sum_{n} X(i+m, j+n)\,K(m,n)
 }{
@@ -350,16 +412,15 @@ Keterangan:
   \item $m,n$ = indeks kernel konvolusi
 \end{itemize}
 
-Persamaan tersebut menunjukkan bahwa setiap nilai keluaran diperoleh dari hasil perkalian lokal antara masukan dan kernel. 
-Operasi ini memungkinkan CNN mengekstraksi pola spasial seperti tepi, bentuk, atau hubungan antar-elemen data. 
-Prinsip konvolusi dua dimensi ini menjadi dasar bagi seluruh variasi arsitektur CNN, termasuk jaringan berlapis dalam. 
-Pemahaman konsep konvolusi ini penting sebagai landasan penggunaan CNN dua dimensi pada penelitian ini. \par
-
+Persamaan tersebut menunjukkan bahwa setiap nilai keluaran diperoleh dari operasi perkalian lokal antara masukan dan kernel. 
+Operasi ini memungkinkan CNN mengekstraksi pola spasial dari data yang memiliki struktur grid. 
+Prinsip konvolusi dua dimensi menjadi dasar berbagai arsitektur CNN modern, termasuk jaringan berlapis dalam. 
+Konsep ini menjadi landasan penggunaan CNN dua dimensi dalam penelitian pengenalan gerakan bahasa isyarat.
 \subsection{\textit{Residual Network} (ResNet)} \label{subsec:resnet}
-\textit{Residual Network} (ResNet) merupakan arsitektur \textit{Convolutional Neural Network} yang diperkenalkan untuk mengatasi permasalahan degradasi performa pada jaringan berlapis sangat dalam \cite{he2016resnet}. 
-ResNet memungkinkan pelatihan jaringan dengan kedalaman yang jauh lebih besar dibandingkan CNN konvensional tanpa mengalami penurunan akurasi. 
-Arsitektur ini mempertahankan prinsip dasar konvolusi dua dimensi dengan menambahkan mekanisme koneksi residual untuk menjaga stabilitas pelatihan. 
-Gambaran umum arsitektur ResNet secara keseluruhan ditunjukkan pada Gambar \ref{fig:resnet-architecture}.
+\textit{Residual Network} (ResNet) merupakan arsitektur \textit{Convolutional Neural Network} yang diperkenalkan untuk mengatasi degradasi performa pada jaringan berlapis sangat dalam \cite{he2016resnet}. 
+ResNet memungkinkan pelatihan jaringan dengan kedalaman lebih besar dibandingkan CNN konvensional tanpa penurunan akurasi. 
+Arsitektur ini mempertahankan operasi konvolusi dua dimensi dan menambahkan mekanisme koneksi residual untuk menstabilkan proses optimisasi. 
+Gambaran umum arsitektur ResNet ditunjukkan pada Gambar \ref{fig:resnet-architecture}.
 
 \begin{figure}[H]
   \centering
@@ -369,10 +430,10 @@ Gambaran umum arsitektur ResNet secara keseluruhan ditunjukkan pada Gambar \ref{
   {\footnotesize Sumber: diadaptasi dari He et al. \cite{he2016resnet}}
 \end{figure}
 
-Komponen utama yang membedakan ResNet dari CNN konvensional adalah keberadaan blok residual. 
-Blok residual memungkinkan informasi masukan dilewatkan secara langsung ke lapisan yang lebih dalam melalui jalur pintas (\textit{skip connection}) \cite{he2016resnet}. 
-Pendekatan ini membantu menjaga aliran gradien selama proses pelatihan jaringan berlapis dalam. 
-Struktur dasar blok residual sebagai unit penyusun ResNet ditunjukkan pada Gambar \ref{fig:resnet-block}.
+Komponen pembeda utama ResNet adalah blok residual yang menyediakan jalur pintas (\textit{skip connection}) agar informasi masukan dapat diteruskan ke lapisan lebih dalam \cite{he2016resnet}. 
+Mekanisme ini menjaga aliran gradien sehingga pelatihan jaringan berlapis dalam menjadi lebih stabil. 
+Struktur blok residual sebagai unit penyusun ResNet ditunjukkan pada Gambar \ref{fig:resnet-block}. 
+Blok tersebut tetap berlandaskan konvolusi dua dimensi sebagai transformasi utama pada setiap tahap ekstraksi fitur.
 
 \begin{figure}[H]
   \centering
@@ -382,14 +443,14 @@ Struktur dasar blok residual sebagai unit penyusun ResNet ditunjukkan pada Gamba
   {\footnotesize Sumber: diadaptasi dari He et al. \cite{he2016resnet}}
 \end{figure}
 
-Blok residual pada ResNet dirancang untuk mempelajari fungsi residual terhadap masukan, bukan pemetaan langsung dari masukan ke keluaran. 
-Keluaran blok residual diperoleh melalui penjumlahan antara masukan awal dan hasil transformasi konvolusi. 
-Struktur ini memungkinkan informasi penting dari lapisan sebelumnya tetap dipertahankan sepanjang jaringan. 
-ResNet tetap menggunakan operasi konvolusi dua dimensi sebagai komponen utama pada setiap blok residual.
+Blok residual dirancang untuk mempelajari fungsi residual terhadap masukan, bukan pemetaan langsung yang sepenuhnya menggantikan informasi awal. 
+Keluaran blok diperoleh dari penjumlahan masukan identitas dan hasil transformasi konvolusi, sehingga informasi penting dari lapisan sebelumnya tetap terjaga sepanjang jaringan. 
+Skema penjumlahan ini membantu mitigasi masalah degradasi pada jaringan yang semakin dalam. 
+Prinsip tersebut memungkinkan peningkatan kedalaman tanpa mengorbankan kemampuan optimisasi dan generalisasi model.
 
-ResNet dikembangkan dalam beberapa varian yang dibedakan berdasarkan jumlah lapisan dan struktur blok residual yang digunakan \cite{he2016resnet}. 
-Perbedaan jumlah lapisan memengaruhi kapasitas representasi dan kompleksitas komputasi jaringan. 
-Varian ResNet yang lebih dalam memiliki kemampuan representasi yang lebih tinggi dengan kebutuhan komputasi yang lebih besar. 
+ResNet tersedia dalam beberapa varian yang dibedakan oleh jumlah lapisan dan tipe blok residual \cite{he2016resnet}. 
+Jumlah lapisan memengaruhi kapasitas representasi serta kompleksitas komputasi, sehingga varian yang lebih dalam umumnya lebih ekspresif tetapi lebih mahal secara komputasional. 
+Tipe blok yang digunakan dibedakan menjadi \textit{Basic Block} dan \textit{Bottleneck Block} sesuai rancangan pada masing-masing varian. 
 Ringkasan varian ResNet yang umum digunakan ditunjukkan pada Tabel \ref{tab:resnet-variants}.
 
 \begin{longtable}{|
@@ -427,31 +488,29 @@ ResNet-152 & 152 & \textit{Bottleneck Block} & Representasi sangat kompleks \\
 
 \end{longtable}
 
-Implementasi ResNet yang banyak digunakan dalam praktik saat ini merujuk pada dokumentasi resmi PyTorch melalui pustaka \textit{torchvision} \cite{pytorchresnet}. 
-Dokumentasi tersebut menyediakan pembangun model untuk berbagai varian ResNet dengan atau tanpa bobot terlatih. 
-Perbedaan implementasi dicatat pada varian \textit{bottleneck}, di mana proses \textit{downsampling} ditempatkan pada konvolusi $3 \times 3$ kedua, berbeda dari makalah asli yang menempatkannya pada konvolusi $1 \times 1$ pertama. 
-Varian implementasi ini dikenal sebagai ResNet V1.5 dan dilaporkan memberikan peningkatan akurasi tanpa mengubah prinsip dasar pembelajaran residual. \par
+Implementasi ResNet yang umum digunakan merujuk pada dokumentasi resmi PyTorch melalui pustaka \textit{torchvision} \cite{pytorchresnet}. 
+Dokumentasi tersebut menyediakan pembangun model untuk berbagai varian ResNet dengan atau tanpa bobot terlatih sehingga memudahkan replikasi eksperimen. 
+Perbedaan penting dicatat pada varian \textit{bottleneck}, yaitu penempatan proses \textit{downsampling} pada konvolusi $3 \times 3$ kedua, berbeda dari makalah asli yang menempatkannya pada konvolusi $1 \times 1$ pertama. 
+Varian ini dikenal sebagai ResNet V1.5 dan dilaporkan meningkatkan akurasi tanpa mengubah prinsip dasar pembelajaran residual. \par
 
 \subsection{Modifikasi Input Channel pada CNN}
 \label{subsec:modifikasi-cnn}
+
 \textit{Convolutional Neural Network} (CNN) pada awalnya banyak digunakan untuk pemrosesan citra berwarna yang terdiri atas tiga kanal masukan, yaitu merah, hijau, dan biru (RGB). 
-Penggunaan tiga kanal tersebut sering menimbulkan persepsi bahwa CNN secara inheren terbatas pada citra RGB. 
+Hal ini sering menimbulkan anggapan bahwa CNN terbatas pada citra RGB. 
 Secara konseptual, CNN tidak bergantung pada makna semantik kanal masukan, melainkan pada struktur spasial data serta hubungan lokal antar-elemen yang diproses melalui operasi konvolusi \cite{lecun1998gradientbased}. 
-Setiap kanal diperlakukan sebagai dimensi fitur yang dianalisis secara simultan oleh kernel konvolusi untuk mengekstraksi pola spasial dari tensor masukan.
+Setiap kanal diperlakukan sebagai dimensi fitur yang dianalisis secara simultan oleh kernel konvolusi.
 
-Secara umum, masukan pada CNN dua dimensi direpresentasikan dalam bentuk tensor berdimensi empat $(B, C, H, W)$, di mana $B$ menyatakan ukuran \textit{batch}, $C$ jumlah kanal masukan, serta $H$ dan $W$ dimensi spasial data \cite{wu2017introductiontc}. 
-Nilai $C$ tidak bersifat tetap dan dapat disesuaikan dengan kebutuhan representasi data. 
-Pada setiap operasi konvolusi, kernel melakukan perkalian dan penjumlahan terhadap seluruh kanal masukan pada lokasi spasial tertentu untuk menghasilkan peta fitur keluaran. 
-Karakteristik ini memungkinkan CNN memproses data dengan jumlah kanal yang beragam tanpa mengubah prinsip dasar operasi konvolusi.
+Masukan CNN dua dimensi direpresentasikan dalam bentuk tensor $(B, C, H, W)$, di mana $B$ menyatakan ukuran \textit{batch}, $C$ jumlah kanal fitur, serta $H$ dan $W$ dimensi spasial data \cite{wu2017introductiontc}. 
+Nilai $C$ bersifat fleksibel dan dapat disesuaikan dengan kebutuhan representasi data. 
+Kernel konvolusi melakukan operasi pada seluruh kanal masukan pada lokasi spasial tertentu untuk menghasilkan peta fitur keluaran.
 
-Fleksibilitas jumlah kanal tersebut memungkinkan CNN diterapkan pada berbagai jenis data non-RGB. 
-Contohnya meliputi citra kedalaman untuk pengenalan aktivitas manusia dan estimasi pose \cite{shotton2011realtime}, serta data gerakan berbasis \textit{optical flow} yang merepresentasikan komponen vektor gerak sebagai kanal masukan terpisah \cite{simonyan2014twostream}. 
-Selain itu, CNN juga digunakan pada data multispektral, peta gradien, maupun representasi sensor lainnya yang memiliki dimensi fitur tambahan \cite{goodfellow2016deeplearning}. 
-Temuan tersebut menunjukkan bahwa CNN mampu mengekstraksi representasi fitur bermakna dari kanal yang tidak merepresentasikan warna.
+Fleksibilitas tersebut memungkinkan CNN digunakan pada berbagai jenis data non-RGB. 
+Contohnya meliputi citra kedalaman untuk pengenalan aktivitas manusia \cite{shotton2011realtime}, data gerakan berbasis \textit{optical flow} \cite{simonyan2014twostream}, serta data multispektral atau sensor lainnya \cite{goodfellow2016deeplearning}. 
+Temuan tersebut menunjukkan bahwa CNN mampu mempelajari representasi bermakna dari berbagai jenis kanal fitur.
 
-Secara prinsip, CNN bekerja pada data yang memiliki struktur spasial teratur dalam bentuk grid dua dimensi. 
-Representasi koordinat \textit{landmark} yang disusun dalam tensor dua dimensi memenuhi karakteristik tersebut karena memiliki indeks spasial yang konsisten. 
-Oleh karena itu, data koordinat \textit{landmark} multichannel dapat diproses oleh CNN untuk mempelajari pola spasial dan dinamika gerakan tanpa bergantung pada citra RGB sebagai masukan.
+Pada penelitian ini, koordinat \textit{landmark} disusun sebagai representasi multichannel yang membentuk struktur grid dua dimensi. 
+Struktur tersebut memungkinkan data koordinat \textit{landmark} diproses oleh CNN untuk mempelajari pola spasial dan dinamika gerakan tanpa bergantung pada citra RGB sebagai masukan.
 
 \subsection{Metrik Evaluasi Klasifikasi}
 \label{subsec:metrik-evaluasi}

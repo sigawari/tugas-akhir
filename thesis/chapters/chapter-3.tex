@@ -162,6 +162,11 @@ Setiap \textit{sequence} terdiri dari sejumlah \textit{frame} berurutan yang mer
 \textit{frame}-\textit{frame} tersebut diproses secara individual sehingga tahap ini tidak melibatkan pemodelan hubungan temporal antar-\textit{frame}.
 Pendekatan ini bertujuan memperoleh representasi spasial mentah yang konsisten sebelum dilakukan tahapan prapemrosesan lanjutan.
 
+Meskipun demikian, koordinat \textit{landmark} mentah tidak selalu langsung sesuai untuk diproses oleh arsitektur CNN dua dimensi. 
+Diperlukan strategi representasi yang menyusun informasi spasial dan temporal ke dalam struktur yang kompatibel dengan CNN 2D. 
+Pada penelitian ini, keluaran \textit{landmark} MediaPipe Holistic diposisikan sebagai dasar penyusunan representasi spasial multichannel. 
+Tahap berikutnya merumuskan bagaimana urutan koordinat tersebut disusun agar efektif sebagai masukan jaringan konvolusional dua dimensi. \par
+
 Proses ekstraksi dilakukan menggunakan MediaPipe Holistic pada setiap \textit{frame} video.
 Sistem mendeteksi \textit{landmark} tubuh penutur yang mencakup komponen pose, tangan kiri, tangan kanan, dan wajah.
 Hasil deteksi pada setiap \textit{frame} berupa kumpulan koordinat \textit{landmark} yang disusun secara berurutan mengikuti indeks waktu.
