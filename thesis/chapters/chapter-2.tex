@@ -190,7 +190,7 @@ Pada praktiknya, koordinat \textit{landmark} yang digunakan sangat bergantung pa
 MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk \textit{(x, y, z)} yang merepresentasikan posisi relatif titik kunci tubuh manusia terhadap kamera \cite{googlemediapipeholistic}.
 Komponen \textit{x} dan \textit{y} menyatakan posisi pada bidang citra yang telah dinormalisasi, sedangkan komponen \textit{z} merepresentasikan informasi kedalaman relatif.
 
-\subsubsection{Normalisasi \textit{Landmark}}
+\subsubsection{Normalisasi \textit{Landmark}} \label{subsub:normalisasi-landmark}
 Koordinat \textit{landmark} hasil estimasi pose masih dipengaruhi oleh variasi posisi subjek di dalam \textit{frame}, jarak terhadap kamera, serta perbedaan proporsi tubuh antar individu.
 Variasi tersebut dapat menghasilkan perbedaan koordinat yang tidak berkaitan langsung dengan makna gerakan bahasa isyarat.
 Kondisi ini dapat menyebabkan model mempelajari perubahan posisi global alih-alih pola gerakan yang sebenarnya.
@@ -328,6 +328,7 @@ Keterangan:
 \end{itemize}
 
 % Konsep Tensor Multichannel
+
 \subsubsection{Struktur Tensor Masukan CNN}
 Seluruh \textit{landmark} pada setiap \textit{frame} disusun menjadi tensor masukan yang kompatibel dengan model konvolusional dua dimensi.
 Struktur tensor tersebut dinyatakan pada Persamaan \ref{eq:tensor-input}.

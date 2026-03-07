@@ -34,25 +34,24 @@ Temuan yang diperoleh selanjutnya menjadi dasar dalam pembahasan hasil penelitia
 
 \section{Penjabaran Langkah Penelitian}
 \label{sec:jabar-alur}
-
-Penjelasan dari setiap langkah penelitian yang telah ditunjukkan pada bagian sebelumnya dijabarkan secara lebih komprehensif pada subbab berikut. 
-Setiap tahapan dijelaskan secara sistematis untuk memberikan gambaran menyeluruh mengenai proses penelitian yang dilakukan. 
-Uraian difokuskan pada alur metodologis tanpa membahas hasil eksperimen secara rinci. 
-Pendekatan ini bertujuan untuk menjaga kejelasan antara tahapan metodologi dan analisis hasil penelitian.
+Bagian ini menjelaskan secara lebih rinci setiap tahapan penelitian yang telah diperlihatkan pada alur penelitian sebelumnya. 
+Uraian difokuskan pada tahapan metodologi yang digunakan dalam penelitian, mulai dari identifikasi masalah hingga evaluasi model. 
+Setiap langkah dijelaskan secara sistematis untuk memberikan gambaran mengenai proses perancangan dan pelaksanaan penelitian. 
+Pembahasan pada bagian ini tidak mencakup analisis hasil eksperimen yang akan dibahas pada bab selanjutnya.
 
 \subsection{Identifikasi Masalah}
 \label{subsec:identifikasi-masalah}
-Penelitian ini diawali dengan identifikasi masalah yang berkaitan dengan pengenalan bahasa isyarat berbasis visual.
-Kompleksitas pendekatan berbasis pemodelan temporal eksplisit menjadi salah satu tantangan utama dalam penelitian ini.
-Pendekatan tersebut sering kali membutuhkan sumber daya komputasi yang besar dan sulit diimplementasikan secara efisien.
-Kondisi ini mendorong perlunya eksplorasi metode alternatif yang lebih sederhana namun tetap efektif dalam mengenali bahasa isyarat.
+Penelitian ini diawali dengan identifikasi masalah pada pengenalan bahasa isyarat berbasis visual. 
+Banyak pendekatan yang digunakan dalam penelitian sebelumnya memanfaatkan pemodelan temporal eksplisit untuk menangkap dinamika gerakan bahasa isyarat. 
+Pendekatan tersebut umumnya melibatkan arsitektur yang kompleks serta memerlukan sumber daya komputasi yang cukup besar. 
+Kondisi ini mendorong perlunya eksplorasi pendekatan alternatif yang lebih sederhana namun tetap mampu menangkap pola gerakan bahasa isyarat secara efektif.
 
 \subsection{Studi Literatur}
 \label{subsec:studi-literatur}
 Studi literatur dilakukan untuk mengidentifikasi pendekatan yang telah digunakan dalam pengenalan bahasa isyarat berbasis visual. 
 Kajian difokuskan pada metode yang memanfaatkan representasi \textit{landmark} tubuh manusia, arsitektur CNN dua dimensi, serta pendekatan yang menghindari pemodelan temporal eksplisit. 
 Hasil studi literatur digunakan sebagai dasar dalam menentukan representasi data, pemilihan arsitektur model, dan perancangan metodologi penelitian. 
-Pembahasan lebih rinci mengenai kajian literatur tersebut disajikan pada BAB II.
+Pembahasan lebih rinci mengenai kajian literatur tersebut disajikan pada \ref{sec:tinjauan-pustaka}.
 
 \subsection{Pengumpulan Dataset}
 \label{subsec:pengumpulan-dataset}
@@ -100,13 +99,13 @@ Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan pada Tabel 
 \end{table}
 
 \subsection{Prapemrosesan Data}
-\label{subsec:prapemrosesan-rekayasa}
+\label{subsec:prapemrosesan-data}
+Tahap prapemrosesan data dilakukan untuk mengubah video bahasa isyarat mentah menjadi representasi koordinat \textit{landmark} yang siap digunakan pada proses pelatihan model. 
+Proses ini mencakup beberapa tahapan utama, yaitu segmentasi video, ekstraksi \textit{landmark} menggunakan MediaPipe Holistic, seleksi titik \textit{landmark} yang relevan, penanganan nilai yang hilang, serta normalisasi koordinat tubuh. 
+Hasil dari proses ini berupa urutan koordinat \textit{landmark} dua dimensi yang selanjutnya digunakan sebagai masukan pada tahap pelatihan model.
 
-Tahap preprocessing bertujuan untuk menyiapkan data video sebelum dilakukan rekayasa fitur dan pemodelan. 
-Preprocessing difokuskan pada penyesuaian format data dan ekstraksi informasi visual awal. 
-Tahapan ini memastikan data berada dalam kondisi yang konsisten dan siap diproses lebih lanjut. 
-Alur prapemrosesan dan rekayasa fitur pada penelitian ini diringkas seperti pada Gambar \ref{fig:3.prapemrosesan}. 
-Diagram tersebut memperlihatkan keterkaitan tahapan mulai dari masukan video, proses ekstraksi \textit{landmark}, seleksi dan normalisasi koordinat, hingga pembentukan representasi fitur yang siap digunakan sebagai masukan model. 
+Alur keseluruhan proses prapemrosesan data pada penelitian ini ditunjukkan pada Gambar \ref{fig:3.prapemrosesan}. 
+Diagram tersebut menggambarkan tahapan transformasi data mulai dari video mentah, proses ekstraksi \textit{landmark}, seleksi dan normalisasi koordinat, hingga terbentuknya representasi data yang siap digunakan pada proses pembelajaran model.
 
 \begin{figure}[H]
     \centering
@@ -115,52 +114,45 @@ Diagram tersebut memperlihatkan keterkaitan tahapan mulai dari masukan video, pr
     \label{fig:3.prapemrosesan}
 \end{figure} \par
 
-% Rev MCT: Apakah sequence nya sudah pas atau belum?
 \subsubsection{Segmentasi dan Trimming Video}
 \label{subsubsec:segmentasi-trimming}
+Tahap segmentasi dan trimming video dilakukan untuk membentuk satuan data berupa \textit{sequence} yang merepresentasikan satu gestur bahasa isyarat secara utuh. 
+Video mentah direkam dalam satu pengambilan berkelanjutan (\textit{one continuous take}) untuk setiap kelas kata sehingga memuat beberapa pengulangan gestur secara berurutan. 
+Setiap pengulangan dipisahkan oleh jeda singkat dalam posisi diam yang dilakukan oleh penutur. 
+Pola jeda tersebut dimanfaatkan sebagai acuan untuk memisahkan setiap gestur secara konsisten.
 
-Segmentasi dan trimming video dilakukan untuk membentuk satuan data berupa \textit{sequence} yang merepresentasikan satu gestur bahasa isyarat secara utuh.
-Video mentah direkam dalam satu kali pengambilan berkelanjutan untuk setiap kelas kata sehingga memuat beberapa pengulangan gestur secara berurutan.
-Setiap pengulangan dipisahkan oleh jeda singkat berupa posisi diam yang dilakukan oleh penutur.
-Pola tersebut dimanfaatkan sebagai dasar untuk melakukan segmentasi gestur secara konsisten.
+Proses trimming dilakukan dengan memotong video mentah menjadi beberapa potongan video pendek yang masing-masing memuat satu gestur bahasa isyarat. 
+Bagian awal dan akhir video yang hanya memuat posisi diam dieliminasi agar tidak memasukkan \textit{frame} yang tidak relevan ke dalam data pelatihan. 
+Hasil dari tahap ini berupa potongan video yang berfokus pada fase aktif gerakan tangan dan tubuh bagian atas. 
+Pendekatan ini memastikan setiap potongan video merepresentasikan satu unit isyarat secara jelas.
 
-Proses trimming bertujuan memotong video mentah menjadi beberapa potongan video pendek yang masing-masing merepresentasikan satu gestur.
-Segmentasi dilakukan secara berbasis gestur berdasarkan pengamatan perubahan gerakan tangan dan tubuh bagian atas.
-Bagian awal dan akhir video yang hanya memuat posisi diam dieliminasi untuk menghindari masuknya \textit{frame} yang tidak relevan.
-Hasil dari tahap ini berupa potongan video yang fokus pada fase aktif gerakan bahasa isyarat.
+Setiap potongan video hasil segmentasi kemudian diseragamkan menjadi \textit{sequence} dengan panjang tetap. 
+Panjang \textit{sequence} ditetapkan sebesar 75 \textit{frame} untuk menjaga konsistensi temporal antar-sampel. 
+Jika suatu gestur selesai sebelum mencapai panjang \textit{sequence} yang ditetapkan, sisa \textit{frame} pada bagian akhir umumnya berisi posisi diam penutur sebelum gestur berikutnya dimulai. 
+Kondisi tersebut tetap dipertahankan karena tidak memengaruhi fase utama gerakan dan membantu menjaga panjang \textit{sequence} tetap konsisten antar-sampel.
+Menggunakan laju pengambilan 30 \textit{frame} per detik (fps), panjang tersebut merepresentasikan durasi sekitar 2{,}5 detik untuk setiap gestur. 
+Penyeragaman panjang \textit{sequence} diperlukan agar seluruh data dapat disusun dalam bentuk tensor masukan berdimensi tetap pada tahap pemodelan.
 
-Setiap potongan video hasil segmentasi kemudian diseragamkan menjadi \textit{sequence} berdurasi tetap.
-Panjang \textit{sequence} ditetapkan sebesar 60 \textit{frame} untuk menjaga konsistensi temporal antar-sampel.
-Penetapan panjang ini didasarkan pada laju pengambilan 30 \textit{frame} per detik sehingga satu \textit{sequence} merepresentasikan durasi sekitar dua detik.
-Penyeragaman durasi diperlukan agar seluruh data dapat disusun dalam bentuk tensor masukan berdimensi tetap pada tahap pemodelan.
-
-Potongan video yang mengandung lebih dari satu gestur tidak digunakan pada proses selanjutnya.
-Keputusan ini diambil untuk memastikan bahwa setiap \textit{sequence} hanya merepresentasikan satu unit makna bahasa isyarat.
-Pendekatan ini juga mencegah tercampurnya informasi gerakan yang dapat mengaburkan proses pembelajaran model.
+Potongan video yang mengandung lebih dari satu gestur tidak digunakan pada proses selanjutnya. 
+Keputusan ini diambil untuk memastikan bahwa setiap \textit{sequence} hanya merepresentasikan satu unit makna bahasa isyarat. 
+Pendekatan ini membantu model mempelajari pola gerakan yang lebih spesifik tanpa tercampur oleh gerakan dari gestur lain. 
 Hasil akhir tahap segmentasi dan trimming berupa kumpulan \textit{sequence} yang siap diproses pada tahap ekstraksi \textit{landmark}. \par
 
 \subsubsection{Ekstraksi \textit{Landmark} MediaPipe Holistic}
 \label{subsubsec:ekstraksi-landmark}
-% Rev Siga: Tambahin kalau dia ga kedeteksi langsung 0 aja
 Tahap ekstraksi \textit{landmark} menerima masukan berupa \textit{sequence} video hasil proses segmentasi dan trimming.
 Setiap \textit{sequence} terdiri dari sejumlah \textit{frame} berurutan yang merepresentasikan satu gestur bahasa isyarat.
-\textit{frame}-\textit{frame} tersebut diproses secara individual sehingga tahap ini tidak melibatkan pemodelan hubungan temporal antar-\textit{frame}.
-Pendekatan ini bertujuan memperoleh representasi spasial mentah yang konsisten sebelum dilakukan tahapan prapemrosesan lanjutan.
+Setiap \textit{frame} diproses secara independen sehingga tahap ini hanya menghasilkan representasi spasial tanpa memodelkan hubungan temporal antar-\textit{frame}.
+Pendekatan ini bertujuan memperoleh koordinat pose mentah yang konsisten sebelum dilakukan proses prapemrosesan lanjutan.
 
-Meskipun demikian, koordinat \textit{landmark} mentah tidak selalu langsung sesuai untuk diproses oleh arsitektur CNN dua dimensi. 
-Diperlukan strategi representasi yang menyusun informasi spasial dan temporal ke dalam struktur yang kompatibel dengan CNN 2D. 
-Pada penelitian ini, keluaran \textit{landmark} MediaPipe Holistic diposisikan sebagai dasar penyusunan representasi spasial multichannel. 
-Tahap berikutnya merumuskan bagaimana urutan koordinat tersebut disusun agar efektif sebagai masukan jaringan konvolusional dua dimensi. \par
+Ekstraksi dilakukan menggunakan MediaPipe Holistic pada setiap \textit{frame} video.
+Model ini mendeteksi \textit{landmark} tubuh penutur yang mencakup pose tubuh, tangan kiri, tangan kanan, dan wajah.
+Setiap titik \textit{landmark} direpresentasikan dalam bentuk koordinat tiga dimensi $(x, y, z)$ yang menunjukkan posisi relatif terhadap bidang citra.
+Apabila suatu \textit{landmark} tidak terdeteksi pada \textit{frame} tertentu, nilai koordinatnya diisi dengan nol untuk menjaga konsistensi struktur data.
 
-Proses ekstraksi dilakukan menggunakan MediaPipe Holistic pada setiap \textit{frame} video.
-Sistem mendeteksi \textit{landmark} tubuh penutur yang mencakup komponen pose, tangan kiri, tangan kanan, dan wajah.
-Hasil deteksi pada setiap \textit{frame} berupa kumpulan koordinat \textit{landmark} yang disusun secara berurutan mengikuti indeks waktu.
-Urutan koordinat tersebut membentuk representasi spasial mentah dari satu \textit{sequence} gestur.
-
-Struktur keluaran proses deteksi \textit{landmark} ditunjukkan pada Gambar \ref{fig:3.ekstraksi_landmark}.
-Diagram tersebut memperlihatkan alur pemrosesan mulai dari masukan video hasil trimming, pemrosesan per \textit{frame}, hingga pembentukan keluaran berupa koordinat \textit{landmark} mentah.
-Informasi yang ditampilkan pada diagram digunakan untuk memperjelas jenis dan jumlah \textit{landmark} yang dihasilkan sebelum dilakukan proses seleksi.
-Representasi ini menjadi acuan dalam menentukan strategi penyederhanaan dan pemfokusan data pada tahap berikutnya.
+Struktur proses ekstraksi ditunjukkan pada Gambar \ref{fig:3.ekstraksi_landmark}.
+Diagram tersebut menggambarkan alur pemrosesan mulai dari masukan video hasil trimming, pemrosesan per \textit{frame}, hingga keluaran berupa koordinat \textit{landmark} mentah.
+Representasi ini digunakan sebagai dasar sebelum dilakukan tahap seleksi \textit{landmark} dan normalisasi pada proses prapemrosesan berikutnya.
 
 \begin{figure}[H]
     \centering
@@ -169,15 +161,14 @@ Representasi ini menjadi acuan dalam menentukan strategi penyederhanaan dan pemf
     \label{fig:3.ekstraksi_landmark}
 \end{figure} \par
 
-Hasil ekstraksi \textit{landmark} dari setiap \textit{sequence} disimpan dalam bentuk data terstruktur.
-Struktur data mempertahankan keterkaitan antara indeks \textit{frame} dan indeks \textit{landmark} pada setiap waktu pengamatan.
-Pendekatan penyimpanan ini memudahkan proses pemanggilan ulang data secara konsisten pada tahap seleksi \textit{landmark} dan normalisasi.
-Representasi numerik hasil ekstraksi menjadi masukan langsung bagi seluruh proses prapemrosesan lanjutan dan rekayasa fitur.
+Koordinat hasil ekstraksi kemudian disusun dalam struktur data yang mempertahankan keterkaitan antara indeks \textit{frame} dan indeks \textit{landmark}.
+Representasi ini membentuk urutan koordinat pose yang terorganisasi sepanjang waktu.
+Struktur tersebut memudahkan proses pemanggilan ulang data pada tahap seleksi \textit{landmark}, normalisasi, dan penyusunan representasi fitur.
 
-Gambar \ref{fig:3.before_after_extraction} menampilkan ilustrasi perbandingan antara \textit{frame} video mentah dan hasil ekstraksi \textit{landmark}.
-Citra sebelum ekstraksi menunjukkan data visual asli tanpa informasi struktural eksplisit.
-Citra sesudah ekstraksi menampilkan representasi skeleton yang memuat \textit{landmark} pose, tangan, dan wajah.
-Ilustrasi ini digunakan sebagai validasi kualitatif untuk memastikan bahwa proses ekstraksi berhasil melokalisasi bagian tubuh yang relevan terhadap bahasa isyarat.
+Gambar \ref{fig:3.before_after_extraction} memperlihatkan contoh perbandingan antara \textit{frame} video mentah dan hasil ekstraksi \textit{landmark}.
+Citra sebelum ekstraksi menunjukkan data visual asli tanpa informasi struktur tubuh eksplisit.
+Citra sesudah ekstraksi menampilkan representasi \textit{skeleton} yang memuat \textit{landmark} pose, tangan, dan wajah.
+Ilustrasi ini digunakan untuk menunjukkan bahwa proses ekstraksi berhasil melokalisasi bagian tubuh yang relevan terhadap gerakan bahasa isyarat.
 
 \begin{figure}[H]
 	\centering
@@ -198,29 +189,27 @@ Ilustrasi ini digunakan sebagai validasi kualitatif untuk memastikan bahwa prose
 
 \subsubsection{Seleksi \textit{Landmark} dan Fitur}
 \label{subsubsec:seleksi-normalisasi}
-% Rev Siga: Jadiin 68 aja wajahnya
+
 Seleksi \textit{landmark} dilakukan untuk memfokuskan representasi data pada bagian tubuh yang paling relevan terhadap pengenalan bahasa isyarat.
 Tidak seluruh \textit{landmark} hasil ekstraksi MediaPipe Holistic digunakan pada tahap pemrosesan selanjutnya.
-Penelitian ini memprioritaskan struktur tubuh bagian atas dan tangan sebagai pembawa utama informasi semantik isyarat.
-Pendekatan seleksi diterapkan untuk menyederhanakan struktur data sekaligus menjaga informasi gerakan yang esensial.
+Penelitian ini memprioritaskan gerakan tangan, lengan, dan sebagian ekspresi wajah sebagai pembawa utama informasi semantik isyarat.
+Pendekatan seleksi ini bertujuan menyederhanakan struktur data sekaligus mempertahankan informasi gerakan yang esensial.
 
 MediaPipe Holistic menghasilkan koordinat \textit{landmark} dalam bentuk tiga dimensi $(x, y, z)$.
 Koordinat $z$ merepresentasikan estimasi kedalaman relatif yang diperoleh dari kamera monokular.
-Estimasi kedalaman dari kamera tunggal bersifat tidak stabil dan sangat dipengaruhi oleh sudut pandang pengambilan, perubahan jarak subjek, serta variasi postur tubuh.
-Studi oleh Lin et al.\ menunjukkan bahwa nilai $z$ pada MediaPipe memerlukan proses koreksi tambahan yang kompleks agar dapat digunakan secara akurat pada sistem pengenalan gerakan \cite{lin2023detection}.
-Estimasi nilai kedalaman tersebut diperoleh dari kamera monokular sehingga sensitif terhadap sudut pandang dan kondisi pengambilan gambar.
-Evaluasi akurasi menunjukkan bahwa nilai \textit{z} bawaan MediaPipe tidak selalu stabil dan sering memerlukan koreksi tambahan agar dapat digunakan secara andal \cite{accuracy3dmediapipe,lin2023detection}.
-Pada penelitian ini hanya koordinat \textit{(x, y)} yang digunakan sebagai representasi posisi \textit{landmark}.
-Salah satu peneltiian yang menerapkan hal serupa adalah \cite{purbojo2025normalization}
-Pertimbangan tersebut mendorong penelitian ini untuk tidak menggunakan komponen koordinat $z$ pada tahap pemrosesan selanjutnya.
-Representasi \textit{landmark} difokuskan pada koordinat dua dimensi $(x, y)$ yang memiliki tingkat kestabilan lebih tinggi.
-Informasi dinamika gerakan tetap dapat direpresentasikan melalui perubahan posisi antar-\textit{frame} pada tahap rekayasa fitur.
-Keputusan ini memungkinkan penyederhanaan struktur data sekaligus menurunkan kompleksitas komputasi secara signifikan.
+Estimasi kedalaman dari kamera tunggal bersifat tidak stabil karena dipengaruhi oleh sudut pandang pengambilan, perubahan jarak subjek, serta variasi postur tubuh.
+Studi oleh Lin et al.\ menunjukkan bahwa nilai $z$ pada MediaPipe sering memerlukan proses koreksi tambahan agar dapat digunakan secara akurat pada sistem pengenalan gerakan \cite{lin2023detection}.
+Evaluasi lain juga menunjukkan bahwa komponen $z$ bawaan MediaPipe tidak selalu stabil dan sering membutuhkan penyesuaian tambahan agar dapat digunakan secara andal \cite{accuracy3dmediapipe,lin2023detection}.
+
+Berdasarkan pertimbangan tersebut, penelitian ini hanya menggunakan koordinat dua dimensi $(x, y)$ sebagai representasi posisi \textit{landmark}.
+Pendekatan serupa juga digunakan pada penelitian pengenalan bahasa isyarat berbasis pose yang memanfaatkan koordinat dua dimensi untuk menjaga kestabilan data \cite{purbojo2025normalization}.
+Keputusan ini memungkinkan penyederhanaan struktur data sekaligus menurunkan kompleksitas komputasi tanpa menghilangkan informasi gerakan utama.
 
 Seleksi \textit{landmark} juga diterapkan pada tingkat bagian tubuh yang digunakan.
-% Setup 68 titik: https://www.researchgate.net/figure/The-face-shape-with-68-landmarks_fig3_330402357
-\textit{Landmark} pose dan tangan dipertahankan secara penuh karena merepresentasikan mayoritas informasi gerakan bahasa isyarat.
-\textit{Landmark} wajah tidak digunakan secara keseluruhan dan hanya dipilih sebagian titik tertentu yang berkaitan dengan ekspresi non-manual.
+Pada komponen pose, hanya \textit{landmark} tubuh bagian atas yang dipertahankan, yaitu bahu, siku, pergelangan tangan, serta titik jari pose (ibu jari, telunjuk, dan kelingking).
+\textit{Landmark} pose yang berkaitan dengan wajah tidak digunakan karena informasi wajah telah direpresentasikan secara lebih rinci melalui subset \textit{face landmark}.
+Selain itu, \textit{landmark} pose dari pinggul hingga kaki juga dieliminasi karena dinilai kurang relevan terhadap gerakan bahasa isyarat pada penelitian ini.
+Sementara itu, \textit{landmark} tangan kiri dan tangan kanan dipertahankan secara penuh karena memuat informasi utama konfigurasi dan pergerakan tangan.
 Ringkasan konfigurasi seleksi \textit{landmark} ditunjukkan pada Tabel \ref{tab:landmark-selection}.
 
 \begin{table}[H]
@@ -230,118 +219,97 @@ Ringkasan konfigurasi seleksi \textit{landmark} ditunjukkan pada Tabel \ref{tab:
 	\begin{tabular}{|l|c|c|}
 	\hline
 	\textbf{Komponen} & \textbf{Jumlah Titik Awal} & \textbf{Digunakan} \\ \hline
-	Pose & 33 & Ya \\ \hline
-	Tangan kiri & 21 & Ya \\ \hline
-	Tangan kanan & 21 & Ya \\ \hline
+	Pose & 33 & 12 \\ \hline
+	Tangan kiri & 21 & 21 \\ \hline
+	Tangan kanan & 21 & 21 \\ \hline
 	Wajah (subset) & 468 & 68 \\ \hline
 	Dimensi koordinat & $(x, y, z)$ & $(x, y)$ \\ \hline
-	Total \textit{landmark} terpilih & 543 & 143 \\ \hline
+	Total \textit{landmark} & 543 & \textbf{122} \\ \hline
 	\end{tabular}
 	
 	\vspace{0.5em}
-	{\footnotesize Catatan: Seleksi wajah dilakukan menggunakan subset titik tertentu yang berkaitan dengan area pipi, dahi, mata, bibir, dan dagu. Seluruh koordinat $z$ dieliminasi pada tahap ini.}
+	{\footnotesize Catatan: Pada komponen pose, hanya \textit{landmark} indeks 11-22 yang digunakan, sedangkan indeks 0-10 (bagian wajah pada pose) dan 23-32 (pinggul hingga kaki) dieliminasi. Seleksi wajah dilakukan menggunakan subset 68 titik yang berkaitan dengan area mata, alis, pipi, bibir, dan dagu. Seluruh koordinat $z$ dieliminasi pada tahap ini.}
 \end{table}
 
 Tabel \ref{tab:landmark-selection} memperlihatkan konfigurasi seleksi \textit{landmark} yang digunakan pada penelitian ini.
-Seleksi difokuskan pada \textit{landmark} pose dan tangan karena komponen tersebut merepresentasikan struktur utama pembawa makna bahasa isyarat.
-Subset \textit{landmark} wajah dipertahankan untuk menangkap informasi ekspresi non-manual secara terbatas tanpa menambah kompleksitas data secara signifikan.
-Pengaturan ini memastikan bahwa data masukan tetap ringkas sekaligus mempertahankan komponen visual yang relevan.
+Seleksi difokuskan pada \textit{landmark} pose tubuh bagian atas, tangan, dan subset wajah karena ketiga komponen tersebut merepresentasikan struktur utama pembawa makna bahasa isyarat.
+Penghapusan \textit{landmark} pose pada bagian wajah dan tubuh bawah dilakukan untuk mengurangi redundansi fitur serta menekan kompleksitas data yang tidak relevan secara langsung terhadap proses pengenalan isyarat.
 
 Subset \textit{landmark} wajah dipilih untuk merepresentasikan area wajah yang paling relevan terhadap ekspresi non-manual.
-Titik yang digunakan mencakup area pipi, dahi, dagu, mata, dan bibir.
-Pemilihan ini bertujuan menangkap perubahan ekspresi global tanpa mempertahankan detail geometris wajah secara penuh.
+Konfigurasi 68 titik wajah pada penelitian ini diadaptasi dari pendekatan yang digunakan pada penelitian Li et al.\ \cite{li2019acialexpression}.
+Pendekatan tersebut memfokuskan representasi pada area penting seperti mata, alis, pipi, bibir, dan dagu sehingga perubahan ekspresi global tetap dapat ditangkap tanpa mempertahankan seluruh detail geometris wajah.
 Ilustrasi hasil pemilihan titik pada wajah diperlihatkan pada Gambar \ref{fig:face_seleksi}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.56\textwidth]{figure/face_landmark.png}
+    \includegraphics[width=0.46\textwidth]{figure/face_landmark.png}
     \caption{Ilustrasi 68 \textit{face landmark}}
     \label{fig:face_seleksi}
 	{\footnotesize Sumber: Gambar diadaptasi dari repositori penelitian \cite{li2019acialexpression}}
 \end{figure} \par
 
-\subsubsection{Penanganan \textit{Missing} Data} \label{subsubsec:forward-fill}
+\subsubsection{Penanganan \textit{Missing} Data}
+\label{subsubsec:forward-fill}
 
-% Rev MCT: Ga dapet logic intuisinya harusnya kalau biar ga ketuker ya dibagi di titik tengah w x h dari p nya video dong
+Tahap ekstraksi \textit{landmark} berpotensi menghasilkan titik tubuh yang tidak terdeteksi pada beberapa \textit{frame} akibat oklusi, gerakan cepat, atau bagian tubuh keluar dari area kamera.
+Nilai yang tidak terdeteksi tersebut pada tahap ekstraksi diisikan nol sebagai \textit{placeholder} untuk menjaga konsistensi dimensi data, lalu diperlakukan sebagai \textit{missing data} pada prapemrosesan lanjutan.
+Penelitian ini menerapkan pendekatan \textit{Last Observation Carried Forward} (LOCF) untuk mengimputasi nilai hilang pada deret waktu koordinat \cite{streiner2010locf}.
+LOCF dipilih karena gerakan pada video bahasa isyarat bersifat kontinu antar-\textit{frame}, sehingga observasi valid terakhir masih merepresentasikan pendekatan yang wajar untuk \textit{frame} berikutnya ketika deteksi gagal.
+
+Secara formal, misalkan koordinat \textit{landmark} ke-$i$ pada \textit{frame} ke-$t$ dinyatakan sebagai $(x_{t,i}, y_{t,i})$.
+Jika \textit{landmark} pada \textit{frame} ke-$t$ tidak terdeteksi, koordinat digantikan oleh nilai \textit{frame} sebelumnya yang masih valid sebagai berikut:
+
+\[
+(x_{t,i}, y_{t,i}) =
+\left\{
+\begin{array}{ll}
+(x_{t,i}, y_{t,i}), & \text{jika \textit{landmark} terdeteksi} \\
+(x_{t-1,i}, y_{t-1,i}), & \text{jika \textit{landmark} tidak terdeteksi}
+\end{array}
+\right.
+\]
+
+Implementasi LOCF dilakukan melalui mekanisme \textit{forward fill}, yakni propagasi observasi valid terakhir menuju posisi berikutnya yang bernilai hilang.
+Pendekatan tersebut sejalan bersama perilaku fungsi \texttt{ffill} pada pustaka \textit{pandas} \cite{pandasffill}.
+LOCF diterapkan setelah seleksi \textit{landmark} selesai, sebelum tahap normalisasi koordinat dimulai, sehingga setiap \textit{sequence} memiliki struktur data lengkap saat dihitung relatif terhadap titik acuan tubuh.
+Langkah ini juga menjaga stabilitas perhitungan fitur temporal, khususnya $dx$ serta $dy$, karena fitur tersebut bergantung pada selisih koordinat antar-\textit{frame} berurutan.
+
+Kualitas perekaman video pada penelitian ini tergolong baik, sehingga kasus hilangnya \textit{landmark} bersifat jarang, biasanya berjangka pendek.
+Kondisi tersebut membuat LOCF memadai untuk mempertahankan kontinuitas gerak tanpa memperkenalkan kompleksitas imputasi tingkat lanjut seperti interpolasi.
+Ketahanan tambahan terhadap gangguan koordinat tetap diperkuat pada tahap pelatihan melalui augmentasi, termasuk \textit{coordinate jitter} serta \textit{landmark drop}.
+
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:step-normalisasi-landmark}
 
-Normalisasi \textit{landmark} dilakukan untuk menyamakan representasi spasial antar-sampel dan mengurangi pengaruh posisi global subjek di dalam \textit{frame}.
-Koordinat \textit{landmark} hasil ekstraksi MediaPipe masih dipengaruhi oleh pergeseran posisi tubuh meskipun telah dinyatakan relatif terhadap dimensi citra.
-Variasi posisi ini dapat menyebabkan perbedaan representasi yang tidak berkaitan langsung terhadap makna gerakan bahasa isyarat.
-Normalisasi berbasis titik referensi tubuh diterapkan agar model lebih berfokus pada hubungan relatif antar-bagian tubuh.
+Normalisasi \textit{landmark} dilakukan untuk mengurangi pengaruh variasi posisi subjek di dalam \textit{frame} serta perbedaan skala tubuh antar individu.
+Meskipun koordinat \textit{landmark} dari MediaPipe telah dinyatakan relatif terhadap dimensi citra, posisi tubuh dalam video masih dapat berubah akibat pergeseran subjek maupun perubahan jarak terhadap kamera.
+Tanpa normalisasi, model dapat mempelajari variasi posisi global tersebut alih-alih pola gerakan bahasa isyarat yang sebenarnya.
 
-Normalisasi pada penelitian ini menggunakan titik bahu sebagai referensi utama.
-Bahu dipilih karena merupakan bagian tubuh yang relatif stabil selama produksi bahasa isyarat dibandingkan tangan atau kepala.
-Titik referensi ditentukan sebagai titik tengah antara bahu kiri dan bahu kanan pada setiap \textit{frame}.
-Pendekatan ini menyediakan pusat koordinat yang konsisten untuk merepresentasikan gerakan tangan dan tubuh bagian atas.
+Penelitian ini mengadopsi pendekatan \textit{reference-based normalization} yang telah dijelaskan pada \ref{subsub:normalisasi-landmark}.
+Normalisasi dilakukan menggunakan titik referensi anatomi tubuh sehingga koordinat \textit{landmark} dinyatakan relatif terhadap bagian tubuh tertentu.
 
-Setiap \textit{sequence} terdiri dari $T$ \textit{frame} dan $L$ titik \textit{landmark}.
-Koordinat \textit{landmark} ke-$i$ pada \textit{frame} ke-$t$ dinyatakan sebagai $(x_{t,i}, y_{t,i})$.
-Koordinat bahu kiri dan bahu kanan pada \textit{frame} ke-$t$ masing-masing dinyatakan sebagai $(x_{t,ls}, y_{t,ls})$ dan $(x_{t,rs}, y_{t,rs})$.
-Titik referensi bahu $(x_{t,r}, y_{t,r})$ dihitung sebagai titik tengah kedua bahu tersebut.
+Normalisasi tubuh menggunakan titik leher sebagai referensi utama.
+Koordinat leher dihitung sebagai titik tengah antara bahu kiri dan bahu kanan yang diperoleh dari \textit{pose landmark}.
 
-\begin{equationcaptioned}[eq:shoulder_ref]{
-\begin{aligned}
-x_{t,r} &= \frac{x_{t,ls} + x_{t,rs}}{2} \\
-y_{t,r} &= \frac{y_{t,ls} + y_{t,rs}}{2}
-\end{aligned}
-}{
-Perhitungan titik referensi bahu
-}
-\end{equationcaptioned}
+Misalkan $(x_{t,ls},y_{t,ls})$ dan $(x_{t,rs},y_{t,rs})$ masing-masing merupakan koordinat bahu kiri dan bahu kanan pada \textit{frame} ke-$t$, maka titik referensi leher dihitung sebagai:
 
-Normalisasi koordinat \textit{landmark} dilakukan melalui operasi translasi terhadap titik referensi bahu.
-Formulasi normalisasi koordinat ditunjukkan pada Persamaan \ref{eq:normalize}.
-Operasi ini memusatkan seluruh koordinat \textit{landmark} terhadap pusat tubuh sehingga variasi posisi global dapat ditekan.
-Struktur spasial relatif antar-\textit{landmark} tetap terjaga karena translasi diterapkan secara seragam.
+\[
+(x_{t,neck},y_{t,neck}) =
+\left(
+\frac{x_{t,ls}+x_{t,rs}}{2},
+\frac{y_{t,ls}+y_{t,rs}}{2}
+\right)
+\] 
 
-\begin{equationcaptioned}[eq:normalize]{
-\begin{aligned}
-\hat{x}_{t,i} &= x_{t,i} - x_{t,r} \\
-\hat{y}_{t,i} &= y_{t,i} - y_{t,r}
-\end{aligned}
-}{
-Normalisasi koordinat \textit{landmark} berbasis bahu
-}
-\end{equationcaptioned}
+Setiap \textit{landmark} tubuh kemudian dinormalisasi relatif terhadap titik tersebut dan diskalakan menggunakan jarak antar bahu.
 
-Diketahui: 
-\begin{itemize}
-	\renewcommand{\labelitemi}{}
-	\item Resolusi \textit{frame} video: $1920 \times 1080$ piksel
-	\item Koordinat bahu kiri: $(960, 540)$
-	\item Koordinat bahu kanan: $(1040, 540)$
-	\item Koordinat \textit{landmark} tangan: $(1120, 520)$
-\end{itemize}
+\textit{Landmark} wajah diperoleh dari modul \textit{Face Mesh} dan direduksi menjadi subset 68 titik.
+Normalisasi wajah dilakukan dengan menggunakan hidung sebagai titik referensi lokal.
+Koordinat setiap \textit{landmark} wajah dinyatakan relatif terhadap posisi hidung sehingga perubahan ekspresi wajah dapat direpresentasikan secara lebih konsisten.
 
-Ditanya: 
-\begin{itemize}
-	\renewcommand{\labelitemi}{}
-	\item Koordinat referensi bahu $(x_r, y_r)$
-	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y})$
-\end{itemize}
-
-Penyelesaian: \\
-\begin{align*}
-x_r &= \frac{x_{\text{bahu kiri}} + x_{\text{bahu kanan}}}{2} = \frac{960 + 1040}{2} = 1000 \\
-y_r &= \frac{y_{\text{bahu kiri}} + y_{\text{bahu kanan}}}{2} = \frac{540 + 540}{2} = 540 \\
-x_{\text{rel}} &= \frac{x_{\text{landmark}}}{\text{lebar \textit{frame}}} = \frac{1120}{1920} \approx 0.583 \\
-y_{\text{rel}} &= \frac{y_{\text{landmark}}}{\text{tinggi \textit{frame}}} = \frac{520}{1080} \approx 0.481 \\
-x_{r,\text{rel}} &= \frac{x_r}{\text{lebar \textit{frame}}} = \frac{1000}{1920} \approx 0.521 \\
-y_{r,\text{rel}} &= \frac{y_r}{\text{tinggi \textit{frame}}} = \frac{540}{1080} \approx 0.500 \\
-\hat{x} &= x_{\text{rel}} - x_{r,\text{rel}} = 0.583 - 0.521 = 0.062 \\
-\hat{y} &= y_{\text{rel}} - y_{r,\text{rel}} = 0.481 - 0.500 = -0.019
-\end{align*} \\
-
-Hasil:
-\begin{itemize}
-	\renewcommand{\labelitemi}{}
-	\item Koordinat referensi bahu $(x_r, y_r) = (1000, 540)$
-	\item Koordinat relatif \textit{landmark} tangan $(\hat{x}, \hat{y}) = (0.062, -0.019)$
-\end{itemize}
-
-% Rev MCT: Siga, apakah conv doang yang diubah, gimana paper lain melakukannya
+Normalisasi tangan menggunakan pendekatan \textit{bounding box}.
+Metode ini dipilih karena konfigurasi tangan dapat berubah secara signifikan selama gerakan bahasa isyarat.
+Koordinat setiap \textit{landmark} tangan dinyatakan relatif terhadap pusat \textit{bounding box} yang dibentuk oleh koordinat minimum dan maksimum dari seluruh \textit{hand landmark} pada \textit{frame} tersebut.
 
 \subsection{Pelatihan Model ResNet-2D}
 \label{subsec:pelatihan-modifikasi-model}
@@ -418,27 +386,34 @@ Dengan tetap mempertahankan struktur dasar ResNet, model dapat dilatih menggunak
 
 \subsubsection{Pembentukan \textit{Batch} Data}
 \label{subsubsec:pembentukan-batch}
+Data hasil prapemrosesan disimpan sebagai berkas koordinat \textit{landmark} untuk tiap sampel video, sehingga setiap sampel direpresentasikan sebagai tensor berukuran $(T, L, 2)$ yang memuat koordinat dua dimensi $(x,y)$ dari seluruh \textit{landmark} sepanjang urutan \textit{frame}. 
+Pada tahap pelatihan, komponen \textit{dataset loader} membaca berkas tersebut lalu \textit{dataloader} mengelompokkan beberapa sampel menjadi \textit{mini-batch} untuk kebutuhan komputasi. 
+Pengelompokan ini menghasilkan tensor masukan berstruktur $(B, T, L, 2)$, di mana $B$ menyatakan ukuran \textit{batch}, sehingga pemrosesan paralel pada perangkat seperti GPU menjadi lebih efisien serta proses optimisasi lebih stabil. 
+Pembentukan \textit{batch} juga menyediakan titik kontrol untuk transformasi data secara dinamis pada setiap iterasi, sehingga setiap \textit{batch} diteruskan ke tahap augmentasi sebelum dilakukan rekayasa fitur temporal.
 
-% Rev MCT: Cari tahu augmentasi terbaik menurut paper lain
 \subsubsection{Augmentasi Data pada Proses Pelatihan}
 \label{subsubsec:augmentasi-pelatihan}
 
 Augmentasi data diterapkan pada tahap pelatihan untuk meningkatkan kemampuan generalisasi model terhadap variasi kondisi deteksi \textit{landmark}. 
-Augmentasi tidak dilakukan pada tahap prapemrosesan sehingga dataset dasar tetap tersimpan dalam bentuk deterministik. 
-Representasi fitur yang digunakan pada tahap ini telah mencakup empat kanal $(x, y, dx, dy)$ hasil rekayasa fitur sebelumnya. 
-Strategi augmentasi dirancang agar tidak mengubah struktur semantik gerakan bahasa isyarat.
+Proses ini tidak dilakukan pada tahap prapemrosesan sehingga dataset dasar tetap tersimpan dalam bentuk deterministik. 
+Pendekatan ini memungkinkan variasi data muncul secara dinamis selama proses pelatihan tanpa mengubah representasi dasar yang telah disimpan. 
+Strategi augmentasi dirancang untuk mensimulasikan gangguan deteksi pose yang sering terjadi pada sistem pengenalan gerakan berbasis kamera.
 
-Proses augmentasi dilakukan secara dinamis di dalam \textit{dataloader} pada setiap iterasi \textit{batch}. 
-Tensor masukan dengan struktur $(B, T, L, 4)$ dimodifikasi sebelum memasuki tahap \textit{forward pass}. 
+Proses augmentasi dilakukan secara dinamis di dalam komponen \textit{dataloader} pada setiap iterasi \textit{batch}. 
+Tensor masukan pada tahap ini masih memiliki struktur $(B, T, L, 2)$ yang merepresentasikan ukuran \textit{batch}, panjang urutan waktu, jumlah \textit{landmark}, serta koordinat dua dimensi. 
+Transformasi augmentasi diterapkan sebelum proses rekayasa fitur temporal dilakukan. 
+Pendekatan ini memastikan bahwa perubahan posisi antar-\textit{frame} yang dihitung pada tahap berikutnya tetap konsisten terhadap variasi data hasil augmentasi.
+
 Jenis augmentasi yang digunakan dibatasi pada augmentasi spasial berbasis \textit{landmark}. 
-Pendekatan ini meliputi \textit{random landmark masking} dan \textit{landmark jitter}. 
-Komponen perubahan antar-\textit{frame} $(dx, dy)$ tidak dihitung ulang setelah augmentasi. 
-Keputusan ini mempertahankan konsistensi rekayasa fitur temporal yang telah dibentuk pada tahap prapemrosesan.
+Pendekatan ini terinspirasi dari teknik augmentasi skeleton yang diperkenalkan oleh Rao et al.\ \cite{rao2021augmentation}. 
+Penelitian tersebut menunjukkan bahwa penambahan gangguan pada koordinat sendi serta masking sebagian titik sendi dapat meningkatkan kemampuan model dalam mempelajari pola gerakan yang lebih robust. 
+Dua strategi augmentasi yang digunakan pada penelitian ini meliputi \textit{landmark jitter} dan \textit{random landmark masking}.
 
-\textit{Random landmark masking} dilakukan dengan menghilangkan satu titik \textit{landmark} tangan secara acak pada satu \textit{epoch}. 
-Nilai koordinat titik tersebut diset menjadi nol untuk mensimulasikan kegagalan deteksi akibat occlusion. 
-Ilustrasi mekanisme ini ditunjukkan pada Tabel \ref{tab:landmark-masking-example}. 
-Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.
+\textit{Random landmark masking} dilakukan dengan menonaktifkan sebagian kecil \textit{landmark} secara acak pada \textit{frame} tertentu dalam suatu \textit{sequence}. 
+Koordinat \textit{landmark} yang dipilih diganti menjadi nilai nol sehingga mensimulasikan kegagalan deteksi akibat oklusi atau gangguan visual. 
+Pendekatan ini mendorong model untuk mempelajari pola gerakan dari bagian tubuh lain yang tetap terdeteksi. 
+Ilustrasi mekanisme \textit{random landmark masking} ditunjukkan pada Tabel \ref{tab:landmark-masking-example}. 
+Nilai numerik pada tabel bersifat ilustratif serta tidak merepresentasikan data eksperimen sebenarnya.
 
 \begin{longtable}{|c|c|}
 	\caption{Ilustrasi augmentasi temporal pada satu \textit{sequence}} \label{tab:temporal-augmentation-example} \\ \hline
@@ -464,11 +439,11 @@ Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data ek
 	Wrist & (0.45, 0.60) & (0.02, -0.01) & (0.45, 0.60, 0.02, -0.01) \\ \hline
 	Index MCP & (0.48, 0.58) & (0.03, -0.02) & (0, 0, 0.03, -0.02) \\ \hline
 	Index Tip & (0.52, 0.55) & (0.02, -0.02) & (0.52, 0.55, 0.02, -0.02) \\ \hline
-	\end{longtable}
+\end{longtable}
 
-\textit{Landmark jitter} dilakukan dengan menambahkan gangguan kecil pada koordinat $(x,y)$ menggunakan distribusi acak berskala rendah. 
-Besaran gangguan dibatasi agar tidak merusak struktur spasial gerakan. 
-Komponen $(dx,dy)$ tidak dimodifikasi sehingga dinamika antar-\textit{frame} tetap konsisten dengan rekayasa fitur awal. 
+\textit{Landmark jitter} dilakukan dengan menambahkan gangguan kecil pada koordinat $(x,y)$ menggunakan distribusi Gaussian dengan rata-rata nol. 
+Pendekatan ini mensimulasikan ketidakakuratan posisi sendi yang dapat muncul akibat kesalahan estimasi pose oleh sistem deteksi. 
+Besaran gangguan dibatasi agar tidak merusak struktur spasial gerakan bahasa isyarat. 
 Ilustrasi mekanisme \textit{landmark jitter} ditunjukkan pada Tabel \ref{tab:jitter-example}.
 
 \begin{longtable}{|c|c|c|}
@@ -481,28 +456,30 @@ Ilustrasi mekanisme \textit{landmark jitter} ditunjukkan pada Tabel \ref{tab:jit
 	\endhead
 	Wrist & (0.45, 0.60) & (0.46, 0.59) \\ \hline
 	Index MCP & (0.48, 0.58) & (0.47, 0.57) \\ \hline
-	\end{longtable}	
+\end{longtable}
 
-Augmentasi tidak diterapkan pada data validasi dan data uji. 
-Evaluasi model dilakukan menggunakan representasi asli tanpa modifikasi. 
+Augmentasi tidak diterapkan pada data validasi serta data uji. 
+Evaluasi model dilakukan menggunakan representasi koordinat asli tanpa modifikasi. 
 Pendekatan ini memastikan bahwa performa yang diperoleh mencerminkan kemampuan model pada data nyata. 
-Penerapan augmentasi terbatas pada tahap pelatihan untuk menjaga validitas evaluasi.
-	
+Pembatasan augmentasi pada tahap pelatihan membantu menjaga validitas proses evaluasi model.
+
 \subsubsection{Rekayasa Fitur Temporal}
 \label{subsubsec:perhitungan-perubahan}
-Perubahan posisi \textit{landmark} antar-\textit{frame} dihitung untuk merepresentasikan dinamika gerakan bahasa isyarat secara implisit.
-Perhitungan dilakukan berdasarkan selisih koordinat hasil normalisasi pada dua \textit{frame} berurutan dalam satu \textit{sequence}.
-Pendekatan ini memungkinkan informasi temporal direpresentasikan tanpa membangun model sekuensial eksplisit.
-Representasi perubahan ini menjadi komponen tambahan pada kanal masukan model. 
-Misalkan koordinat ter-normalisasi suatu \textit{landmark} pada frame ke-$t-1$ adalah $(\hat{x}_{t-1,i}, \hat{y}_{t-1,i})$.
-Koordinat pada frame ke-$t$ dinyatakan sebagai $(\hat{x}_{t,i}, \hat{y}_{t,i})$.
-Perubahan posisi antar-\textit{frame} dihitung menggunakan selisih langsung kedua koordinat tersebut.
-Formulasi matematis ditunjukkan pada Persamaan \ref{eq:dxdy}.
 
-Sebagai ilustrasi, misalkan koordinat ter-normalisasi suatu \textit{landmark} tangan pada frame ke-4 adalah $(0.12, -0.03)$.
-Koordinat pada frame ke-5 berubah menjadi $(0.18, -0.01)$.
-Perhitungan perubahan menghasilkan nilai $dx = 0.18 - 0.12 = 0.06$ dan $dy = -0.01 - (-0.03) = 0.02$.
-Nilai tersebut menunjukkan pergerakan ke arah kanan dan sedikit ke atas relatif terhadap titik referensi tubuh.
+Rekayasa fitur temporal dilakukan untuk menambahkan informasi dinamika gerakan pada representasi \textit{landmark}. 
+Koordinat posisi $(x,y)$ yang diperoleh dari tahap prapemrosesan hanya merepresentasikan lokasi titik tubuh pada satu \textit{frame}. 
+Informasi tersebut belum menggambarkan perubahan gerakan antar-\textit{frame} dalam suatu urutan waktu. 
+Perubahan posisi antar-\textit{frame} dihitung untuk merepresentasikan dinamika gerakan secara eksplisit pada representasi fitur.
+
+Perhitungan perubahan posisi mengikuti formulasi \textit{velocity feature} yang telah dijelaskan pada Bagian \ref{subsubsec:pengodean-dinamika}. 
+Koordinat suatu \textit{landmark} pada \textit{frame} ke-$t$ dinyatakan sebagai $(x_{t,i},y_{t,i})$. 
+Koordinat pada \textit{frame} sebelumnya dinyatakan sebagai $(x_{t-1,i},y_{t-1,i})$. 
+Perubahan posisi antar-\textit{frame} dihitung sebagai selisih langsung kedua koordinat tersebut sesuai Persamaan \ref{eq:dxdy}. 
+
+Sebagai ilustrasi, misalkan koordinat suatu \textit{landmark} tangan pada \textit{frame} ke-$t-1$ adalah $(0.12,-0.03)$. 
+Koordinat pada \textit{frame} ke-$t$ berubah menjadi $(0.18,-0.01)$. 
+Perhitungan menghasilkan nilai $dx=0.06$ dan $dy=0.02$. 
+Nilai tersebut menunjukkan pergerakan ke arah kanan serta sedikit ke atas relatif terhadap posisi sebelumnya.
 
 \begin{table}[H]
 	\centering
@@ -511,7 +488,7 @@ Nilai tersebut menunjukkan pergerakan ke arah kanan dan sedikit ke atas relatif 
 	\begin{tabular}{|c|c|c|c|c|}
 	\hline
 	\textbf{Frame} & $\hat{x}$ & $\hat{y}$ & $dx$ & $dy$ \\ \hline
-	$t-1$ & 0.12 & -0.03 & -- & -- \\ \hline
+	$t-1$ & 0.12 & -0.03 & - & - \\ \hline
 	$t$   & 0.18 & -0.01 & 0.06 & 0.02 \\ \hline
 	\end{tabular}
 	
@@ -519,15 +496,15 @@ Nilai tersebut menunjukkan pergerakan ke arah kanan dan sedikit ke atas relatif 
 	{\footnotesize Catatan: Nilai numerik bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.}
 \end{table}
 
-Perhitungan perubahan posisi dilakukan pada seluruh \textit{landmark} dan seluruh pasangan \textit{frame} berurutan dalam satu \textit{sequence}.
-Nilai $dx$ dan $dy$ disusun sebagai kanal tambahan bersama koordinat spasial dua dimensi.
-Pendekatan ini memungkinkan model menangkap informasi arah dan besaran gerakan secara eksplisit.
-Representasi multichannel yang dihasilkan menjadi masukan langsung bagi arsitektur ResNet-2D pada tahap pelatihan.
+Perhitungan dilakukan pada seluruh \textit{landmark} serta seluruh pasangan \textit{frame} berurutan dalam satu \textit{sequence}. 
+Nilai perubahan posisi $(dx,dy)$ kemudian disusun sebagai kanal tambahan bersama koordinat posisi $(x,y)$. 
+Representasi ini menghasilkan empat kanal fitur untuk setiap \textit{landmark}. 
+Pendekatan ini memungkinkan model mempelajari arah serta besaran gerakan secara langsung pada tingkat representasi.
 
-Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-multichannel-example} menunjukkan contoh representasi satu titik \textit{landmark} pada dua \textit{frame} berurutan beserta perubahan posisinya. 
+Sebagai ilustrasi konseptual, Tabel \ref{tab:landmark-multichannel-example} menunjukkan contoh representasi satu \textit{landmark} sepanjang beberapa \textit{frame}. 
+Ilustrasi tersebut memperlihatkan bagaimana koordinat posisi dan perubahan posisi disusun menjadi representasi multichannel. 
 Nilai numerik pada tabel bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya. 
-Ilustrasi ini bertujuan untuk memberikan gambaran konkret mengenai pembentukan fitur multichannel. 
-Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pada dataset tertentu.
+Representasi ini menjadi masukan langsung bagi arsitektur ResNet-2D pada tahap pelatihan.
 
 \begin{table}[H]
   \centering
@@ -536,7 +513,7 @@ Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pa
   \begin{tabular}{|c|c|l|c|c|c|c|}
   \hline
   \textbf{\textit{frame} (T)} & \textbf{Indeks (L)} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
-  $t-2$ & 0 & Wrist & 0.42 & 0.62 & --    & --    \\ \hline
+  $t-2$ & 0 & Wrist & 0.42 & 0.62 & -    & -    \\ \hline
   $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
   $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
   $t+1$ & 0 & Wrist & 0.50 & 0.56 & 0.02  & -0.02 \\ \hline
@@ -544,74 +521,45 @@ Pendekatan ini membantu pembaca memahami konsep representasi tanpa bergantung pa
   \end{tabular}
 
   \vspace{0.5em}
-  {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} (Wrist) pada beberapa \textit{frame} berurutan.}
-\end{table}  
+  {\footnotesize Catatan: Ilustrasi menunjukkan perubahan posisi satu \textit{landmark} pada beberapa \textit{frame} berurutan.}
+\end{table}
 
-Setiap \textit{landmark} direpresentasikan menggunakan empat kanal fitur, yaitu $(x, y, dx, dy)$. 
-Seluruh \textit{landmark} pada setiap \textit{frame} disusun secara berurutan membentuk representasi spasial multichannel. 
-Representasi ini memungkinkan data gerakan diproses oleh CNN dua dimensi. 
-Ilustrasi representasi \textit{landmark multichannel} ditunjukkan pada Tabel \ref{tab:landmark-multichannel-example}.
-
-\subsection{Penyusunan Tensor Masukan CNN}
+\subsubsection{Penyusunan Tensor Masukan CNN}
 \label{subsubsec:penyusunan-tensor}
-Representasi \textit{landmark multichannel} selanjutnya disusun ke dalam bentuk tensor masukan CNN. 
-Tensor disusun mengikuti format kanal-terlebih-dahulu (\textit{channel-first}). 
-Struktur tensor disesuaikan dengan kebutuhan arsitektur CNN dua dimensi yang digunakan. 
-Tahap ini menjadi penghubung antara proses rekayasa fitur dan pemodelan.
+Representasi \textit{landmark multichannel} selanjutnya disusun ke dalam bentuk tensor masukan bagi arsitektur CNN dua dimensi. 
+Tahap ini berfungsi sebagai penghubung antara proses rekayasa fitur temporal dan pemodelan menggunakan jaringan konvolusional. 
+Koordinat posisi $(x,y)$ serta perubahan posisi $(dx,dy)$ yang telah dihitung sebelumnya digabungkan sebagai kanal fitur dalam satu representasi terpadu. 
+Representasi ini memungkinkan jaringan mempelajari pola spasial antar-\textit{landmark} sekaligus dinamika gerakan sepanjang urutan waktu.
 
-Ilustrasi pembentukan tensor digunakan untuk memperjelas bagaimana representasi 
-\textit{landmark multichannel} disusun ke dalam format masukan model CNN.
-Fitur $(x, y, dx, dy)$ yang telah dibentuk pada tahap sebelumnya tidak lagi 
-dipandang sebagai nilai individual, tetapi sebagai kanal fitur dalam satu kesatuan tensor.
-Setiap urutan gerakan direpresentasikan sebagai tumpukan data dengan dimensi kanal, waktu, dan indeks \textit{landmark}.
-Struktur ini memastikan keterkaitan spasial dan temporal tetap terjaga saat diproses oleh CNN dua dimensi.
+Setiap sampel gerakan bahasa isyarat direpresentasikan sebagai tensor berukuran $(T, L, 4)$. 
+Dimensi $T$ menyatakan jumlah \textit{frame} dalam satu \textit{sequence}. 
+Dimensi $L$ menyatakan jumlah \textit{landmark} yang digunakan pada representasi gerakan. 
+Dimensi terakhir memuat empat kanal fitur yaitu $(x, y, dx, dy)$.
 
-Struktur tensor masukan CNN dengan format kanal-terlebih-dahulu 
-ditunjukkan pada Gambar \ref{fig:3.inputchannel}.
-Diagram tersebut memperlihatkan hubungan antara kanal fitur, dimensi waktu,
-dan indeks \textit{landmark} dalam satu representasi terpadu.
+Beberapa sampel kemudian digabungkan oleh \textit{dataloader} menjadi satu \textit{mini-batch} untuk meningkatkan efisiensi komputasi selama pelatihan. 
+Penggabungan tersebut menghasilkan tensor dengan struktur $(B, T, L, 4)$ di mana $B$ menyatakan ukuran \textit{batch}. 
+Representasi ini kemudian direorganisasi mengikuti format kanal-terlebih-dahulu (\textit{channel-first}). 
+Tensor akhir yang diberikan kepada model memiliki struktur $(B, C, T, L)$ dengan $C=4$ sebagai jumlah kanal fitur.
+
+Struktur tensor ini memungkinkan CNN dua dimensi memproses hubungan spasial antar-\textit{landmark} sepanjang dimensi $L$. 
+Dimensi temporal $T$ memungkinkan jaringan menangkap pola perubahan gerakan antar-\textit{frame}. 
+Hubungan spasial dan temporal dipelajari secara simultan melalui operasi konvolusi dua dimensi. 
+Pendekatan ini memungkinkan pemodelan dinamika gerakan tanpa memerlukan arsitektur sekuensial eksplisit.
+
+Struktur tensor masukan CNN dengan format kanal-terlebih-dahulu ditunjukkan pada Gambar \ref{fig:3.inputchannel}. 
+Diagram tersebut memperlihatkan hubungan antara dimensi \textit{batch}, kanal fitur, urutan waktu, serta indeks \textit{landmark}. 
+Ilustrasi ini membantu memperjelas bagaimana representasi \textit{landmark multichannel} diorganisasi sebelum diproses oleh jaringan konvolusional. 
+Representasi terstruktur ini menjadi dasar bagi proses ekstraksi fitur spasial dan temporal oleh model ResNet-2D.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.70\textwidth]{figure/input_channel.pdf}
-    \caption{Ilustrasi struktur tensor masukan CNN dengan format $(C \times T \times L)$}
+    \caption{Ilustrasi struktur tensor masukan CNN dengan format $(B \times C \times T \times L)$}
     \label{fig:3.inputchannel}
-\end{figure} \par
+\end{figure}
 
-\subsubsection{Konfigurasi \textit{Hyperparameter}}
-
-Konfigurasi \textit{hyperparameter} digunakan untuk mengendalikan proses optimasi parameter jaringan selama pelatihan model. 
-Seluruh eksperimen dalam penelitian ini menerapkan konfigurasi yang sama untuk menjaga konsistensi prosedur dan kestabilan hasil. 
-Pendekatan tersebut memastikan bahwa perbandingan performa antar skenario eksperimen dilakukan secara terkontrol. 
-Ringkasan konfigurasi awal \textit{hyperparameter} ditampilkan pada Tabel \ref{tab:hyperparameter}.
-
-\begin{table}[H]
-	\centering
-	\caption{Konfigurasi Awal \textit{Hyperparameter} Pelatihan Model}
-	\label{tab:hyperparameter}
-	\begin{tabular}{|l|c|}
-	\hline
-	\textbf{Parameter} & \textbf{Nilai Awal} \\ \hline
-	Ukuran \textit{batch} & 16 \\ \hline
-	Jumlah \textit{epoch} maksimum & 50 \\ \hline
-	\textit{Early stopping} & Aktif (patience = 5) \\ \hline
-	\textit{Learning rate} & $1 \times 10^{-4}$ \\ \hline
-	\textit{Optimizer} & Adam \\ \hline
-	\textit{Weight decay} & $1 \times 10^{-4}$ \\ \hline
-	\textit{Learning rate scheduler} & ReduceLROnPlateau \\ \hline
-	Fungsi \textit{loss} & Cross-Entropy \\ \hline
-	\end{tabular}
-\end{table}
-
-Nilai \textit{learning rate} dan \textit{weight decay} ditetapkan untuk menjaga kestabilan proses pembaruan parameter selama \textit{backpropagation}. 
-Mekanisme \textit{early stopping} diterapkan untuk membatasi risiko \textit{overfitting} pada data pelatihan. 
-Konfigurasi ini mengacu pada praktik umum pelatihan jaringan konvolusional serta hasil pengujian awal yang bersifat eksploratif. 
-Penyesuaian nilai \textit{hyperparameter} dimungkinkan apabila diperlukan untuk menjaga stabilitas pelatihan pada tahap implementasi.
-
-Penelitian ini tidak memfokuskan eksplorasi pada studi ablasi nilai \textit{hyperparameter}. 
-Ruang eksperimen diarahkan pada evaluasi representasi \textit{landmark} dan modifikasi kanal masukan model ResNet-2D. 
-Konsistensi konfigurasi dijaga agar perubahan performa model dapat diatribusikan secara langsung pada variasi representasi data. 
-Pembatasan ruang eksplorasi ini bertujuan mempertahankan kesesuaian dengan tujuan utama penelitian.
+\subsubsection{Konfigurasi \textit{hyperparameter}}
+\label{subsubsec:konfigurasi-hyperparameter}
 
 \subsection{Desain Eksperimen dan Studi Ablasi}
 \label{subsec:eksperimen-ablasi}
@@ -619,7 +567,7 @@ Pembatasan ruang eksplorasi ini bertujuan mempertahankan kesesuaian dengan tujua
 \subsection{Evaluasi Model}
 \label{subsec:evaluasi-model}
 Evaluasi performa model dilakukan untuk menilai kemampuan sistem dalam mengklasifikasikan isyarat bahasa isyarat secara akurat dan konsisten.
-Proses evaluasi dilakukan menggunakan metrik klasifikasi yang telah didefinisikan pada \ref{sec:tinjauan-pustaka}.
+Proses evaluasi dilakukan menggunakan metrik klasifikasi yang telah didefinisikan pada \ref{subsec:metrik-evaluasi}.
 Pengujian diterapkan pada data uji yang tidak digunakan selama proses pelatihan maupun validasi.
 Pendekatan ini bertujuan untuk mengukur kemampuan generalisasi model terhadap data yang belum pernah dilihat sebelumnya.
 
