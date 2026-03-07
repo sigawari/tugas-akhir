@@ -86,13 +86,12 @@ Tujuan penelitian dirumuskan untuk menjawab pertanyaan penelitian secara terukur
 \end{enumerate} \par
 
 \section{Batasan Masalah} \label{sec:batasan}
-Penelitian ini difokuskan pada skenario terkontrol untuk mengevaluasi efektivitas representasi dan arsitektur secara terisolasi dari kompleksitas linguistik skala besar. Batasan yang diterapkan meliputi: \par
+Penelitian ini difokuskan pada evaluasi pendekatan klasifikasi gerakan BISINDO berbasis representasi \textit{landmark} dalam skenario pengambilan data yang terkontrol. Untuk menjaga ruang lingkup penelitian tetap terarah, beberapa batasan diterapkan sebagai berikut:
 \begin{enumerate}[noitemsep]
-    \item Jumlah kelas kata yang dijadikan label dibatasi pada 10 kata dasar BISINDO, yaitu \textit{teman}, \textit{sahabat}, \textit{maaf}, \textit{izin}, \textit{terima kasih}, \textit{belum}, \textit{tidak punya}, \textit{hobi}, \textit{hati-hati}, dan \textit{ulang}.
-    \item Model utama yang digunakan adalah model spasial berbasis \textit{Residual Network} (ResNet-2D).
-    \item Model \textit{Convolutional Neural Network} (CNN) digunakan sebagai model pembanding (\textit{baseline}) untuk memberikan konteks performa terhadap model ResNet-2D.
-    \item Penelitian ini berfokus pada evaluasi performa klasifikasi dan tidak melakukan pengukuran efisiensi komputasi (misalnya FLOPs, penggunaan memori, atau waktu inferensi).
-\end{enumerate} \par
+    \item Penelitian difokuskan pada klasifikasi sejumlah kata BISINDO dinamis yang direpresentasikan sebagai satu unit gerakan, sehingga tidak mencakup penerjemahan kalimat atau struktur linguistik bahasa isyarat yang lebih kompleks.   
+    \item Pengambilan data dilakukan pada lingkungan yang relatif terkontrol untuk meminimalkan variasi latar belakang dan kondisi pencahayaan.  
+    \item Evaluasi penelitian difokuskan pada performa klasifikasi model terhadap data uji dan tidak mencakup implementasi sistem secara \textit{real-time} pada perangkat produksi.
+\end{enumerate}
 
 \section{Manfaat Penelitian} \label{sec:manfaat}
 Adapun manfaat yang diperoleh dari hasil penelitian ini adalah sebagai berikut: \par

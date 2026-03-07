@@ -242,10 +242,21 @@ Representasi relatif tersebut membantu model untuk lebih berfokus pada pola gera
 Dengan demikian, normalisasi \textit{landmark} dapat meningkatkan konsistensi representasi gerakan antar sampel dan membantu proses pembelajaran model klasifikasi.
 
 \subsubsection{Pengodean Dinamika Gerakan Antar-Frame} \label{subsubsec:pengodean-dinamika}
-Berdasarkan pertimbangan kestabilan koordinat, penelitian ini memfokuskan representasi \textit{landmark} pada komponen dua dimensi \textit{(x, y)}. 
-Informasi dinamika gerakan ditangkap melalui perubahan posisi antar-frame yang direpresentasikan sebagai \textit{(dx, dy)}. 
-Pendekatan ini memungkinkan pengodean informasi temporal secara implisit tanpa memerlukan pemodelan temporal eksplisit melalui arsitektur sekuensial \cite{wang2017tsn}. 
-Perubahan posisi \textit{landmark} antar-frame dihitung menggunakan Persamaan \ref{eq:dxdy}. \par
+
+Koordinat \textit{landmark} \textit{(x, y)} merepresentasikan posisi titik tubuh pada suatu \textit{frame}. 
+Informasi posisi saja belum memadai untuk menggambarkan dinamika gerakan bahasa isyarat. 
+Penelitian pengenalan aksi berbasis \textit{skeleton} menunjukkan bahwa perubahan posisi antar-\textit{frame} dapat digunakan sebagai indikator gerakan yang efektif \cite{dong2020action}. 
+Representasi tersebut dikenal sebagai \textit{velocity feature} yang merepresentasikan perubahan koordinat titik tubuh pada urutan waktu.
+
+Penelitian ini mengadaptasi konsep \textit{velocity feature} ke dalam representasi dua dimensi berbasis \textit{landmark}. 
+Perubahan posisi antar-\textit{frame} dihitung melalui selisih koordinat \textit{landmark}. 
+Komponen tersebut direpresentasikan sebagai pasangan fitur \textit{(dx, dy)} yang menggambarkan arah serta besar perubahan posisi pada bidang citra. 
+Pendekatan ini menghasilkan fitur temporal orde pertama yang mencerminkan dinamika gerakan secara langsung pada tingkat representasi.
+
+Perhitungan perubahan posisi antar-\textit{frame} dinyatakan pada Persamaan \ref{eq:dxdy}. 
+Persamaan tersebut merepresentasikan selisih koordinat \textit{landmark} pada dua \textit{frame} yang berurutan. 
+Nilai \textit{(dx, dy)} merepresentasikan arah serta intensitas perubahan posisi titik tubuh pada bidang citra. 
+Setiap \textit{landmark} kemudian direpresentasikan menggunakan empat kanal fitur yaitu \textit{(x, y, dx, dy)}.
 
 \begin{equationcaptioned}[eq:dxdy]{
 \begin{aligned}
