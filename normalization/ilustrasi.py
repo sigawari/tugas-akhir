@@ -139,6 +139,35 @@ def normalized_pose_to_raw_image_overlay(pose_norm, pose_raw):
     return out
 
 
+def normalized_pose_to_image_with_neck_anchor(pose_norm, pose_raw, image_shape, neck_target_xy=(0.5, 0.5)):
+    """Map normalized pose back to image coords, but force neck(0,0) to a chosen target.
+
+    - pose_norm is in normalized space where neck ~ (0,0) and shoulder distance ~ 1.
+    - Uses RAW shoulder distance as scale so the overlay size roughly matches the person.
+    - Places neck at neck_target_xy in image-normalized coordinates.
+
+    This is for visualization only (to show the centering effect).
+    """
+    pose_norm = np.asarray(pose_norm, dtype=np.float32)
+    pose_raw = np.asarray(pose_raw, dtype=np.float32)
+    out = np.zeros_like(pose_norm)
+
+    if not (point_valid(pose_raw[11]) and point_valid(pose_raw[12])):
+        return out
+
+    mask = valid_mask(pose_norm)
+    if not mask.any():
+        return out
+
+    shoulder_dist = safe_distance(pose_raw[11], pose_raw[12])
+    if shoulder_dist < EPS:
+        return out
+
+    neck_target_xy = np.asarray(neck_target_xy, dtype=np.float32)
+    out[mask] = pose_norm[mask] * shoulder_dist + neck_target_xy
+    return out
+
+
 def plot_pose_on_image(ax, pose, color, image_shape, s=18, lw=2):
     pose = np.asarray(pose, dtype=np.float32)
     mask = valid_mask(pose)
@@ -229,28 +258,97 @@ def style_image_ax(ax, title, rgb):
     ax.axis("off")
 
 
-def summarize_to_terminal(pose_raw, pose_centered, pose_norm, meta_norm):
-    print("\n=== RINGKASAN VISUALISASI ===")
-    if meta_norm.get("ok", False):
-        print(f"neck raw              : ({meta_norm['neck'][0]:.4f}, {meta_norm['neck'][1]:.4f})")
-        print(f"shoulder distance raw : {meta_norm['shoulder_dist']:.6f}")
+def print_landmark_examples(pose_raw, pose_norm):
+    important = {
+        "nose": 0,
+        "left_shoulder": 11,
+        "right_shoulder": 12,
+        "left_wrist": 15,
+        "right_wrist": 16,
+    }
 
+    print("\nExample landmarks (raw -> norm):")
+    for name, idx in important.items():
+        if idx >= len(pose_raw) or idx >= len(pose_norm):
+            continue
+        r = pose_raw[idx]
+        n = pose_norm[idx]
+        print(f"{name:15s} raw=({r[0]:.4f},{r[1]:.4f}) -> norm=({n[0]:.4f},{n[1]:.4f})")
+
+
+def pose_bbox(pose):
+    pose = np.asarray(pose, dtype=np.float32)
+    mask = valid_mask(pose)
+    if not mask.any():
+        return None
+    pts = pose[mask]
+    xmin = float(pts[:, 0].min())
+    xmax = float(pts[:, 0].max())
+    ymin = float(pts[:, 1].min())
+    ymax = float(pts[:, 1].max())
+    return xmin, xmax, ymin, ymax
+
+
+def print_bbox_summary(pose_raw, pose_norm):
+    rb = pose_bbox(pose_raw)
+    nb = pose_bbox(pose_norm)
+
+    print("\nBounding box span:")
+    if rb is None:
+        print("  raw  : -")
+    else:
+        print(f"  raw  : width={rb[1] - rb[0]:.3f} height={rb[3] - rb[2]:.3f}")
+
+    if nb is None:
+        print("  norm : -")
+    else:
+        print(f"  norm : width={nb[1] - nb[0]:.3f} height={nb[3] - nb[2]:.3f}")
+
+
+def summarize_to_terminal(pose_raw, pose_centered, pose_norm, meta_norm):
+    print("\n=== NORMALIZATION SUMMARY ===")
+
+    if meta_norm.get("ok", False):
+        print(f"Neck raw: ({meta_norm['neck'][0]:.4f}, {meta_norm['neck'][1]:.4f})")
+        print(f"Shoulder distance raw: {meta_norm['shoulder_dist']:.6f}")
+    else:
+        print(f"Normalization failed: {meta_norm.get('reason', 'unknown')}")
+
+    # Normalized space check: shoulders should be ~1 apart (if present)
     if point_valid(pose_norm[11]) and point_valid(pose_norm[12]):
         norm_neck = (pose_norm[11] + pose_norm[12]) / 2.0
         norm_shoulder = safe_distance(pose_norm[11], pose_norm[12])
-        print(f"neck normalized       : ({norm_neck[0]:.6f}, {norm_neck[1]:.6f})")
-        print(f"shoulder dist norm    : {norm_shoulder:.6f}")
+        print(f"\nNeck normalized: ({norm_neck[0]:.4f}, {norm_neck[1]:.4f})")
+        print(f"Shoulder distance normalized: {norm_shoulder:.6f}")
 
-    print("\nInterpretasi:")
-    print("- Raw-centered = raw pose yang hanya digeser ke neck sebagai pusat.")
-    print("- Normalized   = raw-centered lalu dibagi shoulder distance.")
-    print("- Jadi perbedaan proporsi paling enak dilihat di panel koordinat, bukan di overlay RGB.")
+    print_landmark_examples(pose_raw, pose_norm)
+    print_bbox_summary(pose_raw, pose_norm)
+
+    print("\nInterpretasi normalisasi:")
+    print("- Seluruh landmark digeser sehingga neck menjadi (0,0)")
+    print("- Semua koordinat kemudian dibagi shoulder distance")
+    print("- Ini membuat skeleton tidak bergantung pada:")
+    print("    posisi orang di frame")
+    print("    ukuran orang di kamera")
+
+    print("\nCatatan:")
+    print("- Normalisasi bekerja pada semua landmark (bukan hanya 2 titik referensi).")
 
 
 def make_visual_grid(rgb, pose_raw):
     pose_centered, meta_centered = raw_pose_to_centered_pose(pose_raw)
     pose_norm, meta_norm = full_body_normalize(pose_raw)
+
+    # overlay apa adanya (neck kembali ke posisi neck di gambar)
     pose_norm_overlay = normalized_pose_to_raw_image_overlay(pose_norm, pose_raw)
+
+    # overlay untuk menunjukkan efek neck-centered (neck dipaksa ke tengah frame)
+    pose_norm_overlay_neck_centered = normalized_pose_to_image_with_neck_anchor(
+        pose_norm,
+        pose_raw,
+        rgb.shape,
+        neck_target_xy=(0.5, 0.5),
+    )
 
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle("Full-body normalization dengan skala x/y seimbang", fontsize=16, y=0.98)
@@ -268,7 +366,8 @@ def make_visual_grid(rgb, pose_raw):
 
     # kiri bawah: raw image + normalized overlay (apa adanya)
     style_image_ax(axes[1, 0], "Raw image + normalized pose skeleton", rgb)
-    plot_pose_on_image(axes[1, 0], pose_norm_overlay, color="magenta", image_shape=rgb.shape)
+    # plot_pose_on_image(axes[1, 0], pose_norm_overlay, color="magenta", image_shape=rgb.shape)
+    plot_pose_on_image(axes[1, 0], pose_norm_overlay_neck_centered, color="cyan", image_shape=rgb.shape)
 
     # kanan bawah: normalized only dengan skala x/y seimbang
     xlim_norm, ylim_norm = equal_limits_from_groups([pose_norm], pad=0.10, default_half=1.0)
