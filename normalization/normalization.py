@@ -1,15 +1,16 @@
-#!/usr/bin/env python3
 import os
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
 EPS = 1e-8
+CANON_XLIM = (-1.5, 1.5)
+CANON_YLIM = (-1.5, 1.5)
 
 FACE_POSE_IDXS = list(range(11))
 POSE_IDXS = list(range(23))
-ARM_SET_A = [14, 16, 18, 20, 22]       # sesuai rumus paper: scale pakai dist(12,14)
-ARM_SET_B = [13, 15, 17, 19, 21]       # sesuai rumus paper: scale pakai dist(11,13)
+ARM_SET_A = [14, 16, 18, 20, 22]
+ARM_SET_B = [13, 15, 17, 19, 21]
 ARM_SET_A_ANCHOR = [12] + ARM_SET_A
 ARM_SET_B_ANCHOR = [11] + ARM_SET_B
 
@@ -217,26 +218,9 @@ def plot_points_lines(ax, points, connections, color, label=None, allowed_idx=No
             ax.plot([xs[a], xs[b]], [ys[a], ys[b]], color=color, linewidth=2, alpha=0.95, zorder=2)
 
 
-def set_limits(ax, groups):
-    valid_groups = []
-    for pts in groups:
-        pts = np.asarray(pts, dtype=np.float32)
-        mask = valid_mask(pts)
-        if mask.any():
-            valid_groups.append(pts[mask])
-
-    if not valid_groups:
-        ax.set_xlim(-1.5, 1.5)
-        ax.set_ylim(1.5, -1.5)
-        return
-
-    all_pts = np.concatenate(valid_groups, axis=0)
-    x_min, x_max = float(all_pts[:, 0].min()), float(all_pts[:, 0].max())
-    y_min, y_max = float(all_pts[:, 1].min()), float(all_pts[:, 1].max())
-    dx = max(x_max - x_min, 1e-3)
-    dy = max(y_max - y_min, 1e-3)
-    ax.set_xlim(x_min - 0.12 * dx, x_max + 0.12 * dx)
-    ax.set_ylim(y_max + 0.12 * dy, y_min - 0.12 * dy)
+def set_fixed_limits(ax):
+    ax.set_xlim(*CANON_XLIM)
+    ax.set_ylim(*CANON_YLIM)
 
 
 def style_coord_ax(ax, title):
@@ -245,6 +229,8 @@ def style_coord_ax(ax, title):
     ax.grid(alpha=0.25)
     ax.set_xlabel("x")
     ax.set_ylabel("y")
+    ax.axhline(0, color="gray", linewidth=0.7, alpha=0.6)
+    ax.axvline(0, color="gray", linewidth=0.7, alpha=0.6)
 
 
 def annotate_no_data(ax, points, allowed_idx=None):
@@ -252,17 +238,11 @@ def annotate_no_data(ax, points, allowed_idx=None):
     if allowed_idx is None:
         ok = bool(mask.any())
     else:
-        ok = bool(mask[np.array(list(allowed_idx), dtype=int)].any()) if len(allowed_idx) > 0 else False
+        idx_arr = np.array(list(allowed_idx), dtype=int) if len(allowed_idx) > 0 else np.array([], dtype=int)
+        ok = bool(mask[idx_arr].any()) if len(idx_arr) > 0 else False
     if not ok:
         ax.text(0.5, 0.5, "Landmark tidak terdeteksi", ha="center", va="center", transform=ax.transAxes)
 
-def set_fixed_limits(ax):
-    """
-    Gunakan koordinat tetap supaya pose sebelum dan sesudah
-    bisa dibandingkan secara konsisten.
-    """
-    ax.set_xlim(-1.5, 1.5)
-    ax.set_ylim(1.5, -1.5)
 
 def overlay_before_after(ax, before, after, connections, title, allowed_idx=None):
     plot_points_lines(ax, before, connections, color="green", label="sebelum", allowed_idx=allowed_idx)
@@ -274,153 +254,229 @@ def overlay_before_after(ax, before, after, connections, title, allowed_idx=None
     if handles:
         ax.legend(fontsize=8, loc="best")
 
-def normalize_image_full_body(rgb, pose):
-    pose = np.asarray(pose, dtype=np.float32)
 
-    if not (point_valid(pose[11]) and point_valid(pose[12])):
+def normalized_to_canvas(points, out_shape, xlim=CANON_XLIM, ylim=CANON_YLIM):
+    points = np.asarray(points, dtype=np.float32)
+    h, w = out_shape[:2]
+    xs = (points[:, 0] - xlim[0]) / (xlim[1] - xlim[0]) * (w - 1)
+    ys = (points[:, 1] - ylim[0]) / (ylim[1] - ylim[0]) * (h - 1)
+    return np.column_stack([xs, ys]).astype(np.float32)
+
+
+def warp_rgb_to_canonical(rgb, pose_raw, out_size=720, xlim=CANON_XLIM, ylim=CANON_YLIM):
+    pose_raw = np.asarray(pose_raw, dtype=np.float32)
+    if not (point_valid(pose_raw[11]) and point_valid(pose_raw[12])):
         return rgb.copy(), {"ok": False, "reason": "invalid_shoulders"}
 
-    h, w = rgb.shape[:2]
-
-    # ubah landmark normalized -> pixel
-    pose_px = pose.copy()
-    pose_px[:, 0] *= w
-    pose_px[:, 1] *= h
-
-    neck_px = (pose_px[11] + pose_px[12]) / 2.0
-    shoulder_dist_px = safe_distance(pose_px[11], pose_px[12])
-
-    if shoulder_dist_px < EPS:
+    neck = (pose_raw[11] + pose_raw[12]) / 2.0
+    shoulder_dist = safe_distance(pose_raw[11], pose_raw[12])
+    if shoulder_dist < EPS:
         return rgb.copy(), {"ok": False, "reason": "shoulder_dist_too_small"}
 
-    center_out = np.array([w / 2.0, h / 2.0], dtype=np.float32)
+    in_h, in_w = rgb.shape[:2]
+    out_h = out_size
+    out_w = out_size
 
-    # target shoulder distance pada output
-    target_shoulder = shoulder_dist_px
+    xv = np.linspace(xlim[0], xlim[1], out_w, dtype=np.float32)
+    yv = np.linspace(ylim[0], ylim[1], out_h, dtype=np.float32)
+    xx, yy = np.meshgrid(xv, yv)
 
-    # skala isotropik
-    scale = target_shoulder / shoulder_dist_px
+    src_x_norm = xx * shoulder_dist + neck[0]
+    src_y_norm = yy * shoulder_dist + neck[1]
 
-    # x_out = scale * (x_in - neck_px) + center_out
-    # inverse untuk warpAffine:
-    # x_in = (1/scale) * x_out + (neck_px - center_out/scale)
-    inv_scale = 1.0 / scale
+    map_x = (src_x_norm * in_w).astype(np.float32)
+    map_y = (src_y_norm * in_h).astype(np.float32)
 
-    A = np.array([
-        [inv_scale, 0.0, neck_px[0] - center_out[0] * inv_scale],
-        [0.0, inv_scale, neck_px[1] - center_out[1] * inv_scale]
-    ], dtype=np.float32)
-
-    rgb_norm = cv2.warpAffine(
+    rgb_can = cv2.remap(
         rgb,
-        A,
-        dsize=(w, h),
-        flags=cv2.INTER_LINEAR,
+        map_x,
+        map_y,
+        interpolation=cv2.INTER_LINEAR,
         borderMode=cv2.BORDER_CONSTANT,
         borderValue=(0, 0, 0),
     )
 
-    return rgb_norm, {
+    return rgb_can, {
         "ok": True,
-        "neck_px": neck_px.tolist(),
-        "shoulder_dist_px": float(shoulder_dist_px),
-        "scale": float(scale),
+        "neck": neck.tolist(),
+        "shoulder_dist": float(shoulder_dist),
+        "out_size": int(out_size),
     }
 
+
+def draw_canonical_rgb_with_skeleton(ax, rgb_can, pose_norm, left_norm=None, right_norm=None, title="RGB + skeleton sesudah"):
+    ax.imshow(rgb_can)
+    pose_canvas = normalized_to_canvas(pose_norm, rgb_can.shape)
+    plot_points_lines(ax, pose_canvas, POSE_CONNECTIONS, color="magenta", image_shape=None)
+
+    if left_norm is not None and valid_mask(left_norm).any():
+        left_canvas = normalized_to_canvas(left_norm, rgb_can.shape)
+        plot_points_lines(ax, left_canvas, HAND_CONNECTIONS, color="cyan", image_shape=None)
+    if right_norm is not None and valid_mask(right_norm).any():
+        right_canvas = normalized_to_canvas(right_norm, rgb_can.shape)
+        plot_points_lines(ax, right_canvas, HAND_CONNECTIONS, color="yellow", image_shape=None)
+
+    ax.set_title(title)
+    ax.axis("off")
+
+
+def normalized_pose_to_canvas(pose_norm, image_shape, canvas_scale=0.28):
+    """Map normalized (body-centered) coordinates to image pixel canvas for visualization.
+
+    Notes:
+    - This is ONLY for visualization so the after-normalization skeleton can be overlaid cleanly.
+    - It does not attempt to 'fix' the original RGB; it just places the normalized coords on a canvas.
+    """
+    pose_norm = np.asarray(pose_norm, dtype=np.float32)
+    h, w = image_shape[:2]
+    out = np.zeros_like(pose_norm, dtype=np.float32)
+
+    mask = valid_mask(pose_norm)
+    if not mask.any():
+        return out
+
+    center = np.array([w / 2.0, h / 2.0], dtype=np.float32)
+    S = float(canvas_scale) * float(min(w, h))
+
+    out[mask, 0] = center[0] + pose_norm[mask, 0] * S
+    out[mask, 1] = center[1] + pose_norm[mask, 1] * S
+    return out
+
+
+def plot_points_lines_pixels(ax, points_px, connections, color, label=None, allowed_idx=None):
+    """Plot points/lines where input coordinates are already in pixels."""
+    points_px = np.asarray(points_px, dtype=np.float32)
+    mask = valid_mask(points_px)
+
+    if allowed_idx is None:
+        allowed_idx = list(range(len(points_px)))
+    allowed_set = set(allowed_idx)
+
+    idxs = [i for i in allowed_idx if mask[i]]
+    if idxs:
+        ax.scatter(points_px[idxs, 0], points_px[idxs, 1], c=color, s=18, label=label, zorder=3)
+
+    for a, b in connections:
+        if a in allowed_set and b in allowed_set and mask[a] and mask[b]:
+            ax.plot(
+                [points_px[a, 0], points_px[b, 0]],
+                [points_px[a, 1], points_px[b, 1]],
+                color=color,
+                linewidth=2,
+                alpha=0.95,
+                zorder=2,
+            )
+
+
 def make_grid(rgb, data):
-    # ubah dari 3x3 -> 3x4 untuk nambah 1 panel "gambar setelah normalisasi"
-    fig, axes = plt.subplots(3, 4, figsize=(21, 14))
+    rgb_can, _ = warp_rgb_to_canonical(rgb, data["pose_raw"], out_size=720)
+
+    # For the top-row 'after' overlay: draw normalized skeleton in pixel coordinates
+    # on the same transformed canvas.
+    pose_after_px_on_can = normalized_pose_to_canvas(data["pose_full"], rgb_can.shape, canvas_scale=0.28)
+
+    fig, axes = plt.subplots(3, 4, figsize=(22, 14))
     fig.suptitle(
-        "Normalisasi landmark berdasarkan paper\nHijau = sebelum, Ungu = sesudah",
+        "Normalisasi landmark berdasarkan paper\nHijau = sebelum, Ungu = sesudah (visualisasi di kanvas transform)",
         fontsize=14,
         y=0.98,
     )
 
-    # 1. raw image
+    # 1) RGB asli
     axes[0, 0].imshow(rgb)
     axes[0, 0].set_title("RGB asli")
     axes[0, 0].axis("off")
 
-    # 2. raw image + raw skeleton
+    # 2) RGB + skeleton sebelum (di koordinat gambar asli)
     axes[0, 1].imshow(rgb)
     plot_points_lines(axes[0, 1], data["pose_raw"], POSE_CONNECTIONS, color="limegreen", image_shape=rgb.shape)
     plot_points_lines(axes[0, 1], data["left_raw"], HAND_CONNECTIONS, color="deepskyblue", image_shape=rgb.shape)
     plot_points_lines(axes[0, 1], data["right_raw"], HAND_CONNECTIONS, color="orange", image_shape=rgb.shape)
-    axes[0, 1].set_title("RGB + skeleton asli")
+    axes[0, 1].set_title("RGB + skeleton sebelum")
     axes[0, 1].axis("off")
 
-    # 3. image after full-body normalization (tanpa skeleton)
-    rgb_norm, meta = normalize_image_full_body(rgb, data["pose_raw"])
-    axes[0, 2].imshow(rgb_norm)
-    ttl = "RGB setelah full-body normalization"
-    if not meta.get("ok", False):
-        ttl += f"\n(fallback: {meta.get('reason', 'unknown')})"
-    axes[0, 2].set_title(ttl)
+    # 3) RGB setelah transform visualisasi (body-centered / canonical view)
+    axes[0, 2].imshow(rgb_can)
+    axes[0, 2].set_title("RGB setelah transform visualisasi (body-centered view)")
     axes[0, 2].axis("off")
 
-    # 4. full body (overlay before/after)
-    overlay_before_after(
+    # 4) RGB setelah transform + skeleton sesudah (digambar di kanvas yang sama)
+    axes[0, 3].imshow(rgb_can)
+    plot_points_lines_pixels(
         axes[0, 3],
+        pose_after_px_on_can,
+        POSE_CONNECTIONS,
+        color="magenta",
+        allowed_idx=POSE_IDXS,
+    )
+    axes[0, 3].set_title("RGB transform + visualisasi skeleton sesudah")
+    axes[0, 3].axis("off")
+
+    overlay_before_after(
+        axes[1, 0],
         data["pose_raw"],
         data["pose_full"],
         POSE_CONNECTIONS,
-        "Full-body normalization",
+        "Full-body normalization (landmark space)",
         allowed_idx=POSE_IDXS,
     )
 
-    # 5. face
-    overlay_before_after(
-        axes[1, 0],
-        data["pose_full"],
-        data["pose_face"],
-        FACE_CONNECTIONS,
-        "Face normalization",
-        allowed_idx=FACE_POSE_IDXS,
-    )
-
-    # 6. arm set A
     overlay_before_after(
         axes[1, 1],
         data["pose_full"],
-        data["pose_arm"],
-        ARM_A_CONNECTIONS,
-        "Arm normalization set A",
-        allowed_idx=ARM_SET_A_ANCHOR,
+        data["pose_face"],
+        FACE_CONNECTIONS,
+        "Face normalization (landmark space)",
+        allowed_idx=FACE_POSE_IDXS,
     )
 
-    # 7. arm set B
     overlay_before_after(
         axes[1, 2],
         data["pose_full"],
         data["pose_arm"],
+        ARM_A_CONNECTIONS,
+        "Arm normalization set A (landmark space)",
+        allowed_idx=ARM_SET_A_ANCHOR,
+    )
+
+    overlay_before_after(
+        axes[1, 3],
+        data["pose_full"],
+        data["pose_arm"],
         ARM_B_CONNECTIONS,
-        "Arm normalization set B",
+        "Arm normalization set B (landmark space)",
         allowed_idx=ARM_SET_B_ANCHOR,
     )
 
-    # slot axes[1,3] kosong (opsional) — matikan biar rapi
-    axes[1, 3].axis("off")
-
-    # 8. left hand
     overlay_before_after(
         axes[2, 0],
         data["left_raw"],
         data["left_norm"],
         HAND_CONNECTIONS,
-        "Left hand normalization",
+        "Left hand normalization (landmark space)",
     )
 
-    # 9. right hand
     overlay_before_after(
         axes[2, 1],
         data["right_raw"],
         data["right_norm"],
         HAND_CONNECTIONS,
-        "Right hand normalization",
+        "Right hand normalization (landmark space)",
     )
 
-    # slot axes[2,2] & axes[2,3] kosong — matikan biar rapi
     axes[2, 2].axis("off")
+    axes[2, 2].text(
+        0.02,
+        0.98,
+        "Catatan penting:\n"
+        "- Normalisasi utama terjadi pada LANDMARK (bukan memperbaiki RGB).\n"
+        "- Panel 'RGB transform' hanya ilustrasi body-centered view.\n"
+        "- Skeleton sesudah digambar di kanvas transform (bukan dipaksa ke RGB asli).",
+        va="top",
+        ha="left",
+        fontsize=11,
+    )
+
     axes[2, 3].axis("off")
 
     plt.tight_layout(rect=[0, 0, 1, 0.96])
