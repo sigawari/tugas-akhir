@@ -157,7 +157,7 @@ Representasi ini digunakan sebagai dasar sebelum dilakukan tahap seleksi \textit
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.20\textwidth]{figure/deteksi_landmark.pdf}
-    \caption{Ilustrasi Alur Ekstraksi Landmark}
+    \caption{Ilustrasi Alur Ekstraksi \textit{Landmark}}
     \label{fig:3.ekstraksi_landmark}
 \end{figure} \par
 
@@ -409,7 +409,7 @@ Transformasi augmentasi diterapkan sebelum proses rekayasa fitur temporal dilaku
 Pendekatan ini memastikan bahwa perubahan posisi antar-\textit{frame} yang dihitung pada tahap berikutnya tetap konsisten terhadap variasi data hasil augmentasi.
 
 Jenis augmentasi yang digunakan dibatasi pada augmentasi spasial berbasis \textit{landmark}. 
-Pendekatan ini terinspirasi dari teknik augmentasi skeleton yang diperkenalkan oleh Rao et al.\ \cite{rao2021augmentation}. 
+Pendekatan ini terinspirasi dari teknik augmentasi \textit{skeleton} yang diperkenalkan oleh Rao et al.\ \cite{rao2021augmentation}. 
 Penelitian tersebut menunjukkan bahwa penambahan gangguan pada koordinat sendi serta masking sebagian titik sendi dapat meningkatkan kemampuan model dalam mempelajari pola gerakan yang lebih robust. 
 Dua strategi augmentasi yang digunakan pada penelitian ini meliputi \textit{landmark jitter} dan \textit{random landmark masking}.
 
@@ -679,6 +679,6 @@ Precision mengukur tingkat ketepatan prediksi model pada setiap kelas yang dihas
 Recall mengukur kemampuan model dalam mendeteksi seluruh sampel yang benar pada setiap kelas.
 F1-score digunakan sebagai ukuran harmonis antara precision dan recall untuk menilai keseimbangan performa klasifikasi.
 
-Evaluasi pada penelitian ini difokuskan pada nilai F1-score makro dan tertimbang untuk memastikan konsistensi performa model pada seluruh kelas.
+Evaluasi pada penelitian ini difokuskan pada nilai F1-score \textit{macro} dan \textit{weighted} untuk memastikan konsistensi performa model pada seluruh kelas.
 Pendekatan ini penting mengingat potensi ketidakseimbangan jumlah sampel antar kelas isyarat.
 Hasil evaluasi kuantitatif selanjutnya digunakan sebagai dasar analisis performa model pada Bab IV.

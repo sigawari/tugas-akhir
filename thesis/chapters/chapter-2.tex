@@ -136,7 +136,7 @@ Sistem ini mampu mendeteksi dan melacak komponen utama tubuh, yaitu wajah, tanga
 Integrasi tersebut memungkinkan analisis gerak manusia dilakukan secara menyeluruh tanpa memisahkan model untuk tiap bagian tubuh. 
 Karakteristik ini menjadikan MediaPipe Holistic relevan untuk aplikasi analisis gerakan berbasis video secara \textit{real-time}.
 
-MediaPipe dikembangkan sebagai \textit{framework} lintas platform, bersifat sumber terbuka, dan dioptimalkan untuk pemrosesan data streaming (misalnya video) secara efisien. 
+MediaPipe dikembangkan sebagai \textit{framework} lintas platform, bersifat sumber terbuka, dan dioptimalkan untuk pemrosesan data \textit{streaming} (misalnya video) secara efisien. 
 Arsitekturnya dibangun sebagai graf komputasi modular yang tersusun dari komponen \textit{Calculator}, sehingga \textit{pipeline} persepsi dapat dirancang fleksibel sesuai kebutuhan \cite{manullang2025computervision}. 
 Implementasi inti MediaPipe menggunakan C++ untuk menjaga performa dan efisiensi memori. 
 Selain itu, tersedia lapisan antarmuka untuk Python dan JavaScript agar integrasi pada berbagai platform dapat dilakukan lebih cepat.
@@ -240,7 +240,7 @@ Normalisasi koordinat \textit{landmark} wajah (terhadap hidung)
 
 Normalisasi lengan dilakukan untuk mengurangi pengaruh perbedaan proporsi panjang lengan antar individu.
 Koordinat lengan diskalakan menggunakan panjang segmen antara bahu dan siku.
-Skala dihitung dari jarak Euclidean antara \textit{landmark} bahu dan siku pada koordinat yang telah ternormalisasi.
+Skala dihitung dari jarak \textit{Euclidean} antara \textit{landmark} bahu dan siku pada koordinat yang telah ternormalisasi.
 Rumus normalisasi lengan ditunjukkan pada Persamaan \ref{eq:arm_norm}.
 
 \begin{equationcaptioned}[eq:arm_norm]{
