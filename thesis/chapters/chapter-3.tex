@@ -259,7 +259,7 @@ LOCF dipilih karena gerakan pada video bahasa isyarat bersifat kontinu antar-\te
 Secara formal, misalkan koordinat \textit{landmark} ke-$i$ pada \textit{frame} ke-$t$ dinyatakan sebagai $(x_{t,i}, y_{t,i})$.
 Jika \textit{landmark} pada \textit{frame} ke-$t$ tidak terdeteksi, koordinat digantikan oleh nilai \textit{frame} sebelumnya yang masih valid sebagai berikut:
 
-\[
+\begin{equationcaptioned}[eq:locf]{
 (x_{t,i}, y_{t,i}) =
 \left\{
 \begin{array}{ll}
@@ -267,7 +267,10 @@ Jika \textit{landmark} pada \textit{frame} ke-$t$ tidak terdeteksi, koordinat di
 (x_{t-1,i}, y_{t-1,i}), & \text{jika \textit{landmark} tidak terdeteksi}
 \end{array}
 \right.
-\]
+}{
+Aturan imputasi \textit{Last Observation Carried Forward} (LOCF) untuk koordinat \textit{landmark}
+}
+\end{equationcaptioned}
 
 Implementasi LOCF dilakukan melalui mekanisme \textit{forward fill}, yakni propagasi observasi valid terakhir menuju posisi berikutnya yang bernilai hilang.
 Pendekatan tersebut sejalan bersama perilaku fungsi \texttt{ffill} pada pustaka \textit{pandas} \cite{pandasffill}.
@@ -278,6 +281,7 @@ Kualitas perekaman video pada penelitian ini tergolong baik, sehingga kasus hila
 Kondisi tersebut membuat LOCF memadai untuk mempertahankan kontinuitas gerak tanpa memperkenalkan kompleksitas imputasi tingkat lanjut seperti interpolasi.
 Ketahanan tambahan terhadap gangguan koordinat tetap diperkuat pada tahap pelatihan melalui augmentasi, termasuk \textit{coordinate jitter} serta \textit{landmark drop}.
 
+% Rev Siga: Fokusin ke contoh perhitungan
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:step-normalisasi-landmark}
 Normalisasi \textit{landmark} dilakukan untuk mengurangi pengaruh variasi posisi subjek di dalam \textit{frame} serta perbedaan skala tubuh antar individu.
@@ -465,7 +469,7 @@ Ilustrasi mekanisme \textit{landmark jitter} ditunjukkan pada Tabel \ref{tab:jit
 	\textbf{Landmark} & \textbf{$(x,y)$ Asli} & \textbf{$(x,y)$ Setelah Jitter} \\ \hline
 	\endhead
 	Wrist & (0.45, 0.60) & (0.46, 0.59) \\ \hline
-	Index MCP & (0.48, 0.58) & (0.47, 0.57) \\
+	Index MCP & (0.48, 0.58) & (0.47, 0.57) \\ \hline
 \end{longtable}
 
 Augmentasi tidak diterapkan pada data validasi serta data uji. 
