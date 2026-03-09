@@ -415,13 +415,24 @@
 \newcommand{\pengujiA}[2]{\namapengujia{#1} \nippengujia{#2}}
 \newcommand{\pengujiB}[2]{\namapengujib{#1} \nippengujib{#2}}
 
-% Command untuk merubah spacing equation
+% % Command untuk merubah spacing equation
+% \g@addto@macro\normalsize{%
+% 	\setlength\abovedisplayskip{-10pt}
+% 	\setlength\belowdisplayskip{-10pt}
+% 	\setlength\abovedisplayshortskip{-10pt}
+% 	\setlength\belowdisplayshortskip{-10pt}
+% }
+
+% --- Perbaikan Spasi Rumus agar Tidak Tumpang Tindih (Updated) ---
 \g@addto@macro\normalsize{%
-	\setlength\abovedisplayskip{-10pt}
-	\setlength\belowdisplayskip{-10pt}
-	\setlength\abovedisplayshortskip{-10pt}
-	\setlength\belowdisplayshortskip{-10pt}
+  \setlength\abovedisplayskip{10pt}       % Jarak di atas rumus (diubah dari -10pt)
+  \setlength\belowdisplayskip{10pt}       % Jarak di bawah rumus (diubah dari -10pt)
+  \setlength\abovedisplayshortskip{6pt}
+  \setlength\belowdisplayshortskip{6pt}
 }
+
+% Menambah jarak antar baris di dalam environment aligned (penting untuk pecahan)
+\setlength{\jot}{8pt}
 
 \makeatother % Jangan dihapus
 

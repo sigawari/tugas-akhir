@@ -281,45 +281,62 @@ Kualitas perekaman video pada penelitian ini tergolong baik, sehingga kasus hila
 Kondisi tersebut membuat LOCF memadai untuk mempertahankan kontinuitas gerak tanpa memperkenalkan kompleksitas imputasi tingkat lanjut seperti interpolasi.
 Ketahanan tambahan terhadap gangguan koordinat tetap diperkuat pada tahap pelatihan melalui augmentasi, termasuk \textit{coordinate jitter} serta \textit{landmark drop}.
 
-% Rev Siga: Fokusin ke contoh perhitungan
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:step-normalisasi-landmark}
 Normalisasi \textit{landmark} dilakukan untuk mengurangi pengaruh variasi posisi subjek di dalam \textit{frame} serta perbedaan skala tubuh antar individu.
 Meskipun koordinat \textit{landmark} dari MediaPipe telah dinyatakan relatif terhadap dimensi citra, posisi tubuh dalam video masih dapat berubah akibat pergeseran subjek maupun perubahan jarak terhadap kamera.
-Tanpa normalisasi, model dapat mempelajari variasi posisi global tersebut alih-alih pola gerakan bahasa isyarat yang sebenarnya.
+Tanpa proses normalisasi, model berpotensi mempelajari variasi posisi global tersebut alih-alih pola gerakan bahasa isyarat yang sebenarnya.
 
 Penelitian ini mengadopsi pendekatan \textit{reference-based normalization} yang telah dijelaskan pada \ref{subsub:normalisasi-landmark}.
-Normalisasi dilakukan menggunakan titik referensi anatomi tubuh sehingga koordinat \textit{landmark} dinyatakan relatif terhadap bagian tubuh tertentu.
+Pendekatan ini menyatakan koordinat \textit{landmark} relatif terhadap titik referensi anatomi tubuh sehingga representasi gerakan menjadi lebih konsisten antar \textit{frame} maupun antar subjek.
 
-Normalisasi tubuh menggunakan titik leher sebagai referensi utama.
-Koordinat leher dihitung sebagai titik tengah antara bahu kiri dan bahu kanan yang diperoleh dari \textit{pose landmark}.
-
-Misalkan $(x_{t,ls},y_{t,ls})$ dan $(x_{t,rs},y_{t,rs})$ masing-masing merupakan koordinat bahu kiri dan bahu kanan pada \textit{frame} ke-$t$, maka titik referensi leher dihitung sebagai:
+Normalisasi tubuh dilakukan menggunakan titik leher sebagai referensi utama. 
+Koordinat leher dihitung sebagai titik tengah antara bahu kiri dan bahu kanan yang diperoleh dari \textit{pose landmark}. 
+Jika $(x_{t,ls}, y_{t,ls})$ dan $(x_{t,rs}, y_{t,rs})$ masing-masing merupakan koordinat bahu kiri dan bahu kanan pada \textit{frame} ke-$t$, maka titik referensi leher dihitung sebagai berikut:
 
 \[
-(x_{t,neck},y_{t,neck}) =
-\left(
-\frac{x_{t,ls}+x_{t,rs}}{2},
-\frac{y_{t,ls}+y_{t,rs}}{2}
-\right)
-\] 
+(x_{t,neck}, y_{t,neck}) = \left( \frac{x_{t,ls} + x_{t,rs}}{2}, \frac{y_{t,ls} + y_{t,rs}}{2} \right)
+\]
 
-Setiap \textit{landmark} tubuh kemudian dinormalisasi relatif terhadap titik tersebut dan diskalakan menggunakan jarak antar bahu.
+Sebagai contoh, misalkan pada suatu \textit{frame} koordinat bahu kiri adalah $(0.42, 0.51)$ dan bahu kanan adalah $(0.58, 0.49)$. Perhitungan titik leher dilakukan sebagai berikut:
 
-\textit{Landmark} wajah diperoleh dari modul \textit{Face Mesh} dan direduksi menjadi subset 68 titik.
-Normalisasi wajah dilakukan dengan menggunakan hidung sebagai titik referensi lokal.
-Koordinat setiap \textit{landmark} wajah dinyatakan relatif terhadap posisi hidung sehingga perubahan ekspresi wajah dapat direpresentasikan secara lebih konsisten.
+\[
+\begin{aligned}
+x_{neck} &= \frac{0.42 + 0.58}{2} = 0.50 \\[8pt]
+y_{neck} &= \frac{0.51 + 0.49}{2} = 0.50
+\end{aligned}
+\]
 
-Normalisasi tangan menggunakan pendekatan \textit{bounding box}.
+Sehingga titik referensi leher berada pada koordinat $(0.50, 0.50)$. Seluruh \textit{landmark} tubuh kemudian dinyatakan relatif terhadap titik tersebut. Sebagai ilustrasi, jika koordinat suatu \textit{landmark} tangan pada \textit{frame} yang sama adalah $(0.63, 0.46)$, maka koordinat hasil normalisasi dihitung sebagai berikut:
+
+\[
+\begin{aligned}
+x' &= 0.63 - 0.50 = 0.13 \\[6pt]
+y' &= 0.46 - 0.50 = -0.04
+\end{aligned}
+\]
+
+Hasil ini menunjukkan posisi \textit{landmark} relatif terhadap pusat tubuh sehingga pengaruh pergeseran posisi subjek dalam \textit{frame} dapat diminimalkan.
+
+Normalisasi wajah dilakukan menggunakan hidung sebagai titik referensi lokal.
+\textit{Landmark} wajah diperoleh dari modul \textit{Face Mesh} kemudian direduksi menjadi subset 68 titik.
+Koordinat setiap \textit{landmark} wajah dinyatakan relatif terhadap posisi hidung sehingga perubahan ekspresi wajah dapat direpresentasikan secara lebih konsisten tanpa dipengaruhi oleh pergeseran kepala.
+
+Sementara itu, Normalisasi tangan menggunakan pendekatan \textit{bounding box}.
 Metode ini dipilih karena konfigurasi tangan dapat berubah secara signifikan selama gerakan bahasa isyarat.
-Koordinat setiap \textit{landmark} tangan dinyatakan relatif terhadap pusat \textit{bounding box} yang dibentuk oleh koordinat minimum dan maksimum dari seluruh \textit{hand landmark} pada \textit{frame} tersebut.
+Koordinat minimum dan maksimum dari seluruh \textit{hand landmark} digunakan untuk membentuk \textit{bounding box} pada setiap \textit{frame}.
+Pusat \textit{bounding box} dihitung sebagai titik tengah dari batas tersebut, kemudian setiap \textit{landmark} tangan dinyatakan relatif terhadap pusat ini.
+Pendekatan ini membantu menjaga konsistensi representasi posisi tangan meskipun terjadi perubahan orientasi atau skala tangan selama gerakan.
+
+Perbandingan antara koordinat \textit{landmark} sebelum dan sesudah proses normalisasi ditunjukkan pada Gambar \ref{fig:normalisasi-landmark}.
+Normalisasi membantu memusatkan representasi gerakan pada struktur tubuh sehingga model dapat lebih fokus mempelajari dinamika gerakan bahasa isyarat dibandingkan variasi posisi global.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{figure/normalization.png}
-	\caption{Perbedaan ketika dinormalisasi dan tidak}
+	\caption{Perbedaan representasi \textit{landmark} sebelum dan sesudah normalisasi}
 	\label{fig:normalisasi-landmark}
-  \end{figure}
+\end{figure}
 
 \subsection{Pelatihan Model ResNet-2D}
 \label{subsec:pelatihan-modifikasi-model}
