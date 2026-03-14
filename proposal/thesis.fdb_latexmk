@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber thesis"] 1770882069.19374 "thesis.bcf" "thesis.bbl" "thesis" 1770882962.55953 0
+["biber thesis"] 1770882069.19374 "thesis.bcf" "thesis.bbl" "thesis" 1773503828.20476 0
   "references.bib" 1769788524 4581 8b9adf9a46922c16957bfac7d47950a9 ""
-  "thesis.bcf" 1770882961 108421 d57f20d05676a405c28f3c73ad13020c "pdflatex"
+  "thesis.bcf" 1773503827 108421 d57f20d05676a405c28f3c73ad13020c "pdflatex"
   (generated)
   "thesis.bbl"
   "thesis.blg"
   (rewritten before read)
-["pdflatex"] 1770882957.24514 "s:/ITERA/Tugas Akhir/TA-122140208/proposal/thesis.tex" "thesis.pdf" "thesis" 1770882962.56073 0
+["pdflatex"] 1773503822.64122 "s:/ITERA/Tugas Akhir/TA-122140208/proposal/thesis.tex" "thesis.pdf" "thesis" 1773503828.20616 0
   "C:/Users/hp/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1769030549 360564 f829823f7c0b6bd559fa8df8fb21dcd5 ""
   "C:/Users/hp/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1769179157 13332035 9ae3d1ed1f7518e3172e021633f85883 ""
   "C:/Users/hp/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ot1-tlf.enc" 1736607166 2083 60e36f8eac802fcaf19eabe2633b406e ""
@@ -241,7 +241,7 @@
   "C:/Users/hp/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "C:/Users/hp/AppData/Local/Programs/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "C:/Users/hp/AppData/Local/Programs/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
-  "chapters/cover-hard.tex" 1769785176 1067 85471ed2d72e322adbcf818d026f8f7d ""
+  "chapters/cover-hard.tex" 1773503808 1165 dee11453bde92ae2b8ab0b64f013d557 ""
   "config/config.sty" 1769452823 13466 ed68de72671f627a72064e5f4c1ae41c ""
   "figure/alur_penelitian.pdf" 1769701945 40149 07c2f01c71af34d94fe67f4e99b11150 ""
   "figure/extracted.png" 1769687327 136935 d8b3ddb2c762759e430be02aafc9266a ""
@@ -261,13 +261,13 @@
   "sections/tujuan.tex" 1769785561 1069 2d07f2a35ef8d17ae0ec0082b08e0328 ""
   "sections/urgensi_manfaat.tex" 1769786425 1646 ecfc0da5d71c07199e25d6c28a5d6977 ""
   "sections/waktu_tempat.tex" 1769787928 2057 c3eccb8b1076859736859ce30fa83d55 ""
-  "thesis.aux" 1770882961 6075 f5e0f268935d642262eee6cfb001e3da "pdflatex"
+  "thesis.aux" 1773503827 6075 f5e0f268935d642262eee6cfb001e3da "pdflatex"
   "thesis.bbl" 1770882073 16282 fa113e5188d8e6993c9b850686b1daa1 "biber thesis"
-  "thesis.lof" 1770882961 371 e109a59319568448f9b7b2ff75f2d23c "pdflatex"
-  "thesis.out" 1770882961 1905 31b29b72e344c787cd51ac78a716d5a2 "pdflatex"
-  "thesis.run.xml" 1770882961 2352 3103a9be5045f3833ad2a13533295b04 "pdflatex"
+  "thesis.lof" 1773503827 371 e109a59319568448f9b7b2ff75f2d23c "pdflatex"
+  "thesis.out" 1773503827 1905 31b29b72e344c787cd51ac78a716d5a2 "pdflatex"
+  "thesis.run.xml" 1773503827 2352 3103a9be5045f3833ad2a13533295b04 "pdflatex"
   "thesis.tex" 1770882062 5777 68d8d851a2a667adeadd7bebe038df5d ""
-  "thesis.toc" 1770882961 947 7deb3c479f840d47dd8b74711838279e "pdflatex"
+  "thesis.toc" 1773503827 947 7deb3c479f840d47dd8b74711838279e "pdflatex"
   (generated)
   "thesis.aux"
   "thesis.bcf"
