@@ -32,7 +32,7 @@ No & Kelas isyarat \\
 Pemilihan kata dasar bertujuan untuk merepresentasikan variasi gerakan tangan, orientasi tubuh, serta ekspresi non-manual tanpa memperluas kompleksitas data secara berlebihan.
 
 Penelitian ini menggunakan pendekatan spasial berbasis \textit{Residual Network} dua dimensi (ResNet-2D) sebagai model utama.
-Data masukan model tidak berupa citra RGB mentah, melainkan representasi koordinat \textit{landmark} tubuh hasil ekstraksi MediaPipe yang terdiri atas nilai posisi dan perubahan posisi titik, yaitu $(x, y, dx, dy)$.
+Data masukan model tidak berupa citra RGB mentah, melainkan representasi koordinat \textit{landmark} tubuh hasil ekstraksi MediaPipe yang terdiri atas nilai posisi dan perubahan posisi titik, yaitu $(x, y, \Delta x, \Delta y)$.
 Pendekatan ini dipilih untuk meminimalkan ketergantungan pada informasi visual personal serta meningkatkan efisiensi pemodelan.
 
 Penggunaan model \textit{Convolutional Neural Network} (CNN) standar diterapkan sebagai pembanding untuk memberikan konteks performa terhadap model ResNet-2D.

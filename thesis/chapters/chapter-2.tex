@@ -98,7 +98,7 @@ Uraian komparatif terhadap penelitian-penelitian yang menjadi rujukan dirangkum 
 Berdasarkan telaah terhadap berbagai pendekatan tersebut, terlihat bahwa sebagian besar penelitian masih mempertahankan dimensi temporal secara eksplisit, baik melalui arsitektur sekuensial maupun melalui pemetaan sumbu waktu dalam struktur citra. 
 Representasi berbasis \textit{landmark} dan \textit{skeleton} telah terbukti mampu memusatkan pembelajaran pada struktur gerakan, tetapi strategi integrasi perubahan posisi sebagai fitur turunan dalam format \textit{pseudo-image} multichannel belum banyak dievaluasi pada konteks bahasa isyarat lokal. 
 Kondisi ini membuka peluang untuk menguji perancangan representasi yang menyuntikkan informasi gerak melalui komponen perubahan antar-\textit{frame}. 
-Penelitian ini memposisikan fitur $(dx,dy)$ sebagai pelengkap $(x,y)$ dalam struktur \textit{pseudo-image} empat kanal yang diproses menggunakan ResNet-2D tanpa modul temporal eksplisit.
+Penelitian ini memposisikan fitur $(\Delta x, \Delta y)$ sebagai pelengkap $(x,y)$ dalam struktur \textit{pseudo-image} empat kanal yang diproses menggunakan ResNet-2D tanpa modul temporal eksplisit.
 \endgroup
 
 \section{Dasar Teori} \label{sec:dasar-teori}
@@ -301,19 +301,19 @@ Representasi tersebut dikenal sebagai \textit{velocity feature} yang merepresent
 
 Penelitian ini mengadaptasi konsep \textit{velocity feature} \cite{dong2020action} ke dalam representasi dua dimensi berbasis \textit{landmark}.
 Perubahan posisi antar-\textit{frame} dihitung melalui selisih koordinat \textit{landmark}.
-Komponen tersebut direpresentasikan sebagai pasangan fitur \textit{(dx, dy)} yang menggambarkan arah serta besar perubahan posisi pada bidang citra.
+Komponen tersebut direpresentasikan sebagai pasangan fitur $(\Delta x, \Delta y)$ yang menggambarkan arah serta besar perubahan posisi pada bidang citra.
 Pendekatan ini menghasilkan fitur temporal orde pertama yang mencerminkan dinamika gerakan secara langsung pada tingkat representasi.
 
-Perhitungan perubahan posisi antar-\textit{frame} dinyatakan pada Persamaan \ref{eq:dxdy}.
-Setiap \textit{landmark} kemudian direpresentasikan menggunakan empat kanal fitur, yaitu \textit{(x, y, dx, dy)}.
+Perhitungan perubahan posisi antar-\textit{frame} dinyatakan pada Persamaan \ref{eq:deltaxdeltay}.
+Setiap \textit{landmark} kemudian direpresentasikan menggunakan empat kanal fitur, yaitu $(x, y, \Delta x, \Delta y)$.
 
-\begin{equationcaptioned}[eq:dxdy]{
+\begin{equationcaptioned}[eq:deltaxdeltay]{
 \begin{aligned}
-dx_t &= x_t - x_{t-1} \\
-dy_t &= y_t - y_{t-1}
+\Delta x_t &= x_t - x_{t-1} \\
+\Delta y_t &= y_t - y_{t-1}
 \end{aligned}
 }{
-Perubahan posisi \textit{landmark} antar-frame
+Perubahan posisi \textit{landmark} antar-\textit{frame}
 }
 \end{equationcaptioned}
 
@@ -322,8 +322,8 @@ Keterangan:
   \renewcommand{\labelitemi}{}
   \item $x_t$ = koordinat horizontal \textit{landmark} pada frame ke-$t$
   \item $y_t$ = koordinat vertikal \textit{landmark} pada frame ke-$t$
-  \item $dx_t$ = perubahan koordinat horizontal antar-frame
-  \item $dy_t$ = perubahan koordinat vertikal antar-frame
+  \item $\Delta x_t$ = perubahan koordinat horizontal antar-frame
+  \item $\Delta y_t$ = perubahan koordinat vertikal antar-frame
   \item $t$ = indeks frame atau urutan waktu
 \end{itemize}
 
@@ -344,7 +344,7 @@ Keterangan:
 \begin{itemize}
   \renewcommand{\labelitemi}{}
   \item $B$ = jumlah sampel dalam satu \textit{batch}
-  \item $C$ = jumlah kanal fitur, yaitu $4$ $(x, y, dx, dy)$
+  \item $C$ = jumlah kanal fitur, yaitu $4$ $(x, y, \Delta x, \Delta y)$
   \item $T$ = jumlah \textit{frame} dalam satu urutan
   \item $L$ = jumlah \textit{landmark}
 \end{itemize}

@@ -43,7 +43,7 @@ The system focuses on **Isolated Sign Language Recognition (ISLR)** and targets 
 - For each landmark:
 
   - Spatial position: `(x, y)`
-  - Motion features: `(dx, dy)` computed between consecutive frames
+    - Motion features: `(Δx, Δy)` computed between consecutive frames
 
 - Landmarks are arranged into a **2D matrix (time × landmark index)**.
 - The final input tensor has the shape:

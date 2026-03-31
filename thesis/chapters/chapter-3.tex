@@ -21,7 +21,7 @@ Data video yang diperoleh kemudian diproses pada tahap prapemrosesan untuk menge
 Koordinat yang dihasilkan selanjutnya melalui beberapa tahapan pemrosesan seperti seleksi \textit{landmark}, penanganan nilai yang hilang, serta normalisasi koordinat untuk memperoleh representasi pose yang lebih konsisten.
 
 Data \textit{landmark} yang telah dipraproses kemudian digunakan sebagai masukan pada tahap pelatihan model. 
-Pada tahap ini dilakukan rekayasa fitur temporal dengan menghitung perubahan posisi antar-\textit{frame} sehingga setiap \textit{landmark} direpresentasikan menggunakan fitur multichannel $(x, y, dx, dy)$. 
+Pada tahap ini dilakukan rekayasa fitur temporal dengan menghitung perubahan posisi antar-\textit{frame} sehingga setiap \textit{landmark} direpresentasikan menggunakan fitur multichannel $(x, y, \Delta x, \Delta y)$. 
 Representasi tersebut kemudian diproses oleh model CNN dua dimensi berbasis ResNet untuk mempelajari pola gerakan bahasa isyarat.
 
 Model dilatih menggunakan data latih dengan konfigurasi \textit{hyperparameter} yang telah ditentukan. 
@@ -276,7 +276,7 @@ Aturan imputasi \textit{Last Observation Carried Forward} (LOCF) untuk koordinat
 Implementasi LOCF dilakukan melalui mekanisme \textit{forward fill}, yakni propagasi observasi valid terakhir menuju posisi berikutnya yang bernilai hilang.
 Pendekatan tersebut sejalan bersama perilaku fungsi \texttt{ffill} pada pustaka \textit{pandas} \cite{pandasffill}.
 LOCF diterapkan setelah seleksi \textit{landmark} selesai, sebelum tahap normalisasi koordinat dimulai, sehingga setiap \textit{sequence} memiliki struktur data lengkap saat dihitung relatif terhadap titik acuan tubuh.
-Langkah ini juga menjaga stabilitas perhitungan fitur temporal, khususnya $dx$ serta $dy$, karena fitur tersebut bergantung pada selisih koordinat antar-\textit{frame} berurutan.
+Langkah ini juga menjaga stabilitas perhitungan fitur temporal, khususnya $\Delta x$ serta $\Delta y$, karena fitur tersebut bergantung pada selisih koordinat antar-\textit{frame} berurutan.
 
 Kualitas perekaman video pada penelitian ini tergolong baik, sehingga kasus hilangnya \textit{landmark} bersifat jarang, biasanya berjangka pendek.
 Kondisi tersebut membuat LOCF memadai untuk mempertahankan kontinuitas gerak tanpa memperkenalkan kompleksitas imputasi tingkat lanjut seperti interpolasi.
@@ -363,8 +363,8 @@ Setiap \textit{batch} kemudian memasuki tahap augmentasi sebelum dilakukan rekay
 Augmentasi yang diterapkan meliputi \textit{random landmark masking} dan \textit{landmark jitter} untuk mensimulasikan gangguan deteksi ringan yang mungkin terjadi pada kondisi nyata. 
 Transformasi ini dilakukan pada tingkat \textit{batch} sehingga variasi data muncul secara dinamis pada setiap iterasi pelatihan.
 
-Setelah proses augmentasi, dilakukan perhitungan perubahan posisi antar-\textit{frame} untuk memperoleh fitur gerakan \textit{(dx, dy)}. 
-Fitur tersebut kemudian digabungkan dengan koordinat posisi \textit{(x, y)} sehingga membentuk representasi multichannel yang terdiri dari empat kanal fitur. 
+Setelah proses augmentasi, dilakukan perhitungan perubahan posisi antar-\textit{frame} untuk memperoleh fitur gerakan \textit{($\Delta x, \Delta y$)}. 
+Fitur tersebut kemudian digabungkan dengan koordinat posisi \textit{($x, y$)} sehingga membentuk representasi multichannel yang terdiri dari empat kanal fitur. 
 Representasi akhir yang menjadi masukan model memiliki struktur tensor $(B, T, L, 4)$ yang memuat informasi posisi serta dinamika gerakan \textit{landmark}.
 
 Tahap selanjutnya adalah proses \textit{forward pass} yang memproses \textit{batch} masukan melalui jaringan ResNet-2D untuk menghasilkan prediksi kelas bahasa isyarat. 
@@ -394,7 +394,7 @@ Proses ini mencakup inisialisasi model, konfigurasi \textit{hyperparameter}, dan
 Model klasifikasi yang digunakan pada penelitian ini berbasis arsitektur \textit{Residual Network} (ResNet) dua dimensi.
 ResNet dipilih karena kemampuannya menjaga stabilitas pelatihan pada jaringan konvolusional yang dalam melalui mekanisme \textit{skip connection}.
 Mekanisme ini memungkinkan aliran gradien tetap terjaga selama proses pembelajaran berlangsung, menjadikannya sesuai untuk mempelajari representasi fitur spasial dari data \textit{landmark} yang disusun dalam bentuk pseudo-citra dua dimensi.
-Gambaran umum arsitektur ResNet dua dimensi diperlihatkan pada Gambar \ref{fig:resnet2d-architecture}. Struktur dasar ResNet tetap dipertahankan, termasuk susunan blok residual dan mekanisme \textit{skip connection}. Penyesuaian dilakukan pada lapisan masukan untuk menerima data \textit{landmark} multichannel $(x, y, dx, dy)$, yang merepresentasikan koordinat posisi dan perubahan antar-\textit{frame}.
+Gambaran umum arsitektur ResNet dua dimensi diperlihatkan pada Gambar \ref{fig:resnet2d-architecture}. Struktur dasar ResNet tetap dipertahankan, termasuk susunan blok residual dan mekanisme \textit{skip connection}. Penyesuaian dilakukan pada lapisan masukan untuk menerima data \textit{landmark} multichannel $(x, y, \Delta x, \Delta y)$, yang merepresentasikan koordinat posisi dan perubahan antar-\textit{frame}.
 
 \begin{figure}[H]
 	\centering
@@ -415,7 +415,7 @@ Lapisan keluaran menghasilkan prediksi kelas bahasa isyarat sesuai dengan jumlah
 	\label{fig:3.landresnet}
 \end{figure}
 
-Modifikasi pada lapisan masukan memungkinkan model menerima empat kanal fitur $(x, y, dx, dy)$, yang mengintegrasikan informasi spasial dan dinamika gerakan.
+Modifikasi pada lapisan masukan memungkinkan model menerima empat kanal fitur $(x, y, \Delta x, \Delta y)$, yang mengintegrasikan informasi spasial dan dinamika gerakan.
 Pendekatan ini memanfaatkan kekuatan CNN dua dimensi pada data non-RGB tanpa merancang arsitektur baru dari awal. 
 Dengan tetap mempertahankan struktur dasar ResNet, model dapat dilatih menggunakan teknik standar jaringan konvolusional sambil menyesuaikan dengan karakteristik data \textit{landmark}.
 
@@ -466,10 +466,10 @@ Nilai numerik pada tabel bersifat ilustratif serta tidak merepresentasikan data 
 \begin{longtable}{|c|c|c|c|}
 	\caption{Ilustrasi \textit{random landmark masking} pada satu frame}
 	\label{tab:landmark-masking-example} \\ \hline
-	\textbf{Landmark} & \textbf{$(x,y)$} & \textbf{$(dx,dy)$} & \textbf{Setelah Masking} \\ \hline
+	\textbf{Landmark} & \textbf{$(x,y)$} & \textbf{$(\Delta x, \Delta y)$} & \textbf{Setelah Masking} \\ \hline
 	\endfirsthead
 	\hline
-	\textbf{Landmark} & \textbf{$(x,y)$} & \textbf{$(dx,dy)$} & \textbf{Setelah Masking} \\ \hline
+	\textbf{Landmark} & \textbf{$(x,y)$} & \textbf{$(\Delta x, \Delta y)$} & \textbf{Setelah Masking} \\ \hline
 	\endhead
 	Wrist & (0.45, 0.60) & (0.02, -0.01) & (0.45, 0.60, 0.02, -0.01) \\ \hline
 	Index MCP & (0.48, 0.58) & (0.03, -0.02) & (0, 0, 0.03, -0.02) \\ \hline
@@ -509,20 +509,20 @@ Perubahan posisi antar-\textit{frame} dihitung untuk merepresentasikan dinamika 
 Perhitungan perubahan posisi mengikuti formulasi \textit{velocity feature} yang telah dijelaskan pada Bagian \ref{subsubsec:pengodean-dinamika}. 
 Koordinat suatu \textit{landmark} pada \textit{frame} ke-$t$ dinyatakan sebagai $(x_{t,i},y_{t,i})$. 
 Koordinat pada \textit{frame} sebelumnya dinyatakan sebagai $(x_{t-1,i},y_{t-1,i})$. 
-Perubahan posisi antar-\textit{frame} dihitung sebagai selisih langsung kedua koordinat tersebut sesuai Persamaan \ref{eq:dxdy}. 
+Perubahan posisi antar-\textit{frame} dihitung sebagai selisih langsung kedua koordinat tersebut sesuai Persamaan \ref{eq:deltaxdeltay}. 
 
 Sebagai ilustrasi, misalkan koordinat suatu \textit{landmark} tangan pada \textit{frame} ke-$t-1$ adalah $(0.12,-0.03)$. 
 Koordinat pada \textit{frame} ke-$t$ berubah menjadi $(0.18,-0.01)$. 
-Perhitungan menghasilkan nilai $dx=0.06$ dan $dy=0.02$. 
+Perhitungan menghasilkan nilai $\Delta x=0.06$ dan $\Delta y=0.02$. 
 Nilai tersebut menunjukkan pergerakan ke arah kanan serta sedikit ke atas relatif terhadap posisi sebelumnya.
 
 \begin{table}[H]
 	\centering
 	\caption{Ilustrasi perhitungan perubahan posisi satu \textit{landmark}}
-	\label{tab:dxdy-example}
+	\label{tab:deltaxdeltay-example}
 	\begin{tabular}{|c|c|c|c|c|}
 	\hline
-	\textbf{Frame} & $\hat{x}$ & $\hat{y}$ & $dx$ & $dy$ \\ \hline
+	\textbf{Frame} & $\hat{x}$ & $\hat{y}$ & $\Delta x$ & $\Delta y$ \\ \hline
 	$t-1$ & 0.12 & -0.03 & - & - \\ \hline
 	$t$   & 0.18 & -0.01 & 0.06 & 0.02 \\ \hline
 	\end{tabular}
@@ -532,7 +532,7 @@ Nilai tersebut menunjukkan pergerakan ke arah kanan serta sedikit ke atas relati
 \end{table}
 
 Perhitungan dilakukan pada seluruh \textit{landmark} serta seluruh pasangan \textit{frame} berurutan dalam satu \textit{sequence}. 
-Nilai perubahan posisi $(dx,dy)$ kemudian disusun sebagai kanal tambahan bersama koordinat posisi $(x,y)$. 
+Nilai perubahan posisi $(\Delta x, \Delta y)$ kemudian disusun sebagai kanal tambahan bersama koordinat posisi $(x,y)$. 
 Representasi ini menghasilkan empat kanal fitur untuk setiap \textit{landmark}. 
 Pendekatan ini memungkinkan model mempelajari arah serta besaran gerakan secara langsung pada tingkat representasi.
 
@@ -547,7 +547,7 @@ Representasi ini menjadi masukan langsung bagi arsitektur ResNet-2D pada tahap p
   \label{tab:landmark-multichannel-example}
   \begin{tabular}{|c|c|l|c|c|c|c|}
   \hline
-  \textbf{\textit{frame} (T)} & \textbf{Indeks (L)} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $dx$ & $dy$ \\ \hline
+  \textbf{\textit{frame} (T)} & \textbf{Indeks (L)} & \textbf{Nama \textit{Landmark}} & $x$ & $y$ & $\Delta x$ & $\Delta y$ \\ \hline
   $t-2$ & 0 & Wrist & 0.42 & 0.62 & -    & -    \\ \hline
   $t-1$ & 0 & Wrist & 0.45 & 0.60 & 0.03  & -0.02 \\ \hline
   $t$   & 0 & Wrist & 0.48 & 0.58 & 0.03  & -0.02 \\ \hline
@@ -563,13 +563,13 @@ Representasi ini menjadi masukan langsung bagi arsitektur ResNet-2D pada tahap p
 \label{subsubsec:penyusunan-tensor}
 Representasi \textit{landmark multichannel} selanjutnya disusun ke dalam bentuk tensor masukan bagi arsitektur CNN dua dimensi. 
 Tahap ini berfungsi sebagai penghubung antara proses rekayasa fitur temporal dan pemodelan menggunakan jaringan konvolusional. 
-Koordinat posisi $(x,y)$ serta perubahan posisi $(dx,dy)$ yang telah dihitung sebelumnya digabungkan sebagai kanal fitur dalam satu representasi terpadu. 
+Koordinat posisi $(x,y)$ serta perubahan posisi $(\Delta x, \Delta y)$ yang telah dihitung sebelumnya digabungkan sebagai kanal fitur dalam satu representasi terpadu. 
 Representasi ini memungkinkan jaringan mempelajari pola spasial antar-\textit{landmark} sekaligus dinamika gerakan sepanjang urutan waktu.
 
 Setiap sampel gerakan bahasa isyarat direpresentasikan sebagai tensor berukuran $(T, L, 4)$. 
 Dimensi $T$ menyatakan jumlah \textit{frame} dalam satu \textit{sequence}. 
 Dimensi $L$ menyatakan jumlah \textit{landmark} yang digunakan pada representasi gerakan. 
-Dimensi terakhir memuat empat kanal fitur yaitu $(x, y, dx, dy)$.
+Dimensi terakhir memuat empat kanal fitur yaitu $(x, y, \Delta x, \Delta y)$.
 
 Beberapa sampel kemudian digabungkan oleh \textit{dataloader} menjadi satu \textit{mini-batch} untuk meningkatkan efisiensi komputasi selama pelatihan. 
 Penggabungan tersebut menghasilkan tensor dengan struktur $(B, T, L, 4)$ di mana $B$ menyatakan ukuran \textit{batch}. 
@@ -642,12 +642,12 @@ Eksplorasi mendalam terhadap variasi \textit{hyperparameter} tidak dilakukan aga
 
 Desain eksperimen pada penelitian ini bertujuan mengevaluasi kontribusi representasi fitur gerakan serta variasi kompleksitas arsitektur jaringan terhadap performa klasifikasi bahasa isyarat. 
 Pendekatan evaluasi dilakukan menggunakan metode studi ablasi untuk mengisolasi pengaruh setiap komponen utama pada pipeline pemodelan. 
-Komponen yang dianalisis meliputi penggunaan fitur perubahan antar-frame $(dx,dy)$ serta variasi arsitektur jaringan konvolusional. 
+Komponen yang dianalisis meliputi penggunaan fitur perubahan antar-frame $(\Delta x, \Delta y)$ serta variasi arsitektur jaringan konvolusional. 
 Pendekatan ini memungkinkan analisis yang lebih terkontrol terhadap kontribusi masing-masing komponen terhadap kinerja model.
 
 Eksperimen pertama dirancang untuk mengevaluasi pengaruh fitur perubahan posisi antar-frame terhadap performa klasifikasi. 
 Representasi dasar menggunakan koordinat posisi \textit{landmark} dua dimensi $(x,y)$ yang diperoleh dari tahap prapemrosesan. 
-Representasi tersebut kemudian dibandingkan dengan representasi multichannel yang menambahkan fitur perubahan posisi $(dx,dy)$. 
+Representasi tersebut kemudian dibandingkan dengan representasi multichannel yang menambahkan fitur perubahan posisi $(\Delta x, \Delta y)$. 
 Perbandingan ini bertujuan mengukur sejauh mana informasi dinamika gerakan meningkatkan kemampuan model dalam mengenali gestur bahasa isyarat dinamis.
 
 Eksperimen kedua berfokus pada evaluasi variasi kompleksitas arsitektur jaringan konvolusional. 
@@ -673,13 +673,13 @@ Ringkasan konfigurasi eksperimen yang digunakan pada penelitian ini ditunjukkan 
 \hline
 \textbf{Model} & \textbf{Fitur Input} & \textbf{Jumlah Kanal} \\ \hline
 CNN 2D dasar & $(x,y)$ & 2 \\ \hline
-CNN 2D dasar & $(x,y,dx,dy)$ & 4 \\ \hline
+CNN 2D dasar & $(x,y,\Delta x, \Delta y)$ & 4 \\ \hline
 ResNet-18 & $(x,y)$ & 2 \\ \hline
-ResNet-18 & $(x,y,dx,dy)$ & 4 \\ \hline
+ResNet-18 & $(x,y,\Delta x, \Delta y)$ & 4 \\ \hline
 ResNet-34 & $(x,y)$ & 2 \\ \hline
-ResNet-34 & $(x,y,dx,dy)$ & 4 \\ \hline
+ResNet-34 & $(x,y,\Delta x, \Delta y)$ & 4 \\ \hline
 ResNet-50 & $(x,y)$ & 2 \\ \hline
-ResNet-50 & $(x,y,dx,dy)$ & 4 \\ \hline
+ResNet-50 & $(x,y,\Delta x, \Delta y)$ & 4 \\ \hline
 \end{tabular}
 \end{table}
 
