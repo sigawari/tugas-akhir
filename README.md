@@ -50,7 +50,7 @@ The system focuses on **Isolated Sign Language Recognition (ISLR)** and targets 
 
   ```
   (Batch, Channels, Time, Landmarks)
-  Channels = [x, y, dx, dy]
+  Channels = \[x, y, Δx, Δy\]
   ```
 
 ### 4. Model Architecture
