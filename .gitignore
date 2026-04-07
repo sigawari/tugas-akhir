@@ -4,6 +4,7 @@
 *.mov
 *.mkv
 *.gif
+*.json
 
 # 2. Preprocessed dataset (not needed in repo)
 data/raw/data_video/
