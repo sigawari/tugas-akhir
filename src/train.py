@@ -191,7 +191,8 @@ def save_checkpoint(
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
 
-    p.add_argument("--model", type=str, default="cnn2d",
+    #Is there any cnn2d_residual?
+    p.add_argument("--model", type=str, default="resnet50",
                    choices=["cnn2d", "cnn2d_residual", "resnet18", "resnet34", "resnet50"])
 
     p.add_argument("--epochs", type=int, default=50)
