@@ -14,7 +14,7 @@ from torch.utils.data import Dataset, DataLoader
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATASET_DIR = PROJECT_ROOT / "dataset" / "npy_dataset"
-DEFAULT_SPLIT_PATH = PROJECT_ROOT / "dataset" / "splits" / "split_80_10_10.json"
+DEFAULT_SPLIT_PATH = PROJECT_ROOT / "dataset" / "splits" / "split_70_20_10.json"
 
 # =========================
 # GLOBAL SHAPE CONFIG
@@ -56,8 +56,8 @@ def load_dataset_index(dataset_dir: Path = DATASET_DIR) -> List[Dict[str, Any]]:
 
 def build_split_from_dataset_index(
     dataset_index: List[Dict[str, Any]],
-    train_ratio: float = 0.8,
-    val_ratio: float = 0.1,
+    train_ratio: float = 0.7,
+    val_ratio: float = 0.2,
     test_ratio: float = 0.1,
     seed: int = 42,
 ) -> Dict[str, Any]:
@@ -136,8 +136,8 @@ def save_split_json(split_data: Dict[str, Any], path: str | Path) -> None:
 def load_or_create_split(
     split_path: str | Path = DEFAULT_SPLIT_PATH,
     dataset_dir: Path = DATASET_DIR,
-    train_ratio: float = 0.8,
-    val_ratio: float = 0.1,
+    train_ratio: float = 0.7,
+    val_ratio: float = 0.2,
     test_ratio: float = 0.1,
     seed: int = 42,
 ) -> Dict[str, Any]:
@@ -349,8 +349,8 @@ class SignLanguageNPYDataset(Dataset):
 def create_datasets(
     split_path: str | Path = DEFAULT_SPLIT_PATH,
     dataset_dir: Path = DATASET_DIR,
-    train_ratio: float = 0.8,
-    val_ratio: float = 0.1,
+    train_ratio: float = 0.7,
+    val_ratio: float = 0.2,
     test_ratio: float = 0.1,
     seed: int = 42,
     train_augment: bool = True,
@@ -395,8 +395,8 @@ def create_dataloaders(
     dataset_dir: Path = DATASET_DIR,
     batch_size: int = 16,
     num_workers: int = 0,
-    train_ratio: float = 0.8,
-    val_ratio: float = 0.1,
+    train_ratio: float = 0.7,
+    val_ratio: float = 0.2,
     test_ratio: float = 0.1,
     seed: int = 42,
     train_augment: bool = True,
@@ -454,8 +454,8 @@ def debug_one_batch():
     train_loader, val_loader, test_loader, split_data = create_dataloaders(
         batch_size=4,
         num_workers=0,
-        train_ratio=0.8,
-        val_ratio=0.1,
+        train_ratio=0.7,
+        val_ratio=0.2,
         test_ratio=0.1,
         seed=42,
         train_augment=True,

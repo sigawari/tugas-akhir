@@ -208,8 +208,8 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--split_path", type=str, default=None)
 
-    p.add_argument("--train_ratio", type=float, default=0.8)
-    p.add_argument("--val_ratio", type=float, default=0.1)
+    p.add_argument("--train_ratio", type=float, default=0.7)
+    p.add_argument("--val_ratio", type=float, default=0.2)
     p.add_argument("--test_ratio", type=float, default=0.1)
 
     p.add_argument("--jitter_prob", type=float, default=0.5)
@@ -219,7 +219,7 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--run_name", type=str, default=None)
     p.add_argument("--save_dir", type=str, default="checkpoints")
-    p.add_argument("--wandb_project", type=str, default="sign-language-resnet2d")
+    p.add_argument("--wandb_project", type=str, default="slr-resnet-75")
     p.add_argument("--no_wandb", action="store_true")
 
     return p.parse_args()
@@ -238,7 +238,7 @@ def main() -> None:
 
     split_path = args.split_path
     if split_path is None:
-        split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_80_10_10.json"
+        split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_70_20_10.json"
 
     train_loader, val_loader, test_loader, split_data = create_dataloaders(
         split_path=split_path,
