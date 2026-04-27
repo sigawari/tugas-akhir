@@ -199,8 +199,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--batch_size", type=int, default=16)
     p.add_argument("--lr", type=float, default=1e-4)
     p.add_argument("--weight_decay", type=float, default=1e-3)
-    p.add_argument("--patience", type=int, default=5)
-    p.add_argument("--scheduler", type=str, default="plateau",
+    p.add_argument("--patience", type=int, default=10)
+    p.add_argument("--scheduler", type=str, default="cosine",
                    choices=["none", "plateau", "cosine"])
 
     p.add_argument("--num_workers", type=int, default=0)
@@ -221,7 +221,7 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--run_name", type=str, default=None)
     p.add_argument("--save_dir", type=str, default="checkpoints")
-    p.add_argument("--wandb_project", type=str, default="slr-resnet-setupB-1")
+    p.add_argument("--wandb_project", type=str, default="slr-resnet-setupB-2-cosine")
     p.add_argument("--no_wandb", action="store_true")
 
 
