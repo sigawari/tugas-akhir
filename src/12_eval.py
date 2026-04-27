@@ -188,9 +188,11 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--split_path", type=str, default=None)
 
-    p.add_argument("--train_ratio", type=float, default=0.8)
-    p.add_argument("--val_ratio", type=float, default=0.1)
+    p.add_argument("--train_ratio", type=float, default=0.7)
+    p.add_argument("--val_ratio", type=float, default=0.2)
     p.add_argument("--test_ratio", type=float, default=0.1)
+
+    p.add_argument("--use_delta", type=int, default=1)
 
     p.add_argument(
         "--ckpt_path",
@@ -236,7 +238,7 @@ def main() -> None:
 
     split_path = args.split_path
     if split_path is None:
-        split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_80_10_10.json"
+        split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_70_20_10.json"
 
     # augment=False untuk semua split saat eval
     train_loader, val_loader, test_loader, split_data = create_dataloaders(
@@ -248,6 +250,7 @@ def main() -> None:
         test_ratio=args.test_ratio,
         seed=args.seed,
         train_augment=False,
+        use_delta=bool(args.use_delta),
     )
 
     num_classes = split_data["meta"]["num_classes"]
@@ -265,10 +268,12 @@ def main() -> None:
 
     ckpt = torch.load(ckpt_path, map_location=device)
 
+    in_channels = 4 if bool(args.use_delta) else 2
+
     model = build_model(
         model_name=args.model,
         num_classes=num_classes,
-        in_channels=4,
+        in_channels=in_channels,
     ).to(device)
 
     model.load_state_dict(ckpt["model_state"])

@@ -9,7 +9,7 @@ import torch.nn as nn
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 
-from models import Basic2DCNN, ResNet18, ResNet34, ResNet50, CNN2DResidual
+from models import Basic2DCNN, ResNet18, ResNet34, ResNet50
 from utils import (
     DEFAULT_SEED,
     seed,
@@ -32,8 +32,8 @@ def build_model(model_name: str, num_classes: int, in_channels: int = 4) -> nn.M
     if model_name in ("cnn2d", "basic2dcnn", "cnn"):
         return Basic2DCNN(num_classes=num_classes, in_channels=in_channels)
 
-    if model_name in ("cnn2d_residual", "residualcnn", "custom_resnet"):
-        return CNN2DResidual(num_classes=num_classes, in_channels=in_channels)
+    # if model_name in ("cnn2d_residual", "residualcnn", "custom_resnet"):
+    #     return CNN2DResidual(num_classes=num_classes, in_channels=in_channels)
 
     if model_name in ("resnet18", "r18"):
         return ResNet18(num_classes=num_classes, in_channels=in_channels)
@@ -62,7 +62,7 @@ def build_scheduler(optimizer, scheduler_name: str, epochs: int):
             optimizer,
             mode="min",
             factor=0.5,
-            patience=2,
+            patience=5,
         )
 
     if scheduler_name == "cosine":
@@ -193,7 +193,7 @@ def parse_args() -> argparse.Namespace:
 
     #Is there any cnn2d_residual?
     p.add_argument("--model", type=str, default="resnet50",
-                   choices=["cnn2d", "cnn2d_residual", "resnet18", "resnet34", "resnet50"])
+                   choices=["cnn2d", "resnet18", "resnet34", "resnet50"])
 
     p.add_argument("--epochs", type=int, default=50)
     p.add_argument("--batch_size", type=int, default=16)
@@ -217,10 +217,13 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--mask_prob", type=float, default=0.5)
     p.add_argument("--mask_ratio", type=float, default=0.05)
 
+    p.add_argument("--use_delta", type=int, default=1)
+
     p.add_argument("--run_name", type=str, default=None)
     p.add_argument("--save_dir", type=str, default="checkpoints")
-    p.add_argument("--wandb_project", type=str, default="slr-resnet-75")
+    p.add_argument("--wandb_project", type=str, default="slr-resnet-setupB-1")
     p.add_argument("--no_wandb", action="store_true")
+
 
     return p.parse_args()
 
@@ -253,14 +256,17 @@ def main() -> None:
         jitter_std=args.jitter_std,
         mask_prob=args.mask_prob,
         mask_ratio=args.mask_ratio,
+        use_delta=bool(args.use_delta),
     )
 
     num_classes = split_data["meta"]["num_classes"]
 
+    in_channels = 4 if bool(args.use_delta) else 2
+
     model = build_model(
         model_name=args.model,
         num_classes=num_classes,
-        in_channels=4,
+        in_channels=in_channels,
     ).to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -275,7 +281,8 @@ def main() -> None:
 
     run_name = args.run_name
     if run_name is None:
-        run_name = f"{args.model}_lr{args.lr}_bs{args.batch_size}_wd{args.weight_decay}"
+        feat_tag = "xy_dxdy" if bool(args.use_delta) else "xy"
+        run_name = f"{args.model}_{feat_tag}_lr{args.lr}_bs{args.batch_size}_wd{args.weight_decay}"
 
     save_root = Path(args.save_dir) / args.model
     ensure_dir(save_root)

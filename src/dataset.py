@@ -261,16 +261,32 @@ def compute_delta_xy(x: np.ndarray) -> np.ndarray:
     return delta
 
 
-def build_multichannel_features(x: np.ndarray) -> np.ndarray:
+def build_multichannel_features(xy: np.ndarray, use_delta: bool = True) -> np.ndarray:
     """
-    Input:
-        x: (T, L, 2)
-    Output:
-        feat: (T, L, 4) = [x, y, dx, dy]
+    xy: (T, L, 2)
+    return:
+        if use_delta:
+            (T, L, 4) → (x, y, dx, dy)
+        else:
+            (T, L, 2) → (x, y)
     """
-    delta = compute_delta_xy(x)
-    feat = np.concatenate([x, delta], axis=-1).astype(np.float32)  # (T, L, 4)
-    return feat
+
+    if not use_delta:
+        return xy.astype(np.float32)
+
+    dx = np.diff(xy[:, :, 0], axis=0, prepend=xy[0:1, :, 0])
+    dy = np.diff(xy[:, :, 1], axis=0, prepend=xy[0:1, :, 1])
+
+    feat = np.concatenate(
+        [
+            xy,
+            dx[..., None],
+            dy[..., None],
+        ],
+        axis=-1,
+    )
+
+    return feat.astype(np.float32)
 
 
 # =========================
@@ -292,6 +308,7 @@ class SignLanguageNPYDataset(Dataset):
         jitter_std: float = 0.01,
         mask_prob: float = 0.5,
         mask_ratio: float = 0.05,
+        use_delta: bool = True,
     ) -> None:
         super().__init__()
         self.items = items
@@ -300,6 +317,7 @@ class SignLanguageNPYDataset(Dataset):
         self.jitter_std = jitter_std
         self.mask_prob = mask_prob
         self.mask_ratio = mask_ratio
+        self.use_delta = use_delta
 
     def __len__(self) -> int:
         return len(self.items)
@@ -324,7 +342,7 @@ class SignLanguageNPYDataset(Dataset):
             )
 
         # feature engineering on-the-fly
-        feat = build_multichannel_features(x)      # (T, L, 4)
+        feat = build_multichannel_features(x, use_delta=self.use_delta)     # (T, L, 4)
 
         # channel-first untuk model CNN 2D / ResNet
         feat = np.transpose(feat, (2, 0, 1))       # (4, T, L)
@@ -358,6 +376,7 @@ def create_datasets(
     jitter_std: float = 0.01,
     mask_prob: float = 0.5,
     mask_ratio: float = 0.05,
+    use_delta: bool = True,
 ) -> Tuple[SignLanguageNPYDataset, SignLanguageNPYDataset, SignLanguageNPYDataset, Dict[str, Any]]:
     split_data = load_or_create_split(
         split_path=split_path,
@@ -375,16 +394,19 @@ def create_datasets(
         jitter_std=jitter_std,
         mask_prob=mask_prob,
         mask_ratio=mask_ratio,
+        use_delta=use_delta,
     )
 
     val_ds = SignLanguageNPYDataset(
         items=split_data["splits"]["val"],
         augment=False,
+        use_delta=use_delta,
     )
 
     test_ds = SignLanguageNPYDataset(
         items=split_data["splits"]["test"],
         augment=False,
+        use_delta=use_delta,
     )
 
     return train_ds, val_ds, test_ds, split_data
@@ -404,6 +426,7 @@ def create_dataloaders(
     jitter_std: float = 0.01,
     mask_prob: float = 0.5,
     mask_ratio: float = 0.05,
+    use_delta: bool = True,
 ) -> Tuple[DataLoader, DataLoader, DataLoader, Dict[str, Any]]:
     train_ds, val_ds, test_ds, split_data = create_datasets(
         split_path=split_path,
@@ -417,6 +440,7 @@ def create_dataloaders(
         jitter_std=jitter_std,
         mask_prob=mask_prob,
         mask_ratio=mask_ratio,
+        use_delta=use_delta,
     )
 
     train_loader = DataLoader(
