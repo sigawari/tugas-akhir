@@ -188,7 +188,7 @@ Ilustrasi ini digunakan untuk menunjukkan bahwa proses ekstraksi berhasil meloka
 	\label{fig:3.before_after_extraction}
 \end{figure}
 
-% Rev Siga: Ganti jadi bilinear aja, karena lebih ringan juga.
+
 \subsubsection{Seleksi \textit{Landmark} dan Fitur}
 \label{subsubsec:seleksi-normalisasi}
 
@@ -250,38 +250,32 @@ Ilustrasi hasil pemilihan titik pada wajah diperlihatkan pada Gambar \ref{fig:fa
 	{\footnotesize Sumber: Gambar diadaptasi dari repositori penelitian \cite{li2019acialexpression}}
 \end{figure} \par
 
+% Rev Siga: Ganti jadi bilinear aja, karena lebih ringan juga.
 \subsubsection{Penanganan \textit{Missing} Data}
-\label{subsubsec:forward-fill}
+\label{subsubsec:interpolation}
+Tahap ekstraksi \textit{landmark} dapat menghasilkan koordinat yang tidak terdeteksi pada beberapa \textit{frame} akibat oklusi atau kegagalan deteksi.
+Nilai tersebut direpresentasikan sebagai pasangan $(0,0)$ agar dimensi data tetap konsisten.
+Nilai $(0,0)$ kemudian diperlakukan sebagai \textit{missing data} pada tahap prapemrosesan.
+Pendekatan interpolasi linear diterapkan pada setiap lintasan temporal \textit{landmark} secara independen pada kanal $x$ serta $y$ sehingga kontinuitas gerakan tetap terjaga.
+Metode ini memanfaatkan titik valid sebelum serta sesudah nilai hilang untuk membangun estimasi trajektori yang bersifat kontinu.
+Pendekatan tersebut sesuai dengan karakteristik data gerakan manusia \cite{howarth2010interpolation,gloersen2016predicting}.
 
-Tahap ekstraksi \textit{landmark} berpotensi menghasilkan titik tubuh yang tidak terdeteksi pada beberapa \textit{frame} akibat oklusi, gerakan cepat, atau bagian tubuh keluar dari area kamera.
-Nilai yang tidak terdeteksi tersebut pada tahap ekstraksi diisikan nol sebagai \textit{placeholder} untuk menjaga konsistensi dimensi data, lalu diperlakukan sebagai \textit{missing data} pada prapemrosesan lanjutan.
-Penelitian ini menerapkan pendekatan \textit{Last Observation Carried Forward} (LOCF) untuk mengimputasi nilai hilang pada deret waktu koordinat \cite{streiner2010locf}.
-LOCF dipilih karena gerakan pada video bahasa isyarat bersifat kontinu antar-\textit{frame}, sehingga observasi valid terakhir masih merepresentasikan pendekatan yang wajar untuk \textit{frame} berikutnya ketika deteksi gagal.
-
-Secara formal, misalkan koordinat \textit{landmark} ke-$i$ pada \textit{frame} ke-$t$ dinyatakan sebagai $(x_{t,i}, y_{t,i})$.
-Jika \textit{landmark} pada \textit{frame} ke-$t$ tidak terdeteksi, koordinat digantikan oleh nilai \textit{frame} sebelumnya yang masih valid sebagai berikut:
-
-\begin{equationcaptioned}[eq:locf]{
-(x_{t,i}, y_{t,i}) =
-\left\{
-\begin{array}{ll}
-(x_{t,i}, y_{t,i}), & \text{jika \textit{landmark} terdeteksi} \\
-(x_{t-1,i}, y_{t-1,i}), & \text{jika \textit{landmark} tidak terdeteksi}
-\end{array}
-\right.
+Secara matematis, misalkan terdapat dua indeks waktu valid $t_a$ serta $t_b$ dengan $t_a < t < t_b$.
+Nilai pada waktu $t$ dihitung menggunakan interpolasi linear sebagai berikut:
+\begin{equationcaptioned}[eq:linear_interp]{
+(x_t,\, y_t)=
+\left(
+x_{t_a} + \frac{(x_{t_b}-x_{t_a})}{(t_b-t_a)}(t-t_a),\,
+y_{t_a} + \frac{(y_{t_b}-y_{t_a})}{(t_b-t_a)}(t-t_a)
+\right)
 }{
-Aturan imputasi \textit{Last Observation Carried Forward} (LOCF) untuk koordinat \textit{landmark}
+Interpolasi linear koordinat \textit{landmark} pada waktu $t$ menggunakan dua titik valid $t_a$ dan $t_b$
 }
 \end{equationcaptioned}
 
-Implementasi LOCF dilakukan melalui mekanisme \textit{forward fill}, yakni propagasi observasi valid terakhir menuju posisi berikutnya yang bernilai hilang.
-Pendekatan tersebut sejalan bersama perilaku fungsi \texttt{ffill} pada pustaka \textit{pandas} \cite{pandasffill}.
-LOCF diterapkan setelah seleksi \textit{landmark} selesai, sebelum tahap normalisasi koordinat dimulai, sehingga setiap \textit{sequence} memiliki struktur data lengkap saat dihitung relatif terhadap titik acuan tubuh.
-Langkah ini juga menjaga stabilitas perhitungan fitur temporal, khususnya $\Delta x$ serta $\Delta y$, karena fitur tersebut bergantung pada selisih koordinat antar-\textit{frame} berurutan.
-
-Kualitas perekaman video pada penelitian ini tergolong baik, sehingga kasus hilangnya \textit{landmark} bersifat jarang, biasanya berjangka pendek.
-Kondisi tersebut membuat LOCF memadai untuk mempertahankan kontinuitas gerak tanpa memperkenalkan kompleksitas imputasi tingkat lanjut seperti interpolasi.
-Ketahanan tambahan terhadap gangguan koordinat tetap diperkuat pada tahap pelatihan melalui augmentasi, termasuk \textit{coordinate jitter} serta \textit{landmark drop}.
+Nilai hilang pada bagian awal atau akhir deret diestimasi menggunakan nilai valid terdekat sehingga tidak terjadi kehilangan informasi secara drastis.
+Deret waktu yang seluruhnya bernilai nol tidak mengalami perubahan karena tidak tersedia referensi valid untuk membangun interpolasi.
+Pendekatan ini lebih sesuai dibandingkan metode propagasi diskrit karena menghasilkan trajektori yang lebih halus serta mendekati dinamika gerakan sebenarnya.
 
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:step-normalisasi-landmark}

@@ -12,4 +12,4 @@
 \contentsline {myequations}{\numberline {Rumus~2.12} Perhitungan \textit {Precision} }{28}{equation.2.12}%
 \contentsline {myequations}{\numberline {Rumus~2.13} Perhitungan \textit {Recall} }{28}{equation.2.13}%
 \contentsline {myequations}{\numberline {Rumus~2.14} Perhitungan \textit {F1-score} }{28}{equation.2.14}%
-\contentsline {myequations}{\numberline {Rumus~2.1} Aturan imputasi \textit {Last Observation Carried Forward} (LOCF) untuk koordinat \textit {landmark} }{40}{equation.3.1}%
+\contentsline {myequations}{\numberline {Rumus~2.1} Interpolasi linear koordinat \textit {landmark} pada waktu $t$ menggunakan dua titik valid $t_a$ dan $t_b$ }{40}{equation.3.1}%
