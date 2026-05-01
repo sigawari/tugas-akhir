@@ -125,36 +125,6 @@
       \field{volume}{4}
       \field{year}{2022}
     \endentry
-    \entry{nilawaty2020sibi}{online}{}{}
-      \name{author}{1}{}{%
-        {{hash=f77fefb49ead5b1704c8a9c392d23227}{%
-           family={Nilawaty},
-           familyi={N\bibinitperiod},
-           given={C.},
-           giveni={C\bibinitperiod}}}%
-      }
-      \strng{namehash}{f77fefb49ead5b1704c8a9c392d23227}
-      \strng{fullhash}{f77fefb49ead5b1704c8a9c392d23227}
-      \strng{fullhashraw}{f77fefb49ead5b1704c8a9c392d23227}
-      \strng{bibnamehash}{f77fefb49ead5b1704c8a9c392d23227}
-      \strng{authorbibnamehash}{f77fefb49ead5b1704c8a9c392d23227}
-      \strng{authornamehash}{f77fefb49ead5b1704c8a9c392d23227}
-      \strng{authorfullhash}{f77fefb49ead5b1704c8a9c392d23227}
-      \strng{authorfullhashraw}{f77fefb49ead5b1704c8a9c392d23227}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{note}{Accessed: 2026-01-12}
-      \field{title}{Alasan Insan Tuli Memilih Bahasa Isyarat Bisindo Ketimbang SIBI}
-      \field{year}{2020}
-      \verb{urlraw}
-      \verb https://difabel.tempo.co/read/1378989/alasan-insan-tuli-memilih-bahasa-isyarat-bisindo-ketimbang-sibi/full&view=ok
-      \endverb
-      \verb{url}
-      \verb https://difabel.tempo.co/read/1378989/alasan-insan-tuli-memilih-bahasa-isyarat-bisindo-ketimbang-sibi/full&view=ok
-      \endverb
-    \endentry
     \entry{lavenia2023tuliindonesia}{online}{}{}
       \name{author}{1}{}{%
         {{hash=4ab609d8c3a50f0ac85c4540bc1e7569}{%
@@ -171,8 +141,8 @@
       \strng{authornamehash}{4ab609d8c3a50f0ac85c4540bc1e7569}
       \strng{authorfullhash}{4ab609d8c3a50f0ac85c4540bc1e7569}
       \strng{authorfullhashraw}{4ab609d8c3a50f0ac85c4540bc1e7569}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{2}
@@ -202,8 +172,8 @@
       \strng{authornamehash}{bc540aee95af771d06986e2899b724ea}
       \strng{authorfullhash}{bc540aee95af771d06986e2899b724ea}
       \strng{authorfullhashraw}{bc540aee95af771d06986e2899b724ea}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{9}
@@ -217,92 +187,51 @@
       \verb https://www.kompas.id/artikel/menjembatani-keterbatasan-komunikasi-lewat-aplikasi
       \endverb
     \endentry
-    \entry{pathak2025signtospeech}{inproceedings}{}{}
-      \name{author}{6}{}{%
-        {{hash=f1221d68fa92946dc5306605d125cd06}{%
-           family={Pathak},
-           familyi={P\bibinitperiod},
-           given={Anvisha},
-           giveni={A\bibinitperiod}}}%
-        {{hash=5b98dff6575be988b1b1be0f82f28afa}{%
-           family={Patil},
-           familyi={P\bibinitperiod},
-           given={Niraj},
-           giveni={N\bibinitperiod}}}%
-        {{hash=1a0f9c0a694e0b65ffcf9e2e78b682cc}{%
-           family={Padhy},
-           familyi={P\bibinitperiod},
-           given={Prashant},
-           giveni={P\bibinitperiod}}}%
-        {{hash=6c55d02cdbaa8014d02b3bc9f453f562}{%
-           family={Jadhav},
-           familyi={J\bibinitperiod},
-           given={Adarsh},
-           giveni={A\bibinitperiod}}}%
-        {{hash=129a02ad0514150b892d8d5c2be89c6c}{%
-           family={Rukhande},
+    \entry{rastgoo2021slrdeepsurvey}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=01d2b6321ef57fcccd24519f8f5d0ffc}{%
+           family={Rastgoo},
            familyi={R\bibinitperiod},
-           given={Smita},
-           giveni={S\bibinitperiod}}}%
-        {{hash=c9a3e69e4bb798c34a803fdec6cd8d87}{%
-           family={Gadhikar},
-           familyi={G\bibinitperiod},
-           given={Lakshmi},
-           giveni={L\bibinitperiod}}}%
-      }
-      \strng{namehash}{f3e9ce38990f5a83ded8b12161150855}
-      \strng{fullhash}{6d50122064121771abcca44acf66acd9}
-      \strng{fullhashraw}{6d50122064121771abcca44acf66acd9}
-      \strng{bibnamehash}{6d50122064121771abcca44acf66acd9}
-      \strng{authorbibnamehash}{6d50122064121771abcca44acf66acd9}
-      \strng{authornamehash}{f3e9ce38990f5a83ded8b12161150855}
-      \strng{authorfullhash}{6d50122064121771abcca44acf66acd9}
-      \strng{authorfullhashraw}{6d50122064121771abcca44acf66acd9}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2025 International Conference on Emerging Systems and Intelligent Computing (ESIC)}
-      \field{title}{Real-Time Sign Language to Speech Converter Using OpenCV and MediaPipe}
-      \field{year}{2025}
-      \field{pages}{32\bibrangedash 36}
-      \range{pages}{5}
-      \verb{doi}
-      \verb 10.1109/ESIC64052.2025.10962728
-      \endverb
-    \endentry
-    \entry{kavitha2023signtospeech}{inproceedings}{}{}
-      \name{author}{2}{}{%
-        {{hash=1122701c34559a76b545324f4d973895}{%
-           family={Kavitha},
+           given={Razieh},
+           giveni={R\bibinitperiod}}}%
+        {{hash=7ba646f1078130e119a050ec35211453}{%
+           family={Kiani},
            familyi={K\bibinitperiod},
-           given={J.C.},
-           giveni={J\bibinitperiod}}}%
-        {{hash=7f14ebda11a9a0bc0be1d5a27859b7bd}{%
-           family={Nagarajan},
-           familyi={N\bibinitperiod},
-           given={D.},
-           giveni={D\bibinitperiod}}}%
+           given={Kourosh},
+           giveni={K\bibinitperiod}}}%
+        {{hash=d551650e8cc9944645e34ae01c81034e}{%
+           family={Escalera},
+           familyi={E\bibinitperiod},
+           given={Sergio},
+           giveni={S\bibinitperiod}}}%
       }
-      \strng{namehash}{318a7520784b898756ab1615bb2553ff}
-      \strng{fullhash}{318a7520784b898756ab1615bb2553ff}
-      \strng{fullhashraw}{318a7520784b898756ab1615bb2553ff}
-      \strng{bibnamehash}{318a7520784b898756ab1615bb2553ff}
-      \strng{authorbibnamehash}{318a7520784b898756ab1615bb2553ff}
-      \strng{authornamehash}{318a7520784b898756ab1615bb2553ff}
-      \strng{authorfullhash}{318a7520784b898756ab1615bb2553ff}
-      \strng{authorfullhashraw}{318a7520784b898756ab1615bb2553ff}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \strng{namehash}{73e1b72c98f39186ed05263a27b25ede}
+      \strng{fullhash}{28900cd564c650b77aaac8c8f2ea70f2}
+      \strng{fullhashraw}{28900cd564c650b77aaac8c8f2ea70f2}
+      \strng{bibnamehash}{28900cd564c650b77aaac8c8f2ea70f2}
+      \strng{authorbibnamehash}{28900cd564c650b77aaac8c8f2ea70f2}
+      \strng{authornamehash}{73e1b72c98f39186ed05263a27b25ede}
+      \strng{authorfullhash}{28900cd564c650b77aaac8c8f2ea70f2}
+      \strng{authorfullhashraw}{28900cd564c650b77aaac8c8f2ea70f2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{2023 IEEE International Carnahan Conference on Security Technology (ICCST)}
-      \field{title}{Real Time Automated Sign Language Recognition and Transcription with Audio Feedback}
-      \field{year}{2023}
-      \field{pages}{1\bibrangedash 6}
-      \range{pages}{6}
+      \field{issn}{0957-4174}
+      \field{journaltitle}{Expert Systems with Applications}
+      \field{title}{Sign Language Recognition: A Deep Survey}
+      \field{volume}{164}
+      \field{year}{2021}
+      \field{pages}{113794}
+      \range{pages}{1}
       \verb{doi}
-      \verb 10.1109/ICCST59048.2023.10474276
+      \verb https://doi.org/10.1016/j.eswa.2020.113794
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S095741742030614X
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S095741742030614X
       \endverb
     \endentry
     \entry{anturkar2025lstm3dcnn}{article}{}{}
@@ -351,8 +280,8 @@
       \strng{authornamehash}{c41a7a1afd394f9fb7bbdbef5dd0e58d}
       \strng{authorfullhash}{8b76a38aa1049ff444cf2bbc2d1e1aea}
       \strng{authorfullhashraw}{8b76a38aa1049ff444cf2bbc2d1e1aea}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{International Journal of Computer Applications}
@@ -365,49 +294,6 @@
       \range{pages}{5}
       \verb{doi}
       \verb 10.5120/ijca2025925946
-      \endverb
-    \endentry
-    \entry{kumari2024cnn-lstmatt}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=38de772f805e15fefc526e58b2a21e83}{%
-           family={Kumari},
-           familyi={K\bibinitperiod},
-           given={Diksha},
-           giveni={D\bibinitperiod}}}%
-        {{hash=93784ee1dda0096567f6aab978fb22fd}{%
-           family={Anand},
-           familyi={A\bibinitperiod},
-           given={Radhey\bibnamedelima Shyam},
-           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-      }
-      \strng{namehash}{a0650e94360ab818bf9cd96066c42b31}
-      \strng{fullhash}{a0650e94360ab818bf9cd96066c42b31}
-      \strng{fullhashraw}{a0650e94360ab818bf9cd96066c42b31}
-      \strng{bibnamehash}{a0650e94360ab818bf9cd96066c42b31}
-      \strng{authorbibnamehash}{a0650e94360ab818bf9cd96066c42b31}
-      \strng{authornamehash}{a0650e94360ab818bf9cd96066c42b31}
-      \strng{authorfullhash}{a0650e94360ab818bf9cd96066c42b31}
-      \strng{authorfullhashraw}{a0650e94360ab818bf9cd96066c42b31}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{2079-9292}
-      \field{journaltitle}{Electronics}
-      \field{number}{7}
-      \field{title}{Isolated Video-Based Sign Language Recognition Using a Hybrid CNN-LSTM Framework Based on Attention Mechanism}
-      \field{volume}{13}
-      \field{year}{2024}
-      \field{pages}{1229}
-      \range{pages}{1}
-      \verb{doi}
-      \verb 10.3390/electronics13071229
-      \endverb
-      \verb{urlraw}
-      \verb https://www.mdpi.com/2079-9292/13/7/1229
-      \endverb
-      \verb{url}
-      \verb https://www.mdpi.com/2079-9292/13/7/1229
       \endverb
     \endentry
     \entry{maheswara2023lstmbisindo}{inproceedings}{}{}
@@ -446,8 +332,8 @@
       \strng{authornamehash}{338a32770b264e7e689fc12df133d041}
       \strng{authorfullhash}{a4c2abc772fbf1b808148412567c3470}
       \strng{authorfullhashraw}{a4c2abc772fbf1b808148412567c3470}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2023 6th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI)}
@@ -457,102 +343,6 @@
       \range{pages}{7}
       \verb{doi}
       \verb 10.1109/ISRITI60336.2023.10467586
-      \endverb
-    \endentry
-    \entry{utomo2025islslstm}{article}{}{}
-      \name{author}{4}{}{%
-        {{hash=f1715c76478e29e99cb468800d1b0418}{%
-           family={Utomo},
-           familyi={U\bibinitperiod},
-           given={Wargijono},
-           giveni={W\bibinitperiod}}}%
-        {{hash=c49b97e3d0e0ef68be4a28cb051ea881}{%
-           family={Suhanda},
-           familyi={S\bibinitperiod},
-           given={Yogasetya},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=6e9fe12e664ad26f20b38f53c7dac36e}{%
-           family={Ar-Rasyid},
-           familyi={A\bibinithyphendelim R\bibinitperiod},
-           given={Harun},
-           giveni={H\bibinitperiod}}}%
-        {{hash=6e329747f186b3a13448b04a466a3d41}{%
-           family={Dharmalau},
-           familyi={D\bibinitperiod},
-           given={Andy},
-           giveni={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{3df62ed113a2f15564cfd80b20909e4c}
-      \strng{fullhash}{534a64f6b98665971537ddf99ff43ec0}
-      \strng{fullhashraw}{534a64f6b98665971537ddf99ff43ec0}
-      \strng{bibnamehash}{534a64f6b98665971537ddf99ff43ec0}
-      \strng{authorbibnamehash}{534a64f6b98665971537ddf99ff43ec0}
-      \strng{authornamehash}{3df62ed113a2f15564cfd80b20909e4c}
-      \strng{authorfullhash}{534a64f6b98665971537ddf99ff43ec0}
-      \strng{authorfullhashraw}{534a64f6b98665971537ddf99ff43ec0}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Information and Web Engineering}
-      \field{month}{10}
-      \field{number}{3}
-      \field{title}{Indonesian Language Sign Detection Using Mediapipe with Long Short-Term Memory (LSTM) Algorithm}
-      \field{volume}{4}
-      \field{year}{2025}
-      \field{pages}{15\bibrangedash 25}
-      \range{pages}{11}
-      \verb{doi}
-      \verb 10.33093/jiwe.2025.4.3.15
-      \endverb
-    \endentry
-    \entry{lemmuela2025dslr}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=ae02cf237818c37302cc094fddad9bc0}{%
-           family={Lemmuela},
-           familyi={L\bibinitperiod},
-           given={Ivana\bibnamedelima Valentina},
-           giveni={I\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
-        {{hash=a83a1ebb71089035943a3695175555a6}{%
-           family={Ayub},
-           familyi={A\bibinitperiod},
-           given={Mewati},
-           giveni={M\bibinitperiod}}}%
-        {{hash=5f7de58e1836a28c7e3cfe67d8c735f4}{%
-           family={Karnalim},
-           familyi={K\bibinitperiod},
-           given={Oscar},
-           giveni={O\bibinitperiod}}}%
-      }
-      \strng{namehash}{c681d79732be89178e8a4fa548b42832}
-      \strng{fullhash}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{fullhashraw}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{bibnamehash}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{authorbibnamehash}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{authornamehash}{c681d79732be89178e8a4fa548b42832}
-      \strng{authorfullhash}{65c4d36eea7d891205da5f447f03ec6a}
-      \strng{authorfullhashraw}{65c4d36eea7d891205da5f447f03ec6a}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{2443-2555}
-      \field{journaltitle}{Journal of Information Systems Engineering and Business Intelligence}
-      \field{month}{3}
-      \field{number}{1}
-      \field{title}{Dynamic Sign Language Recognition in Bahasa Using MediaPipe, Long Short-Term Memory, and Convolutional Neural Network}
-      \field{volume}{11}
-      \field{year}{2025}
-      \field{pages}{17\bibrangedash 29}
-      \range{pages}{13}
-      \verb{doi}
-      \verb 10.20473/jisebi.11.1.17-29
-      \endverb
-      \verb{urlraw}
-      \verb https://e-journal.unair.ac.id/JISEBI/article/view/60300
-      \endverb
-      \verb{url}
-      \verb https://e-journal.unair.ac.id/JISEBI/article/view/60300
       \endverb
     \endentry
     \entry{zhu2020comprehensivestudydeepvideo}{misc}{}{}
@@ -617,8 +407,8 @@
       \strng{authorfullhash}{c8f02f12cdc99c1cd6c91af562acc989}
       \strng{authorfullhashraw}{c8f02f12cdc99c1cd6c91af562acc989}
       \field{extraname}{1}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{cs.CV}
@@ -633,41 +423,6 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2012.06567
-      \endverb
-    \endentry
-    \entry{wani2022videoreview}{inproceedings}{}{}
-      \name{author}{2}{}{%
-        {{hash=31b0470cc96ca6eb56734a9c0f2594d5}{%
-           family={Wani},
-           familyi={W\bibinitperiod},
-           given={Mohd},
-           giveni={M\bibinitperiod}}}%
-        {{hash=3b382e471e4ad8db9231504f7fc52727}{%
-           family={Faridi},
-           familyi={F\bibinitperiod},
-           given={A.},
-           giveni={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{32a160874d86bcfee4ef92d53f9fa93b}
-      \strng{fullhash}{32a160874d86bcfee4ef92d53f9fa93b}
-      \strng{fullhashraw}{32a160874d86bcfee4ef92d53f9fa93b}
-      \strng{bibnamehash}{32a160874d86bcfee4ef92d53f9fa93b}
-      \strng{authorbibnamehash}{32a160874d86bcfee4ef92d53f9fa93b}
-      \strng{authornamehash}{32a160874d86bcfee4ef92d53f9fa93b}
-      \strng{authorfullhash}{32a160874d86bcfee4ef92d53f9fa93b}
-      \strng{authorfullhashraw}{32a160874d86bcfee4ef92d53f9fa93b}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2022 International Conference on Computing, Communication, and Intelligent Systems (ICCCIS)}
-      \field{month}{11}
-      \field{title}{Deep Learning-Based Video Action Recognition: A Review}
-      \field{year}{2022}
-      \field{pages}{243\bibrangedash 249}
-      \range{pages}{7}
-      \verb{doi}
-      \verb 10.1109/ICCCIS56430.2022.10037736
       \endverb
     \endentry
     \entry{gu2021surveyhumanactivity}{article}{}{}
@@ -711,8 +466,8 @@
       \strng{authornamehash}{b8d0f1d19e84e15df5db897be28a4f7c}
       \strng{authorfullhash}{faae84d258c260b059a8053a5726e4e9}
       \strng{authorfullhashraw}{faae84d258c260b059a8053a5726e4e9}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Human activity recognition is a key to a lot of applications such as healthcare and smart home. In this study, we provide a comprehensive survey on recent advances and challenges in human activity recognition (HAR) with deep learning. Although there are many surveys on HAR, they focused mainly on the taxonomy of HAR and reviewed the state-of-the-art HAR systems implemented with conventional machine learning methods. Recently, several works have also been done on reviewing studies that use deep models for HAR, whereas these works cover few deep models and their variants. There is still a need for a comprehensive and in-depth survey on HAR with recently developed deep learning methods.}
@@ -734,46 +489,155 @@
       \endverb
       \keyw{deep models,mobile sensing,activity recognition,deep learning,Machine learning}
     \endentry
-    \entry{gong2025surveyaction}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=4c7f229c002b9aa38446c560fc1c78d5}{%
-           family={Gong},
-           familyi={G\bibinitperiod},
-           given={Ping},
-           giveni={P\bibinitperiod}}}%
-        {{hash=09846f6d8c697eefda2d39f96e2e20cf}{%
-           family={Luo},
+    \entry{duan2022skeleton}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=f672ea12ce6230e4d4947098aa983722}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Haodong},
+           giveni={H\bibinitperiod}}}%
+        {{hash=ba51490fdfee4e053d199f28e82dad4f}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=ee3f7d7b96add98106db907e189d6c13}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Kai},
+           giveni={K\bibinitperiod}}}%
+        {{hash=f4033e88b680ba7279a268e75f80b1d3}{%
+           family={Lin},
            familyi={L\bibinitperiod},
-           given={Xudong},
-           giveni={X\bibinitperiod}}}%
+           given={Dahua},
+           giveni={D\bibinitperiod}}}%
+        {{hash=3e97152a548f1af74e08b5e0c377ef9b}{%
+           family={Dai},
+           familyi={D\bibinitperiod},
+           given={Bo},
+           giveni={B\bibinitperiod}}}%
       }
-      \strng{namehash}{8779ae2ff9a519eaee382956889fb21a}
-      \strng{fullhash}{8779ae2ff9a519eaee382956889fb21a}
-      \strng{fullhashraw}{8779ae2ff9a519eaee382956889fb21a}
-      \strng{bibnamehash}{8779ae2ff9a519eaee382956889fb21a}
-      \strng{authorbibnamehash}{8779ae2ff9a519eaee382956889fb21a}
-      \strng{authornamehash}{8779ae2ff9a519eaee382956889fb21a}
-      \strng{authorfullhash}{8779ae2ff9a519eaee382956889fb21a}
-      \strng{authorfullhashraw}{8779ae2ff9a519eaee382956889fb21a}
+      \strng{namehash}{b795a7df178b3cec536865aea8326a8f}
+      \strng{fullhash}{124af1617f80efe328934b9b8f4d14b4}
+      \strng{fullhashraw}{124af1617f80efe328934b9b8f4d14b4}
+      \strng{bibnamehash}{124af1617f80efe328934b9b8f4d14b4}
+      \strng{authorbibnamehash}{124af1617f80efe328934b9b8f4d14b4}
+      \strng{authornamehash}{b795a7df178b3cec536865aea8326a8f}
+      \strng{authorfullhash}{124af1617f80efe328934b9b8f4d14b4}
+      \strng{authorfullhashraw}{124af1617f80efe328934b9b8f4d14b4}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{Revisiting Skeleton-based Action Recognition}
+      \field{year}{2022}
+      \verb{eprint}
+      \verb 2104.13586
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2104.13586
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2104.13586
+      \endverb
+    \endentry
+    \entry{bilen2017dynamicimage}{misc}{}{}
+      \name{author}{4}{}{%
+        {{hash=031a77665be90cf046c10d5a9e190bf0}{%
+           family={Bilen},
+           familyi={B\bibinitperiod},
+           given={Hakan},
+           giveni={H\bibinitperiod}}}%
+        {{hash=2ccedf5ab8d5dd4d741d38d6d6f85835}{%
+           family={Fernando},
+           familyi={F\bibinitperiod},
+           given={Basura},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0af7b46960d484276a09bb92a3815b77}{%
+           family={Gavves},
+           familyi={G\bibinitperiod},
+           given={Efstratios},
+           giveni={E\bibinitperiod}}}%
+        {{hash=85ab53268da1006b51b453d57d3566f2}{%
+           family={Vedaldi},
+           familyi={V\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{dd6175e9394a27e48f51a856b78f4e81}
+      \strng{fullhash}{d5fe09cc6b2614ddd2b3071609af26b4}
+      \strng{fullhashraw}{d5fe09cc6b2614ddd2b3071609af26b4}
+      \strng{bibnamehash}{d5fe09cc6b2614ddd2b3071609af26b4}
+      \strng{authorbibnamehash}{d5fe09cc6b2614ddd2b3071609af26b4}
+      \strng{authornamehash}{dd6175e9394a27e48f51a856b78f4e81}
+      \strng{authorfullhash}{d5fe09cc6b2614ddd2b3071609af26b4}
+      \strng{authorfullhashraw}{d5fe09cc6b2614ddd2b3071609af26b4}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{issn}{0950-7051}
-      \field{journaltitle}{Knowledge-Based Systems}
-      \field{title}{A Survey of Video Action Recognition Based on Deep Learning}
-      \field{volume}{320}
-      \field{year}{2025}
-      \field{pages}{113594}
-      \range{pages}{1}
-      \verb{doi}
-      \verb 10.1016/j.knosys.2025.113594
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{Action Recognition with Dynamic Image Networks}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1612.00738
       \endverb
       \verb{urlraw}
-      \verb https://www.sciencedirect.com/science/article/pii/S0950705125006409
+      \verb https://arxiv.org/abs/1612.00738
       \endverb
       \verb{url}
-      \verb https://www.sciencedirect.com/science/article/pii/S0950705125006409
+      \verb https://arxiv.org/abs/1612.00738
+      \endverb
+    \endentry
+    \entry{zhu2023f2dcnet}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=752a95a0baba0f2141d4508a8a8c2241}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Qidan},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=bcdd73174e26b44169c10e9083e72469}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fced99681e247a1e0ee1eefb84d53200}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Fei},
+           giveni={F\bibinitperiod}}}%
+        {{hash=78043a6d80bed30053efee8fc010f5cd}{%
+           family={Gan},
+           familyi={G\bibinitperiod},
+           given={Quan},
+           giveni={Q\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IOS Press}%
+      }
+      \strng{namehash}{d14792c3a2a07533dfdbbe713a7a8bac}
+      \strng{fullhash}{bba9d6155a8d2c3a257d6e62ce598f9d}
+      \strng{fullhashraw}{bba9d6155a8d2c3a257d6e62ce598f9d}
+      \strng{bibnamehash}{bba9d6155a8d2c3a257d6e62ce598f9d}
+      \strng{authorbibnamehash}{bba9d6155a8d2c3a257d6e62ce598f9d}
+      \strng{authornamehash}{d14792c3a2a07533dfdbbe713a7a8bac}
+      \strng{authorfullhash}{bba9d6155a8d2c3a257d6e62ce598f9d}
+      \strng{authorfullhashraw}{bba9d6155a8d2c3a257d6e62ce598f9d}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Fuzzy Systems and Data Mining IX}
+      \field{title}{Fully 2D Convolutional Network for Continuous Sign Language Recognition}
+      \field{year}{2023}
+      \field{pages}{244}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3233/FAIA231028
       \endverb
     \endentry
     \entry{sholawati2022sibi}{article}{}{}
@@ -863,234 +727,53 @@
       \verb https://doi.org/10.57152/ijirse.v4i2.1610
       \endverb
     \endentry
-    \entry{zhu2023f2dcnet}{inproceedings}{}{}
+    \entry{shi2019skeletonaction}{misc}{}{}
       \name{author}{4}{}{%
-        {{hash=752a95a0baba0f2141d4508a8a8c2241}{%
-           family={Zhu},
+        {{hash=a3a6ddf32b96c99874c9f76d86efa2cf}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Lei},
+           giveni={L\bibinitperiod}}}%
+        {{hash=614fdf51ce9628d993d9e0dc779c15a2}{%
+           family={Zhang},
            familyi={Z\bibinitperiod},
-           given={Qidan},
-           giveni={Q\bibinitperiod}}}%
-        {{hash=bcdd73174e26b44169c10e9083e72469}{%
-           family={Li},
-           familyi={L\bibinitperiod},
-           given={Jing},
+           given={Yifan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=13881696d32b0b7c16d8963e496f2e34}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={Jian},
            giveni={J\bibinitperiod}}}%
-        {{hash=fced99681e247a1e0ee1eefb84d53200}{%
-           family={Yuan},
-           familyi={Y\bibinitperiod},
-           given={Fei},
-           giveni={F\bibinitperiod}}}%
-        {{hash=78043a6d80bed30053efee8fc010f5cd}{%
-           family={Gan},
-           familyi={G\bibinitperiod},
-           given={Quan},
-           giveni={Q\bibinitperiod}}}%
-      }
-      \name{editor}{2}{}{%
-        {{hash=6010cc0631d4caf4dc90fa1de0d20fb1}{%
-           family={Tallón-Ballesteros},
-           familyi={T\bibinithyphendelim B\bibinitperiod},
-           given={A.J.},
-           giveni={A\bibinitperiod}}}%
-        {{hash=cc8ab96d975b11b9761ecd1552343f73}{%
-           family={Beltrán-Barba},
-           familyi={B\bibinithyphendelim B\bibinitperiod},
-           given={R.},
-           giveni={R\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {Harbin, China}%
-      }
-      \list{publisher}{1}{%
-        {IOS Press}%
-      }
-      \strng{namehash}{d14792c3a2a07533dfdbbe713a7a8bac}
-      \strng{fullhash}{bba9d6155a8d2c3a257d6e62ce598f9d}
-      \strng{fullhashraw}{bba9d6155a8d2c3a257d6e62ce598f9d}
-      \strng{bibnamehash}{bba9d6155a8d2c3a257d6e62ce598f9d}
-      \strng{authorbibnamehash}{bba9d6155a8d2c3a257d6e62ce598f9d}
-      \strng{authornamehash}{d14792c3a2a07533dfdbbe713a7a8bac}
-      \strng{authorfullhash}{bba9d6155a8d2c3a257d6e62ce598f9d}
-      \strng{authorfullhashraw}{bba9d6155a8d2c3a257d6e62ce598f9d}
-      \strng{editorbibnamehash}{62eaf1a17ba5bc12a10258cef5ae32b1}
-      \strng{editornamehash}{62eaf1a17ba5bc12a10258cef5ae32b1}
-      \strng{editorfullhash}{62eaf1a17ba5bc12a10258cef5ae32b1}
-      \strng{editorfullhashraw}{62eaf1a17ba5bc12a10258cef5ae32b1}
-      \field{extraname}{2}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Fuzzy Systems and Data Mining IX}
-      \field{note}{This article is published online with Open Access by IOS Press and distributed under the terms of the Creative Commons Attribution Non-Commercial License 4.0 (CC BY-NC 4.0)}
-      \field{title}{Fully 2D Convolutional Network for Continuous Sign Language Recognition}
-      \field{year}{2023}
-      \field{pages}{244}
-      \range{pages}{1}
-      \verb{doi}
-      \verb 10.3233/FAIA231028
-      \endverb
-    \endentry
-    \entry{kim2022channelsampling}{misc}{}{}
-      \name{author}{4}{}{%
-        {{hash=7e13c2ab3082b5e822ed85dcf39ab844}{%
-           family={Kim},
-           familyi={K\bibinitperiod},
-           given={Kiyoon},
-           giveni={K\bibinitperiod}}}%
-        {{hash=ccda377ed9bb6adbe77e3e4b99d6a399}{%
-           family={Gowda},
-           familyi={G\bibinitperiod},
-           given={Shreyank\bibnamedelima N},
-           giveni={S\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
-        {{hash=049acd5eec421c88c65716c3d59b9397}{%
-           family={Aodha},
-           familyi={A\bibinitperiod},
-           given={Oisin\bibnamedelima Mac},
-           giveni={O\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=ed43bc2b746ce68ffc8f916c927b9863}{%
-           family={Sevilla-Lara},
-           familyi={S\bibinithyphendelim L\bibinitperiod},
-           given={Laura},
-           giveni={L\bibinitperiod}}}%
-      }
-      \strng{namehash}{c3c68b117b1628a2dfe64f56304c380b}
-      \strng{fullhash}{8cfeb3dfaf2ad8645cb9da153269fdfe}
-      \strng{fullhashraw}{8cfeb3dfaf2ad8645cb9da153269fdfe}
-      \strng{bibnamehash}{8cfeb3dfaf2ad8645cb9da153269fdfe}
-      \strng{authorbibnamehash}{8cfeb3dfaf2ad8645cb9da153269fdfe}
-      \strng{authornamehash}{c3c68b117b1628a2dfe64f56304c380b}
-      \strng{authorfullhash}{8cfeb3dfaf2ad8645cb9da153269fdfe}
-      \strng{authorfullhashraw}{8cfeb3dfaf2ad8645cb9da153269fdfe}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{cs.CV}
-      \field{eprinttype}{arXiv}
-      \field{title}{Capturing Temporal Information in a Single Frame: Channel Sampling Strategies for Action Recognition}
-      \field{year}{2022}
-      \verb{eprint}
-      \verb 2201.10394
-      \endverb
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/2201.10394
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/2201.10394
-      \endverb
-    \endentry
-    \entry{bilen2017dynamicimage}{misc}{}{}
-      \name{author}{4}{}{%
-        {{hash=031a77665be90cf046c10d5a9e190bf0}{%
-           family={Bilen},
-           familyi={B\bibinitperiod},
-           given={Hakan},
-           giveni={H\bibinitperiod}}}%
-        {{hash=2ccedf5ab8d5dd4d741d38d6d6f85835}{%
-           family={Fernando},
-           familyi={F\bibinitperiod},
-           given={Basura},
-           giveni={B\bibinitperiod}}}%
-        {{hash=0af7b46960d484276a09bb92a3815b77}{%
-           family={Gavves},
-           familyi={G\bibinitperiod},
-           given={Efstratios},
-           giveni={E\bibinitperiod}}}%
-        {{hash=85ab53268da1006b51b453d57d3566f2}{%
-           family={Vedaldi},
-           familyi={V\bibinitperiod},
-           given={Andrea},
-           giveni={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{dd6175e9394a27e48f51a856b78f4e81}
-      \strng{fullhash}{d5fe09cc6b2614ddd2b3071609af26b4}
-      \strng{fullhashraw}{d5fe09cc6b2614ddd2b3071609af26b4}
-      \strng{bibnamehash}{d5fe09cc6b2614ddd2b3071609af26b4}
-      \strng{authorbibnamehash}{d5fe09cc6b2614ddd2b3071609af26b4}
-      \strng{authornamehash}{dd6175e9394a27e48f51a856b78f4e81}
-      \strng{authorfullhash}{d5fe09cc6b2614ddd2b3071609af26b4}
-      \strng{authorfullhashraw}{d5fe09cc6b2614ddd2b3071609af26b4}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{cs.CV}
-      \field{eprinttype}{arXiv}
-      \field{title}{Action Recognition with Dynamic Image Networks}
-      \field{year}{2017}
-      \verb{eprint}
-      \verb 1612.00738
-      \endverb
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/1612.00738
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/1612.00738
-      \endverb
-    \endentry
-    \entry{wang2017tsn}{misc}{}{}
-      \name{author}{7}{}{%
-        {{hash=19e9bfb93cd5f50de827a51431a8d010}{%
-           family={Wang},
-           familyi={W\bibinitperiod},
-           given={Limin},
-           giveni={L\bibinitperiod}}}%
-        {{hash=d5051eb0f62df89577bc02f764c3f11a}{%
-           family={Xiong},
-           familyi={X\bibinitperiod},
-           given={Yuanjun},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=edcb27361de88ed2a8ec1c9dca30dd7a}{%
-           family={Wang},
-           familyi={W\bibinitperiod},
-           given={Zhe},
-           giveni={Z\bibinitperiod}}}%
-        {{hash=2addc56ce0ea3a8fc05ff9b0995f74f4}{%
-           family={Qiao},
-           familyi={Q\bibinitperiod},
-           given={Yu},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=f4033e88b680ba7279a268e75f80b1d3}{%
-           family={Lin},
+        {{hash=249aa5cc8e7fbff7840c9fd50ed6ab3f}{%
+           family={Lu},
            familyi={L\bibinitperiod},
-           given={Dahua},
-           giveni={D\bibinitperiod}}}%
-        {{hash=7e09524e32e7b51c169850f848787677}{%
-           family={Tang},
-           familyi={T\bibinitperiod},
-           given={Xiaoou},
-           giveni={X\bibinitperiod}}}%
-        {{hash=4e3c4333156c93f2e568db6387d4c7f1}{%
-           family={Gool},
-           familyi={G\bibinitperiod},
-           given={Luc\bibnamedelima Van},
-           giveni={L\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+           given={Hanqing},
+           giveni={H\bibinitperiod}}}%
       }
-      \strng{namehash}{c5989e5d35c513cda241d5030fd85d29}
-      \strng{fullhash}{2abbbac9da2cef1dc77181a854715d67}
-      \strng{fullhashraw}{2abbbac9da2cef1dc77181a854715d67}
-      \strng{bibnamehash}{c5989e5d35c513cda241d5030fd85d29}
-      \strng{authorbibnamehash}{c5989e5d35c513cda241d5030fd85d29}
-      \strng{authornamehash}{c5989e5d35c513cda241d5030fd85d29}
-      \strng{authorfullhash}{2abbbac9da2cef1dc77181a854715d67}
-      \strng{authorfullhashraw}{2abbbac9da2cef1dc77181a854715d67}
+      \strng{namehash}{51f4a44d17e695df9241258160c8d5bf}
+      \strng{fullhash}{53e60f04fd92400abf71e2d3c24a2466}
+      \strng{fullhashraw}{53e60f04fd92400abf71e2d3c24a2466}
+      \strng{bibnamehash}{53e60f04fd92400abf71e2d3c24a2466}
+      \strng{authorbibnamehash}{53e60f04fd92400abf71e2d3c24a2466}
+      \strng{authornamehash}{51f4a44d17e695df9241258160c8d5bf}
+      \strng{authorfullhash}{53e60f04fd92400abf71e2d3c24a2466}
+      \strng{authorfullhashraw}{53e60f04fd92400abf71e2d3c24a2466}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{cs.CV}
       \field{eprinttype}{arXiv}
-      \field{title}{Temporal Segment Networks for Action Recognition in Videos}
-      \field{year}{2017}
+      \field{title}{Skeleton-Based Action Recognition with Multi-Stream Adaptive Graph Convolutional Networks}
+      \field{year}{2019}
       \verb{eprint}
-      \verb 1705.02953
+      \verb 1912.06971
       \endverb
       \verb{urlraw}
-      \verb https://arxiv.org/abs/1705.02953
+      \verb https://arxiv.org/abs/1912.06971
       \endverb
       \verb{url}
-      \verb https://arxiv.org/abs/1705.02953
+      \verb https://arxiv.org/abs/1912.06971
       \endverb
     \endentry
     \entry{huang2024videoresnetlstm}{article}{}{}
@@ -1130,6 +813,107 @@
       \verb 10.3390/jimaging10060149
       \endverb
     \endentry
+    \entry{perkins2025islr}{misc}{}{}
+      \name{author}{4}{}{%
+        {{hash=2c17f533fef5af14bef373767a8e12d3}{%
+           family={Perkins},
+           familyi={P\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+        {{hash=4dcd4bb0a789a46a08e3f8dcd874bae2}{%
+           family={Hunter},
+           familyi={H\bibinitperiod},
+           given={Davis},
+           giveni={D\bibinitperiod}}}%
+        {{hash=0322b311a0bab438429e0d3caa0aa701}{%
+           family={Patel},
+           familyi={P\bibinitperiod},
+           given={Dhrumil},
+           giveni={D\bibinitperiod}}}%
+        {{hash=8419dc8d9a6c6294089ef7a7831ee2a8}{%
+           family={Flanagan},
+           familyi={F\bibinitperiod},
+           given={Galen},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{7190dd0c23d4f93c0123211e15f66158}
+      \strng{fullhash}{4ca1b757a06c02061597a9861bc6edb4}
+      \strng{fullhashraw}{4ca1b757a06c02061597a9861bc6edb4}
+      \strng{bibnamehash}{4ca1b757a06c02061597a9861bc6edb4}
+      \strng{authorbibnamehash}{4ca1b757a06c02061597a9861bc6edb4}
+      \strng{authornamehash}{7190dd0c23d4f93c0123211e15f66158}
+      \strng{authorfullhash}{4ca1b757a06c02061597a9861bc6edb4}
+      \strng{authorfullhashraw}{4ca1b757a06c02061597a9861bc6edb4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{Isolated Sign Language Recognition with Segmentation and Pose Estimation}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arXiv.2512.14876
+      \endverb
+      \verb{eprint}
+      \verb 2512.14876
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2512.14876
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2512.14876
+      \endverb
+    \endentry
+    \entry{ali2023skeletonaction}{misc}{}{}
+      \name{author}{4}{}{%
+        {{hash=38952b20840ae9fa089f7bd4232943a2}{%
+           family={Ali},
+           familyi={A\bibinitperiod},
+           given={Ayman},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b149041d7dc49a6b0556e5a7b44f7cdd}{%
+           family={Pinyoanuntapong},
+           familyi={P\bibinitperiod},
+           given={Ekkasit},
+           giveni={E\bibinitperiod}}}%
+        {{hash=331faa6bb25090991b7f7eef24891a20}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Pu},
+           giveni={P\bibinitperiod}}}%
+        {{hash=cc8971ac80656bfc9e3d53f8ae741618}{%
+           family={Dorodchi},
+           familyi={D\bibinitperiod},
+           given={Mohsen},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{8ecc96297ce6d092c0401e3c5d7e5fc5}
+      \strng{fullhash}{a37db2c5db24f5c8268f88e51433fda6}
+      \strng{fullhashraw}{a37db2c5db24f5c8268f88e51433fda6}
+      \strng{bibnamehash}{a37db2c5db24f5c8268f88e51433fda6}
+      \strng{authorbibnamehash}{a37db2c5db24f5c8268f88e51433fda6}
+      \strng{authornamehash}{8ecc96297ce6d092c0401e3c5d7e5fc5}
+      \strng{authorfullhash}{a37db2c5db24f5c8268f88e51433fda6}
+      \strng{authorfullhashraw}{a37db2c5db24f5c8268f88e51433fda6}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{Skeleton-based Human Action Recognition via Convolutional Neural Networks (CNN)}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2301.13360v1
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2301.13360
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2301.13360
+      \endverb
+    \endentry
     \entry{bentara2024sibi-bisindo}{online}{}{}
       \name{author}{1}{}{%
         {{hash=cb993f8aad602130033398961458fb3c}{%
@@ -1156,53 +940,6 @@
       \endverb
       \verb{url}
       \verb https://bentaracampus.ac.id/sibi-dan-bisindo-sama-atau-beda-mengenal-perbedaan-dua-bahasa-isyarat-di-indonesia/
-      \endverb
-    \endentry
-    \entry{rastgoo2021slrdeepsurvey}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=01d2b6321ef57fcccd24519f8f5d0ffc}{%
-           family={Rastgoo},
-           familyi={R\bibinitperiod},
-           given={Razieh},
-           giveni={R\bibinitperiod}}}%
-        {{hash=7ba646f1078130e119a050ec35211453}{%
-           family={Kiani},
-           familyi={K\bibinitperiod},
-           given={Kourosh},
-           giveni={K\bibinitperiod}}}%
-        {{hash=d551650e8cc9944645e34ae01c81034e}{%
-           family={Escalera},
-           familyi={E\bibinitperiod},
-           given={Sergio},
-           giveni={S\bibinitperiod}}}%
-      }
-      \strng{namehash}{73e1b72c98f39186ed05263a27b25ede}
-      \strng{fullhash}{28900cd564c650b77aaac8c8f2ea70f2}
-      \strng{fullhashraw}{28900cd564c650b77aaac8c8f2ea70f2}
-      \strng{bibnamehash}{28900cd564c650b77aaac8c8f2ea70f2}
-      \strng{authorbibnamehash}{28900cd564c650b77aaac8c8f2ea70f2}
-      \strng{authornamehash}{73e1b72c98f39186ed05263a27b25ede}
-      \strng{authorfullhash}{28900cd564c650b77aaac8c8f2ea70f2}
-      \strng{authorfullhashraw}{28900cd564c650b77aaac8c8f2ea70f2}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{0957-4174}
-      \field{journaltitle}{Expert Systems with Applications}
-      \field{title}{Sign Language Recognition: A Deep Survey}
-      \field{volume}{164}
-      \field{year}{2021}
-      \field{pages}{113794}
-      \range{pages}{1}
-      \verb{doi}
-      \verb https://doi.org/10.1016/j.eswa.2020.113794
-      \endverb
-      \verb{urlraw}
-      \verb https://www.sciencedirect.com/science/article/pii/S095741742030614X
-      \endverb
-      \verb{url}
-      \verb https://www.sciencedirect.com/science/article/pii/S095741742030614X
       \endverb
     \endentry
     \entry{shende2024mlslr}{misc}{}{}
@@ -1392,112 +1129,107 @@
       \verb https://medium.com/@hotakoma/mediapipe-landmark-face-hand-pose-sequence-number-list-view-778364d6c414
       \endverb
     \endentry
-    \entry{accuracy3dmediapipe}{article}{}{}
-      \name{author}{8}{}{%
-        {{hash=dd8a9305f31438c11e3c2c18d34385c9}{%
-           family={Dill},
-           familyi={D\bibinitperiod},
-           given={Sebastian},
-           giveni={S\bibinitperiod}}}%
-        {{hash=3af78e72000d699a9ebf39d549aea089}{%
-           family={Ahmadi},
-           familyi={A\bibinitperiod},
-           given={Arjang},
-           giveni={A\bibinitperiod}}}%
-        {{hash=d0d19b8f9418988f7ce6a3e587c16115}{%
-           family={Grimmer},
-           familyi={G\bibinitperiod},
-           given={Martin},
-           giveni={M\bibinitperiod}}}%
-        {{hash=4fa7178409a7c3d550c25a1f902d5aa3}{%
-           family={Haufe},
-           familyi={H\bibinitperiod},
-           given={Dennis},
-           giveni={D\bibinitperiod}}}%
-        {{hash=27871fbeaa42d9ea0e9b3e75ede1ccb2}{%
-           family={Rohr},
-           familyi={R\bibinitperiod},
-           given={Maurice},
-           giveni={M\bibinitperiod}}}%
-        {{hash=fd1c49546f893ccbdd039b265d67dbfe}{%
-           family={Zhao},
-           familyi={Z\bibinitperiod},
-           given={Yanhua},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=6c2da681d81f6dd66d25f5fbf5488c41}{%
-           family={Sharbafi},
-           familyi={S\bibinitperiod},
-           given={Maziar},
-           giveni={M\bibinitperiod}}}%
-        {{hash=6921ab81fb3d5b59801cfcacfab50bf1}{%
-           family={Antink},
-           familyi={A\bibinitperiod},
-           given={Christoph\bibnamedelima Hoog},
-           giveni={C\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+    \entry{purbojo2025normalization}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=562b5d3e9e688e18b554483f12968f58}{%
+           family={Purbojo},
+           familyi={P\bibinitperiod},
+           given={Toby},
+           giveni={T\bibinitperiod}}}%
+        {{hash=809ebaba2534ff39e435db8f0a6d5182}{%
+           family={Wijaya},
+           familyi={W\bibinitperiod},
+           given={Andreas\bibnamedelima Parama},
+           giveni={A\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
       }
-      \strng{namehash}{afc16f4c9971494e740f9459964e49a9}
-      \strng{fullhash}{fc8987ecc8471360fe11c4ed333cba3f}
-      \strng{fullhashraw}{fc8987ecc8471360fe11c4ed333cba3f}
-      \strng{bibnamehash}{afc16f4c9971494e740f9459964e49a9}
-      \strng{authorbibnamehash}{afc16f4c9971494e740f9459964e49a9}
-      \strng{authornamehash}{afc16f4c9971494e740f9459964e49a9}
-      \strng{authorfullhash}{fc8987ecc8471360fe11c4ed333cba3f}
-      \strng{authorfullhashraw}{fc8987ecc8471360fe11c4ed333cba3f}
+      \strng{namehash}{51483147dedac439e35bd02e901caf7e}
+      \strng{fullhash}{51483147dedac439e35bd02e901caf7e}
+      \strng{fullhashraw}{51483147dedac439e35bd02e901caf7e}
+      \strng{bibnamehash}{51483147dedac439e35bd02e901caf7e}
+      \strng{authorbibnamehash}{51483147dedac439e35bd02e901caf7e}
+      \strng{authornamehash}{51483147dedac439e35bd02e901caf7e}
+      \strng{authorfullhash}{51483147dedac439e35bd02e901caf7e}
+      \strng{authorfullhashraw}{51483147dedac439e35bd02e901caf7e}
       \field{sortinit}{4}
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{issn}{1424-8220}
-      \field{journaltitle}{Sensors}
-      \field{number}{23}
-      \field{title}{Accuracy Evaluation of 3D Pose Reconstruction Algorithms Through Stereo Camera Information Fusion for Physical Exercises with MediaPipe Pose}
-      \field{volume}{24}
-      \field{year}{2024}
+      \field{issn}{2715-4211}
+      \field{journaltitle}{Advance Sustainable Science, Engineering and Technology (ASSET)}
+      \field{month}{4}
+      \field{note}{Received: 2025-02-07; Accepted: 2025-03-26; Available online: 2025-04-30}
+      \field{number}{2}
+      \field{title}{Enhancing Pose-Based Sign Language Recognition: A Comparative Study of Preprocessing Strategies with GRU and LSTM}
+      \field{volume}{7}
+      \field{year}{2025}
+      \field{pages}{02502017-01\bibrangedash 02502017-013}
+      \range{pages}{-1}
       \verb{doi}
-      \verb 10.3390/s24237772
-      \endverb
-      \verb{urlraw}
-      \verb https://www.mdpi.com/1424-8220/24/23/7772
-      \endverb
-      \verb{url}
-      \verb https://www.mdpi.com/1424-8220/24/23/7772
+      \verb 10.26877/asset.v7i2.1658
       \endverb
     \endentry
-    \entry{lin2023detection}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=48a54c7860e04aea14847979d9dfd303}{%
-           family={Lin},
-           familyi={L\bibinitperiod},
-           given={Yiqiao},
+    \entry{dong2020action}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=873283c66e8cee0063b1bf6fc9e62b67}{%
+           family={Dong},
+           familyi={D\bibinitperiod},
+           given={Jiuqing},
+           giveni={J\bibinitperiod}}}%
+        {{hash=82e78b0025cef95fab9b7919811234ec}{%
+           family={Gao},
+           familyi={G\bibinitperiod},
+           given={Yongbin},
            giveni={Y\bibinitperiod}}}%
-        {{hash=4479c324d15579ce96040c529a5d92ee}{%
-           family={Jiao},
-           familyi={J\bibinitperiod},
-           given={Xueyan},
-           giveni={X\bibinitperiod}}}%
-        {{hash=83ab589fc1432ce949cb31441d689991}{%
-           family={Zhao},
+        {{hash=90aafb7bb527089c67e83dda5d8fcbe1}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Hyo\bibnamedelima Jong},
+           giveni={H\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=11a71515dc9e04ba5c1266f7ef5e357a}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Bo},
+           giveni={B\bibinitperiod}}}%
+        {{hash=dbfe5fff4837625a6ef87f56056e95e1}{%
+           family={Zhou},
            familyi={Z\bibinitperiod},
-           given={Lei},
-           giveni={L\bibinitperiod}}}%
+           given={Heng},
+           giveni={H\bibinitperiod}}}%
+        {{hash=9f7b4172b9a33591fe632aedb07afee7}{%
+           family={Yao},
+           familyi={Y\bibinitperiod},
+           given={Yifan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=8a8497c97d2e24c2b7d01d0b8fdf16dd}{%
+           family={Fang},
+           familyi={F\bibinitperiod},
+           given={Zhijun},
+           giveni={Z\bibinitperiod}}}%
       }
-      \strng{namehash}{2a0752203402180751b0b8ffa5a8471c}
-      \strng{fullhash}{4b3bb45755261b9d516598b9f1473ce7}
-      \strng{fullhashraw}{4b3bb45755261b9d516598b9f1473ce7}
-      \strng{bibnamehash}{4b3bb45755261b9d516598b9f1473ce7}
-      \strng{authorbibnamehash}{4b3bb45755261b9d516598b9f1473ce7}
-      \strng{authornamehash}{2a0752203402180751b0b8ffa5a8471c}
-      \strng{authorfullhash}{4b3bb45755261b9d516598b9f1473ce7}
-      \strng{authorfullhashraw}{4b3bb45755261b9d516598b9f1473ce7}
+      \list{publisher}{1}{%
+        {MDPI}%
+      }
+      \strng{namehash}{f47dbf72693c4b3ed957e38bea39326e}
+      \strng{fullhash}{5bbfaf08a180a7e96c956d660cf7c8e0}
+      \strng{fullhashraw}{5bbfaf08a180a7e96c956d660cf7c8e0}
+      \strng{bibnamehash}{f47dbf72693c4b3ed957e38bea39326e}
+      \strng{authorbibnamehash}{f47dbf72693c4b3ed957e38bea39326e}
+      \strng{authornamehash}{f47dbf72693c4b3ed957e38bea39326e}
+      \strng{authorfullhash}{5bbfaf08a180a7e96c956d660cf7c8e0}
+      \strng{authorfullhashraw}{5bbfaf08a180a7e96c956d660cf7c8e0}
       \field{sortinit}{4}
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Computer and Communications}
-      \field{title}{Detection of 3D Human Posture Based on Improved Mediapipe}
-      \field{year}{2023}
+      \field{journaltitle}{Sensors}
+      \field{number}{4}
+      \field{title}{Action Recognition Based on the Fusion of Graph Convolutional Networks with High Order Features}
+      \field{volume}{20}
+      \field{year}{2020}
+      \field{pages}{1\bibrangedash 19}
+      \range{pages}{19}
       \verb{doi}
-      \verb 10.4236/jcc.2023.112008
+      \verb 10.3390/s20041203
       \endverb
     \endentry
     \entry{lecun1998gradientbased}{article}{}{}
@@ -1649,42 +1381,6 @@
       \verb https://docs.pytorch.org/vision/main/models/resnet.html
       \endverb
     \endentry
-    \entry{goodfellow2016deeplearning}{book}{}{}
-      \name{author}{3}{}{%
-        {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%
-           family={Goodfellow},
-           familyi={G\bibinitperiod},
-           given={Ian},
-           giveni={I\bibinitperiod}}}%
-        {{hash=40a8e4774982146adc2688546f54efb2}{%
-           family={Bengio},
-           familyi={B\bibinitperiod},
-           given={Yoshua},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=ccec1ccd2e1aa86960eb2e872c6b7020}{%
-           family={Courville},
-           familyi={C\bibinitperiod},
-           given={Aaron},
-           giveni={A\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {MIT Press}%
-      }
-      \strng{namehash}{d17e6557c5836d2d978179999ea1037f}
-      \strng{fullhash}{3ae53fe582e8a815b118d26947eaa326}
-      \strng{fullhashraw}{3ae53fe582e8a815b118d26947eaa326}
-      \strng{bibnamehash}{3ae53fe582e8a815b118d26947eaa326}
-      \strng{authorbibnamehash}{3ae53fe582e8a815b118d26947eaa326}
-      \strng{authornamehash}{d17e6557c5836d2d978179999ea1037f}
-      \strng{authorfullhash}{3ae53fe582e8a815b118d26947eaa326}
-      \strng{authorfullhashraw}{3ae53fe582e8a815b118d26947eaa326}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Deep Learning}
-      \field{year}{2016}
-    \endentry
     \entry{shotton2011realtime}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -1740,7 +1436,43 @@
       \field{title}{Two-Stream Convolutional Networks for Action Recognition in Videos}
       \field{year}{2014}
     \endentry
-    \entry{powers2011evaluation}{article}{}{}
+    \entry{goodfellow2016deeplearning}{book}{}{}
+      \name{author}{3}{}{%
+        {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%
+           family={Goodfellow},
+           familyi={G\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+        {{hash=40a8e4774982146adc2688546f54efb2}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={Yoshua},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=ccec1ccd2e1aa86960eb2e872c6b7020}{%
+           family={Courville},
+           familyi={C\bibinitperiod},
+           given={Aaron},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{d17e6557c5836d2d978179999ea1037f}
+      \strng{fullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{fullhashraw}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{bibnamehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authorbibnamehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authornamehash}{d17e6557c5836d2d978179999ea1037f}
+      \strng{authorfullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authorfullhashraw}{3ae53fe582e8a815b118d26947eaa326}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Deep Learning}
+      \field{year}{2016}
+    \endentry
+    \entry{powers2020evaluation}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=590aed25666f7ee9c7f2009bd208cea8}{%
            family={Powers},
@@ -1760,9 +1492,310 @@
       \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Machine Learning Technologies}
-      \field{title}{Evaluation: From Precision, Recall and F-Measure to ROC, Informedness, Markedness and Correlation}
-      \field{year}{2011}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Evaluation: from precision, recall and F-measure to ROC, informedness, markedness and correlation}
+      \field{year}{2020}
+      \verb{eprint}
+      \verb 2010.16061
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2010.16061
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2010.16061
+      \endverb
+    \endentry
+    \entry{lin2023detection}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=48a54c7860e04aea14847979d9dfd303}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Yiqiao},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=4479c324d15579ce96040c529a5d92ee}{%
+           family={Jiao},
+           familyi={J\bibinitperiod},
+           given={Xueyan},
+           giveni={X\bibinitperiod}}}%
+        {{hash=83ab589fc1432ce949cb31441d689991}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Lei},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{2a0752203402180751b0b8ffa5a8471c}
+      \strng{fullhash}{4b3bb45755261b9d516598b9f1473ce7}
+      \strng{fullhashraw}{4b3bb45755261b9d516598b9f1473ce7}
+      \strng{bibnamehash}{4b3bb45755261b9d516598b9f1473ce7}
+      \strng{authorbibnamehash}{4b3bb45755261b9d516598b9f1473ce7}
+      \strng{authornamehash}{2a0752203402180751b0b8ffa5a8471c}
+      \strng{authorfullhash}{4b3bb45755261b9d516598b9f1473ce7}
+      \strng{authorfullhashraw}{4b3bb45755261b9d516598b9f1473ce7}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computer and Communications}
+      \field{title}{Detection of 3D Human Posture Based on Improved Mediapipe}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.4236/jcc.2023.112008
+      \endverb
+    \endentry
+    \entry{accuracy3dmediapipe}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=dd8a9305f31438c11e3c2c18d34385c9}{%
+           family={Dill},
+           familyi={D\bibinitperiod},
+           given={Sebastian},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3af78e72000d699a9ebf39d549aea089}{%
+           family={Ahmadi},
+           familyi={A\bibinitperiod},
+           given={Arjang},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d0d19b8f9418988f7ce6a3e587c16115}{%
+           family={Grimmer},
+           familyi={G\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=4fa7178409a7c3d550c25a1f902d5aa3}{%
+           family={Haufe},
+           familyi={H\bibinitperiod},
+           given={Dennis},
+           giveni={D\bibinitperiod}}}%
+        {{hash=27871fbeaa42d9ea0e9b3e75ede1ccb2}{%
+           family={Rohr},
+           familyi={R\bibinitperiod},
+           given={Maurice},
+           giveni={M\bibinitperiod}}}%
+        {{hash=fd1c49546f893ccbdd039b265d67dbfe}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Yanhua},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=6c2da681d81f6dd66d25f5fbf5488c41}{%
+           family={Sharbafi},
+           familyi={S\bibinitperiod},
+           given={Maziar},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6921ab81fb3d5b59801cfcacfab50bf1}{%
+           family={Antink},
+           familyi={A\bibinitperiod},
+           given={Christoph\bibnamedelima Hoog},
+           giveni={C\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{afc16f4c9971494e740f9459964e49a9}
+      \strng{fullhash}{fc8987ecc8471360fe11c4ed333cba3f}
+      \strng{fullhashraw}{fc8987ecc8471360fe11c4ed333cba3f}
+      \strng{bibnamehash}{afc16f4c9971494e740f9459964e49a9}
+      \strng{authorbibnamehash}{afc16f4c9971494e740f9459964e49a9}
+      \strng{authornamehash}{afc16f4c9971494e740f9459964e49a9}
+      \strng{authorfullhash}{fc8987ecc8471360fe11c4ed333cba3f}
+      \strng{authorfullhashraw}{fc8987ecc8471360fe11c4ed333cba3f}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1424-8220}
+      \field{journaltitle}{Sensors}
+      \field{number}{23}
+      \field{title}{Accuracy Evaluation of 3D Pose Reconstruction Algorithms Through Stereo Camera Information Fusion for Physical Exercises with MediaPipe Pose}
+      \field{volume}{24}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.3390/s24237772
+      \endverb
+      \verb{urlraw}
+      \verb https://www.mdpi.com/1424-8220/24/23/7772
+      \endverb
+      \verb{url}
+      \verb https://www.mdpi.com/1424-8220/24/23/7772
+      \endverb
+    \endentry
+    \entry{li2019acialexpression}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=1a6555ea98ce7ae548bbcfce38c57524}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Dahua},
+           giveni={D\bibinitperiod}}}%
+        {{hash=edcb27361de88ed2a8ec1c9dca30dd7a}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Zhe},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=bcce09c2fde4a2f5ebb74b80e0ce4aaf}{%
+           family={Gao},
+           familyi={G\bibinitperiod},
+           given={Qiang},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=843c7f8110f7bed0880c1cc4bd93ac35}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Yu},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=f180cd4b8fde24b498399bd396ea92a0}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Xiao},
+           giveni={X\bibinitperiod}}}%
+        {{hash=b6ebe17a18491ba72703dfe2ad35e407}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Chuhan},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{07c2bec7b8f4cbc69ef93dd34cb9f9ba}
+      \strng{fullhash}{f02218d2dc104e9a026bff5c61ec1fc9}
+      \strng{fullhashraw}{f02218d2dc104e9a026bff5c61ec1fc9}
+      \strng{bibnamehash}{f02218d2dc104e9a026bff5c61ec1fc9}
+      \strng{authorbibnamehash}{f02218d2dc104e9a026bff5c61ec1fc9}
+      \strng{authornamehash}{07c2bec7b8f4cbc69ef93dd34cb9f9ba}
+      \strng{authorfullhash}{f02218d2dc104e9a026bff5c61ec1fc9}
+      \strng{authorfullhashraw}{f02218d2dc104e9a026bff5c61ec1fc9}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Technology and Health Care}
+      \field{month}{1}
+      \field{title}{Facial expression recognition based on Electroencephalogram and facial landmark localization}
+      \field{volume}{27}
+      \field{year}{2019}
+      \field{pages}{1\bibrangedash 15}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.3233/THC-181538
+      \endverb
+    \endentry
+    \entry{howarth2010interpolation}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=c2a2c4baaae1032d9211b8b96f9d19f3}{%
+           family={Howarth},
+           familyi={H\bibinitperiod},
+           given={Samuel\bibnamedelima J.},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=19b2dbb86f55ed9f74d7a7975bbada18}{%
+           family={Callaghan},
+           familyi={C\bibinitperiod},
+           given={Jack\bibnamedelima P.},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{46044ebd04b20d5854368b5d041a473b}
+      \strng{fullhash}{46044ebd04b20d5854368b5d041a473b}
+      \strng{fullhashraw}{46044ebd04b20d5854368b5d041a473b}
+      \strng{bibnamehash}{46044ebd04b20d5854368b5d041a473b}
+      \strng{authorbibnamehash}{46044ebd04b20d5854368b5d041a473b}
+      \strng{authornamehash}{46044ebd04b20d5854368b5d041a473b}
+      \strng{authorfullhash}{46044ebd04b20d5854368b5d041a473b}
+      \strng{authorfullhashraw}{46044ebd04b20d5854368b5d041a473b}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computer Methods in Biomechanics and Biomedical Engineering}
+      \field{number}{6}
+      \field{title}{Quantitative assessment of the accuracy for three interpolation techniques in kinematic analysis of human movement}
+      \field{volume}{13}
+      \field{year}{2010}
+      \field{pages}{847\bibrangedash 855}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1080/10255841003664701
+      \endverb
+    \endentry
+    \entry{gloersen2016predicting}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=eabf94406ae20c825dcffc415396e591}{%
+           family={Gl{ø}ersen},
+           familyi={G\bibinitperiod},
+           given={{Ø}yvind},
+           giveni={Ø\bibinitperiod}}}%
+        {{hash=752d941e46ad14f9ddda36f6499fac9d}{%
+           family={Federolf},
+           familyi={F\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{cd56ad0ea823b0910c20f20ad8f95790}
+      \strng{fullhash}{cd56ad0ea823b0910c20f20ad8f95790}
+      \strng{fullhashraw}{cd56ad0ea823b0910c20f20ad8f95790}
+      \strng{bibnamehash}{cd56ad0ea823b0910c20f20ad8f95790}
+      \strng{authorbibnamehash}{cd56ad0ea823b0910c20f20ad8f95790}
+      \strng{authornamehash}{cd56ad0ea823b0910c20f20ad8f95790}
+      \strng{authorfullhash}{cd56ad0ea823b0910c20f20ad8f95790}
+      \strng{authorfullhashraw}{cd56ad0ea823b0910c20f20ad8f95790}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PLOS ONE}
+      \field{number}{3}
+      \field{title}{Predicting Missing Marker Trajectories in Human Motion Data Using Marker Intercorrelations}
+      \field{volume}{11}
+      \field{year}{2016}
+      \field{pages}{e0152616}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1371/journal.pone.0152616
+      \endverb
+    \endentry
+    \entry{rao2021augmentation}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=4a9d7350a0c8e8a1a2a75cf56a5d15ec}{%
+           family={Rao},
+           familyi={R\bibinitperiod},
+           given={Haocong},
+           giveni={H\bibinitperiod}}}%
+        {{hash=de3cc02930f7577d7d7a13d53ddfd136}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Shihao},
+           giveni={S\bibinitperiod}}}%
+        {{hash=68d17a8083c92cbb3c1ec4a095b1c249}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Xiping},
+           giveni={X\bibinitperiod}}}%
+        {{hash=cecba4440388098bc87917ff9fadb109}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={Jun},
+           giveni={J\bibinitperiod}}}%
+        {{hash=1ea9938fcf457149a57010bc4a52557c}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Bin},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{4d537387b40a9c8482df671abb53a318}
+      \strng{fullhash}{e02fcee73b2290b287e468ad91767f97}
+      \strng{fullhashraw}{e02fcee73b2290b287e468ad91767f97}
+      \strng{bibnamehash}{e02fcee73b2290b287e468ad91767f97}
+      \strng{authorbibnamehash}{e02fcee73b2290b287e468ad91767f97}
+      \strng{authornamehash}{4d537387b40a9c8482df671abb53a318}
+      \strng{authorfullhash}{e02fcee73b2290b287e468ad91767f97}
+      \strng{authorfullhashraw}{e02fcee73b2290b287e468ad91767f97}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{month}{4}
+      \field{title}{Augmented Skeleton Based Contrastive Action Learning with Momentum LSTM for Unsupervised Action Recognition}
+      \field{year}{2021}
+      \verb{eprint}
+      \verb 2008.00188v4
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2008.00188v4
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2008.00188v4
+      \endverb
     \endentry
   \enddatalist
 \endrefsection
