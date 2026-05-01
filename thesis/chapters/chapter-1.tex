@@ -68,13 +68,14 @@ Variasi kedalaman ResNet-2D digunakan untuk menilai pengaruh kapasitas model ter
 Studi ablasi membandingkan representasi dengan dan tanpa komponen perubahan antar-\textit{frame} untuk mengisolasi kontribusi fitur $(\Delta x, \Delta y)$ terhadap metrik evaluasi.
 
 % Rev Siga: Kalau "apakah bisa dimodelkan atau ngga" nya gimana?
+
 \section{Rumusan Masalah} \label{sec:rumusan-masalah}
 % Latar belakang menunjukkan dominasi pemodelan temporal eksplisit pada klasifikasi bahasa isyarat dinamis serta munculnya kebutuhan efisiensi pada pemrosesan data berurutan.
 % Pendekatan spasial berbasis ResNet-2D menawarkan pemrosesan \textit{feed-forward} yang paralel, tetapi efektivitasnya pada konteks BISINDO dinamis berbasis \textit{landmark} masih belum banyak dievaluasi.
 % Rekayasa representasi \textit{pseudo-image} \textit{multichannel} berpotensi mengintegrasikan informasi perubahan gerak tanpa mekanisme sekuensial eksplisit.
 Pertanyaan penelitian berikut diajukan untuk menilai kontribusi fitur perubahan antar-\textit{frame} dan variasi kedalaman ResNet-2D terhadap performa klasifikasi.
 \begin{enumerate}[noitemsep]
-    \item Seberapa besar pengaruh integrasi fitur perubahan antar-\textit{frame} $(\Delta x, \Delta y)$ pada representasi \textit{pseudo-image} berbasis \textit{landmark} terhadap performa klasifikasi gerakan BISINDO dinamis?
+    \item Seberapa besar pengaruh integrasi fitur perubahan antar-\textit{frame} $(\Delta x, \Delta y)$ terhadap performa klasifikasi pada berbagai kedalaman arsitektur ResNet-2D?
     \item Seberapa besar pengaruh variasi kedalaman arsitektur ResNet-2D terhadap performa klasifikasi gerakan BISINDO dinamis pada representasi \textit{pseudo-image} berbasis \textit{landmark}?
 \end{enumerate}
 

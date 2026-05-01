@@ -649,7 +649,7 @@ Perbandingan ini bertujuan mengukur sejauh mana informasi dinamika gerakan menin
 Eksperimen kedua berfokus pada evaluasi variasi kompleksitas arsitektur jaringan konvolusional. 
 Arsitektur jaringan mempengaruhi kapasitas representasi fitur yang dapat dipelajari oleh model. 
 Model dengan struktur residual umumnya mampu mempelajari representasi yang lebih stabil pada jaringan yang lebih dalam. 
-Perbandingan dilakukan antara arsitektur CNN dua dimensi dasar serta beberapa varian ResNet dengan kedalaman jaringan yang berbeda.
+Perbandingan dilakukan antara CNN 2D dasar sebagai baseline \textit{non-residual} dan varian ResNet dengan kedalaman berbeda, yaitu ResNet-18, ResNet-34, dan ResNet-50, untuk menganalisis pengaruh peningkatan kedalaman jaringan terhadap performa klasifikasi.
 
 Penelitian ini menggunakan empat arsitektur model yang terdiri dari CNN dua dimensi dasar, ResNet-18, ResNet-34, serta ResNet-50. 
 CNN dua dimensi dasar digunakan sebagai model pembanding tanpa mekanisme residual. 
@@ -657,6 +657,7 @@ Arsitektur ResNet dipilih karena struktur \textit{skip connection} memungkinkan 
 Variasi kedalaman jaringan digunakan untuk mengamati pengaruh kapasitas representasi terhadap performa klasifikasi gerakan bahasa isyarat.
 
 Kedua faktor eksperimen tersebut dikombinasikan untuk menghasilkan beberapa konfigurasi model yang berbeda. 
+Kombinasi kedua faktor tersebut membentuk desain eksperimen berbasis \textit{factorial design} dengan dua faktor dan delapan konfigurasi eksperimen.
 Setiap konfigurasi menggunakan prosedur pelatihan yang sama sehingga perbedaan performa hanya dipengaruhi oleh variasi fitur masukan serta arsitektur jaringan. 
 Evaluasi performa dilakukan menggunakan metrik klasifikasi yang dijelaskan pada bagian berikutnya. 
 Ringkasan konfigurasi eksperimen yang digunakan pada penelitian ini ditunjukkan pada Tabel \ref{tab:experiment-config}.
@@ -681,8 +682,8 @@ ResNet-50 & $(x,y,\Delta x, \Delta y)$ & 4 \\ \hline
 
 Konfigurasi eksperimen tersebut menghasilkan delapan skenario pelatihan yang berbeda. 
 Setiap model dilatih menggunakan dataset yang sama serta konfigurasi \textit{hyperparameter} yang identik. 
-Pendekatan ini memastikan bahwa perubahan performa model dapat diatribusikan secara langsung pada variasi fitur masukan dan kedalaman arsitektur jaringan. 
-Hasil eksperimen kemudian dianalisis untuk menjawab pertanyaan penelitian mengenai kontribusi fitur dinamika gerakan serta pengaruh kompleksitas arsitektur ResNet-2D terhadap performa klasifikasi bahasa isyarat dinamis.
+Pendekatan ini memastikan bahwa perubahan performa model dapat diatribusikan secara langsung pada variasi fitur masukan dan kedalaman arsitektur jaringan.
+Dengan demikian, desain eksperimen ini memungkinkan analisis yang sistematis terhadap kontribusi fitur dinamika gerakan serta pengaruh kompleksitas arsitektur dalam konteks pemodelan bahasa isyarat dinamis berbasis representasi pseudo-image.
 
 \subsection{Evaluasi Model}
 \label{subsec:evaluasi-model}
