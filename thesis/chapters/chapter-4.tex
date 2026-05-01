@@ -11,10 +11,17 @@
 % - Ringkasan alur implementasi end-to-end (data -> preprocessing -> model -> evaluasi)
 % - Lingkungan eksperimen: spesifikasi perangkat (CPU/GPU), OS, versi library utama
 % - Reproducibility: seed, pembagian data, dan skenario pengujian
+Penelitian ini dilaksanakan melalui serangkaian tahapan yang telah dijelaskan pada Bab III seperti pada Gambar \ref{fig:3.alur}. 
+Luaran utama dari penelitian ini adalah model klasifikasi bahasa isyarat dinamis berbasis representasi \textit{pseudo-image} landmark multichannel yang mampu mengenali gerakan BISINDO.  
+Bab ini menyajikan hasil implementasi dari setiap tahapan yang telah dirancang, mulai dari analisis dataset, hasil prapemrosesan, pembentukan representasi masukan, hingga performa model yang dihasilkan.  
+Evaluasi juga dilakukan melalui studi ablasi untuk menganalisis kontribusi fitur dinamika gerakan serta pengaruh variasi kedalaman arsitektur ResNet-2D terhadap kinerja klasifikasi.  
 
 \subsection{Analisis Dataset}
 \label{subsec:analisis-dataset}
-% Letakkan "cerita data" dan bukti kuantitatif sebelum/sesudah trimming di sini.
+Dataset yang digunakan dalam penelitian ini diperoleh melalui proses pengambilan data secara langsung di Pusat Bahasa Isyarat Indonesia (Pusbisindo) Jawa Barat. 
+Proses akuisisi dilakukan dengan melibatkan partisipan yang merupakan pengguna aktif bahasa isyarat BISINDO, sehingga gestur yang direkam merepresentasikan penggunaan bahasa isyarat dalam konteks komunikasi sehari-hari.
+Data yang dikumpulkan berupa rekaman video gestur dinamis untuk sejumlah kelas isyarat tertentu. Setiap kelas merepresentasikan satu makna atau kata dalam bahasa isyarat yang diwujudkan melalui pola gerakan tangan dan tubuh yang khas. Proses pengambilan data dilakukan dalam kondisi terkontrol untuk meminimalkan gangguan visual seperti latar belakang yang kompleks maupun variasi pencahayaan yang ekstrem.
+Sebelum digunakan dalam tahap pelatihan model, dataset melalui serangkaian proses prapemrosesan, termasuk segmentasi dan trimming video untuk mengekstraksi bagian gestur yang relevan. Tahap ini menghasilkan peningkatan jumlah sampel dibandingkan jumlah video mentah awal, sehingga dataset menjadi lebih representatif untuk proses pembelajaran model.
 
 \subsubsection{Deskripsi dan Distribusi Kelas}
 \label{subsubsec:deskripsi-distribusi}
@@ -23,14 +30,68 @@
 % - Definisi singkat tiap kelas (opsional 1 kalimat/kode label)
 % - Distribusi jumlah sampel per kelas (setelah trimming)
 % - Tampilkan tabel distribusi dan/atau bar chart
+Dataset yang digunakan dalam penelitian ini terdiri dari sejumlah kelas gerakan bahasa isyarat BISINDO yang merepresentasikan gestur dinamis dalam komunikasi sehari-hari. 
+Setiap kelas menggambarkan satu jenis makna tertentu yang diwujudkan melalui pola gerakan tangan dan tubuh yang khas. 
+Secara keseluruhan, dataset mencakup \textit{\{isi\}} kelas gestur dengan total \textit{\{isi\}} sampel hasil prapemrosesan.
+
+Setelah melalui proses segmentasi dan trimming, jumlah sampel meningkat secara signifikan dibandingkan jumlah video mentah awal.
+Setiap potongan video hasil trimming dianggap sebagai satu sampel independen yang merepresentasikan satu instance gestur.
+Pendekatan ini memungkinkan peningkatan jumlah data latih tanpa menambah proses akuisisi data baru, serta membantu model dalam mempelajari variasi temporal dari setiap gerakan.
+
+Distribusi jumlah sampel pada setiap kelas ditunjukkan pada Tabel \ref{tab:distribusi-kelas}. 
+Secara umum, distribusi data antar kelas dijaga relatif seimbang untuk menghindari bias model terhadap kelas tertentu. 
+Keseimbangan ini penting agar model dapat mempelajari representasi yang adil untuk seluruh kelas gestur.
+
+\begin{table}[H]
+    \centering
+    \caption{Distribusi jumlah sampel per kelas setelah proses trimming}
+    \label{tab:distribusi-kelas}
+    \begin{tabular}{|l|c|}
+    \hline
+    \textbf{Kelas} & \textbf{Jumlah Sampel} \\ \hline
+    belum & 15 \\ \hline
+    hati\_hati & 15 \\ \hline
+    hobi & 15 \\ \hline
+    izin & 15 \\ \hline
+    maaf & 15 \\ \hline
+    sahabat & 15 \\ \hline
+    teman & 15 \\ \hline
+    terima\_kasih & 15 \\ \hline
+    tidak\_punya & 15 \\ \hline
+    ulang & 15 \\ \hline
+    \textbf{Total} & \textbf{150} \\ \hline
+    \end{tabular}
+    
+    \vspace{0.5em}
+\end{table}
 
 \subsubsection{\textit{Trimming} Data}
 \label{subsubsec:sebelum-sesudah-trimming}
+Dataset awal yang diperoleh berupa video gestur dinamis untuk setiap kelas isyarat. 
+Setiap video mengandung rangkaian gerakan yang masih mencakup bagian non-gesture, seperti jeda sebelum dan sesudah gerakan utama.
+Melalui proses segmentasi dan trimming, setiap video dipecah menjadi beberapa potongan yang berfokus pada satu gestur utama. 
+Setiap potongan tersebut kemudian dianggap sebagai satu sampel independen dalam dataset.
+
+Proses ini menghasilkan peningkatan jumlah data pada setiap kelas. 
+Secara keseluruhan, dataset hasil trimming terdiri dari 150 sampel, dengan distribusi yang relatif merata pada setiap kelas, yaitu sebanyak 15 sampel per kelas.
+Ringkasan perubahan jumlah data sebelum dan sesudah proses trimming ditunjukkan pada Tabel \ref{tab:trimming}.
 % Isi:
 % - Jelaskan dataset mentah (jumlah video awal, durasi rata-rata, kondisi rekaman)
 % - Jelaskan hasil setelah trimming/segmentasi (jumlah segmen/sampel menjadi N)
 % - Tabel WAJIB: sebelum vs sesudah trimming (jumlah video/segmen, durasi, total frame)
 % - Tekankan alasan trimming dilakukan (mengurangi bagian non-gesture, meningkatkan fokus sinyal)
+
+\begin{table}[H]
+    \centering
+    \caption{Perubahan struktur data setelah proses trimming}
+    \label{tab:trimming}
+    \begin{tabular}{|l|c|}
+    \hline
+    \textbf{Tahap} & \textbf{Jumlah Data} \\ \hline
+    Data mentah & 10 video \\ \hline
+    Hasil trimming & 150 sampel \\ \hline
+    \end{tabular}
+\end{table}
 
 \subsubsection{Contoh Visual Sampel Dataset}
 \label{subsubsec:contoh-visual-dataset}
