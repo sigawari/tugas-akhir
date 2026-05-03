@@ -26,7 +26,7 @@ from utils import (
 )
 
 # Sumber kebenaran label (harus konsisten dengan build_dataset.py)
-from build_dataset import WORD_LABEL_MAP
+from archive.build_dataset import WORD_LABEL_MAP
 
 # Rasio split
 TRAIN_RATIO: float = 0.70
