@@ -200,7 +200,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--lr", type=float, default=1e-4)
     p.add_argument("--weight_decay", type=float, default=1e-3)
     p.add_argument("--patience", type=int, default=10)
-    p.add_argument("--scheduler", type=str, default="cosine",
+    p.add_argument("--scheduler", type=str, default="plateau",
                    choices=["none", "plateau", "cosine"])
 
     p.add_argument("--num_workers", type=int, default=0)
