@@ -14,7 +14,7 @@ from torch.utils.data import Dataset, DataLoader
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATASET_DIR = PROJECT_ROOT / "dataset" / "npy_dataset"
-DEFAULT_SPLIT_PATH = PROJECT_ROOT / "dataset" / "splits" / "split_70_20_10.json"
+DEFAULT_SPLIT_PATH = PROJECT_ROOT / "dataset" / "splits" / "split_80_20.json"
 
 # =========================
 # GLOBAL SHAPE CONFIG
@@ -56,17 +56,16 @@ def load_dataset_index(dataset_dir: Path = DATASET_DIR) -> List[Dict[str, Any]]:
 
 def build_split_from_dataset_index(
     dataset_index: List[Dict[str, Any]],
-    train_ratio: float = 0.7,
+    train_ratio: float = 0.8,
     val_ratio: float = 0.2,
-    test_ratio: float = 0.1,
     seed: int = 42,
 ) -> Dict[str, Any]:
     """
     Split file-level stratified per label.
     Aman dari data leakage antar split karena unit split = file/video.
     """
-    if abs((train_ratio + val_ratio + test_ratio) - 1.0) > 1e-9:
-        raise ValueError("train_ratio + val_ratio + test_ratio harus = 1.0")
+    if abs((train_ratio + val_ratio ) - 1.0) > 1e-9:
+        raise ValueError("train_ratio + val_ratio harus = 1.0")
 
     rng = np.random.default_rng(seed)
 
@@ -77,7 +76,6 @@ def build_split_from_dataset_index(
 
     train_items: List[Dict[str, Any]] = []
     val_items: List[Dict[str, Any]] = []
-    test_items: List[Dict[str, Any]] = []
 
     for label in sorted(by_label.keys()):
         items = by_label[label].copy()
@@ -87,18 +85,11 @@ def build_split_from_dataset_index(
         n_train = int(round(n * train_ratio))
         n_val = int(round(n * val_ratio))
 
-        # koreksi supaya total tepat
-        if n_train + n_val > n:
-            n_val = n - n_train
-        n_test = n - n_train - n_val
-
         train_items.extend(items[:n_train])
         val_items.extend(items[n_train:n_train + n_val])
-        test_items.extend(items[n_train + n_val:])
 
         assert len(items[:n_train]) == n_train
         assert len(items[n_train:n_train + n_val]) == n_val
-        assert len(items[n_train + n_val:]) == n_test
 
     label_map = {}
     for item in dataset_index:
@@ -110,7 +101,6 @@ def build_split_from_dataset_index(
         "meta": {
             "train_ratio": train_ratio,
             "val_ratio": val_ratio,
-            "test_ratio": test_ratio,
             "seed": seed,
             "num_samples": len(dataset_index),
             "num_classes": len(label_map),
@@ -121,7 +111,6 @@ def build_split_from_dataset_index(
         "splits": {
             "train": train_items,
             "val": val_items,
-            "test": test_items,
         }
     }
 
@@ -136,9 +125,8 @@ def save_split_json(split_data: Dict[str, Any], path: str | Path) -> None:
 def load_or_create_split(
     split_path: str | Path = DEFAULT_SPLIT_PATH,
     dataset_dir: Path = DATASET_DIR,
-    train_ratio: float = 0.7,
+    train_ratio: float = 0.8,
     val_ratio: float = 0.2,
-    test_ratio: float = 0.1,
     seed: int = 42,
 ) -> Dict[str, Any]:
     split_path = Path(split_path)
@@ -151,7 +139,6 @@ def load_or_create_split(
         dataset_index=dataset_index,
         train_ratio=train_ratio,
         val_ratio=val_ratio,
-        test_ratio=test_ratio,
         seed=seed,
     )
     save_split_json(split_data, split_path)
@@ -367,9 +354,8 @@ class SignLanguageNPYDataset(Dataset):
 def create_datasets(
     split_path: str | Path = DEFAULT_SPLIT_PATH,
     dataset_dir: Path = DATASET_DIR,
-    train_ratio: float = 0.7,
+    train_ratio: float = 0.8,
     val_ratio: float = 0.2,
-    test_ratio: float = 0.1,
     seed: int = 42,
     train_augment: bool = True,
     jitter_prob: float = 0.5,
@@ -383,7 +369,6 @@ def create_datasets(
         dataset_dir=dataset_dir,
         train_ratio=train_ratio,
         val_ratio=val_ratio,
-        test_ratio=test_ratio,
         seed=seed,
     )
 
@@ -403,13 +388,7 @@ def create_datasets(
         use_delta=use_delta,
     )
 
-    test_ds = SignLanguageNPYDataset(
-        items=split_data["splits"]["test"],
-        augment=False,
-        use_delta=use_delta,
-    )
-
-    return train_ds, val_ds, test_ds, split_data
+    return train_ds, val_ds, split_data
 
 
 def create_dataloaders(
@@ -417,9 +396,8 @@ def create_dataloaders(
     dataset_dir: Path = DATASET_DIR,
     batch_size: int = 16,
     num_workers: int = 0,
-    train_ratio: float = 0.7,
+    train_ratio: float = 0.8,
     val_ratio: float = 0.2,
-    test_ratio: float = 0.1,
     seed: int = 42,
     train_augment: bool = True,
     jitter_prob: float = 0.5,
@@ -428,12 +406,11 @@ def create_dataloaders(
     mask_ratio: float = 0.05,
     use_delta: bool = True,
 ) -> Tuple[DataLoader, DataLoader, DataLoader, Dict[str, Any]]:
-    train_ds, val_ds, test_ds, split_data = create_datasets(
+    train_ds, val_ds, split_data = create_datasets(
         split_path=split_path,
         dataset_dir=dataset_dir,
         train_ratio=train_ratio,
         val_ratio=val_ratio,
-        test_ratio=test_ratio,
         seed=seed,
         train_augment=train_augment,
         jitter_prob=jitter_prob,
@@ -448,7 +425,7 @@ def create_dataloaders(
         batch_size=batch_size,
         shuffle=True,
         num_workers=num_workers,
-        pin_memory=True,
+        pin_memory=torch.cuda.is_available(),
     )
 
     val_loader = DataLoader(
@@ -456,18 +433,10 @@ def create_dataloaders(
         batch_size=batch_size,
         shuffle=False,
         num_workers=num_workers,
-        pin_memory=True,
+        pin_memory=torch.cuda.is_available(),
     )
 
-    test_loader = DataLoader(
-        test_ds,
-        batch_size=batch_size,
-        shuffle=False,
-        num_workers=num_workers,
-        pin_memory=True,
-    )
-
-    return train_loader, val_loader, test_loader, split_data
+    return train_loader, val_loader, split_data
 
 
 # =========================
@@ -475,12 +444,11 @@ def create_dataloaders(
 # =========================
 
 def debug_one_batch():
-    train_loader, val_loader, test_loader, split_data = create_dataloaders(
+    train_loader, val_loader, split_data = create_dataloaders(
         batch_size=4,
         num_workers=0,
-        train_ratio=0.7,
+        train_ratio=0.8,
         val_ratio=0.2,
-        test_ratio=0.1,
         seed=42,
         train_augment=True,
     )
@@ -489,7 +457,6 @@ def debug_one_batch():
     print(split_data["meta"])
     print("train:", len(split_data["splits"]["train"]))
     print("val  :", len(split_data["splits"]["val"]))
-    print("test :", len(split_data["splits"]["test"]))
 
     batch = next(iter(train_loader))
 

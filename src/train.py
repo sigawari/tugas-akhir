@@ -69,6 +69,7 @@ def build_scheduler(optimizer, scheduler_name: str, epochs: int):
         return torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer,
             T_max=epochs,
+            eta_min=5e-7,
         )
 
     raise ValueError(f"Unknown scheduler: {scheduler_name}")
@@ -197,10 +198,10 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--epochs", type=int, default=50)
     p.add_argument("--batch_size", type=int, default=16)
-    p.add_argument("--lr", type=float, default=1e-4)
+    p.add_argument("--lr", type=float, default=5e-5)
     p.add_argument("--weight_decay", type=float, default=1e-3)
     p.add_argument("--patience", type=int, default=10)
-    p.add_argument("--scheduler", type=str, default="plateau",
+    p.add_argument("--scheduler", type=str, default="cosine",
                    choices=["none", "plateau", "cosine"])
 
     p.add_argument("--num_workers", type=int, default=0)
@@ -208,9 +209,8 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--split_path", type=str, default=None)
 
-    p.add_argument("--train_ratio", type=float, default=0.7)
+    p.add_argument("--train_ratio", type=float, default=0.8)
     p.add_argument("--val_ratio", type=float, default=0.2)
-    p.add_argument("--test_ratio", type=float, default=0.1)
 
     p.add_argument("--jitter_prob", type=float, default=0.5)
     p.add_argument("--jitter_std", type=float, default=0.01)
@@ -221,7 +221,7 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--run_name", type=str, default=None)
     p.add_argument("--save_dir", type=str, default="checkpoints")
-    p.add_argument("--wandb_project", type=str, default="slr-resnet-setupB-2-cosine")
+    p.add_argument("--wandb_project", type=str, default="slr-resnet-setupB-2-half")
     p.add_argument("--no_wandb", action="store_true")
 
 
@@ -241,15 +241,14 @@ def main() -> None:
 
     split_path = args.split_path
     if split_path is None:
-        split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_70_20_10.json"
+        split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_80_20.json"
 
-    train_loader, val_loader, test_loader, split_data = create_dataloaders(
+    train_loader, val_loader, split_data = create_dataloaders(
         split_path=split_path,
         batch_size=args.batch_size,
         num_workers=args.num_workers,
         train_ratio=args.train_ratio,
         val_ratio=args.val_ratio,
-        test_ratio=args.test_ratio,
         seed=args.seed,
         train_augment=True,
         jitter_prob=args.jitter_prob,
@@ -282,7 +281,7 @@ def main() -> None:
     run_name = args.run_name
     if run_name is None:
         feat_tag = "xy_dxdy" if bool(args.use_delta) else "xy"
-        run_name = f"{args.model}_{feat_tag}_lr{args.lr}_bs{args.batch_size}_wd{args.weight_decay}"
+        run_name = f"{args.model}_{feat_tag}_lr{args.lr}_bs{args.batch_size}_wd{args.weight_decay}_sc{args.scheduler}"
 
     save_root = Path(args.save_dir) / args.model
     ensure_dir(save_root)
@@ -303,7 +302,6 @@ def main() -> None:
     print("\n=== TRAINING START ===")
     print(f"Train samples: {len(train_loader.dataset)}")
     print(f"Val samples  : {len(val_loader.dataset)}")
-    print(f"Test samples : {len(test_loader.dataset)}")
     print(f"Num classes  : {num_classes}")
     print(f"Checkpoint   : {ckpt_best}")
 

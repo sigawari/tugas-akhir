@@ -188,9 +188,8 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--split_path", type=str, default=None)
 
-    p.add_argument("--train_ratio", type=float, default=0.7)
+    p.add_argument("--train_ratio", type=float, default=0.8)
     p.add_argument("--val_ratio", type=float, default=0.2)
-    p.add_argument("--test_ratio", type=float, default=0.1)
 
     p.add_argument("--use_delta", type=int, default=1)
 
@@ -241,13 +240,12 @@ def main() -> None:
         split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_70_20_10.json"
 
     # augment=False untuk semua split saat eval
-    train_loader, val_loader, test_loader, split_data = create_dataloaders(
+    train_loader, val_loader, split_data = create_dataloaders(
         split_path=split_path,
         batch_size=args.batch_size,
         num_workers=args.num_workers,
         train_ratio=args.train_ratio,
         val_ratio=args.val_ratio,
-        test_ratio=args.test_ratio,
         seed=args.seed,
         train_augment=False,
         use_delta=bool(args.use_delta),
@@ -279,9 +277,9 @@ def main() -> None:
     model.load_state_dict(ckpt["model_state"])
 
     # inference
-    test_loss, y_true, y_pred, y_prob = run_inference(
+    val_loss, y_true, y_pred, y_prob = run_inference(
         model=model,
-        loader=test_loader,
+        loader=val_loader,
         device=device,
     )
 
@@ -313,7 +311,7 @@ def main() -> None:
     print(f"Checkpoint         : {ckpt_path}")
     print(f"Best val loss      : {ckpt.get('best_val_loss', 'N/A')}")
     print(f"Saved epoch        : {ckpt.get('epoch', 'N/A')}")
-    print(f"Test loss          : {test_loss:.4f}")
+    print(f"Val loss          : {val_loss:.4f}")
     print(f"Accuracy           : {acc:.4f}")
     print(f"Balanced Accuracy  : {bal_acc:.4f}")
     print(f"F1 macro           : {f1_macro:.4f}")
@@ -370,7 +368,7 @@ def main() -> None:
         "checkpoint": str(ckpt_path),
         "saved_epoch": ckpt.get("epoch"),
         "best_val_loss": ckpt.get("best_val_loss"),
-        "test_loss": float(test_loss),
+        "val_loss": float(val_loss),
         "accuracy": float(acc),
         "balanced_accuracy": float(bal_acc),
         "f1_macro": float(f1_macro),
