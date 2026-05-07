@@ -230,12 +230,12 @@ Ringkasan konfigurasi seleksi \textit{landmark} ditunjukkan pada Tabel \ref{tab:
 	\end{tabular}
 	
 	\vspace{0.5em}
-	{\footnotesize Catatan: Pada komponen pose, hanya \textit{landmark} indeks 11-22 yang digunakan, sedangkan indeks 0-10 (bagian wajah pada pose) dan 23-32 (pinggul hingga kaki) dieliminasi. Seleksi wajah dilakukan menggunakan subset 68 titik yang berkaitan dengan area mata, alis, pipi, bibir, dan dagu. Seluruh koordinat $z$ dieliminasi pada tahap ini.}
 \end{table}
 
-Tabel \ref{tab:landmark-selection} memperlihatkan konfigurasi seleksi \textit{landmark} yang digunakan pada penelitian ini.
-Seleksi difokuskan pada \textit{landmark} pose tubuh bagian atas, tangan, dan subset wajah karena ketiga komponen tersebut merepresentasikan struktur utama pembawa makna bahasa isyarat.
-Penghapusan \textit{landmark} pose pada bagian wajah dan tubuh bawah dilakukan untuk mengurangi redundansi fitur serta menekan kompleksitas data yang tidak relevan secara langsung terhadap proses pengenalan isyarat.
+Konfigurasi seleksi pada Tabel \ref{tab:landmark-selection} difokuskan pada \textit{landmark} yang paling relevan untuk pengenalan bahasa isyarat, yaitu tubuh bagian atas (\textit{pose landmark} indeks 11-22), kedua tangan secara penuh, serta subset wajah. 
+\textit{Pose landmark} pada area wajah (indeks 0-10) dan tubuh bawah (indeks 23-32) dieliminasi untuk mengurangi redundansi fitur dan menekan kompleksitas data yang tidak berkontribusi langsung terhadap makna isyarat. 
+Pada komponen wajah, \textit{face landmark} direduksi menjadi 68 titik yang merepresentasikan area mata, alis, pipi, bibir, dan dagu agar informasi ekspresi non-manual tetap terjaga. 
+Selain itu, seluruh koordinat $z$ dihapus sehingga representasi akhir hanya menggunakan koordinat dua dimensi $(x,y)$ yang lebih stabil dan efisien secara komputasi.
 
 Subset \textit{landmark} wajah dipilih untuk merepresentasikan area wajah yang paling relevan terhadap ekspresi non-manual.
 Konfigurasi 68 titik wajah pada penelitian ini diadaptasi dari pendekatan yang digunakan pada penelitian Li et al.\ \cite{li2019acialexpression}.
@@ -243,10 +243,10 @@ Pendekatan tersebut memfokuskan representasi pada area penting seperti mata, ali
 Ilustrasi hasil pemilihan titik pada wajah diperlihatkan pada Gambar \ref{fig:face_seleksi}.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.46\textwidth]{figure/face_landmark.png}
-    \caption{Ilustrasi 68 \textit{face landmark}}
-    \label{fig:face_seleksi}
+	\centering
+	\includegraphics[width=0.46\textwidth]{figure/face_landmark.png}
+	\caption{Ilustrasi 68 \textit{face landmark}}
+	\label{{fig:face_seleksi}}
 	{\footnotesize Sumber: Gambar diadaptasi dari repositori penelitian \cite{li2019acialexpression}}
 \end{figure} \par
 
