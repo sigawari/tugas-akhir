@@ -161,7 +161,7 @@ Ilustrasi struktur \textit{landmark} tangan dan sebaran \textit{landmark} wajah 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\textwidth]{figure/mediapipe_hand_landmarks.png}
+  \includegraphics[width=0.7\textwidth]{figure/mediapipe_hand_landmarks.png}
   \caption{Ilustrasi 21 titik \textit{landmark} tangan pada MediaPipe}
   \label{fig:mediapipe-hand}
   {\footnotesize Sumber: Gyamenah et al. \cite{gyamenah2025clumm}}
@@ -327,9 +327,47 @@ Keterangan:
   \item $t$ = indeks frame atau urutan waktu
 \end{itemize}
 
-% Konsep Tensor Multichannel
+\subsubsection{Penanganan \textit{Missing} Data dan Interpolasi Linear}
+\label{subsubsec:missing-interpolasi}
 
+Data \textit{landmark} hasil ekstraksi sering mengandung koordinat yang tidak terdeteksi pada beberapa \textit{frame}. 
+Kondisi tersebut umumnya disebabkan oleh oklusi, gerakan tangan yang cepat, atau posisi tubuh yang keluar dari area pengamatan kamera. 
+Koordinat yang tidak terdeteksi biasanya direpresentasikan sebagai pasangan nilai nol sehingga menghasilkan diskontinuitas pada lintasan temporal gerakan. 
+Keberadaan \textit{missing data} dapat mengganggu representasi dinamika gerakan apabila tidak ditangani sebelum tahap pembentukan fitur temporal dilakukan. 
+Pendekatan penanganan \textit{missing data} menjadi penting untuk menjaga kontinuitas trajektori gerakan antar-\textit{frame}.
+
+Salah satu pendekatan yang umum digunakan untuk menangani \textit{missing landmark} adalah interpolasi linear. 
+Metode tersebut membangun estimasi koordinat berdasarkan titik valid sebelum dan sesudah nilai hilang pada suatu deret waktu. 
+Interpolasi linear banyak digunakan pada data gerakan manusia karena mampu menghasilkan transisi posisi yang lebih halus dibandingkan metode propagasi diskrit. 
+Pendekatan serupa juga digunakan pada penelitian pengenalan bahasa isyarat berbasis pose untuk menangani koordinat tangan yang hilang akibat kegagalan deteksi \cite{purbojo2025normalization}. 
+Penggunaan interpolasi linear dinilai sesuai dengan karakteristik gerakan tubuh manusia yang bersifat kontinu sepanjang waktu \cite{howarth2010interpolation,gloersen2016predicting}.
+
+Secara matematis, misalkan terdapat dua indeks waktu valid $t_a$ serta $t_b$ dengan $t_a < t < t_b$. 
+Koordinat \textit{landmark} pada waktu $t$ diestimasi menggunakan interpolasi linear seperti ditunjukkan pada Persamaan~\ref{eq:linear_interp}. 
+Interpolasi dilakukan secara independen pada kanal koordinat $x$ dan $y$ sehingga kontinuitas lintasan gerakan tetap dapat dipertahankan. 
+Pendekatan tersebut memanfaatkan hubungan spasio-temporal antar-\textit{frame} untuk membangun estimasi trajektori yang lebih stabil. 
+Representasi hasil interpolasi kemudian digunakan sebagai dasar pada tahap pembentukan fitur temporal dan tensor masukan model.
+
+\begin{equationcaptioned}[eq:linear_interp]{
+(x_t,\, y_t)=
+\left(
+x_{t_a} + \frac{(x_{t_b}-x_{t_a})}{(t_b-t_a)}(t-t_a),\,
+y_{t_a} + \frac{(y_{t_b}-y_{t_a})}{(t_b-t_a)}(t-t_a)
+\right)
+}{
+Interpolasi Linear Koordinat
+}
+\end{equationcaptioned}
+
+Nilai hilang pada bagian awal atau akhir deret waktu umumnya ditangani menggunakan nilai valid terdekat agar tidak terjadi kehilangan informasi secara drastis. 
+Deret waktu yang seluruh koordinatnya bernilai nol tidak dapat diinterpolasi karena tidak tersedia titik valid sebagai referensi pembentukan trajektori. 
+Kondisi tersebut biasanya muncul ketika bagian tubuh tertentu memang tidak terlihat atau tidak digunakan selama proses gestur berlangsung. 
+Pendekatan ini memungkinkan data gerakan tetap direpresentasikan secara konsisten tanpa menghasilkan perubahan posisi yang bersifat artifisial. 
+Hasil interpolasi dengan demikian mampu mempertahankan kontinuitas representasi gerakan sebelum data digunakan pada proses pelatihan model.
+
+% Konsep Tensor Multichannel
 \subsubsection{Struktur Tensor Masukan CNN}
+\label{subsubsec:struktur-tensor}
 Seluruh \textit{landmark} pada setiap \textit{frame} disusun menjadi tensor masukan yang kompatibel dengan model konvolusional dua dimensi.
 Struktur tensor tersebut dinyatakan pada Persamaan \ref{eq:tensor-input}.
 
@@ -466,8 +504,6 @@ Ringkasan varian ResNet yang umum digunakan ditunjukkan pada Tabel \ref{tab:2-re
 ResNet-18  & 18  & \textit{Basic Block} & Ringan dan efisien \\ \hline
 ResNet-34  & 34  & \textit{Basic Block} & Representasi lebih kaya \\ \hline
 ResNet-50  & 50  & \textit{Bottleneck Block} & Lebih dalam dan efisien \\ \hline
-ResNet-101 & 101 & \textit{Bottleneck Block} & Kapasitas representasi tinggi \\ \hline
-ResNet-152 & 152 & \textit{Bottleneck Block} & Representasi sangat kompleks \\
 
 \end{longtable}
 

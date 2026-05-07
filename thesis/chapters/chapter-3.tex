@@ -7,13 +7,13 @@
 Alur penelitian disusun untuk memastikan setiap tahapan penelitian dilakukan secara sistematis dan terstruktur. 
 Proses penelitian diawali dengan studi literatur untuk memperoleh pemahaman mengenai konsep bahasa isyarat, metode \textit{Sign Language Recognition}, serta pendekatan pemodelan berbasis \textit{landmark} dan pembelajaran mendalam. 
 Berdasarkan kajian tersebut dilakukan identifikasi masalah untuk merumuskan tujuan penelitian serta menentukan pendekatan metodologis yang digunakan. 
-Gambaran keseluruhan alur penelitian ditunjukkan pada Gambar \ref{fig:3-3.alur}.
+Gambaran keseluruhan alur penelitian ditunjukkan pada Gambar \ref{fig:3-alur}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.89\textwidth]{figure/alur_penelitian.pdf}
     \caption{Alur Penelitian}
-    \label{fig:3-3.alur}
+    \label{fig:3-alur}
 \end{figure}
 
 Tahap berikutnya adalah pengumpulan dataset berupa video bahasa isyarat yang direkam secara mandiri. 
@@ -249,33 +249,25 @@ Ilustrasi hasil pemilihan titik pada wajah diperlihatkan pada Gambar \ref{fig:3-
 	{\footnotesize Sumber: Gambar diadaptasi dari repositori penelitian \cite{li2019acialexpression}}
 \end{figure} \par
 
-% Rev Siga: Ganti jadi bilinear aja, karena lebih ringan juga.
-
 \subsubsection{Penanganan \textit{Missing} Data}
 \label{subsubsec:interpolation}
-Tahap ekstraksi \textit{landmark} dapat menghasilkan koordinat yang tidak terdeteksi pada beberapa \textit{frame} akibat oklusi atau kegagalan deteksi.
-Nilai tersebut direpresentasikan sebagai pasangan $(0,0)$ agar dimensi data tetap konsisten.
-Nilai $(0,0)$ kemudian diperlakukan sebagai \textit{missing data} pada tahap prapemrosesan.
-Pendekatan interpolasi linear diterapkan pada setiap lintasan temporal \textit{landmark} secara independen pada kanal $x$ serta $y$ sehingga kontinuitas gerakan tetap terjaga.
-Metode ini memanfaatkan titik valid sebelum serta sesudah nilai hilang untuk membangun estimasi trajektori yang bersifat kontinu.
-Pendekatan tersebut sesuai dengan karakteristik data gerakan manusia \cite{howarth2010interpolation,gloersen2016predicting}.
+Tahap penanganan \textit{missing data} dilakukan setelah proses seleksi \textit{landmark} selesai dilakukan. 
+Koordinat yang tidak terdeteksi pada proses ekstraksi direpresentasikan sebagai pasangan nilai $(0,0)$ agar dimensi data pada setiap \textit{frame} tetap konsisten. 
+Nilai tersebut kemudian diperlakukan sebagai \textit{missing data} pada tahap prapemrosesan. 
+Penanganan \textit{missing data} difokuskan pada komponen tangan karena bagian tersebut memiliki kemungkinan oklusi dan kegagalan deteksi yang lebih tinggi dibandingkan pose tubuh dan wajah. 
+Representasi data yang konsisten diperlukan agar pembentukan fitur temporal dapat dilakukan secara stabil pada seluruh \textit{sequence}.
 
-Secara matematis, misalkan terdapat dua indeks waktu valid $t_a$ serta $t_b$ dengan $t_a < t < t_b$.
-Nilai pada waktu $t$ dihitung menggunakan interpolasi linear sebagai berikut:
-\begin{equationcaptioned}[eq:linear_interp]{
-(x_t,\, y_t)=
-\left(
-x_{t_a} + \frac{(x_{t_b}-x_{t_a})}{(t_b-t_a)}(t-t_a),\,
-y_{t_a} + \frac{(y_{t_b}-y_{t_a})}{(t_b-t_a)}(t-t_a)
-\right)
-}{
-Interpolasi linear koordinat \textit{landmark} pada waktu $t$ menggunakan dua titik valid $t_a$ dan $t_b$
-}
-\end{equationcaptioned}
+Penelitian ini menerapkan interpolasi linear sebagaimana dijelaskan pada Subbab~\ref{subsubsec:missing-interpolasi}. 
+Interpolasi diterapkan secara independen pada koordinat $x$ dan $y$ untuk setiap lintasan temporal \textit{landmark} tangan. 
+Proses interpolasi hanya dilakukan apabila suatu \textit{landmark} masih memiliki titik valid sebelum dan sesudah nilai hilang pada deret waktu. 
+Pendekatan tersebut memungkinkan trajektori gerakan tangan tetap kontinu tanpa menghasilkan perubahan posisi yang bersifat diskrit. 
+Interpolasi linear digunakan karena sesuai dengan karakteristik gerakan manusia yang bersifat kontinu sepanjang waktu.
 
-Nilai hilang pada bagian awal atau akhir deret diestimasi menggunakan nilai valid terdekat sehingga tidak terjadi kehilangan informasi secara drastis.
-Deret waktu yang seluruhnya bernilai nol tidak mengalami perubahan karena tidak tersedia referensi valid untuk membangun interpolasi.
-Pendekatan ini lebih sesuai dibandingkan metode propagasi diskrit karena menghasilkan trajektori yang lebih halus serta mendekati dinamika gerakan sebenarnya.
+Deret waktu yang seluruh koordinat tangannya bernilai nol tidak mengalami proses interpolasi tambahan. 
+Kondisi tersebut menunjukkan bahwa bagian tangan memang tidak terdeteksi atau tidak digunakan selama keseluruhan \textit{sequence}. 
+Pendekatan ini diterapkan untuk mencegah terbentuknya trajektori gerakan artifisial yang tidak didukung oleh observasi valid. 
+Nilai nol pada kondisi tersebut tetap dipertahankan agar representasi data tetap sesuai terhadap karakteristik gerakan asli pada video. 
+Hasil penanganan \textit{missing data} kemudian digunakan pada tahap normalisasi dan pembentukan fitur temporal berikutnya.
 
 \subsubsection{Normalisasi \textit{Landmark}}
 \label{subsubsec:step-normalisasi-landmark}
@@ -505,7 +497,7 @@ Perubahan posisi antar-\textit{frame} dihitung untuk merepresentasikan dinamika 
 Perhitungan perubahan posisi mengikuti formulasi \textit{velocity feature} yang telah dijelaskan pada Bagian \ref{subsubsec:pengodean-dinamika}. 
 Koordinat suatu \textit{landmark} pada \textit{frame} ke-$t$ dinyatakan sebagai $(x_{t,i},y_{t,i})$. 
 Koordinat pada \textit{frame} sebelumnya dinyatakan sebagai $(x_{t-1,i},y_{t-1,i})$. 
-Perubahan posisi antar-\textit{frame} dihitung sebagai selisih langsung kedua koordinat tersebut sesuai Persamaan \ref{eq:deltaxdeltay}. 
+Perubahan posisi antar-\textit{frame} dihitung sebagai selisih langsung kedua koordinat tersebut sesuai Persamaan \ref{eq:3-deltaxdeltay}. 
 
 Sebagai ilustrasi, misalkan koordinat suatu \textit{landmark} tangan pada \textit{frame} ke-$t-1$ adalah $(0.12,-0.03)$. 
 Koordinat pada \textit{frame} ke-$t$ berubah menjadi $(0.18,-0.01)$. 

@@ -11,7 +11,7 @@
 % - Ringkasan alur implementasi end-to-end (data -> preprocessing -> model -> evaluasi)
 % - Lingkungan eksperimen: spesifikasi perangkat (CPU/GPU), OS, versi library utama
 % - Reproducibility: seed, pembagian data, dan skenario pengujian
-Penelitian ini dilaksanakan melalui serangkaian tahapan yang telah dijelaskan pada Bab III seperti pada Gambar \ref{fig:3.alur}. 
+Penelitian ini dilaksanakan melalui serangkaian tahapan yang telah dijelaskan pada Bab III seperti pada Gambar \ref{fig:3-alur}. 
 Luaran utama dari penelitian ini adalah model klasifikasi bahasa isyarat dinamis berbasis representasi \textit{pseudo-image} landmark multichannel yang mampu mengenali gerakan BISINDO.  
 Bab ini menyajikan hasil implementasi dari setiap tahapan yang telah dirancang, mulai dari analisis dataset, hasil prapemrosesan, pembentukan representasi masukan, hingga performa model yang dihasilkan.  
 Evaluasi juga dilakukan melalui studi ablasi untuk menganalisis kontribusi fitur dinamika gerakan serta pengaruh variasi kedalaman arsitektur ResNet-2D terhadap kinerja klasifikasi.  
@@ -222,15 +222,6 @@ basicstyle=\ttfamily\scriptsize,
 breaklines=true
 ]
 {
-  "metadata": {
-    "video_id": "belum00001340",
-
-    "selection_info": {
-      "face_total_selected": 68,
-      "coordinate_dim": ["x", "y"]
-    }
-  },
-
   "frames": [
     {
       "frame_index": 0,
@@ -255,12 +246,306 @@ Jumlah fitur yang lebih ringkas memungkinkan proses pemrosesan data dilakukan se
 Informasi spasial utama tetap dipertahankan sehingga pola gerakan tubuh dan ekspresi wajah masih dapat direpresentasikan dengan baik. 
 Hasil seleksi \textit{landmark} tersebut kemudian digunakan sebagai dasar pada tahap normalisasi dan pembentukan fitur temporal.
 
+\subsubsection{Hasil Penanganan \textit{Missing} Data}
+\label{subsubsec:hasil-missing-data}
+Tahap penanganan \textit{missing} data dilakukan setelah proses seleksi \textit{landmark} selesai dilakukan. 
+Hasil seleksi menunjukkan bahwa beberapa koordinat \textit{landmark} masih bernilai nol akibat bagian tubuh tertentu tidak terdeteksi pada beberapa \textit{frame}. 
+Kondisi tersebut terutama ditemukan pada komponen tangan kiri dan tangan kanan, sedangkan komponen pose dan wajah tetap terdeteksi secara penuh pada seluruh dataset. 
+Nilai nol tersebut menunjukkan adanya koordinat yang tidak berhasil dideteksi pada beberapa frame.
+Kondisi tersebut berpotensi menyebabkan diskontinuitas trajektori gerakan apabila langsung digunakan pada tahap pembentukan fitur temporal.
+
+Distribusi \textit{missing} data sebelum proses interpolasi ditunjukkan pada Tabel~\ref{tab:4-missing-before}. 
+Hasil analisis menunjukkan bahwa komponen tangan kiri memiliki rasio \textit{missing} sebesar 0.422386, sedangkan tangan kanan memiliki rasio sebesar 0.249705. 
+Komponen pose dan wajah tidak menunjukkan nilai hilang pada seluruh sampel sehingga kedua komponen tersebut tidak memerlukan proses interpolasi tambahan. 
+Rasio \textit{missing} yang cukup tinggi pada komponen tangan menunjukkan bahwa deteksi tangan bersifat lebih sensitif terhadap oklusi, posisi tangan di luar area kamera, serta gerakan cepat selama proses ekstraksi \textit{landmark}. 
+Distribusi tersebut menjadi dasar dalam penerapan interpolasi linear pada tahap prapemrosesan berikutnya.
+
+\begin{table}[H]
+\centering
+\caption{Rasio \textit{missing} data sebelum interpolasi}
+\label{tab:4-missing-before}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Komponen Landmark} & \textbf{Rasio Missing} \\ \hline
+Pose & 0.000000 \\ \hline
+Tangan kiri & 0.422386 \\ \hline
+Tangan kanan & 0.249705 \\ \hline
+Wajah & 0.000000 \\ \hline
+\end{tabular}
+\end{table}
+
+Proses penanganan \textit{missing} data dilakukan menggunakan interpolasi linear sebagaimana dirumuskan pada Persamaan~\ref{eq:linear_interp}. 
+Interpolasi diterapkan secara independen pada kanal koordinat $x$ dan $y$ menggunakan titik valid sebelum dan sesudah nilai hilang. 
+Pendekatan tersebut memungkinkan trajektori gerakan tetap kontinu tanpa menghasilkan perubahan posisi yang bersifat diskrit. 
+Interpolasi hanya diterapkan pada \textit{sequence} yang masih memiliki koordinat valid sebagai referensi estimasi trajektori. 
+Pendekatan ini digunakan agar pola pergerakan tangan tetap dapat direpresentasikan secara stabil sepanjang waktu.
+
+Hasil setelah proses interpolasi ditunjukkan pada Tabel~\ref{tab:4-missing-after}. 
+Rasio \textit{missing} pada komponen tangan kanan berhasil dikurangi dari 0.249705 menjadi 0.000000 setelah proses interpolasi dilakukan. 
+Komponen tangan kiri juga mengalami penurunan rasio \textit{missing} dari 0.422386 menjadi 0.300000. 
+Penurunan tersebut menunjukkan bahwa sebagian besar nilai hilang pada trajektori tangan berhasil direkonstruksi menggunakan interpolasi linear. 
+Representasi gerakan yang dihasilkan menjadi lebih kontinu dibandingkan sebelum proses interpolasi dilakukan.
+
+\begin{table}[H]
+\centering
+\caption{Rasio \textit{missing} data setelah interpolasi}
+\label{tab:4-missing-after}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Komponen Landmark} & \textbf{Rasio Missing} \\ \hline
+Pose & 0.000000 \\ \hline
+Tangan kiri & 0.300000 \\ \hline
+Tangan kanan & 0.000000 \\ \hline
+Wajah & 0.000000 \\ \hline
+\end{tabular}
+\end{table}
+
+Nilai \textit{missing} yang masih tersisa pada komponen tangan kiri berasal dari kelas \textit{belum}, \textit{maaf}, dan \textit{tidak\_punya}. 
+Ketiga gestur tersebut memang dilakukan tanpa keterlibatan tangan kiri sehingga seluruh koordinat tangan kiri bernilai nol sepanjang \textit{sequence}. 
+Kondisi tersebut menyebabkan interpolasi tidak dapat diterapkan karena tidak tersedia titik valid sebagai referensi pembentukan trajektori. 
+Pendekatan tersebut sesuai dengan mekanisme interpolasi yang hanya bekerja pada \textit{missing} data parsial, bukan pada \textit{sequence} yang seluruh koordinatnya kosong. 
+Representasi nilai nol pada ketiga kelas tersebut dengan demikian merepresentasikan kondisi tangan yang memang tidak digunakan selama gestur dilakukan, bukan kegagalan deteksi sistem.
+
+Distribusi \textit{missing} data pada tingkat kelas setelah proses interpolasi ditunjukkan pada Tabel~\ref{tab:4-missing-per-label}. 
+Sebagian besar kelas tidak lagi memiliki nilai hilang pada komponen tangan setelah proses interpolasi dilakukan. 
+Kondisi tersebut menunjukkan bahwa interpolasi linear berhasil memperbaiki trajektori tangan yang sebelumnya terputus pada beberapa \textit{frame}. 
+Komponen pose dan wajah tetap stabil tanpa nilai hilang pada seluruh kelas. 
+Hasil tersebut menunjukkan bahwa struktur data akhir telah memiliki konsistensi yang lebih baik sebelum digunakan pada tahap pembentukan tensor masukan model.
+
+\begin{table}[H]
+\centering
+\caption{Distribusi \textit{missing} data per kelas setelah interpolasi}
+\label{tab:4-missing-per-label}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Label} & \textbf{Missing Tangan Kiri} & \textbf{Missing Tangan Kanan} \\ \hline
+belum & 1.000000 & 0.000000 \\ \hline
+hati\_hati & 0.000000 & 0.000000 \\ \hline
+hobi & 0.000000 & 0.000000 \\ \hline
+izin & 0.000000 & 0.000000 \\ \hline
+maaf & 1.000000 & 0.000000 \\ \hline
+sahabat & 0.000000 & 0.000000 \\ \hline
+teman & 0.000000 & 0.000000 \\ \hline
+terima\_kasih & 0.000000 & 0.000000 \\ \hline
+tidak\_punya & 1.000000 & 0.000000 \\ \hline
+ulang & 0.000000 & 0.000000 \\ \hline
+\end{tabular}
+\end{table}
+
+Contoh kondisi \textit{missing} data sebelum interpolasi ditunjukkan pada Kode~\ref{code:4-before-interp}. 
+Koordinat tangan kanan pada \textit{frame} tersebut tidak berhasil dideteksi sehingga seluruh titik direpresentasikan sebagai pasangan nilai nol. 
+Kondisi tersebut menunjukkan terjadinya \textit{full hand missing}, yaitu seluruh \textit{landmark} tangan pada satu \textit{frame} tidak terdeteksi oleh MediaPipe Holistic. 
+Fenomena tersebut umumnya dipengaruhi oleh oklusi tangan, gerakan cepat, atau posisi tangan yang keluar dari area pengamatan kamera. 
+Representasi nilai nol digunakan untuk mempertahankan konsistensi dimensi data pada seluruh \textit{frame}.
+
+\begin{lstlisting}[
+caption={Contoh \textit{missing} data sebelum interpolasi},
+label={code:4-before-interp},
+basicstyle=\ttfamily\scriptsize,
+breaklines=true
+]
+"right_hand": {
+  "0": {
+    "x": 0.0,
+    "y": 0.0
+  },
+
+  "1": {
+    "x": 0.0,
+    "y": 0.0
+  },
+
+  "...": "...",
+
+  "20": {
+    "x": 0.0,
+    "y": 0.0
+  }
+}
+\end{lstlisting}
+
+Hasil setelah proses interpolasi ditunjukkan pada Kode~\ref{code:4-after-interp}. 
+Koordinat tangan yang sebelumnya mengalami \textit{missing} parsial berhasil direkonstruksi menggunakan trajektori valid pada \textit{frame} sebelum dan sesudahnya. 
+Representasi tersebut menghasilkan transisi gerakan yang lebih kontinu dibandingkan sebelum proses interpolasi dilakukan. 
+Interpolasi linear membantu menjaga kesinambungan pola gerakan sehingga perubahan posisi tangan antar-\textit{frame} menjadi lebih stabil. 
+Pendekatan tersebut penting untuk mendukung pembentukan fitur temporal pada tahap berikutnya.
+
+\begin{lstlisting}[
+caption={Contoh hasil interpolasi linear pada koordinat tangan},
+label={code:4-after-interp},
+basicstyle=\ttfamily\scriptsize,
+breaklines=true
+]
+"right_hand": {
+  "0": {
+    "x": 0.742,
+    "y": 0.518
+  },
+
+  "1": {
+    "x": 0.755,
+    "y": 0.527
+  },
+
+  "...": "...",
+
+  "20": {
+    "x": 0.801,
+    "y": 0.614
+  }
+}
+\end{lstlisting}
+
+Interpolasi linear hanya diterapkan pada \textit{missing} data parsial yang masih memiliki titik valid sebagai referensi estimasi trajektori. 
+\textit{Sequence} yang seluruh koordinat tangannya bernilai nol tidak mengalami perubahan karena tidak tersedia referensi valid untuk membangun estimasi gerakan. 
+Kondisi tersebut ditemukan pada beberapa gestur yang memang tidak melibatkan tangan kiri selama proses isyarat dilakukan. 
+Pendekatan tersebut mencegah pembentukan trajektori tangan yang bersifat artifisial dan tidak merepresentasikan gerakan sebenarnya. 
+Hasil penanganan \textit{missing} data kemudian digunakan pada tahap normalisasi dan pembentukan fitur temporal berikutnya.
+
 \subsubsection{Normalisasi Titik Landmark}
 \label{subsubsec:hasil-normalisasi}
 
+Tahap normalisasi dilakukan setelah data melewati proses seleksi \textit{landmark} dan penanganan \textit{missing data}. 
+Hasil normalisasi menghasilkan koordinat yang tidak lagi bergantung pada posisi absolut subjek di dalam bidang citra. 
+Proses ini penting karena posisi tubuh, jarak terhadap kamera, dan ukuran tubuh penutur dapat berbeda antar video. 
+Normalisasi membuat representasi \textit{landmark} lebih stabil sehingga model dapat lebih fokus pada pola gerakan dibandingkan posisi awal subjek. 
+Representasi hasil normalisasi kemudian digunakan sebagai dasar dalam pembentukan fitur temporal dan tensor masukan model.
+
+Normalisasi dilakukan menggunakan pendekatan berbasis titik referensi pada beberapa komponen tubuh. 
+Komponen tubuh secara umum dinormalisasi menggunakan titik leher yang diperoleh dari rata-rata posisi bahu kiri dan bahu kanan. 
+Skala tubuh ditentukan berdasarkan jarak antara kedua bahu sehingga perbedaan ukuran tubuh antar sampel dapat dikurangi. 
+Komponen wajah dinormalisasi menggunakan titik hidung sebagai acuan lokal, sedangkan komponen tangan dinormalisasi menggunakan \textit{bounding box} pada setiap \textit{frame}. 
+Titik tangan yang tidak aktif atau bernilai nol tetap dipertahankan sebagai nol agar tidak membentuk posisi artifisial pada proses normalisasi.
+
+Perbandingan koordinat sebelum dan sesudah normalisasi ditunjukkan pada Gambar~\ref{fig:4-result-normalization}. 
+Visualisasi tersebut memperlihatkan bahwa koordinat awal masih berada pada sistem koordinat citra asli. 
+Setelah normalisasi dilakukan, posisi tubuh bergeser ke sistem koordinat relatif terhadap titik acuan tubuh. 
+Perubahan ini menunjukkan bahwa data tidak lagi bergantung pada posisi absolut subjek di dalam citra. 
+Hasil tersebut membuat representasi gerakan lebih konsisten untuk digunakan pada tahap pelatihan model.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{figure/result_normalization.png}
+	\caption{Perbandingan representasi \textit{landmark} sebelum dan sesudah normalisasi}
+	\label{fig:4-result-normalization}
+\end{figure}
+
+Gambar~\ref{fig:4-result-normalization} menunjukkan bahwa struktur tubuh tetap dipertahankan setelah proses normalisasi dilakukan. 
+Komponen pose, wajah, dan tangan masih memiliki hubungan spasial yang dapat dibedakan meskipun sistem koordinatnya telah berubah. 
+Titik wajah bergeser relatif terhadap acuan tubuh sehingga posisi kepala menjadi lebih konsisten terhadap struktur badan. 
+Komponen tangan juga direpresentasikan dalam skala lokal sehingga konfigurasi bentuk tangan tetap dapat dipertahankan. 
+Kondisi ini menunjukkan bahwa normalisasi tidak menghilangkan informasi gerakan, tetapi mengubahnya ke bentuk yang lebih stabil.
+
+Struktur koordinat sebelum dan sesudah normalisasi ditunjukkan pada Kode~\ref{code:4-before-normalization} dan Kode~\ref{code:4-after-normalization}. 
+Kedua potongan data tersebut diambil dari \textit{frame} yang sama sehingga perubahan koordinat dapat diamati secara langsung setelah proses normalisasi diterapkan. 
+Koordinat awal masih berada pada sistem koordinat absolut hasil ekstraksi MediaPipe Holistic sehingga posisi titik masih dipengaruhi oleh lokasi subjek terhadap kamera. 
+Tahap normalisasi kemudian mengubah representasi tersebut menjadi koordinat relatif berbasis titik acuan tubuh dan skala tubuh penutur. 
+Pendekatan tersebut membantu menghasilkan representasi gerakan yang lebih konsisten antar sampel video.
+
+\begin{lstlisting}[
+caption={Contoh koordinat sebelum normalisasi},
+label={code:4-before-normalization},
+basicstyle=\ttfamily\scriptsize,
+breaklines=true
+]
+"pose": {
+  "left_shoulder": {
+    "x": 0.589190,
+    "y": 0.537057
+  },
+
+  "right_shoulder": {
+    "x": 0.441059,
+    "y": 0.528429
+  },
+
+  "left_elbow": {
+    "x": 0.603268,
+    "y": 0.765059
+  }
+},
+\end{lstlisting}
+
+Normalisasi tubuh dilakukan menggunakan titik leher virtual yang dihitung dari rata-rata koordinat bahu kiri dan bahu kanan. 
+Berdasarkan koordinat pada Kode~\ref{code:4-before-normalization}, titik leher virtual dihitung sebagai berikut.
+\[
+x_{neck} = \frac{0.589190 + 0.441059}{2} = 0.515124
+\]
+\[
+y_{neck} = \frac{0.537057 + 0.528429}{2} = 0.532743
+\]
+Jarak antarbahu kemudian digunakan sebagai faktor skala agar ukuran tubuh antar sampel menjadi sebanding. 
+Perhitungan jarak antarbahu dilakukan menggunakan jarak Euclidean antara koordinat bahu kiri dan bahu kanan.
+
+\[
+d_{shoulder} =
+\sqrt{(0.589190 - 0.441059)^2 + (0.537057 - 0.528429)^2}
+= 0.148382
+\]
+
+Setiap titik pose kemudian dinormalisasi menggunakan persamaan $(p - neck) / d_{shoulder}$. 
+Sebagai contoh, koordinat bahu kiri dihitung dengan mengurangkan koordinat bahu kiri terhadap titik leher virtual, kemudian membaginya dengan jarak antarbahu.
+\[
+x'_{left\_shoulder} =
+\frac{0.589190 - 0.515124}{0.148382}
+= 0.499154
+\]
+\[
+y'_{left\_shoulder} =
+\frac{0.537057 - 0.532743}{0.148382}
+= 0.029072
+\]
+
+Perhitungan yang sama diterapkan pada bahu kanan. 
+Koordinat bahu kanan menghasilkan nilai negatif karena posisinya berada pada sisi berlawanan terhadap titik leher virtual.
+\[
+x'_{right\_shoulder} =
+\frac{0.441059 - 0.515124}{0.148382}
+= -0.499154
+\]
+\[
+y'_{right\_shoulder} =
+\frac{0.528429 - 0.532743}{0.148382}
+= -0.029072
+\]
+
+Sehingga hasil akhirnya menjadi koordinat relatif seperti ditunjukkan pada Kode~\ref{code:4-after-normalization}. 
+Nilai tersebut menunjukkan bahwa titik $(0,0)$ bukan berada pada bahu kiri atau bahu kanan, melainkan pada titik leher virtual sebagai pusat tubuh. 
+Bahu kiri dan bahu kanan tetap berada pada sisi yang berbeda terhadap pusat tersebut sehingga struktur tubuh tidak bertabrakan pada satu titik. 
+Representasi ini membuat posisi tubuh lebih seragam tanpa menghilangkan relasi spasial antar-\textit{landmark}.
+
+\begin{lstlisting}[
+caption={Contoh koordinat setelah normalisasi},
+label={code:4-after-normalization},
+basicstyle=\ttfamily\scriptsize,
+breaklines=true
+]
+"pose": {
+  "left_shoulder": {
+    "x": 0.499154,
+    "y": 0.029072
+  },
+
+  "right_shoulder": {
+    "x": -0.499154,
+    "y": -0.029072
+  },
+
+  "left_elbow": {
+    "x": 0.385855,
+    "y": 1.016983
+  }
+},
+\end{lstlisting}
+
+Hasil normalisasi menunjukkan bahwa hubungan spasial antar-\textit{landmark} tetap dipertahankan setelah proses transformasi dilakukan. 
+Perubahan utama terjadi pada sistem koordinat yang sebelumnya berbasis posisi absolut menjadi berbasis representasi relatif tubuh. 
+Koordinat bahu kiri dan bahu kanan tetap berada pada posisi yang berbeda sehingga struktur tubuh tidak mengalami tabrakan koordinat pada satu titik pusat. 
+Representasi tersebut membantu mengurangi pengaruh variasi posisi kamera dan ukuran tubuh antar penutur tanpa menghilangkan pola gerakan utama. 
+Hasil normalisasi dengan demikian menghasilkan data yang lebih konsisten sebelum digunakan pada tahap pembentukan fitur spasio-temporal.
+
 \subsubsection{Fitur Temporal dan Representasi Urutan}
 \label{subsubsec:fitur-temporal}
-
 
 \subsubsection{Bentuk Masukan Model (Tensor Input)}
 \label{subsubsec:tensor-input}
