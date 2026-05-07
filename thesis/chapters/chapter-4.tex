@@ -188,9 +188,75 @@ Informasi spasial yang diperoleh dari hasil ekstraksi juga menjadi dasar dalam p
 Representasi koordinat memungkinkan model lebih fokus terhadap pola gerakan dibandingkan karakteristik visual latar belakang. 
 Tahap ekstraksi \textit{landmark} dengan demikian menjadi fondasi utama dalam pembentukan representasi gerakan berbasis \textit{pseudo-image}.
 
-\subsubsection{Seleksi Titik Landmark dan Normalisasi}
-\label{subsubsec:seleksi-normalisasi}
+\subsubsection{Hasil Seleksi Titik Landmark}
+\label{subsubsec:hasil-seleksi}
 
+Tahap seleksi \textit{landmark} menghasilkan representasi fitur yang lebih ringkas dibandingkan hasil ekstraksi awal. 
+Representasi akhir hanya mempertahankan titik-titik tubuh yang relevan terhadap pembentukan pola gerakan bahasa isyarat. 
+Reduksi jumlah \textit{landmark} dilakukan pada komponen pose dan wajah, sedangkan \textit{landmark} tangan dipertahankan secara penuh karena memuat informasi utama konfigurasi gerakan tangan. 
+Representasi akhir juga hanya menggunakan koordinat dua dimensi $(x,y)$ sehingga struktur data menjadi lebih sederhana dibandingkan hasil ekstraksi awal. 
+Penyederhanaan tersebut menghasilkan dimensi data yang lebih efisien tanpa menghilangkan informasi gerakan utama yang digunakan pada proses klasifikasi.
+
+Konfigurasi seleksi \textit{landmark} yang digunakan pada penelitian ini telah dijelaskan pada Tabel~\ref{tab:3-landmark-selection}. 
+Proses seleksi tersebut menghasilkan representasi akhir yang lebih ringkas dibandingkan struktur data hasil ekstraksi sebelumnya. 
+Jumlah fitur berhasil direduksi sehingga kompleksitas data dapat ditekan pada tahap pelatihan model. 
+Representasi pose tubuh difokuskan pada area tubuh bagian atas yang berkaitan langsung terhadap gerakan bahasa isyarat. 
+Representasi wajah menggunakan subset 68 titik yang diadaptasi dari korespondensi \textit{Mediapipe-to-Dlib landmark} yang dikembangkan oleh Yan \cite{yan2023mp2dlib}.
+
+Visualisasi hasil seleksi \textit{landmark} wajah ditunjukkan pada Gambar~\ref{fig:3-face_seleksi}. 
+Representasi tersebut memperlihatkan bahwa titik-titik wajah yang dipertahankan masih mampu merepresentasikan area penting seperti mata, alis, hidung, bibir, pipi, dan dagu. 
+Distribusi titik yang lebih ringkas menghasilkan struktur wajah yang lebih sederhana dibandingkan hasil ekstraksi awal yang menggunakan seluruh \textit{face landmark}. 
+Informasi ekspresi non-manual tetap dapat dipertahankan meskipun jumlah titik wajah telah direduksi secara signifikan. 
+Representasi tersebut digunakan untuk mendukung pengenalan gestur yang melibatkan ekspresi wajah pada bahasa isyarat.
+
+Struktur data setelah proses seleksi disusun kembali dalam format JSON yang mempertahankan hubungan antara indeks \textit{frame} dan koordinat \textit{landmark}. 
+Contoh representasi data hasil seleksi ditunjukkan pada Kode~\ref{code:4-selected-json}. 
+Struktur tersebut menunjukkan bahwa koordinat yang digunakan hanya terdiri atas dimensi $(x,y)$ dengan subset \textit{landmark} yang telah dipilih. 
+Representasi hasil seleksi menghasilkan dimensi data yang lebih ringkas dibandingkan hasil ekstraksi awal. 
+Hubungan antar-\textit{frame} tetap dipertahankan sehingga data dapat diproses secara konsisten pada tahap berikutnya.
+
+\begin{lstlisting}[
+caption={Contoh struktur data hasil seleksi landmark},
+label={code:4-selected-json},
+basicstyle=\ttfamily\scriptsize,
+breaklines=true
+]
+{
+  "metadata": {
+    "video_id": "belum00001340",
+
+    "selection_info": {
+      "face_total_selected": 68,
+      "coordinate_dim": ["x", "y"]
+    }
+  },
+
+  "frames": [
+    {
+      "frame_index": 0,
+
+      "landmarks": {
+
+        "pose": {
+          "left_shoulder": {
+            "x": 0.621,
+            "y": 0.417
+          },
+        },
+      }
+    }
+  ]
+}
+\end{lstlisting}
+
+Kode~\ref{code:4-selected-json} menunjukkan bahwa hasil seleksi direpresentasikan sebagai kumpulan koordinat dua dimensi yang terorganisasi pada setiap \textit{frame}. 
+Representasi tersebut menghasilkan kompleksitas data yang lebih rendah dibandingkan struktur hasil ekstraksi awal yang masih menggunakan seluruh \textit{landmark} dan koordinat tiga dimensi. 
+Jumlah fitur yang lebih ringkas memungkinkan proses pemrosesan data dilakukan secara lebih efisien pada tahap pelatihan model. 
+Informasi spasial utama tetap dipertahankan sehingga pola gerakan tubuh dan ekspresi wajah masih dapat direpresentasikan dengan baik. 
+Hasil seleksi \textit{landmark} tersebut kemudian digunakan sebagai dasar pada tahap normalisasi dan pembentukan fitur temporal.
+
+\subsubsection{Normalisasi Titik Landmark}
+\label{subsubsec:hasil-normalisasi}
 
 \subsubsection{Fitur Temporal dan Representasi Urutan}
 \label{subsubsec:fitur-temporal}
