@@ -614,37 +614,24 @@ Subbab ini menyajikan rincian teknis mengenai penyesuaian arsitektur serta konfi
 \label{subsubsec:konfigurasi-arsitektur}
 
 Penelitian ini mengimplementasikan empat varian model untuk melakukan perbandingan kinerja secara komprehensif.
-Arsitektur dasar berupa jaringan konvolusi sederhana yang terdiri atas tiga lapisan konvolusi diikuti oleh \textit{adaptive average pooling}.
+Arsitektur dasar berupa jaringan konvolusi kustom yang dimodifikasi secara spesifik untuk data berbasis koordinat.
 Tiga varian tambahan menggunakan \textit{Residual Network} dengan kedalaman delapan belas, tiga puluh empat, dan lima puluh lapisan.
 Pemilihan kedalaman tersebut dirancang untuk mengevaluasi pengaruh kapasitas parameter terhadap kemampuan pembelajaran pola gerakan.
-Ringkasan spesifikasi keempat varian model yang diimplementasikan diperlihatkan pada Tabel~\ref{tab:4-arsitektur-model} di bawah ini.
 
-\begin{table}[H]
-	\centering
-	\caption{Spesifikasi varian arsitektur model klasifikasi}
-	\label{tab:4-arsitektur-model}
-	\begin{tabular}{|l|c|c|}
-	\hline
-	\textbf{Arsitektur} & \textbf{Jumlah Lapisan} & \textbf{Parameter Utama} \\ \hline
-	\textit{CNN2D} & 3 konvolusi & 32, 64, 128 filter \\ \hline
-	\textit{ResNet-18} & 18 & Blok residu dasar \\ \hline
-	\textit{ResNet-34} & 34 & Blok residu dasar \\ \hline
-	\textit{ResNet-50} & 50 & Blok residu \textit{bottleneck} \\ \hline
-	\end{tabular}
+Seluruh proses pelatihan mengikuti parameter yang telah distandardisasi pada tahap metodologi.
+Rincian lengkap konfigurasi \textit{hyperparameter} dapat merujuk pada Tabel~\ref{tab:3-hyperparameter}.
+Spesifikasi teknis setiap varian model yang diujikan telah dirangkum dalam Tabel~\ref{tab:3-experiment-config}.
+Pendekatan referensi ini memastikan konsistensi eksperimen tanpa pengulangan informasi yang tidak diperlukan.
 
-	\vspace{0.5em}
-	{\footnotesize Catatan: Seluruh arsitektur menerima masukan dengan dimensi $(C, 90, 122)$ di mana $C \in \{2, 4\}$.}
-\end{table}
+Jaringan konvolusi dasar dirancang ulang agar kompatibel dengan representasi masukan dua atau empat kanal.
+Lapisan konvolusi pertama pada seluruh varian menerima kanal fitur \textit{landmark} alih-alih tiga kanal citra konvensional.
+Inisialisasi bobot menggunakan distribusi standar pustaka \textit{PyTorch} untuk mempertahankan stabilitas gradien awal.
+Modifikasi ini memungkinkan ekstraksi pola spasial-temporal secara langsung dari urutan titik tubuh.
 
-Modifikasi utama dilakukan pada lapisan konvolusi pertama agar kompatibel dengan masukan dua kanal atau empat kanal.
-Bobot lapisan tersebut diinisialisasi ulang menggunakan distribusi standar yang disediakan oleh pustaka \textit{PyTorch}.
-Pendekatan ini menggantikan saluran warna merah, hijau, biru yang menjadi standar pada jaringan pra pelatihan.
-Penyesuaian dimensi masukan memungkinkan ekstraksi fitur spasial-temporal langsung dari representasi koordinat tubuh.
-
-Lapisan klasifikasi akhir pada setiap varian juga mengalami penyesuaian jumlah neuron keluaran.
-Jumlah unit linier diubah menjadi sepuluh untuk menyesuaikan dengan jumlah kelas gestur BISINDO yang dilatih.
-Seluruh lapisan residu serta mekanisme \textit{skip connection} dipertahankan sesuai struktur bawaan pustaka visi komputer.
-Konfigurasi ini menjamin bahwa aliran gradien tetap stabil selama proses propagasi balik.
+Arsitektur \textit{Residual Network} memanfaatkan mekanisme \textit{skip connection} bawaan untuk memperlancar aliran informasi antar lapisan.
+Lapisan klasifikasi akhir pada setiap model disesuaikan jumlah neuron keluarannya menjadi sepuluh unit.
+Penyesuaian tersebut dilakukan untuk mencocokkan dimensi prediksi dengan jumlah kelas gestur BISINDO.
+Struktur inti jaringan dipertahankan tanpa perubahan agar integritas fitur hasil pra pelatihan tidak hilang.
 
 \subsubsection{Pengaturan Pelatihan dan Pembagian Data}
 \label{subsubsec:pengaturan-pelatihan}
@@ -654,35 +641,29 @@ Hasil partisi menghasilkan seratus dua puluh sampel pelatihan dan tiga puluh sam
 Teknik augmentasi berupa penambahan gangguan acak serta penyembunyian titik \textit{landmark} hanya diaktifkan selama fase pelatihan.
 Mekanisme tersebut dirancang untuk meningkatkan ketahanan model terhadap variasi deteksi serta mencegah hapalan pola data.
 
-Diperlihatkan pada Tabel~\ref{tab:4-hyperparameter} konfigurasi \textit{hyperparameter} yang diterapkan selama proses pelatihan model.
+Distribusi sampel pada setiap subset data telah dijaga keseimbangannya untuk menghindari bias selama proses optimasi.
+Rincian jumlah data yang digunakan pada setiap fase pelatihan dapat dilihat pada Tabel~\ref{tab:4-distribusi-data}.
 
 \begin{table}[H]
 	\centering
-	\caption{Konfigurasi \textit{hyperparameter} pelatihan}
-	\label{tab:4-hyperparameter}
-	\begin{tabular}{|l|c|}
+	\caption{Distribusi sampel data pada fase pelatihan dan validasi}
+	\label{tab:4-distribusi-data}
+	\begin{tabular}{|l|c|c|c|}
 	\hline
-	\textbf{Parameter} & \textbf{Nilai} \\ \hline
-	Optimizer & \textit{Adam} \\ \hline
-	Laju pembelajaran awal & $1 \times 10^{-4}$ \\ \hline
-	Peluruhan bobot & $1 \times 10^{-3}$ \\ \hline
-	Ukuran \textit{batch} & 16 \\ \hline
-	Jumlah \textit{epoch} maksimal & 50 \\ \hline
-	\textit{Scheduler} & \textit{Cosine Annealing} \\ \hline
-	\textit{Early stopping patience} & 10 \\ \hline
-	Fungsi kerugian & \textit{Cross-Entropy} \\ \hline
+	\textbf{Fase} & \textbf{Total Sampel} & \textbf{Sampel per Kelas} & \textbf{Persentase} \\ \hline
+	Pelatihan (\textit{Train})& 120 & 12 & 80\% \\ \hline
+	Validasi (\textit{Validation})& 30 & 3 & 20\% \\ \hline
+	\textbf{Total} & \textbf{150} & \textbf{15} & \textbf{100\%} \\ \hline
 	\end{tabular}
+
+	\vspace{0.5em}
+	{\footnotesize Catatan: Stratifikasi dilakukan per kelas untuk memastikan representasi setiap gestur tetap proporsional.}
 \end{table}
 
-Proses optimasi memanfaatkan algoritma \textit{Adam} dengan laju pembelajaran awal sebesar $1 \times 10^{-4}$.
-Parameter peluruhan bobot ditetapkan pada nilai $1 \times 10^{-3}$ untuk mengendalikan kompleksitas fungsi kerugian.
-Jadwal \textit{cosine scheduler} diterapkan untuk menurunkan laju pembelajaran secara bertahap sepanjang lima puluh siklus pelatihan.
+Seluruh proses optimasi mengikuti konfigurasi \textit{hyperparameter} yang telah ditetapkan pada Bab III.
+Parameter seperti laju pembelajaran (\textit{learning rate}) dan mekanisme \textit{scheduler} diterapkan secara konsisten pada seluruh skenario.
 Pengaturan benih acak global menjamin bahwa urutan pengambilan data menghasilkan kondisi yang dapat direproduksi.
-
-Pemantauan kinerja validasi diaktifkan untuk mendeteksi gejala kejenuhan pembelajaran secara dini.
-Mekanisme \textit{early stopping} terpicu apabila penurunan fungsi kerugian tidak teramati selama sepuluh siklus berturut-turut.
-Status bobot model dengan nilai kerugian validasi terendah selalu disimpan sebagai berkas cadangan utama.
-Penyimpanan berkala tersebut memastikan bahwa evaluasi akhir selalu merujuk pada keadaan jaringan yang paling stabil.
+Penyimpanan berkas bobot terbaik dilakukan secara otomatis berdasarkan nilai kerugian validasi terendah.
 
 \section{Evaluasi Hasil}
 \label{sec:evaluasi-hasil}
