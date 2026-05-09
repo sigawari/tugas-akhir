@@ -603,21 +603,21 @@ Scheduler yang digunakan adalah \textit{ReduceLROnPlateau} yang menurunkan nilai
 Ringkasan konfigurasi \textit{hyperparameter} yang digunakan pada penelitian ini ditunjukkan pada Tabel \ref{tab:3-hyperparameter}.
 
 \begin{table}[H]
-\centering
-\caption{Konfigurasi \textit{Hyperparameter} Pelatihan Model}
-\label{tab:3-hyperparameter}
-\begin{tabular}{|l|c|}
-\hline
-\textbf{Parameter} & \textbf{Nilai} \\ \hline
-Ukuran \textit{batch} & 16 \\ \hline
-Jumlah \textit{epoch} maksimum & 50 \\ \hline
-\textit{Optimizer} & Adam \\ \hline
-\textit{Learning rate} & $1 \times 10^{-4}$ \\ \hline
-\textit{Weight decay} & $1 \times 10^{-4}$ \\ \hline
-Fungsi \textit{loss} & Cross-Entropy \\ \hline
-\textit{Early stopping} & Aktif (patience = 5) \\ \hline
-\textit{Learning rate scheduler} & ReduceLROnPlateau \\ \hline
-\end{tabular}
+	\centering
+	\caption{Konfigurasi \textit{Hyperparameter} Pelatihan Model}
+	\label{tab:3-hyperparameter}
+	\begin{tabular}{|l|c|}
+	\hline
+	\textbf{Parameter} & \textbf{Nilai} \\ \hline
+	Ukuran \textit{batch} & 16 \\ \hline
+	Jumlah \textit{epoch} maksimum & 50 \\ \hline
+	\textit{Optimizer} & Adam \\ \hline
+	\textit{Learning rate} & $1 \times 10^{-4}$ \\ \hline
+	\textit{Weight decay} & $1 \times 10^{-3}$ \\ \hline
+	Fungsi \textit{loss} & Cross-Entropy \\ \hline
+	\textit{Early stopping} & Aktif (patience = 10) \\ \hline
+	\textit{Learning rate scheduler} & Cosine Annealing \\ \hline
+	\end{tabular}
 \end{table}
 
 Konfigurasi tersebut digunakan secara konsisten pada seluruh eksperimen untuk memastikan bahwa perubahan performa model disebabkan oleh variasi representasi data, bukan oleh perbedaan parameter pelatihan. 
@@ -625,7 +625,6 @@ Pendekatan ini memungkinkan evaluasi yang lebih terkontrol terhadap pengaruh rep
 Fokus utama penelitian ini berada pada representasi fitur gerakan serta modifikasi kanal masukan model. 
 Eksplorasi mendalam terhadap variasi \textit{hyperparameter} tidak dilakukan agar ruang eksperimen tetap terfokus pada kontribusi metodologi yang diusulkan.
 
-% Rev Kemaren: Tambahin kalau -1 dia ga kedetect kalau kedetect range 0-100
 \subsection{Desain Eksperimen dan Studi Ablasi}
 \label{subsec:eksperimen-ablasi}
 

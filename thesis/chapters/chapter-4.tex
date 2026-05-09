@@ -546,18 +546,143 @@ Hasil normalisasi dengan demikian menghasilkan data yang lebih konsisten sebelum
 
 \subsubsection{Fitur Temporal dan Representasi Urutan}
 \label{subsubsec:fitur-temporal}
+Fitur temporal dibentuk untuk menyajikan informasi perubahan posisi antar-\textit{frame} secara eksplisit dalam representasi masukan model. 
+Komponen $(\Delta x, \Delta y)$ dihitung sebagai selisih koordinat antara \textit{frame} ke-$t$ dan \textit{frame} ke-$(t-1)$ menggunakan operasi \textit{finite difference}. 
+Perhitungan ini diterapkan secara independen pada setiap kanal koordinat $x$ dan $y$ serta pada seluruh titik \textit{landmark} yang tersedia. 
+Pendekatan \textit{finite difference} dipilih karena kemampuannya menangkap kecepatan perubahan posisi tanpa memerlukan estimasi turunan yang kompleks.
+
+Penanganan dilakukan secara khusus untuk komponen tangan yang memiliki kemungkinan nilai \textit{missing} akibat oklusi atau deteksi yang gagal. 
+Fitur $\Delta x$ dan $\Delta y$ hanya dihitung apabila koordinat pada \textit{frame} saat ini dan \textit{frame} sebelumnya sama-sama valid. 
+Kondisi invalid ditandai dengan nilai koordinat $(0, 0)$ yang dihasilkan oleh \textit{pipeline} ekstraksi MediaPipe Holistic. 
+Jika salah satu \textit{frame} mengandung nilai invalid, maka fitur temporal pada posisi tersebut diatur menjadi nol untuk menghindari artefak gerakan palsu.
+
+Pada \textit{frame} pertama dari setiap urutan, tidak tersedia \textit{frame} referensi sebelumnya untuk menghitung selisih koordinat. 
+Oleh karena itu, nilai $\Delta x$ dan $\Delta y$ pada \textit{frame} pertama ditetapkan sama dengan nol secara konsisten. 
+Kebijakan ini merepresentasikan asumsi bahwa tidak terdapat informasi gerakan sebelum rekaman dimulai. 
+Penetapan nilai nol pada awal urutan tidak mengganggu proses pembelajaran karena model tetap dapat memanfaatkan pola perubahan pada \textit{frame} selanjutnya.
+
+Representasi akhir setelah penambahan fitur temporal memiliki dimensi $(T, L, 4)$ dengan $T=90$ \textit{frame}, $L=122$ titik \textit{landmark}, dan $4$ kanal fitur. 
+Keempat kanal tersebut terdiri atas koordinat spasial $(x, y)$ dan komponen perubahan $(\Delta x, \Delta y)$. 
+Struktur ini memungkinkan model konvolusi dua dimensi memproses informasi posisi dan gerakan secara simultan dalam satu representasi terpadu. 
+Penggabungan fitur spasial dan temporal dalam format \textit{pseudo-image} menjadi fondasi bagi pendekatan klasifikasi berbasis arsitektur ResNet-2D.
+
+Penelitian ini menerapkan dua konfigurasi masukan model untuk mengevaluasi kontribusi informasi gerakan secara terkontrol. 
+Skenario pertama hanya memanfaatkan koordinat spasial $(x, y)$ sehingga menghasilkan representasi dua kanal. 
+Skenario kedua menambahkan komponen perubahan posisi $(\Delta x, \Delta y)$ yang menghasilkan representasi empat kanal. 
+Kedua konfigurasi tersebut diproses melalui \textit{pipeline} yang identik hingga tahap transformasi tensor akhir.
+
+Representasi dua kanal merepresentasikan posisi statis setiap titik \textit{landmark} pada masing-masing \textit{frame}. 
+Kondisi tersebut membuat model hanya bergantung pada konfigurasi spasial tanpa petunjuk dinamika waktu. 
+Representasi empat kanal mengintegrasikan posisi absolut dengan kecepatan perubahan antar-\textit{frame} dalam satu tensor. 
+Penggabungan ini memungkinkan jaringan konvolusi menangkap pola gerakan secara implisit melalui filter spasial.
+
+Perbedaan jumlah kanal hanya memengaruhi dimensi pertama pada tensor masukan model. 
+Format dua kanal menghasilkan bentuk $(2, 90, 122)$ sedangkan format empat kanal menghasilkan $(4, 90, 122)$. 
+Seluruh parameter arsitektur selain \textit{layer} konvolusi pertama tetap identik antar skenario. 
+Desain eksperimental ini memastikan perbandingan performa bersifat terkontrol dan terisolasi pada variabel fitur temporal.
 
 \subsubsection{Bentuk Masukan Model (Tensor Input)}
 \label{subsubsec:tensor-input}
+Representasi fitur $(T, L, 4)$ selanjutnya ditransformasi ke dalam format tensor yang kompatibel dengan arsitektur konvolusi dua dimensi. 
+Operasi \textit{transpose} diterapkan untuk mengubah urutan dimensi menjadi $(C, T, L)$ dengan $C$ menyatakan jumlah kanal fitur. 
+Transformasi ini diperlukan karena \textit{framework} PyTorch mengharapkan masukan konvolusi dalam format \textit{channel-first}. 
+Hasil transformasi menghasilkan tensor dengan bentuk akhir $(4, 90, 122)$ untuk setiap sampel individu.
+
+Tensor masukan diperlakukan sebagai citra dua dimensi dengan tinggi $T=90$ dan lebar $L=122$ pada proses konvolusi. 
+Dimensi temporal direpresentasikan sebagai sumbu vertikal sedangkan indeks \textit{landmark} direpresentasikan sebagai sumbu horizontal. 
+Pendekatan ini memungkinkan filter konvolusi menangkap pola lokal baik dalam domain waktu maupun ruang titik tubuh secara bersamaan. 
+Interpretasi \textit{pseudo-image} tersebut menjadi kunci yang memungkinkan arsitektur ResNet-2D diaplikasikan pada data berbasis koordinat.
+
+Pada tingkat \textit{batch}, tensor masukan memiliki bentuk $(B, 4, 90, 122)$ dengan $B$ menyatakan ukuran \textit{batch}. 
+Seluruh sampel dalam satu \textit{batch} diproses secara paralel untuk meningkatkan efisiensi komputasi selama pelatihan. 
+Normalisasi nilai fitur tidak diterapkan secara eksplisit karena koordinat hasil normalisasi tubuh sudah berada pada skala relatif yang konsisten. 
+Kestabilan skala masukan membantu proses optimasi model berjalan lebih stabil tanpa memerlukan teknik pra-pemrosesan tambahan.
+
+Representasi tensor yang dihasilkan kemudian menjadi masukan langsung bagi arsitektur ResNet-2D yang telah dimodifikasi. 
+Modifikasi utama terletak pada layer konvolusi pertama yang disesuaikan untuk menerima empat kanal masukan. 
+Seluruh alur prapemrosesan dari ekstraksi \textit{landmark} hingga pembentukan tensor dirancang untuk menjaga konsistensi dimensi antar sampel. 
+Konsistensi tersebut menjadi prasyarat penting agar proses pelatihan model dapat berjalan tanpa kesalahan dimensi atau \textit{runtime error}.
 
 \subsection{Implementasi Model Klasifikasi}
 \label{subsec:implementasi-model}
+Tahapan implementasi model klasifikasi dirancang untuk menguji efektivitas representasi \textit{pseudo-image} berbasis \textit{landmark} dalam mengenali gestur BISINDO dinamis.
+Penelitian ini memanfaatkan empat varian arsitektur yang terdiri atas \textit{baseline} \textit{CNN} dua dimensi sederhana serta tiga kedalaman \textit{Residual Network}.
+Proses pelatihan dilaksanakan menggunakan kerangka kerja \textit{PyTorch} dengan fungsi kerugian \textit{Cross-Entropy} sebagai tujuan optimasi utama.
+Subbab ini menyajikan rincian teknis mengenai penyesuaian arsitektur serta konfigurasi \textit{hyperparameter} yang diterapkan selama eksperimen.
 
 \subsubsection{Konfigurasi dan Modifikasi Arsitektur}
 \label{subsubsec:konfigurasi-arsitektur}
 
+Penelitian ini mengimplementasikan empat varian model untuk melakukan perbandingan kinerja secara komprehensif.
+Arsitektur dasar berupa jaringan konvolusi sederhana yang terdiri atas tiga lapisan konvolusi diikuti oleh \textit{adaptive average pooling}.
+Tiga varian tambahan menggunakan \textit{Residual Network} dengan kedalaman delapan belas, tiga puluh empat, dan lima puluh lapisan.
+Pemilihan kedalaman tersebut dirancang untuk mengevaluasi pengaruh kapasitas parameter terhadap kemampuan pembelajaran pola gerakan.
+Ringkasan spesifikasi keempat varian model yang diimplementasikan diperlihatkan pada Tabel~\ref{tab:4-arsitektur-model} di bawah ini.
+
+\begin{table}[H]
+	\centering
+	\caption{Spesifikasi varian arsitektur model klasifikasi}
+	\label{tab:4-arsitektur-model}
+	\begin{tabular}{|l|c|c|}
+	\hline
+	\textbf{Arsitektur} & \textbf{Jumlah Lapisan} & \textbf{Parameter Utama} \\ \hline
+	\textit{CNN2D} & 3 konvolusi & 32, 64, 128 filter \\ \hline
+	\textit{ResNet-18} & 18 & Blok residu dasar \\ \hline
+	\textit{ResNet-34} & 34 & Blok residu dasar \\ \hline
+	\textit{ResNet-50} & 50 & Blok residu \textit{bottleneck} \\ \hline
+	\end{tabular}
+
+	\vspace{0.5em}
+	{\footnotesize Catatan: Seluruh arsitektur menerima masukan dengan dimensi $(C, 90, 122)$ di mana $C \in \{2, 4\}$.}
+\end{table}
+
+Modifikasi utama dilakukan pada lapisan konvolusi pertama agar kompatibel dengan masukan dua kanal atau empat kanal.
+Bobot lapisan tersebut diinisialisasi ulang menggunakan distribusi standar yang disediakan oleh pustaka \textit{PyTorch}.
+Pendekatan ini menggantikan saluran warna merah, hijau, biru yang menjadi standar pada jaringan pra pelatihan.
+Penyesuaian dimensi masukan memungkinkan ekstraksi fitur spasial-temporal langsung dari representasi koordinat tubuh.
+
+Lapisan klasifikasi akhir pada setiap varian juga mengalami penyesuaian jumlah neuron keluaran.
+Jumlah unit linier diubah menjadi sepuluh untuk menyesuaikan dengan jumlah kelas gestur BISINDO yang dilatih.
+Seluruh lapisan residu serta mekanisme \textit{skip connection} dipertahankan sesuai struktur bawaan pustaka visi komputer.
+Konfigurasi ini menjamin bahwa aliran gradien tetap stabil selama proses propagasi balik.
+
 \subsubsection{Pengaturan Pelatihan dan Pembagian Data}
 \label{subsubsec:pengaturan-pelatihan}
+
+Pembagian data dilaksanakan menggunakan strategi stratifikasi pada tingkat berkas dengan rasio delapan puluh berbanding dua puluh.
+Hasil partisi menghasilkan seratus dua puluh sampel pelatihan dan tiga puluh sampel validasi yang tersebar merata.
+Teknik augmentasi berupa penambahan gangguan acak serta penyembunyian titik \textit{landmark} hanya diaktifkan selama fase pelatihan.
+Mekanisme tersebut dirancang untuk meningkatkan ketahanan model terhadap variasi deteksi serta mencegah hapalan pola data.
+
+Diperlihatkan pada Tabel~\ref{tab:4-hyperparameter} konfigurasi \textit{hyperparameter} yang diterapkan selama proses pelatihan model.
+
+\begin{table}[H]
+	\centering
+	\caption{Konfigurasi \textit{hyperparameter} pelatihan}
+	\label{tab:4-hyperparameter}
+	\begin{tabular}{|l|c|}
+	\hline
+	\textbf{Parameter} & \textbf{Nilai} \\ \hline
+	Optimizer & \textit{Adam} \\ \hline
+	Laju pembelajaran awal & $1 \times 10^{-4}$ \\ \hline
+	Peluruhan bobot & $1 \times 10^{-3}$ \\ \hline
+	Ukuran \textit{batch} & 16 \\ \hline
+	Jumlah \textit{epoch} maksimal & 50 \\ \hline
+	\textit{Scheduler} & \textit{Cosine Annealing} \\ \hline
+	\textit{Early stopping patience} & 10 \\ \hline
+	Fungsi kerugian & \textit{Cross-Entropy} \\ \hline
+	\end{tabular}
+\end{table}
+
+Proses optimasi memanfaatkan algoritma \textit{Adam} dengan laju pembelajaran awal sebesar $1 \times 10^{-4}$.
+Parameter peluruhan bobot ditetapkan pada nilai $1 \times 10^{-3}$ untuk mengendalikan kompleksitas fungsi kerugian.
+Jadwal \textit{cosine scheduler} diterapkan untuk menurunkan laju pembelajaran secara bertahap sepanjang lima puluh siklus pelatihan.
+Pengaturan benih acak global menjamin bahwa urutan pengambilan data menghasilkan kondisi yang dapat direproduksi.
+
+Pemantauan kinerja validasi diaktifkan untuk mendeteksi gejala kejenuhan pembelajaran secara dini.
+Mekanisme \textit{early stopping} terpicu apabila penurunan fungsi kerugian tidak teramati selama sepuluh siklus berturut-turut.
+Status bobot model dengan nilai kerugian validasi terendah selalu disimpan sebagai berkas cadangan utama.
+Penyimpanan berkala tersebut memastikan bahwa evaluasi akhir selalu merujuk pada keadaan jaringan yang paling stabil.
 
 \section{Evaluasi Hasil}
 \label{sec:evaluasi-hasil}
