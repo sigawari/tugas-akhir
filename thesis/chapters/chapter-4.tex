@@ -103,7 +103,7 @@ Keseragaman jumlah sampel juga mempermudah interpretasi metrik evaluasi, khususn
     ulang        & 15 \\ \hline
     \textbf{Total} & \textbf{150} \\ \hline
     \end{tabular}
-    \end{table}
+\end{table}
 
 Hasil proses \textit{trimming} menunjukkan peningkatan jumlah data yang signifikan, 
 yaitu dari 10 video mentah menjadi 150 sampel klip gestur per kelas. 
@@ -766,7 +766,8 @@ Penyajian berpasangan ini memudahkan identifikasi dampak penambahan fitur $\Delt
         \includegraphics[width=\textwidth]{figure/cm_resnet18_xy_dxdy_lr0.0001_bs16_wd0.001_sccosine_norm_true.png}
         \caption{\textit{ResNet-18} fitur $xy + \Delta$}
     \end{subfigure}
-        \begin{subfigure}{0.48\textwidth}
+    \vspace{0.5em}
+    \begin{subfigure}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figure/cm_resnet34_xy_lr0.0001_bs16_wd0.001_sccosine_norm_true.png}
         \caption{\textit{ResNet-34} fitur $xy$}
@@ -846,6 +847,44 @@ Temuan ini menjawab kedua pertanyaan penelitian dengan menegaskan bahwa rekayasa
 
 \section{Pembahasan}
 \label{sec:pembahasan}
+Hasil eksperimen mengonfirmasi bahwa penambahan fitur temporal $(\Delta x, \Delta y)$ tidak memberikan peningkatan performa pada arsitektur ResNet.
+Representasi koordinat spasial $(x, y)$ secara implisit telah memuat informasi pola gerakan melalui variasi posisi antar-\textit{frame}.
+Konvolusi dua dimensi mampu mengekstraksi hubungan spasial-temporal secara bersamaan tanpa memerlukan kanal diferensial eksplisit.
+Introduksi fitur $\Delta$ justru memperkenalkan redundansi informasi yang berpotensi mengganggu proses optimasi bobot jaringan.
+
+Variasi kedalaman arsitektur menunjukkan korelasi negatif dengan kemampuan generalisasi pada dataset berskala kecil.
+\textit{ResNet-18} mencapai keseimbangan optimal antara kapasitas representasi dan risiko \textit{overfitting}.
+Model \textit{ResNet-34} dan \textit{ResNet-50} mencatatkan penurunan akurasi validasi meskipun parameter jaringan bertambah signifikan.
+Kapasitas berlebihan cenderung memicu hapalan pola spesifik pada data latih alih-alih pembelajaran fitur diskriminatif umum.
+
+Pendekatan spasial murni terbukti kompetitif dibandingkan metode berbasis pemodelan sekuensial eksplisit.
+Transformasi urutan \textit{landmark} menjadi \textit{pseudo-image} multichannel memungkinkan pemanfaatan arsitektur visi komputer konvensional.
+Efisiensi komputasi menjadi keunggulan utama ketika mekanisme rekuren atau konvolusi tiga dimensi tidak diperlukan.
+Strategi ini selaras dengan tren riset terkini yang mengutamakan representasi ringkas untuk aplikasi berdaya komputasi terbatas.
+
+Temuan penelitian membuka peluang implementasi sistem pengenalan gestur pada perangkat dengan sumber daya minimal.
+Keterbatasan utama terletak pada ukuran dataset yang masih relatif kecil untuk menguji skalabilitas arsitektur dalam.
+Generalisasi hasil perlu divalidasi ulang pada korpus isyarat yang lebih beragam dan kondisi perekaman lapangan.
+Eksplorasi lanjutan dapat difokuskan pada mekanisme atensi spasial atau augmentasi temporal yang lebih adaptif.
 
 \section{Rangkuman Hasil}
 \label{sec:rangkuman-hasil}
+Penelitian ini mengevaluasi efektivitas arsitektur ResNet-2D dalam mengklasifikasi gestur BISINDO dinamis berbasis \textit{landmark}.
+Eksperimen dilaksanakan pada seratus lima puluh sampel video yang terbagi merata ke dalam sepuluh kelas kata isyarat.
+Representasi masukan dimodifikasi menjadi format \textit{pseudo-image} dengan variasi dua kanal dan empat kanal fitur.
+Seluruh skenario diuji menggunakan konfigurasi \textit{hyperparameter} yang konsisten untuk menjamin perbandingan terkontrol.
+
+Integrasi fitur perubahan antar-\textit{frame} $(\Delta x, \Delta y)$ tidak menghasilkan peningkatan performa klasifikasi yang signifikan.
+Skema dua kanal $(x, y)$ justru mencatatkan akurasi validasi tertinggi di seluruh varian arsitektur yang diuji.
+Informasi gerak eksplisit terbukti redundan karena konvolusi spasial telah cukup menangkap dinamika posisi tubuh.
+Penambahan kanal diferensial meningkatkan beban komputasi tanpa memberikan manfaat diskriminatif tambahan.
+
+Peningkatan kedalaman jaringan konvolusional berkorelasi negatif dengan akurasi generalisasi pada kondisi dataset terbatas.
+\textit{ResNet-18} mengungguli model yang lebih dalam dengan capaian akurasi sembilan puluh enam koma enam tujuh persen.
+Arsitektur \textit{ResNet-34} dan \textit{ResNet-50} menunjukkan gejala kejenuhan pembelajaran yang ditandai oleh penurunan metrik validasi.
+Kompleksitas parameter yang lebih tinggi tidak sebanding dengan peningkatan kemampuan mengenali pola gestur.
+
+Kombinasi optimal untuk tugas pengenalan BISINDO dinamis dalam penelitian ini adalah \textit{ResNet-18} dengan masukan dua kanal.
+Konfigurasi tersebut mencapai keseimbangan terbaik antara ketepatan klasifikasi dan efisiensi sumber daya komputasi.
+Pendekatan spasial murni terbukti layak sebagai alternatif sederhana dibandingkan pemodelan temporal eksplisit.
+Hasil penelitian memberikan dasar empiris bagi pengembangan sistem penerjemahan bahasa isyarat berdaya rendah.
