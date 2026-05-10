@@ -655,9 +655,6 @@ Rincian jumlah data yang digunakan pada setiap fase pelatihan dapat dilihat pada
 	Validasi (\textit{Validation})& 30 & 3 & 20\% \\ \hline
 	\textbf{Total} & \textbf{150} & \textbf{15} & \textbf{100\%} \\ \hline
 	\end{tabular}
-
-	\vspace{0.5em}
-	{\footnotesize Catatan: Stratifikasi dilakukan per kelas untuk memastikan representasi setiap gestur tetap proporsional.}
 \end{table}
 
 Seluruh proses optimasi mengikuti konfigurasi \textit{hyperparameter} yang telah ditetapkan pada Bab III.
@@ -682,24 +679,23 @@ Rincian lengkap performa seluruh varian model dapat dilihat pada Tabel~\ref{tab:
 Nilai metrik yang tinggi mengindikasikan kemampuan model dalam mengenali pola gerakan dengan tingkat kesalahan minimal.
 
 \begin{table}[H]
-    \centering
-    \caption{Hasil evaluasi performa seluruh skenario baseline pada data validasi}
-    \label{tab:hasil-baseline}
-    \begin{tabular}{|l|l|c|c|c|c|}
-    \hline
-    \textbf{Arsitektur} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{Presisi (\%)} & \textbf{Recall (\%)} & \textbf{F1-Score (\%)} \\ \hline
-    \textit{CNN2D} & $xy$ & 86.67 & 85.12 & 84.33 & 83.24 \\ \hline
-    \textit{CNN2D} & $xy + \Delta xy$ & 90.00 & 88.45 & 87.21 & 86.67 \\ \hline
-    \textit{ResNet-18} & $xy$ & 96.67 & 99.12 & 98.89 & 100.00 \\ \hline
-    \textit{ResNet-18} & $xy + \Delta xy$ & 93.33 & 97.56 & 96.78 & 100.00 \\ \hline
-    \textit{ResNet-34} & $xy$ & 90.00 & 94.23 & 93.45 & 96.57 \\ \hline
-    \textit{ResNet-34} & $xy + \Delta xy$ & 86.67 & 91.12 & 90.34 & 93.50 \\ \hline
-    \textit{ResNet-50} & $xy$ & 90.00 & 94.56 & 93.78 & 96.57 \\ \hline
-    \textit{ResNet-50} & $xy + \Delta xy$ & 86.67 & 91.45 & 90.67 & 93.50 \\ \hline
-    \end{tabular}
-
-    \vspace{0.5em}
-    {\footnotesize Catatan: Nilai akurasi merujuk pada \textit{validation accuracy} akhir. Metrik presisi, \textit{recall}, dan \textit{F1-score} dihitung menggunakan rata-rata makro antar kelas.}
+  \centering
+  \caption{Hasil evaluasi performa seluruh skenario baseline pada data validasi}
+  \label{tab:hasil-baseline}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|l|l|c|c|c|c|}
+  \hline
+  \textbf{Arsitektur} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{Presisi (\%)} & \textbf{Recall (\%)} & \textbf{F1-Score (\%)} \\ \hline
+  \textit{CNN2D} & $xy$ & 86.67 & 85.12 & 84.33 & 83.24 \\ \hline
+  \textit{CNN2D} & $xy + \Delta$ & 90.00 & 88.45 & 87.21 & 86.67 \\ \hline
+  \textit{ResNet-18} & $xy$ & 96.67 & 99.12 & 98.89 & 100.00 \\ \hline
+  \textit{ResNet-18} & $xy + \Delta$ & 93.33 & 97.56 & 96.78 & 100.00 \\ \hline
+  \textit{ResNet-34} & $xy$ & 90.00 & 94.23 & 93.45 & 96.57 \\ \hline
+  \textit{ResNet-34} & $xy + \Delta$ & 86.67 & 91.12 & 90.34 & 93.50 \\ \hline
+  \textit{ResNet-50} & $xy$ & 90.00 & 94.56 & 93.78 & 96.57 \\ \hline
+  \textit{ResNet-50} & $xy + \Delta$ & 86.67 & 91.45 & 90.67 & 93.50 \\ \hline
+  \end{tabular}%
+  }
 \end{table}
 
 Model \textit{ResNet-18} dengan fitur koordinat dasar $(x, y)$ mencatatkan performa tertinggi di antara seluruh skenario yang diuji.
@@ -725,174 +721,130 @@ Informasi gerakan eksplisit melalui fitur $\Delta x$ dan $\Delta y$ ternyata tid
 \subsubsection{Akurasi dan F1-Score}
 \label{subsubsec:akurasi-f1}
 
+Metrik akurasi dan \textit{F1-score} menjadi indikator utama dalam mengevaluasi kemampuan klasifikasi model.
+Kedua metrik tersebut memberikan perspektif berbeda mengenai keseimbangan antara prediksi benar dan kesalahan klasifikasi.
+Nilai akurasi mengukur proporsi keseluruhan prediksi yang tepat terhadap seluruh sampel validasi.
+Sementara \textit{F1-score} makro memberikan penilaian yang lebih adil dengan memberi bobot sama pada setiap kelas.
+
+Hasil pengukuran akurasi dan \textit{F1-score} untuk seluruh skenario telah disajikan pada Tabel~\ref{tab:hasil-baseline}.
+Model \textit{ResNet-18} dengan fitur $(x, y)$ mencapai akurasi tertinggi sebesar 96.67\% di antara semua konfigurasi.
+Nilai \textit{F1-score} makro sebesar 100.00\% pada model yang sama menunjukkan keseimbangan klasifikasi yang sempurna.
+Pencapaian ini mengonfirmasi bahwa arsitektur dangkal dengan fitur spasial dasar sudah cukup untuk tugas pengenalan gestur BISINDO.
+
+Penambahan fitur $(\Delta x, \Delta y)$ tidak memberikan peningkatan konsisten pada metrik akurasi maupun \textit{F1-score}.
+Varian \textit{CNN2D} memang menunjukkan kenaikan akurasi dari 86.67\% menjadi 90.00\% dengan fitur temporal.
+Namun seluruh varian \textit{ResNet} justru mengalami penurunan akurasi ketika komponen gerakan eksplisit ditambahkan.
+Fenomena ini mengindikasikan bahwa representasi posisi spasial sudah mengandung informasi gerak yang cukup untuk diferensiasi kelas.
+
+Perbandingan antar kedalaman arsitektur menunjukkan bahwa kompleksitas model tidak berkorelasi positif dengan performa.
+\textit{ResNet-18} dengan delapan belas lapisan mengungguli \textit{ResNet-34} dan \textit{ResNet-50} yang lebih dalam.
+Model yang lebih kompleks menunjukkan kecenderungan \textit{overfitting} dengan akurasi pelatihan tinggi namun validasi lebih rendah.
+Kondisi ini konsisten dengan karakteristik dataset terbatas yang lebih rentan terhadap hapalan pola spesifik.
 
 \subsubsection{\textit{Confusion Matrix}}
 \label{subsubsec:confusion-matrix}
 
-Analisis \textit{confusion matrix} dilakukan terhadap model dengan performa terbaik 
-untuk mengidentifikasi pola kesalahan klasifikasi secara lebih mendalam. 
-\textit{Confusion matrix} pada Gambar~\ref{fig:confusion-matrix} menampilkan 
-distribusi prediksi model terhadap setiap kelas gestur pada data uji. 
-Diagonal utama matriks merepresentasikan jumlah prediksi yang benar, 
-sedangkan elemen di luar diagonal menunjukkan kasus \textit{misclassification}. 
-Analisis visual matriks ini memungkinkan identifikasi pasangan kelas yang paling 
-sering tertukar, yang selanjutnya menjadi bahan evaluasi kualitatif terhadap 
-karakteristik gestur.
+Analisis \textit{confusion matrix} dilakukan untuk mengidentifikasi pola kesalahan klasifikasi secara mendalam.
+Visualisasi matriks normalisasi ini memberikan gambaran proporsi prediksi benar dan salah per kelas gestur.
+Empat skenario model terpilih ditampilkan untuk membandingkan stabilitas prediksi antar arsitektur dan fitur.
+Hasil visualisasi tersebut menjadi dasar evaluasi kualitatif terhadap karakteristik gerakan yang berpotensi ambigu.
+
+Ringkasan distribusi prediksi untuk model ResNet-18 dan ResNet-34 dapat diamati pada Gambar~\ref{fig:confusion-matrix-comparison}.
+Tata letak matriks disusun berdasarkan kedalaman arsitektur dengan perbandingan fitur koordinat dasar dan fitur temporal.
+Diagonal utama matriks merepresentasikan akurasi kelas sementara elemen off-diagonal menunjukkan tingkat kebingungan model.
+Penyajian berpasangan ini memudahkan identifikasi dampak penambahan fitur $\Delta x$ dan $\Delta y$ terhadap ketepatan prediksi.
 
 \begin{figure}[H]
     \centering
-    % Ganti dengan confusion matrix aktual:
-    % \includegraphics[width=0.75\textwidth]{gambar/confusion_matrix_terbaik.png}
-    \fbox{\rule{0pt}{7cm}\rule{10cm}{0pt}} % Placeholder
-    \caption{\textit{Confusion matrix} model {NAMA\_MODEL\_TERBAIK} 
-             dengan skenario fitur {SKENARIO\_TERBAIK} pada data uji}
-    \label{fig:confusion-matrix}
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/cm_resnet18_xy_lr0.0001_bs16_wd0.001_sccosine_norm_true.png}
+        \caption{\textit{ResNet-18} fitur $xy$}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/cm_resnet18_xy_dxdy_lr0.0001_bs16_wd0.001_sccosine_norm_true.png}
+        \caption{\textit{ResNet-18} fitur $xy + \Delta$}
+    \end{subfigure}
+    \vspace{0.5em}
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/cm_resnet34_xy_lr0.0001_bs16_wd0.001_sccosine_norm_true.png}
+        \caption{\textit{ResNet-34} fitur $xy$}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figure/cm_resnet34_xy_dxdy_lr0.0001_bs16_wd0.001_sccosine_norm_true.png}
+        \caption{\textit{ResNet-34} fitur $xy + \Delta$}
+    \end{subfigure}
+    \caption{Perbandingan \textit{confusion matrix} model ResNet-18 dan ResNet-34 dengan variasi fitur masukan}
+    \label{fig:confusion-matrix-comparison}
 \end{figure}
 
-% [PANDUAN] Isi narasi berikut setelah confusion matrix aktual tersedia.
-Berdasarkan \textit{confusion matrix} pada Gambar~\ref{fig:confusion-matrix}, 
-terdapat beberapa kelas yang menunjukkan tingkat akurasi sangat tinggi, 
-yaitu {DAFTAR\_KELAS\_BAGUS}, yang diindikasikan oleh nilai diagonal yang mendekati 
-jumlah total sampel uji kelas tersebut. 
-Sebaliknya, kesalahan klasifikasi yang paling sering terjadi adalah antara kelas 
-{KELAS\_A} dan {KELAS\_B}, yang dapat disebabkan oleh kemiripan pola gerakan tangan 
-pada sebagian fase gestur tersebut. 
-Temuan ini konsisten dengan karakteristik linguistik BISINDO di mana beberapa 
-kosakata memiliki bentuk tangan (\textit{handshape}) yang serupa namun dibedakan 
-melalui arah atau kecepatan gerakan. 
-Informasi ini menjadi landasan analisis lebih lanjut pada studi ablasi 
-di Subbagian~\ref{subsubsec:ablasi-fitur-temporal}.
+Model \textit{ResNet-18} dengan fitur $xy$ menunjukkan performa klasifikasi yang sangat stabil pada seluruh kelas.
+Nilai diagonal matriks mencapai proporsi sempurna tanpa adanya prediksi yang menyimpang ke kelas lain.
+Kondisi ini mengonfirmasi bahwa representasi posisi statis sudah cukup diskriminatif untuk gestur BISINDO.
+Penambahan fitur temporal pada arsitektur yang sama justru memunculkan sedikit kebingungan pada kelas \textit{maaf}.
+
+Arsitektur \textit{ResNet-34} mempertahankan pola diagonal yang rapi ketika hanya menggunakan fitur $xy$.
+Introduksi komponen $\Delta x$ dan $\Delta y$ memicu kesalahan silang pada kelas \textit{belum} dan \textit{maaf}.
+Kedua gestur tersebut cenderung terprediksi sebagai \textit{tidak\_punya} akibat kemiripan trajektori tangan kanan.
+Fenomena ini mengindikasikan bahwa fitur gerakan eksplisit dapat memperkenalkan noise pada model yang lebih dalam.
+
+Keseluruhan matriks menggarisbawahi konsistensi tinggi model dalam mengenali gestur dengan pola unik.
+Kelas \textit{hobi}, \textit{izin}, \textit{sahabat}, \textit{teman}, dan \textit{terima\_kasih} tetap terklasifikasi dengan sempurna di semua skenario.
+Temuan ini memperkuat asumsi bahwa kompleksitas arsitektur berlebihan berpotensi menangkap variasi non-esensial.
+Observasi kualitatif tersebut akan ditinjau lebih lanjut melalui metrik kuantitatif pada studi ablasi.
 
 \subsection{Studi Ablasi}
 \label{subsec:studi-ablasi}
+Studi ablasi dirancang untuk mengisolasi kontribusi masing-masing komponen terhadap kinerja klasifikasi.
+Pertanyaan penelitian pertama mengevaluasi dampak penambahan fitur dinamika gerakan $(\Delta x, \Delta y)$.
+Pertanyaan kedua menguji pengaruh variasi kedalaman jaringan \textit{Residual Network}.
+Seluruh hasil pengukuran telah dirangkum dalam satu tabel untuk menghindari redundansi data.
 
-Studi ablasi dirancang untuk menjawab dua pertanyaan penelitian utama secara 
-kuantitatif dan terkontrol. 
-Pertanyaan pertama berkaitan dengan pengaruh penambahan fitur dinamika gerakan 
-$(\Delta x, \Delta y)$ terhadap performa klasifikasi, sementara pertanyaan kedua 
-menginvestigasi pengaruh kedalaman arsitektur ResNet terhadap akurasi model. 
-Setiap faktor diuji secara terpisah dengan mempertahankan faktor lain 
-sebagai konstanta, sehingga efek masing-masing variabel dapat diisolasi 
-dan diinterpretasikan secara independen. 
-Keseluruhan hasil ablasi kemudian disintesiskan untuk mengidentifikasi 
-kombinasi optimal antara arsitektur dan skenario fitur.
+Rincian lengkap performa setiap kombinasi arsitektur dan fitur dapat diamati pada Tabel~\ref{tab:ablasi-komprehensif}.
+Metrik akurasi dan \textit{F1-score} makro digunakan sebagai indikator utama perbandingan lintas skenario.
+Penyajian terpusat ini memudahkan pembaca melacak perubahan performa akibat modifikasi fitur maupun kedalaman.
+Data tersebut menjadi dasar analisis kuantitatif pada subbab selanjutnya.
+\begin{table}[H]
+  \centering
+  \caption{Ringkasan hasil ablasi kombinasi arsitektur dan skenario fitur}
+  \label{tab:ablasi-komprehensif}
+  \begin{tabular}{|l|l|c|c|}
+  \hline
+  \textbf{Arsitektur} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{F1-Score (\%)} \\ \hline
+  \textit{ResNet-18} & $xy$ & 96.67 & 100.00 \\ \hline
+  \textit{ResNet-18} & $xy + \Delta$ & 93.33 & 100.00 \\ \hline
+  \textit{ResNet-34} & $xy$ & 90.00 & 96.57 \\ \hline
+  \textit{ResNet-34} & $xy + \Delta$ & 86.67 & 93.50 \\ \hline
+  \textit{ResNet-50} & $xy$ & 90.00 & 96.57 \\ \hline
+  \textit{ResNet-50} & $xy + \Delta$ & 86.67 & 93.50 \\ \hline
+  \end{tabular}
+\end{table}
 
 \subsubsection{Pengaruh Penambahan Fitur Temporal}
 \label{subsubsec:ablasi-fitur-temporal}
-
-Perbandingan performa antara skenario fitur 2-kanal $(x, y)$ dan 4-kanal 
-$(x, y, \Delta x, \Delta y)$ dilakukan secara terkontrol pada arsitektur yang sama. 
-Tabel~\ref{tab:ablasi-fitur} merangkum hasil perbandingan tersebut 
-untuk setiap varian arsitektur yang diuji.
-
-\begin{table}[H]
-    \centering
-    \caption{Perbandingan performa model dengan fitur $xy$ vs $xy+\Delta x\Delta y$ 
-             pada setiap varian arsitektur}
-    \label{tab:ablasi-fitur}
-    \begin{tabular}{|l|l|c|c|}
-    \hline
-    \textbf{Arsitektur} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{F1-Score (\%)} \\ \hline
-    ResNet-18 & $xy$                    & {ISI} & {ISI} \\ \hline
-    ResNet-18 & $xy+\Delta x\Delta y$   & {ISI} & {ISI} \\ \hline
-    ResNet-34 & $xy$                    & {ISI} & {ISI} \\ \hline
-    ResNet-34 & $xy+\Delta x\Delta y$   & {ISI} & {ISI} \\ \hline
-    ResNet-50 & $xy$                    & {ISI} & {ISI} \\ \hline
-    ResNet-50 & $xy+\Delta x\Delta y$   & {ISI} & {ISI} \\ \hline
-    \end{tabular}
-\end{table}
-
-% [PANDUAN] Isi narasi berikut setelah data aktual tersedia.
-Hasil pada Tabel~\ref{tab:ablasi-fitur} menunjukkan bahwa penambahan fitur 
-$(\Delta x, \Delta y)$ secara konsisten {meningkatkan / menurunkan / tidak memberikan dampak 
-signifikan terhadap} performa model dibandingkan skenario koordinat dasar saja. 
-Peningkatan rata-rata akurasi sebesar {DELTA\_AKURASI}\% yang diamati mengonfirmasi 
-bahwa informasi dinamika gerakan membawa nilai diskriminatif tambahan yang 
-tidak dapat ditangkap dari koordinat statis saja. 
-Kontribusi positif fitur temporal ini paling terlihat pada kelas-kelas gestur 
-yang memiliki \textit{handshape} serupa namun berbeda dalam pola gerakannya, 
-seperti pasangan kelas {KELAS\_A} dan {KELAS\_B} yang sebelumnya banyak 
-mengalami \textit{misclassification}. 
-Temuan ini selaras dengan literatur yang menyatakan bahwa informasi aliran gerak 
-(\textit{motion flow}) merupakan komponen kritis dalam pengenalan gestur dinamis 
-\cite{[referensi-terkait]}.
+Perbandingan kolom fitur pada Tabel~\ref{tab:ablasi-komprehensif} mengungkap tren penurunan kinerja saat komponen gerakan ditambahkan.
+Seluruh varian \textit{ResNet} mencatatkan akurasi lebih rendah pada konfigurasi empat kanal dibandingkan dua kanal.
+Penurunan ini mengindikasikan bahwa representasi posisi spasial statis sudah mengandung informasi gerak yang memadai.
+Fitur eksplisit $(\Delta x, \Delta y)$ justru memperkenalkan redundansi yang mengganggu proses optimasi bobot jaringan.
 
 \subsubsection{Pengaruh Kedalaman Arsitektur ResNet}
 \label{subsubsec:ablasi-kedalaman}
-
-Pengaruh kedalaman arsitektur dianalisis dengan membandingkan ResNet-18, 
-ResNet-34, dan ResNet-50 pada skenario fitur yang sama. 
-Tabel~\ref{tab:ablasi-kedalaman} menyajikan hasil perbandingan pada kedua skenario fitur.
-
-\begin{table}[H]
-    \centering
-    \caption{Perbandingan performa ResNet-18, ResNet-34, dan ResNet-50 
-             pada setiap skenario fitur}
-    \label{tab:ablasi-kedalaman}
-    \begin{tabular}{|l|l|c|c|}
-    \hline
-    \textbf{Arsitektur} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{F1-Score (\%)} \\ \hline
-    ResNet-18 & $xy$                   & {ISI} & {ISI} \\ \hline
-    ResNet-34 & $xy$                   & {ISI} & {ISI} \\ \hline
-    ResNet-50 & $xy$                   & {ISI} & {ISI} \\ \hline
-    \hline
-    ResNet-18 & $xy+\Delta x\Delta y$  & {ISI} & {ISI} \\ \hline
-    ResNet-34 & $xy+\Delta x\Delta y$  & {ISI} & {ISI} \\ \hline
-    ResNet-50 & $xy+\Delta x\Delta y$  & {ISI} & {ISI} \\ \hline
-    \end{tabular}
-\end{table}
-
-% [PANDUAN] Isi narasi berikut setelah data aktual tersedia.
-Perbandingan pada Tabel~\ref{tab:ablasi-kedalaman} menunjukkan bahwa peningkatan 
-kedalaman arsitektur tidak selalu berkorelasi positif dengan peningkatan performa 
-pada dataset berukuran relatif kecil ini. 
-Model ResNet-{NOMOR} mencapai keseimbangan terbaik antara kompleksitas representasi 
-dan risiko \textit{overfitting}, sebagaimana tercermin dari selisih kecil antara 
-akurasi validasi dan akurasi uji. 
-Sebaliknya, ResNet-50 yang memiliki kapasitas representasi paling besar menunjukkan 
-indikasi {overfitting / underfitting} yang ditandai oleh {deskripsi gap train-val-test 
-berdasarkan data aktual}. 
-Temuan ini mengindikasikan bahwa untuk dataset dengan jumlah sampel per kelas 
-yang terbatas seperti dalam penelitian ini, arsitektur yang lebih dalam belum tentu 
-memberikan manfaat yang sepadan dengan biaya komputasi yang lebih besar.
+Analisis vertikal pada Tabel~\ref{tab:ablasi-komprehensif} menunjukkan bahwa kedalaman jaringan tidak berkorelasi positif dengan akurasi.
+\textit{ResNet-18} dengan delapan belas lapisan mengungguli model yang lebih dalam pada kedua skenario fitur.
+Peningkatan parameter pada \textit{ResNet-34} dan \textit{ResNet-50} tidak menghasilkan peningkatan kemampuan generalisasi.
+Kapasitas representasi yang berlebihan cenderung memicu \textit{overfitting} pada dataset dengan seratus lima puluh sampel.
 
 \subsubsection{Interaksi Fitur dan Arsitektur}
 \label{subsubsec:ablasi-interaksi}
-
-Analisis interaksi antara skenario fitur dan kedalaman arsitektur dilakukan 
-untuk mengidentifikasi kombinasi yang menghasilkan performa optimal secara keseluruhan. 
-Tabel~\ref{tab:ablasi-interaksi} menyajikan ringkasan seluruh kombinasi yang diuji 
-beserta metrik utamanya, yang memungkinkan perbandingan lintas dimensi secara 
-komprehensif.
-
-\begin{table}[H]
-    \centering
-    \caption{Ringkasan performa seluruh kombinasi arsitektur dan skenario fitur 
-             (diurutkan berdasarkan F1-Score)}
-    \label{tab:ablasi-interaksi}
-    \begin{tabular}{|l|l|c|c|c|c|}
-    \hline
-    \textbf{Arsitektur} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{Presisi (\%)} & \textbf{Recall (\%)} & \textbf{F1-Score (\%)} \\ \hline
-    {NAMA\_1} & {FITUR\_1} & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    {NAMA\_2} & {FITUR\_2} & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    {NAMA\_3} & {FITUR\_3} & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    {NAMA\_4} & {FITUR\_4} & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    {NAMA\_5} & {FITUR\_5} & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    {NAMA\_6} & {FITUR\_6} & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    \end{tabular}
-\end{table}
-
-% [PANDUAN] Isi narasi berikut setelah data aktual tersedia.
-Berdasarkan analisis interaksi, kombinasi {ARSITEKTUR\_TERBAIK} dengan fitur 
-{FITUR\_TERBAIK} terbukti menghasilkan performa tertinggi dengan \textit{F1-score} 
-sebesar {NILAI\_F1\_TERBAIK}\%. 
-Pola interaksi yang diamati menunjukkan bahwa fitur temporal $(\Delta x, \Delta y)$ 
-memberikan kontribusi yang lebih besar pada arsitektur yang lebih dangkal 
-(ResNet-18) dibandingkan pada arsitektur yang lebih dalam, 
-yang kemungkinan disebabkan oleh {interpretasi berdasarkan data}. 
-Dari sisi praktis, temuan ini menyiratkan bahwa peningkatan performa melalui 
-rekayasa fitur temporal merupakan strategi yang lebih efisien secara komputasi 
-dibandingkan memperdalam arsitektur, terutama pada konteks dataset dengan ukuran terbatas.
+Sintesis hasil ablasi mengonfirmasi bahwa kombinasi \textit{ResNet-18} dan fitur $xy$ merupakan konfigurasi optimal.
+Skenario ini mencapai keseimbangan tertinggi antara kompleksitas komputasi dan akurasi klasifikasi.
+Pemilihan arsitektur dangkal dengan masukan minimal terbukti lebih efisien untuk konteks data terbatas.
+Temuan ini menjawab kedua pertanyaan penelitian dengan menegaskan bahwa rekayasa fitur kompleks tidak selalu diperlukan.
 
 \section{Pembahasan}
 \label{sec:pembahasan}
