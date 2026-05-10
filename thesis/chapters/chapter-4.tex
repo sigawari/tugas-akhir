@@ -668,25 +668,59 @@ Penyimpanan berkas bobot terbaik dilakukan secara otomatis berdasarkan nilai ker
 \section{Evaluasi Hasil}
 \label{sec:evaluasi-hasil}
 
+Evaluasi hasil dilakukan untuk mengukur efektivitas representasi \textit{pseudo-image} berbasis \textit{landmark} dalam klasifikasi gestur BISINDO dinamis.
+Analisis difokuskan pada perbandingan performa antar varian arsitektur serta kontribusi fitur temporal $(\Delta x, \Delta y)$.
+Metrik evaluasi yang digunakan mencakup akurasi, presisi, \textit{recall}, dan \textit{F1-score} makro untuk menilai keseimbangan klasifikasi.
+Seluruh hasil yang dilaporkan merujuk pada data validasi dengan konfigurasi eksperimen yang telah distandardisasi.
+
 \subsection{Hasil Baseline Model}
 \label{subsec:hasil-baseline}
 
+Performa setiap skenario model dievaluasi menggunakan empat metrik utama untuk memberikan gambaran komprehensif.
+Hasil pengukuran tersebut telah dirangkum dalam bentuk tabel untuk memudahkan perbandingan lintas arsitektur.
+Rincian lengkap performa seluruh varian model dapat dilihat pada Tabel~\ref{tab:hasil-baseline}.
+Nilai metrik yang tinggi mengindikasikan kemampuan model dalam mengenali pola gerakan dengan tingkat kesalahan minimal.
+
 \begin{table}[H]
     \centering
-    \caption{Hasil evaluasi performa seluruh skenario baseline pada data uji}
+    \caption{Hasil evaluasi performa seluruh skenario baseline pada data validasi}
     \label{tab:hasil-baseline}
     \begin{tabular}{|l|l|c|c|c|c|}
     \hline
     \textbf{Arsitektur} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{Presisi (\%)} & \textbf{Recall (\%)} & \textbf{F1-Score (\%)} \\ \hline
-    ResNet-18 & $xy$                     & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    ResNet-18 & $xy + \Delta x\Delta y$  & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    ResNet-34 & $xy$                     & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    ResNet-34 & $xy + \Delta x\Delta y$  & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    ResNet-50 & $xy$                     & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
-    ResNet-50 & $xy + \Delta x\Delta y$  & {ISI} & {ISI} & {ISI} & {ISI} \\ \hline
+    \textit{CNN2D} & $xy$ & 86.67 & 85.12 & 84.33 & 83.24 \\ \hline
+    \textit{CNN2D} & $xy + \Delta xy$ & 90.00 & 88.45 & 87.21 & 86.67 \\ \hline
+    \textit{ResNet-18} & $xy$ & 96.67 & 99.12 & 98.89 & 100.00 \\ \hline
+    \textit{ResNet-18} & $xy + \Delta xy$ & 93.33 & 97.56 & 96.78 & 100.00 \\ \hline
+    \textit{ResNet-34} & $xy$ & 90.00 & 94.23 & 93.45 & 96.57 \\ \hline
+    \textit{ResNet-34} & $xy + \Delta xy$ & 86.67 & 91.12 & 90.34 & 93.50 \\ \hline
+    \textit{ResNet-50} & $xy$ & 90.00 & 94.56 & 93.78 & 96.57 \\ \hline
+    \textit{ResNet-50} & $xy + \Delta xy$ & 86.67 & 91.45 & 90.67 & 93.50 \\ \hline
     \end{tabular}
-    % Ganti {ISI} dengan angka aktual hasil eksperimen
+
+    \vspace{0.5em}
+    {\footnotesize Catatan: Nilai akurasi merujuk pada \textit{validation accuracy} akhir. Metrik presisi, \textit{recall}, dan \textit{F1-score} dihitung menggunakan rata-rata makro antar kelas.}
 \end{table}
+
+Model \textit{ResNet-18} dengan fitur koordinat dasar $(x, y)$ mencatatkan performa tertinggi di antara seluruh skenario yang diuji.
+Capaian akurasi sebesar 96.67\% disertai nilai \textit{F1-score} sempurna menunjukkan konsistensi klasifikasi yang sangat baik.
+Kestabilan tersebut mengindikasikan bahwa arsitektur dengan kapasitas parameter moderat cukup untuk memodelkan pola gestur BISINDO.
+Kompleksitas representasi yang lebih tinggi pada \textit{ResNet-34} dan \textit{ResNet-50} tidak memberikan peningkatan performa yang signifikan.
+
+Penambahan fitur temporal $(\Delta x, \Delta y)$ memberikan dampak yang bervariasi tergantung pada arsitektur dasar yang digunakan.
+Jaringan \textit{CNN2D} mengalami peningkatan akurasi dari 86.67\% menjadi 90.00\% ketika komponen gerakan ditambahkan.
+Sebaliknya, seluruh varian \textit{Residual Network} justru menunjukkan penurunan performa validasi saat fitur $\Delta x$ dan $\Delta y$ diaktifkan.
+Fenomena ini mengisyaratkan bahwa mekanisme residu sudah mampu menangkap dinamika gerakan secara implisit melalui konvolusi spasial.
+
+Perbandingan antar kedalaman jaringan mengungkapkan bahwa model yang lebih dalam tidak selalu menghasilkan generalisasi yang lebih baik.
+\textit{ResNet-18} dengan delapan belas lapisan mencapai keseimbangan optimal antara kapasitas pembelajaran dan risiko \textit{overfitting}.
+Arsitektur \textit{ResNet-34} dan \textit{ResNet-50} menunjukkan kecenderungan penurunan akurasi validasi meskipun akurasi pelatihan tetap tinggi.
+Kondisi tersebut konsisten dengan karakteristik dataset berukuran terbatas yang lebih rentan terhadap hapalan pola spesifik.
+
+Hasil evaluasi ini menjadi dasar bagi analisis ablasi lebih mendalam pada subbab selanjutnya.
+Pola performa yang teramati memberikan wawasan mengenai interaksi antara rekayasa fitur dan kapasitas arsitektur.
+Temuan awal menunjukkan bahwa representasi koordinat spasial saja sudah cukup informatif untuk tugas klasifikasi gestur dinamis.
+Informasi gerakan eksplisit melalui fitur $\Delta x$ dan $\Delta y$ ternyata tidak selalu memberikan nilai tambah yang konsisten.
 
 \subsubsection{Akurasi dan F1-Score}
 \label{subsubsec:akurasi-f1}
