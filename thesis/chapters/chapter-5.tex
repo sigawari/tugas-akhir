@@ -4,13 +4,16 @@
 \section{Kesimpulan} \label{V.Kesimpulan}
 Berdasarkan penelitian yang telah dilakukan, maka kesimpulan yang diperoleh adalah sebagai berikut:
 \begin{enumerate}
-    \item Berdasarkan pengujian 
-    \item mengimplementasikan
+    \item Integrasi fitur perubahan antar-\textit{frame} $(\Delta x, \Delta y)$ pada representasi \textit{pseudo-image} tidak memberikan peningkatan performa klasifikasi. 
+    Penambahan komponen tersebut justru menyebabkan penurunan akurasi validasi pada seluruh varian \textit{ResNet}, mengindikasikan bahwa informasi gerak eksplisit bersifat redundan terhadap fitur koordinat spasial $(x, y)$ yang telah mampu menangkap dinamika gestur secara implisit melalui konvolusi dua dimensi.
+    \item Variasi kedalaman arsitektur \textit{ResNet} menunjukkan bahwa model yang lebih dalam tidak berkorelasi positif dengan kemampuan generalisasi pada dataset berskala terbatas. 
+    \textit{ResNet-18} mencatatkan performa tertinggi dengan akurasi validasi sebesar 96,67\%, sedangkan \textit{ResNet-34} dan \textit{ResNet-50} mengalami penurunan metrik evaluasi akibat kecenderungan \textit{overfitting} terhadap pola data latih yang jumlahnya relatif kecil.
 \end{enumerate}
 
 \section{Saran} \label{V.Saran}
 Adapun saran yang dapat diberikan untuk penelitian lebih lanjut berdasarkan penelitian ini adalah sebagai berikut:\par
 \begin{enumerate}
-    \item Pengembangan 
-    \item Tampilan 
+    \item Perluasan cakupan dataset dengan menambahkan jumlah sampel, variasi penutur, serta kondisi perekaman yang lebih beragam (latar kompleks, pencahayaan dinamis, oklusi parsial) untuk menguji ketahanan dan generalisasi model dalam skenario penerapan dunia nyata.
+    \item Eksplorasi arsitektur hibrida atau mekanisme atensi spasial-temporal yang dapat menangkap dependensi gerak jangka panjang tanpa meningkatkan kompleksitas parameter secara signifikan, serta pengujian pendekatan berbasis graf kerangka tubuh (\textit{Skeleton-based Graph Convolution}) sebagai pembanding.
+    \item Pengembangan prototipe sistem \textit{real-time} berbasis perangkat \textit{edge} atau ponsel cerdas guna menguji efisiensi inferensi model \textit{ResNet-18} dua kanal, sekaligus mengintegrasikan modul penerjemahan gestur ke teks atau suara untuk mendukung aplikasi bantu komunikasi komunitas Tuli.
 \end{enumerate}

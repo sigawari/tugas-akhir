@@ -152,7 +152,7 @@ Koordinat disimpan dalam bentuk numerik sehingga dapat diproses secara langsung 
 Hubungan antara indeks \textit{frame} dan indeks \textit{landmark} tetap dipertahankan sehingga pembentukan fitur temporal dapat dilakukan secara konsisten.
 
 \begin{lstlisting}[
-caption={Contoh struktur data hasil ekstraksi landmark},
+caption={Bentuk struktur data hasil ekstraksi landmark},
 label={code:4.landmark-json},
 basicstyle=\ttfamily\scriptsize,
 breaklines=true
@@ -338,7 +338,7 @@ Fenomena tersebut umumnya dipengaruhi oleh oklusi tangan, gerakan cepat, atau po
 Representasi nilai nol digunakan untuk mempertahankan konsistensi dimensi data pada seluruh \textit{frame}.
 
 \begin{lstlisting}[
-caption={Contoh \textit{missing} data sebelum interpolasi},
+caption={Bentuk \textit{missing} data sebelum interpolasi},
 label={code:4-before-interp},
 basicstyle=\ttfamily\scriptsize,
 breaklines=true
@@ -370,7 +370,7 @@ Interpolasi linear membantu menjaga kesinambungan pola gerakan sehingga perubaha
 Pendekatan tersebut penting untuk mendukung pembentukan fitur temporal pada tahap berikutnya.
 
 \begin{lstlisting}[
-caption={Contoh hasil interpolasi linear pada koordinat tangan},
+caption={Bentuk hasil interpolasi linear pada koordinat tangan},
 label={code:4-after-interp},
 basicstyle=\ttfamily\scriptsize,
 breaklines=true
@@ -425,7 +425,7 @@ Hasil tersebut membuat representasi gerakan lebih konsisten untuk digunakan pada
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\textwidth]{figure/result_normalization.png}
-	\caption{Perbandingan representasi \textit{landmark} sebelum dan sesudah normalisasi}
+	\caption{Hasil perbandingan representasi \textit{landmark} sebelum dan sesudah normalisasi}
 	\label{fig:4-result-normalization}
 \end{figure}
 
@@ -442,7 +442,7 @@ Tahap normalisasi kemudian mengubah representasi tersebut menjadi koordinat rela
 Pendekatan tersebut membantu menghasilkan representasi gerakan yang lebih konsisten antar sampel video.
 
 \begin{lstlisting}[
-caption={Contoh koordinat sebelum normalisasi},
+caption={Bentuk koordinat sebelum normalisasi},
 label={code:4-before-normalization},
 basicstyle=\ttfamily\scriptsize,
 breaklines=true
@@ -514,7 +514,7 @@ Bahu kiri dan bahu kanan tetap berada pada sisi yang berbeda terhadap pusat ters
 Representasi ini membuat posisi tubuh lebih seragam tanpa menghilangkan relasi spasial antar-\textit{landmark}.
 
 \begin{lstlisting}[
-caption={Contoh koordinat setelah normalisasi},
+caption={Bentuk koordinat setelah normalisasi},
 label={code:4-after-normalization},
 basicstyle=\ttfamily\scriptsize,
 breaklines=true
@@ -778,7 +778,7 @@ Penyajian berpasangan ini memudahkan identifikasi dampak penambahan fitur $\Delt
         \includegraphics[width=\textwidth]{figure/cm_resnet34_xy_dxdy_lr0.0001_bs16_wd0.001_sccosine_norm_true.png}
         \caption{\textit{ResNet-34} fitur $xy + \Delta$}
     \end{subfigure}
-    \caption{Perbandingan \textit{confusion matrix} model ResNet-18 dan ResNet-34 dengan variasi fitur masukan}
+    \caption{Perbandingan \textit{confusion matrix} model ResNet-18 dan ResNet-34}
     \label{fig:confusion-matrix-comparison}
 \end{figure}
 
