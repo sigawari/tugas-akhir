@@ -69,7 +69,7 @@ def build_scheduler(optimizer, scheduler_name: str, epochs: int):
         return torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer,
             T_max=epochs,
-            eta_min=5e-7,
+            eta_min=5e-6,
         )
 
     raise ValueError(f"Unknown scheduler: {scheduler_name}")
@@ -242,6 +242,7 @@ def main() -> None:
     split_path = args.split_path
     if split_path is None:
         split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_80_20.json"
+    print(f"📌 TRAINING MENGGUNAKAN SPLIT: {split_path}")  # <-- TAMBAH INI
 
     train_loader, val_loader, split_data = create_dataloaders(
         split_path=split_path,
