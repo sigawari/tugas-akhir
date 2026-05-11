@@ -1,8 +1,8 @@
-# 📜 src/14_run_kfold.py
 import subprocess
 import sys
 import json
 import numpy as np
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent  # ta-code/src/
@@ -11,13 +11,13 @@ PROJECT_ROOT = BASE_DIR.parent              # ta-code/
 SPLIT_DIR  = PROJECT_ROOT / "dataset" / "splits" / "kfold"
 REPORT_DIR = PROJECT_ROOT / "reports"
 
-# 🔑 FIX: Sesuaikan dengan cwd=BASE_DIR agar cari di src/checkpoints/
-CKPT_DIR   = BASE_DIR / "checkpoints" / "resnet18" / "splits"
-
 FOLDS      = [f"split_fold_{i}.json" for i in range(1, 6)]
-MODEL      = "resnet18"
+MODEL      = "resnet34"
 USE_DELTA  = 1
 EPOCHS     = 50
+
+CKPT_DIR = BASE_DIR / "checkpoints" / MODEL / "splits"
+
 PYTHON_EXEC = sys.executable
 
 results = []
@@ -40,31 +40,31 @@ for fold_json in FOLDS:
     # 1️⃣ TRAIN
     cmd_train = [
         PYTHON_EXEC, str(BASE_DIR / "train.py"),
-        "--model", MODEL,
-        "--use_delta", str(USE_DELTA),
-        "--epochs", str(EPOCHS),
-        "--split_path", str(split_path),
-        "--run_name", fold_run_name,
-        "--no_wandb", "--seed", "42"
+        "--model", MODEL, "--use_delta", str(USE_DELTA),
+        "--epochs", str(EPOCHS), "--split_path", str(split_path),
+        "--run_name", fold_run_name, "--no_wandb", "--seed", "42"
     ]
     subprocess.run(cmd_train, check=True, cwd=BASE_DIR)
 
     # 2️⃣ EVAL
+    # Path absolute yang sama persis dengan output train.py
     best_ckpt = CKPT_DIR / f"{fold_run_name}__best.pt"
+    
+    print(f"🔍 Mencari checkpoint di: {best_ckpt}")
     if not best_ckpt.exists():
-        print(f"⚠️ Checkpoint tidak ditemukan: {best_ckpt}")
-        # Fallback: cari file *__best.pt terbaru di folder tersebut
-        fallback_ckpts = list(CKPT_DIR.glob(f"{MODEL}*fold{fold_id}*__best.pt"))
-        if fallback_ckpts:
-            best_ckpt = max(fallback_ckpts, key=lambda p: p.stat().st_mtime)
-            print(f"🔍 Ditemukan fallback: {best_ckpt}")
+        print(f"⚠️ Checkpoint tidak ditemukan. Mencari fallback...")
+        # Fallback: ambil file *__best.pt terbaru di folder tersebut
+        fallbacks = list(CKPT_DIR.glob(f"*{MODEL}*fold{fold_id}*__best.pt"))
+        if fallbacks:
+            best_ckpt = max(fallbacks, key=lambda p: p.stat().st_mtime)
+            print(f"✅ Ditemukan fallback: {best_ckpt}")
         else:
+            print("❌ Tidak ada checkpoint sama sekali. Skip fold ini.")
             continue
 
     cmd_eval = [
         PYTHON_EXEC, str(BASE_DIR / "12_eval.py"),
-        "--model", MODEL,
-        "--use_delta", str(USE_DELTA),
+        "--model", MODEL, "--use_delta", str(USE_DELTA),
         "--split_path", str(split_path),
         "--ckpt_path", str(best_ckpt),
         "--report_dir", str(REPORT_DIR / f"fold_{fold_id}")

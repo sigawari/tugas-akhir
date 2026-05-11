@@ -198,7 +198,7 @@ def parse_args() -> argparse.Namespace:
 
     p.add_argument("--epochs", type=int, default=50)
     p.add_argument("--batch_size", type=int, default=16)
-    p.add_argument("--lr", type=float, default=5e-5)
+    p.add_argument("--lr", type=float, default=1e-4)
     p.add_argument("--weight_decay", type=float, default=1e-3)
     p.add_argument("--patience", type=int, default=10)
     p.add_argument("--scheduler", type=str, default="cosine",
@@ -284,7 +284,7 @@ def main() -> None:
         feat_tag = "xy_dxdy" if bool(args.use_delta) else "xy"
         run_name = f"{args.model}_{feat_tag}_lr{args.lr}_bs{args.batch_size}_wd{args.weight_decay}_sc{args.scheduler}"
 
-    save_root = Path(args.save_dir) / args.model
+    save_root = Path(args.save_dir) / args.model / "splits"
     ensure_dir(save_root)
     ckpt_best = save_root / f"{run_name}__best.pt"
     ckpt_last = save_root / f"{run_name}__last.pt"

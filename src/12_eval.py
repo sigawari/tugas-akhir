@@ -354,10 +354,13 @@ def main() -> None:
     report_dir = Path(args.report_dir)
     ensure_dir(report_dir)
 
+    # 🔑 Ambil LR otomatis dari config yang tersimpan saat training
+    lr_val = ckpt.get("config", {}).get("lr", "unknown")
+    
     stem = ckpt_path.stem.replace("__best", "")
-    cm_raw_path = report_dir / f"cm_{stem}_raw.png"
-    cm_norm_path = report_dir / f"cm_{stem}_norm_{args.cm_normalize}.png"
-    metrics_path = report_dir / f"metrics_{stem}.json"
+    cm_raw_path = report_dir / f"cm_{stem}_lr{lr_val}_raw.png"
+    cm_norm_path = report_dir / f"cm_{stem}_lr{lr_val}_norm_{args.cm_normalize}.png"
+    metrics_path = report_dir / f"metrics_{stem}_lr{lr_val}.json"
 
     plot_confusion_matrix(
         cm,
