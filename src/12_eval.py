@@ -287,7 +287,6 @@ def main() -> None:
     acc = accuracy_score(y_true, y_pred)
     bal_acc = balanced_accuracy_score(y_true, y_pred)
     f1_macro = f1_score(y_true, y_pred, average="macro")
-    f1_weighted = f1_score(y_true, y_pred, average="weighted")
 
     top2 = None
     if num_classes >= 2:
@@ -307,6 +306,19 @@ def main() -> None:
 
     cm = confusion_matrix(y_true, y_pred, labels=np.arange(num_classes))
 
+        # === HITUNG TP, TN, FP, FN PER KELAS ===
+    tp = np.diag(cm)                  # True Positives
+    fp = cm.sum(axis=0) - tp          # False Positives
+    fn = cm.sum(axis=1) - tp          # False Negatives
+    tn = cm.sum() - (tp + fp + fn)    # True Negatives
+
+    print("\n--- Per-class TP, TN, FP, FN ---")
+    for i in range(num_classes):
+        print(
+            f"{i:>2} {idx2label[i]:<15} | "
+            f"TP={tp[i]:<4} FP={fp[i]:<4} FN={fn[i]:<4} TN={tn[i]:<4}"
+        )
+
     print(f"\n=== TEST RESULT (model={args.model}) ===")
     print(f"Checkpoint         : {ckpt_path}")
     print(f"Best val loss      : {ckpt.get('best_val_loss', 'N/A')}")
@@ -314,8 +326,7 @@ def main() -> None:
     print(f"Val loss          : {val_loss:.4f}")
     print(f"Accuracy           : {acc:.4f}")
     print(f"Balanced Accuracy  : {bal_acc:.4f}")
-    print(f"F1 macro           : {f1_macro:.4f}")
-    print(f"F1 weighted        : {f1_weighted:.4f}")
+    print(f"F1              : {f1_macro:.4f}")
     if top2 is not None:
         print(f"Top-2 Accuracy     : {top2:.4f}")
 
@@ -372,7 +383,6 @@ def main() -> None:
         "accuracy": float(acc),
         "balanced_accuracy": float(bal_acc),
         "f1_macro": float(f1_macro),
-        "f1_weighted": float(f1_weighted),
         "top2_accuracy": None if top2 is None else float(top2),
         "per_class": {
             idx2label[i]: {
@@ -380,6 +390,10 @@ def main() -> None:
                 "recall": float(rec_c[i]),
                 "f1": float(f1_c[i]),
                 "support": int(sup_c[i]),
+                "TP": int(tp[i]),
+                "FP": int(fp[i]),
+                "FN": int(fn[i]),
+                "TN": int(tn[i]),
             }
             for i in range(num_classes)
         },
