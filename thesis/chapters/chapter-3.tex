@@ -627,40 +627,39 @@ Eksplorasi mendalam terhadap variasi \textit{hyperparameter} tidak dilakukan aga
 
 \subsection{Desain Eksperimen dan Studi Ablasi}
 \label{subsec:eksperimen-ablasi}
-
 Desain eksperimen pada penelitian ini bertujuan mengevaluasi kontribusi representasi fitur gerakan serta variasi kompleksitas arsitektur jaringan terhadap performa klasifikasi bahasa isyarat. 
-Pendekatan evaluasi dilakukan menggunakan metode studi ablasi untuk mengisolasi pengaruh setiap komponen utama pada pipeline pemodelan. 
-Komponen yang dianalisis meliputi penggunaan fitur perubahan antar-frame $(\Delta x, \Delta y)$ serta variasi arsitektur jaringan konvolusional. 
-Pendekatan ini memungkinkan analisis yang lebih terkontrol terhadap kontribusi masing-masing komponen terhadap kinerja model.
+Mengingat ukuran dataset yang terbatas ($N=150$), protokol evaluasi diterapkan menggunakan \textit{Stratified 5-Fold Cross-Validation} untuk menjamin estimasi performa yang stabil, mengurangi varians akibat pembagian data acak tunggal, dan memastikan seluruh sampel tervalidasi secara bergilir. 
+Pendekatan studi ablasi digunakan untuk mengisolasi pengaruh setiap komponen utama pada pipeline pemodelan, dengan hasil metrik dilaporkan sebagai rata-rata beserta simpangan baku ($\text{mean} \pm \text{std}$) dari kelima lipatan.
 
 Eksperimen pertama dirancang untuk mengevaluasi pengaruh fitur perubahan posisi antar-frame terhadap performa klasifikasi. 
 Representasi dasar menggunakan koordinat posisi \textit{landmark} dua dimensi $(x,y)$ yang diperoleh dari tahap prapemrosesan. 
 Representasi tersebut kemudian dibandingkan dengan representasi multichannel yang menambahkan fitur perubahan posisi $(\Delta x, \Delta y)$. 
-Perbandingan ini bertujuan mengukur sejauh mana informasi dinamika gerakan meningkatkan kemampuan model dalam mengenali gestur bahasa isyarat dinamis.
+Perbandingan ini dilakukan secara konsisten pada setiap lipatan validasi untuk mengukur sejauh mana informasi dinamika gerakan meningkatkan kemampuan model dalam mengenali gestur bahasa isyarat dinamis tanpa mengandalkan mekanisme sekuensial eksplisit.
 
 Eksperimen kedua berfokus pada evaluasi variasi kompleksitas arsitektur jaringan konvolusional. 
 Arsitektur jaringan mempengaruhi kapasitas representasi fitur yang dapat dipelajari oleh model. 
-Model dengan struktur residual umumnya mampu mempelajari representasi yang lebih stabil pada jaringan yang lebih dalam. 
-Perbandingan dilakukan antara CNN 2D dasar sebagai baseline \textit{non-residual} dan varian ResNet dengan kedalaman berbeda, yaitu ResNet-18, ResNet-34, dan ResNet-50, untuk menganalisis pengaruh peningkatan kedalaman jaringan terhadap performa klasifikasi.
+Model dengan struktur residual umumnya mampu mempelajari representasi yang lebih stabil pada jaringan yang lebih dalam, namun berisiko mengalami \textit{overfitting} pada dataset berskala kecil. 
+Perbandingan dilakukan antara CNN 2D dasar sebagai baseline \textit{non-residual} dan varian ResNet dengan kedalaman berbeda, yaitu ResNet-18, ResNet-34, dan ResNet-50, untuk menganalisis pengaruh peningkatan kedalaman jaringan terhadap stabilitas generalisasi lintas lipatan.
 
 Penelitian ini menggunakan empat arsitektur model yang terdiri dari CNN dua dimensi dasar, ResNet-18, ResNet-34, serta ResNet-50. 
 CNN dua dimensi dasar digunakan sebagai model pembanding tanpa mekanisme residual. 
-Arsitektur ResNet dipilih karena struktur \textit{skip connection} memungkinkan pelatihan jaringan yang lebih dalam tetap stabil. 
-Variasi kedalaman jaringan digunakan untuk mengamati pengaruh kapasitas representasi terhadap performa klasifikasi gerakan bahasa isyarat.
+Arsitektur ResNet dipilih karena struktur \textit{skip connection} memungkinkan aliran gradien yang lebih lancar selama pelatihan. 
+Variasi kedalaman jaringan digunakan untuk mengamati \textit{trade-off} antara kapasitas representasi dan risiko overfitting dalam konteks data terbatas.
 
-Kedua faktor eksperimen tersebut dikombinasikan untuk menghasilkan beberapa konfigurasi model yang berbeda. 
-Kombinasi kedua faktor tersebut membentuk desain eksperimen berbasis \textit{factorial design} dengan dua faktor dan delapan konfigurasi eksperimen.
-Setiap konfigurasi menggunakan prosedur pelatihan yang sama sehingga perbedaan performa hanya dipengaruhi oleh variasi fitur masukan serta arsitektur jaringan. 
-Evaluasi performa dilakukan menggunakan metrik klasifikasi yang dijelaskan pada bagian berikutnya. 
+Kedua faktor eksperimen tersebut dikombinasikan untuk menghasilkan delapan konfigurasi model yang berbeda. 
+Kombinasi kedua faktor tersebut membentuk desain eksperimen berbasis \textit{factorial design} dengan dua faktor independen.
+Setiap konfigurasi menjalani protokol \textit{5-Fold Cross-Validation} yang identik, di mana data dipartisi menjadi lima subset seimbang secara kelas. 
+Pada setiap lipatan, empat subset (120 sampel) digunakan untuk pelatihan dengan augmentasi \textit{on-the-fly}, sedangkan satu subset (30 sampel) digunakan untuk validasi. 
+Seluruh konfigurasi menggunakan hiperparameter yang distandardisasi (termasuk \textit{learning rate} $1\times10^{-4}$, \textit{batch size} 16, dan optimizer AdamW) sehingga perbedaan performa dapat diatribusikan secara langsung pada variasi fitur masukan dan kedalaman arsitektur. 
 Ringkasan konfigurasi eksperimen yang digunakan pada penelitian ini ditunjukkan pada Tabel \ref{tab:3-experiment-config}.
 
 \begin{table}[H]
 \centering
-\caption{Konfigurasi eksperimen pada studi ablasi}
+\caption{Matriks konfigurasi eksperimen pada studi ablasi}
 \label{tab:3-experiment-config}
 \begin{tabular}{|c|c|c|}
 \hline
-\textbf{Model} & \textbf{Fitur Input} & \textbf{Jumlah Kanal} \\ \hline
+\textbf{Arsitektur Model} & \textbf{Fitur Input} & \textbf{Jumlah Kanal} \\ \hline
 CNN 2D dasar & $(x,y)$ & 2 \\ \hline
 CNN 2D dasar & $(x,y,\Delta x, \Delta y)$ & 4 \\ \hline
 ResNet-18 & $(x,y)$ & 2 \\ \hline
@@ -672,10 +671,10 @@ ResNet-50 & $(x,y,\Delta x, \Delta y)$ & 4 \\ \hline
 \end{tabular}
 \end{table}
 
-Konfigurasi eksperimen tersebut menghasilkan delapan skenario pelatihan yang berbeda. 
-Setiap model dilatih menggunakan dataset yang sama serta konfigurasi \textit{hyperparameter} yang identik. 
-Pendekatan ini memastikan bahwa perubahan performa model dapat diatribusikan secara langsung pada variasi fitur masukan dan kedalaman arsitektur jaringan.
-Dengan demikian, desain eksperimen ini memungkinkan analisis yang sistematis terhadap kontribusi fitur dinamika gerakan serta pengaruh kompleksitas arsitektur dalam konteks pemodelan bahasa isyarat dinamis berbasis representasi pseudo-image.
+Setiap dari delapan skenario konfigurasi dilatih dan divalidasi secara independen melalui kelima lipatan data. 
+Pendekatan ini memastikan bahwa perubahan performa model tidak dipengaruhi oleh kebetulan pembagian subset, melainkan mencerminkan kemampuan generalisasi yang sebenarnya. 
+Hasil agregasi dari seluruh lipatan kemudian digunakan sebagai dasar analisis kuantitatif untuk menjawab pertanyaan penelitian mengenai kontribusi fitur temporal serta pengaruh kedalaman arsitektur. 
+Dengan demikian, desain eksperimen ini memberikan kerangka evaluasi yang sistematis, terukur, dan sesuai dengan standar metodologi untuk dataset berskala kecil dalam pemodelan bahasa isyarat dinamis berbasis representasi \textit{pseudo-image}.
 
 \subsection{Evaluasi Model}
 \label{subsec:evaluasi-model}
