@@ -678,27 +678,22 @@ Dengan demikian, desain eksperimen ini memberikan kerangka evaluasi yang sistema
 
 \subsection{Evaluasi Model}
 \label{subsec:evaluasi-model}
+Evaluasi model dilakukan untuk mengukur kemampuan sistem dalam mengklasifikasikan gerakan bahasa isyarat berdasarkan representasi \textit{landmark} yang telah diproses. 
+Mengingat ukuran dataset yang terbatas ($N=150$), penelitian tidak menggunakan pemisahan data uji statis, melainkan menerapkan protokol \textit{Stratified 5-Fold Cross-Validation}. 
+Pendekatan ini memastikan bahwa seluruh sampel digunakan secara bergilir sebagai data validasi, sehingga estimasi kemampuan generalisasi model menjadi lebih stabil dan tidak bergantung pada kebetulan pembagian data tunggal. 
+Hasil evaluasi dari kelima lipatan kemudian diagregasi untuk menghasilkan nilai rata-rata beserta simpangan baku ($\text{mean} \pm \text{std}$), yang mencerminkan konsistensi performa lintas variasi subset data.
 
-Evaluasi model dilakukan untuk mengukur kemampuan sistem dalam mengklasifikasikan gerakan bahasa isyarat berdasarkan representasi \textit{landmark} yang dihasilkan pada tahap pelatihan.
-Pengujian dilakukan menggunakan data uji yang tidak digunakan selama proses pelatihan maupun validasi.
-Pendekatan ini memastikan bahwa performa yang diperoleh mencerminkan kemampuan generalisasi model terhadap data yang belum pernah dilihat sebelumnya.
-Analisis hasil evaluasi digunakan untuk membandingkan performa berbagai konfigurasi model yang diuji pada studi ablasi.
+Proses evaluasi terintegrasi langsung dengan siklus pelatihan pada setiap lipatan. 
+Model terbaik pada masing-masing fold dipilih berdasarkan nilai kerugian validasi terendah yang dicatat selama pelatihan (\textit{early stopping}). 
+Bobot model pada \textit{epoch} optimal tersebut kemudian digunakan untuk melakukan inferensi terhadap subset validasi yang bersangkutan. 
+Seluruh sampel validasi diproses menggunakan pipeline prapemrosesan yang identik dengan fase pelatihan, namun tanpa penerapan augmentasi data untuk memastikan bahwa metrik yang diperoleh murni mencerminkan kemampuan generalisasi model terhadap pola gestur yang belum pernah dilihat selama optimasi.
 
-Proses pengujian dilakukan setelah pelatihan model selesai dan kondisi penghentian pelatihan tercapai.
-Model terbaik dipilih berdasarkan performa validasi tertinggi yang diperoleh selama proses pelatihan.
-Bobot model pada \textit{epoch} dengan performa validasi terbaik disimpan sebagai model akhir.
-Model tersebut kemudian digunakan untuk melakukan inferensi terhadap seluruh sampel pada data uji.
+Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi klasifikasi. 
+Metrik yang digunakan meliputi \textit{accuracy}, \textit{precision}, \textit{recall}, dan \textit{F1-score}. 
+Pada konteks klasifikasi multi-kelas seimbang ini, penelitian memprioritaskan penggunaan \textit{F1-macro} dan \textit{balanced accuracy} sebagai indikator utama. 
+\textit{F1-macro} dipilih karena memberikan bobot yang sama pada setiap kelas isyarat tanpa terpengaruh oleh distribusi jumlah sampel, sehingga lebih adil dalam mendeteksi performa model secara merata pada seluruh kelas. 
+\textit{Balanced accuracy} turut digunakan untuk memvalidasi konsistensi model terhadap variasi antar-kelas, khususnya ketika terdapat kebingungan lokal antar gestur yang memiliki trajektori mirip.
 
-Seluruh sampel pada data uji diproses menggunakan pipeline yang identik dengan tahap pelatihan tanpa penerapan augmentasi tambahan.
-Prediksi model dibandingkan dengan label kebenaran dasar untuk menghitung metrik evaluasi klasifikasi.
-Metrik evaluasi yang digunakan meliputi \textit{accuracy}, \textit{precision}, \textit{recall}, dan \textit{F1-score}.
-Metrik tersebut dipilih karena mampu memberikan gambaran performa model secara menyeluruh pada tugas klasifikasi multi-kelas.
-
-Akurasi digunakan untuk mengukur proporsi prediksi yang benar terhadap seluruh sampel pengujian.
-Precision mengukur tingkat ketepatan prediksi model pada setiap kelas yang dihasilkan.
-Recall mengukur kemampuan model dalam mendeteksi seluruh sampel yang benar pada setiap kelas.
-F1-score digunakan sebagai ukuran harmonis antara precision dan recall untuk menilai keseimbangan performa klasifikasi.
-
-Evaluasi pada penelitian ini difokuskan pada nilai F1-score \textit{macro} dan \textit{weighted} untuk memastikan konsistensi performa model pada seluruh kelas.
-Pendekatan ini penting mengingat potensi ketidakseimbangan jumlah sampel antar kelas isyarat.
-Hasil evaluasi kuantitatif selanjutnya digunakan sebagai dasar analisis performa model pada Bab IV.
+Selain metrik agregat, analisis evaluasi juga mencakup \textit{confusion matrix} per lipatan untuk mengidentifikasi pola kesalahan klasifikasi secara kualitatif. 
+Pendekatan ini memungkinkan pemetaan kelas-kelas yang cenderung tertukar serta penilaian terhadap ketahanan model terhadap variasi kecil dalam eksekusi gestur. 
+Hasil evaluasi kuantitatif dan kualitatif tersebut selanjutnya digunakan sebagai dasar pembahasan mendalam mengenai kontribusi fitur temporal, pengaruh kedalaman arsitektur, serta stabilitas generalisasi model pada Bab IV.
