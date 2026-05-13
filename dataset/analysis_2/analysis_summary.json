@@ -1,0 +1,112 @@
+{
+  "num_files_analyzed": 150,
+  "overall_missing_ratio": {
+    "pose": 0.0,
+    "left_hand": 0.3,
+    "right_hand": 0.0,
+    "face": 0.0
+  },
+  "per_label_summary": {
+    "belum": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 1.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "hati_hati": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 0.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "hobi": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 0.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "izin": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 0.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "maaf": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 1.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "sahabat": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 0.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "teman": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 0.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "terima_kasih": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 0.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "tidak_punya": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 1.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    },
+    "ulang": {
+      "num_videos": 15,
+      "num_frames_total": 1350,
+      "missing_ratio": {
+        "pose": 0.0,
+        "left_hand": 0.0,
+        "right_hand": 0.0,
+        "face": 0.0
+      }
+    }
+  },
+  "structure_problem_files": []
+}

@@ -4,7 +4,6 @@
 *.mov
 *.mkv
 *.gif
-*.json
 
 # 2. Preprocessed dataset (not needed in repo)
 data/raw/data_video/
@@ -45,3 +44,14 @@ archive/
 /photo
 
 try_result/
+
+# 11. Processed JSON
+dataset/analysis/
+dataset/analysis2/
+dataset/analysis_normalized/
+dataset/analysis_npy/
+dataset/extracted/
+dataset/video/
+
+# 12. Unecessary reports
+reports/
