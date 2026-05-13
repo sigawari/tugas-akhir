@@ -4,6 +4,11 @@ import json
 import numpy as np
 import os
 from pathlib import Path
+import wandb
+
+#  Konfigurasi W&B (Fallback aman jika CLI tidak terbaca)
+os.environ["WANDB_PROJECT"] = "kfoldtrainingslr"
+os.environ["WANDB_RUN_GROUP"] = "kfold_cross_validation"
 
 BASE_DIR = Path(__file__).resolve().parent  # ta-code/src/
 PROJECT_ROOT = BASE_DIR.parent              # ta-code/
@@ -17,7 +22,6 @@ USE_DELTA  = 1
 EPOCHS     = 50
 
 CKPT_DIR = BASE_DIR / "checkpoints" / MODEL / "splits"
-
 PYTHON_EXEC = sys.executable
 
 results = []
@@ -35,25 +39,30 @@ for fold_json in FOLDS:
     print(f"📂 Split Path: {split_path}")
     print(f"{'='*60}")
 
-    fold_run_name = f"{MODEL}_fold{fold_id}"
+    # ✅ Gunakan --run_name agar match dengan train.py & nama checkpoint
+    fold_run_name = f"fold_{fold_id}"
 
     # 1️⃣ TRAIN
     cmd_train = [
         PYTHON_EXEC, str(BASE_DIR / "train.py"),
-        "--model", MODEL, "--use_delta", str(USE_DELTA),
-        "--epochs", str(EPOCHS), "--split_path", str(split_path),
-        "--run_name", fold_run_name, "--no_wandb", "--seed", "42"
+        "--model", MODEL,
+        "--use_delta", str(USE_DELTA),
+        "--epochs", str(EPOCHS),
+        "--split_path", str(split_path),
+        "--run_name", fold_run_name,       # ✅ Match train.py
+        "--seed", "42",
+        "--wandb_project", "kfoldtrainingslr", # ✅ Match train.py (override default)
+        # ❌ Hapus --project, --group, --name agar tidak bentrok argparse
     ]
     subprocess.run(cmd_train, check=True, cwd=BASE_DIR)
 
     # 2️⃣ EVAL
-    # Path absolute yang sama persis dengan output train.py
+    # train.py menyimpan checkpoint dengan nama: {run_name}__best.pt
     best_ckpt = CKPT_DIR / f"{fold_run_name}__best.pt"
     
     print(f"🔍 Mencari checkpoint di: {best_ckpt}")
     if not best_ckpt.exists():
         print(f"⚠️ Checkpoint tidak ditemukan. Mencari fallback...")
-        # Fallback: ambil file *__best.pt terbaru di folder tersebut
         fallbacks = list(CKPT_DIR.glob(f"*{MODEL}*fold{fold_id}*__best.pt"))
         if fallbacks:
             best_ckpt = max(fallbacks, key=lambda p: p.stat().st_mtime)
@@ -64,7 +73,8 @@ for fold_json in FOLDS:
 
     cmd_eval = [
         PYTHON_EXEC, str(BASE_DIR / "12_eval.py"),
-        "--model", MODEL, "--use_delta", str(USE_DELTA),
+        "--model", MODEL,
+        "--use_delta", str(USE_DELTA),
         "--split_path", str(split_path),
         "--ckpt_path", str(best_ckpt),
         "--report_dir", str(REPORT_DIR / f"fold_{fold_id}")
@@ -90,7 +100,7 @@ for fold_json in FOLDS:
     })
     print(f"✅ Fold {fold_id} | Acc: {metrics['accuracy']:.4f} | F1: {metrics['f1_macro']:.4f}")
 
-# 📊 FINAL REPORT
+# 📊 FINAL REPORT & W&B SUMMARY LOGGING
 if results:
     accs = np.array([r["accuracy"] for r in results])
     f1s = np.array([r["f1_macro"] for r in results])
@@ -103,5 +113,29 @@ if results:
     print(f"F1-Macro     : {f1s.mean():.4f} ± {f1s.std():.4f}")
     print(f"Balanced Acc : {bal_accs.mean():.4f} ± {bal_accs.std():.4f}")
     print(f"📁 Laporan tersimpan di: {REPORT_DIR}/fold_*/")
+
+    # 🌐 UPLOAD SUMMARY KE W&B (Run terpisah agar tidak ganggu training runs)
+    try:
+        summary_run = wandb.init(
+            project="kfoldtrainingslr",
+            group="kfold_cross_validation",
+            name="cv_summary_report",
+            job_type="cross_validation_summary"
+        )
+        summary_run.log({
+            "cv/accuracy_mean": accs.mean(),
+            "cv/accuracy_std": accs.std(),
+            "cv/f1_macro_mean": f1s.mean(),
+            "cv/f1_macro_std": f1s.std(),
+            "cv/balanced_acc_mean": bal_accs.mean(),
+            "cv/balanced_acc_std": bal_accs.std(),
+            "cv/fold_accuracies": accs.tolist(),
+            "cv/fold_f1_scores": f1s.tolist()
+        })
+        summary_run.finish()
+        print("✅ CV Summary berhasil di-upload ke WandB: kfoldtrainingslr")
+    except Exception as e:
+        print(f"️ Gagal log summary ke WandB: {e}")
+        print("💡 Pastikan sudah run `wandb login` di terminal.")
 else:
     print("❌ Pipeline gagal. Cek error di atas.")
