@@ -312,7 +312,13 @@ class SignLanguageNPYDataset(Dataset):
     def __getitem__(self, idx: int) -> Dict[str, Any]:
         item = self.items[idx]
 
-        npy_path = Path(item["npy_file"])
+        # 🔧 FIX: Resolve path relatif terhadap PROJECT_ROOT saat runtime
+        npy_path = PROJECT_ROOT / item["npy_file"]
+
+        # Validasi (opsional tapi sangat disarankan agar error lebih jelas)
+        if not npy_path.exists():
+            raise FileNotFoundError(f"❌ File .npy tidak ditemukan: {npy_path}")
+
         x = np.load(npy_path).astype(np.float32)   # (T, L, 2)
 
         if x.shape != (T_FRAMES, L_LANDMARKS, IN_CHANNELS_XY):
