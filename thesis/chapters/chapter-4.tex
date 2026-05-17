@@ -602,6 +602,7 @@ Modifikasi utama terletak pada layer konvolusi pertama yang disesuaikan untuk me
 Seluruh alur prapemrosesan dari ekstraksi \textit{landmark} hingga pembentukan tensor dirancang untuk menjaga konsistensi dimensi antar sampel. 
 Konsistensi tersebut menjadi prasyarat penting agar proses pelatihan model dapat berjalan tanpa kesalahan dimensi atau \textit{runtime error}.
 
+% Rev Siga: Tambahkan penjelasan 40 run eksperimen, dp per-fold
 \subsection{Implementasi Model Klasifikasi}
 \label{subsec:implementasi-model}
 Tahapan implementasi model klasifikasi dirancang untuk menguji efektivitas representasi \textit{pseudo-image} berbasis \textit{landmark} dalam mengenali gestur BISINDO dinamis.
@@ -632,6 +633,7 @@ Lapisan klasifikasi akhir pada setiap model disesuaikan jumlah neuron keluaranny
 Penyesuaian tersebut dilakukan untuk mencocokkan dimensi prediksi dengan jumlah kelas gestur BISINDO.
 Struktur inti jaringan dipertahankan tanpa perubahan agar integritas fitur hasil pra pelatihan tidak hilang.
 
+% Rev Siga: Ganti Narasi ke Stratisfied 5 Fold
 \subsubsection{Pengaturan Pelatihan dan Pembagian Data}
 \label{subsubsec:pengaturan-pelatihan}
 
@@ -661,6 +663,15 @@ Parameter seperti laju pembelajaran (\textit{learning rate}) dan mekanisme \text
 Pengaturan benih acak global menjamin bahwa urutan pengambilan data menghasilkan kondisi yang dapat direproduksi.
 Penyimpanan berkas bobot terbaik dilakukan secara otomatis berdasarkan nilai kerugian validasi terendah.
 
+% \subsection{Evaluasi Hasil}
+%   \subsubsection{Hasil Agregat Cross-Validation}
+%     - Tabel~\ref{tab:hasil-kfold}: Ringkasan Mean ± Std untuk semua metrik
+%     - Gambar~\ref{fig:bar-akurasi}: Bar chart akurasi dengan error bars
+%     - Gambar~\ref{fig:boxplot-fold}: Boxplot distribusi akurasi per fold
+  
+%   \subsubsection{Analisis Confusion Matrix}
+%     - Gambar~\ref{fig:cm-aggregated}: Confusion matrix teragregasi (5 fold)
+%     - Analisis pola kesalahan yang konsisten antar lipatan
 \section{Evaluasi Hasil}
 \label{sec:evaluasi-hasil}
 
@@ -677,6 +688,7 @@ Hasil pengukuran tersebut telah dirangkum dalam bentuk tabel untuk memudahkan pe
 Rincian lengkap performa seluruh varian model dapat dilihat pada Tabel~\ref{tab:hasil-baseline}.
 Nilai metrik yang tinggi mengindikasikan kemampuan model dalam mengenali pola gerakan dengan tingkat kesalahan minimal.
 
+% Rev Siga: Ubah format tampilkan per fold dan mean std
 \begin{table}[H]
   \centering
   \caption{Hasil evaluasi performa seluruh skenario baseline pada data validasi}
@@ -717,6 +729,7 @@ Pola performa yang teramati memberikan wawasan mengenai interaksi antara rekayas
 Temuan awal menunjukkan bahwa representasi koordinat spasial saja sudah cukup informatif untuk tugas klasifikasi gestur dinamis.
 Informasi gerakan eksplisit melalui fitur $\Delta x$ dan $\Delta y$ ternyata tidak selalu memberikan nilai tambah yang konsisten.
 
+% Rev Siga: Ganti interpretesi menjadi rata-rata dan std
 \subsubsection{Akurasi dan F1-Score}
 \label{subsubsec:akurasi-f1}
 
@@ -740,6 +753,7 @@ Perbandingan antar kedalaman arsitektur menunjukkan bahwa kompleksitas model tid
 Model yang lebih kompleks menunjukkan kecenderungan \textit{overfitting} dengan akurasi pelatihan tinggi namun validasi lebih rendah.
 Kondisi ini konsisten dengan karakteristik dataset terbatas yang lebih rentan terhadap hapalan pola spesifik.
 
+% Rev Siga: Pilih strategi: aggregated atau representative fold
 \subsubsection{\textit{Confusion Matrix}}
 \label{subsubsec:confusion-matrix}
 
@@ -797,6 +811,7 @@ Kelas \textit{hobi}, \textit{izin}, \textit{sahabat}, \textit{teman}, dan \texti
 Temuan ini memperkuat asumsi bahwa kompleksitas arsitektur berlebihan berpotensi menangkap variasi non-esensial.
 Observasi kualitatif tersebut akan ditinjau lebih lanjut melalui metrik kuantitatif pada studi ablasi.
 
+% Rev Siga: Pastikan Perbandingan Berbasis Statistik Agregat
 \subsection{Studi Ablasi}
 \label{subsec:studi-ablasi}
 Studi ablasi dirancang untuk mengisolasi kontribusi masing-masing komponen terhadap kinerja klasifikasi.
@@ -845,6 +860,7 @@ Skenario ini mencapai keseimbangan tertinggi antara kompleksitas komputasi dan a
 Pemilihan arsitektur dangkal dengan masukan minimal terbukti lebih efisien untuk konteks data terbatas.
 Temuan ini menjawab kedua pertanyaan penelitian dengan menegaskan bahwa rekayasa fitur kompleks tidak selalu diperlukan.
 
+% Rev Siga: Tekankan keunggulan metodologi CV dalam validitas hasil
 \section{Pembahasan}
 \label{sec:pembahasan}
 Hasil eksperimen mengonfirmasi bahwa penambahan fitur temporal $(\Delta x, \Delta y)$ tidak memberikan peningkatan performa pada arsitektur ResNet.
