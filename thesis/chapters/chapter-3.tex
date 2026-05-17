@@ -59,26 +59,21 @@ Pembahasan lebih rinci mengenai kajian literatur tersebut disajikan pada \ref{se
 
 \subsection{Pengumpulan Dataset}
 \label{subsec:pengumpulan-dataset}
+Dataset bahasa isyarat diperoleh melalui perekaman mandiri oleh satu penutur tuli anggota komunitas Pusbisindo Jawa Barat. 
+Pemilihan subjek tunggal bertujuan menjaga konsistensi gaya gestur sekaligus meminimalkan variasi antarpribadi. 
+Sesi perekaman menerapkan skema \textit{isolated sign} agar setiap kosakata direpresentasikan sebagai unit gestur independen. 
+Pendekatan tersebut menyederhanakan pemisahan gerakan pada tahap prapemrosesan dan menjamin keseragaman struktur data.
 
-Dataset bahasa isyarat pada penelitian ini diperoleh melalui proses perekaman mandiri menggunakan satu penutur tuli yang merupakan anggota komunitas Pusbisindo Jawa Barat. 
-Penggunaan satu penutur bertujuan menjaga konsistensi gaya gestur antar-sampel serta meminimalkan variasi gerakan yang disebabkan oleh perbedaan individu. 
-Perekaman dilakukan dalam skema \textit{isolated sign} sehingga setiap kata isyarat direpresentasikan sebagai unit gestur yang berdiri sendiri. 
-Pendekatan ini mempermudah proses pemisahan gerakan pada tahap prapemrosesan serta menjaga konsistensi struktur data antar-sampel.
+Pengambilan data visual menggunakan kamera webcam Logitech beresolusi 1920 $\times$ 1080 piksel dengan laju 30 \textit{frame} per detik. 
+Kondisi studio dikendalikan melalui latar belakang polos dan pencahayaan seragam untuk mendukung akurasi deteksi \textit{landmark}. 
+Bingkai pengambilan mencakup area kepala hingga pinggul guna menangkap seluruh dinamika tangan dan tubuh atas. 
+Standarisasi lingkungan ini meminimalkan distraksi visual yang berpotensi mengganggu ekstraksi koordinat tubuh.
 
-Proses perekaman dilakukan menggunakan webcam Logitech dengan resolusi 1920 $\times$ 1080 piksel pada laju pengambilan 30 \textit{frame} per detik. 
-Lingkungan perekaman dibuat terkontrol dengan latar belakang polos serta pencahayaan yang memadai untuk mendukung proses deteksi \textit{landmark}. 
-Area pengambilan gambar mencakup bagian tubuh dari kepala hingga pinggul sehingga seluruh gerakan tangan dan tubuh bagian atas dapat terekam dengan jelas. 
-Kondisi perekaman yang konsisten bertujuan mengurangi gangguan visual yang dapat memengaruhi proses ekstraksi \textit{landmark} pada tahap selanjutnya.
-
-Dataset terdiri dari sepuluh kata isyarat BISINDO yang direkam secara terkontrol, yaitu \textit{belum}, \textit{hati-hati}, \textit{hobi}, \textit{izin}, \textit{maaf}, \textit{sahabat}, \textit{teman}, \textit{terima kasih}, \textit{tidak punya}, dan \textit{ulang}. 
-Pemilihan kata mempertimbangkan variasi bentuk tangan serta kemiripan pola gerakan pada beberapa pasangan kata sehingga menghadirkan tantangan klasifikasi yang lebih realistis. 
-Setiap kata direkam dalam satu pengambilan video berkelanjutan (\textit{one continuous take}) yang memuat beberapa pengulangan isyarat secara berurutan. 
-Penutur melakukan satu isyarat kemudian berhenti sejenak sebelum melanjutkan pengulangan berikutnya sehingga batas antar-gestur tetap jelas sebelum diproses pada tahap prapemrosesan.
-
-Video mentah yang dihasilkan selanjutnya digunakan sebagai masukan pada tahap prapemrosesan untuk mengekstraksi koordinat \textit{landmark} menggunakan MediaPipe Holistic. 
-Pada tahap tersebut, video dipotong menjadi beberapa \textit{sequence} isyarat yang memiliki panjang seragam untuk mendukung proses pelatihan model. 
-Setiap \textit{sequence} kemudian direpresentasikan sebagai urutan koordinat \textit{landmark} yang merepresentasikan posisi tubuh sepanjang waktu. 
-Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan pada Tabel \ref{tab:3-dataset-config}.
+Korpus data mencakup sepuluh kosakata BISINDO yang dipilih berdasarkan variasi konfigurasi tangan dan tingkat kemiripan trajektori gerakan. 
+Daftar kelas tersebut terdiri atas \textit{belum}, \textit{hati-hati}, \textit{hobi}, \textit{izin}, \textit{maaf}, \textit{sahabat}, \textit{teman}, \textit{terima kasih}, \textit{tidak punya}, dan \textit{ulang}. 
+Setiap kelas direkam dalam satu sesi berkelanjutan (\textit{one continuous take}) yang memuat sejumlah pengulangan gestur. 
+Penutur memberikan jeda diam antargestur untuk menciptakan batas temporal yang jelas sebelum proses segmentasi.
+Rincian teknis mengenai spesifikasi perekaman dan komposisi data disajikan pada Tabel \ref{tab:3-dataset-config}.
 
 \begin{table}[H]
 	\centering
@@ -97,8 +92,6 @@ Ringkasan konfigurasi pengambilan dataset bahasa isyarat ditunjukkan pada Tabel 
 	Jumlah kata isyarat & 10 kata \\ \hline
 	Metode perekaman & \textit{One continuous take} \\ \hline
 	\end{tabular}
-
-		{\footnotesize Catatan: Video mentah direkam dalam satu kali pengambilan (\textit{one continuous take}) untuk setiap kata isyarat sebelum diproses lebih lanjut pada tahap prapemrosesan.}
 \end{table}
 
 \subsection{Prapemrosesan Data}
@@ -115,33 +108,22 @@ Alur keseluruhan proses prapemrosesan data pada penelitian ini ditunjukkan pada 
     \label{fig:3-3.prapemrosesan}
 \end{figure} \par
 
-% Rev Sempro: Jelasin total video berapa dan total seluruh sequence berapa (Pak Arkam | Eko)
 \subsubsection{Segmentasi dan Trimming Video}
 \label{subsubsec:segmentasi-trimming}
 Tahap segmentasi dan trimming video dilakukan untuk membentuk satuan data berupa \textit{sequence} yang merepresentasikan satu gestur bahasa isyarat secara utuh. 
-Video mentah direkam dalam satu pengambilan berkelanjutan (\textit{one continuous take}) untuk setiap kelas kata sehingga memuat beberapa pengulangan gestur secara berurutan. 
-Setiap pengulangan dipisahkan oleh jeda singkat dalam posisi diam yang dilakukan oleh penutur. 
-Pola jeda tersebut dimanfaatkan sebagai acuan untuk memisahkan setiap gestur secara konsisten.
+Sumber data awal terdiri dari sepuluh berkas video mentah yang masing-masing memuat satu kelas kata isyarat dalam satu pengambilan berkelanjutan. 
+Setiap video mengandung beberapa pengulangan gestur yang dipisahkan oleh jeda diam pendek dari penutur. 
+Pola jeda temporal tersebut dimanfaatkan sebagai penanda visual untuk membatasi setiap instance gerakan secara presisi.
 
-Proses trimming dilakukan dengan memotong video mentah menjadi beberapa potongan video pendek yang masing-masing memuat satu gestur bahasa isyarat. 
-Bagian awal dan akhir video yang hanya memuat posisi diam dieliminasi agar tidak memasukkan \textit{frame} yang tidak relevan ke dalam data pelatihan. 
-Hasil dari tahap ini berupa potongan video yang berfokus pada fase aktif gerakan tangan dan tubuh bagian atas. 
-Pendekatan ini memastikan setiap potongan video merepresentasikan satu unit isyarat secara jelas.
+Proses pemotongan video dilakukan secara manual dengan mengidentifikasi titik awal dan akhir fase aktif gerakan tangan serta tubuh atas. 
+Setiap cuplikan hasil segmentasi kemudian diseragamkan panjangnya menjadi sembilan puluh \textit{frame} untuk menjaga konsistensi dimensi temporal. 
+Penyeragaman durasi tersebut menghasilkan representasi gestur dengan panjang tetap tiga detik pada laju pengambilan tiga puluh \textit{frame} per detik. 
+Gestur yang mengandung lebih dari satu unit makna atau transisi ambigu dibuang dari pipeline pemrosesan.
 
-Setiap potongan video hasil segmentasi kemudian diseragamkan menjadi \textit{sequence} dengan panjang tetap. 
-Panjang \textit{sequence} ditetapkan sebesar 75 \textit{frame} untuk menjaga konsistensi temporal antar-sampel. 
-Jika suatu gestur selesai sebelum mencapai panjang \textit{sequence} yang ditetapkan, sisa \textit{frame} pada bagian akhir umumnya berisi posisi diam penutur sebelum gestur berikutnya dimulai. 
-Kondisi tersebut tetap dipertahankan karena tidak memengaruhi fase utama gerakan dan membantu menjaga panjang \textit{sequence} tetap konsisten antar-sampel.
-
-Menggunakan laju pengambilan 30 \textit{frame} per detik (fps), panjang tersebut merepresentasikan durasi sekitar 2{,}5 detik untuk setiap gestur. 
-Penyeragaman panjang \textit{sequence} diperlukan agar seluruh data dapat disusun dalam bentuk tensor masukan berdimensi tetap pada tahap pemodelan. 
-Potongan video yang mengandung lebih dari satu gestur tidak digunakan pada proses selanjutnya. 
-Keputusan ini diambil untuk memastikan bahwa setiap \textit{sequence} hanya merepresentasikan satu unit makna bahasa isyarat.
-
-Pendekatan ini membantu model mempelajari pola gerakan yang lebih spesifik tanpa tercampur oleh gerakan dari gestur lain. 
-Hasil akhir tahap segmentasi dan trimming berupa kumpulan \textit{sequence} yang siap diproses pada tahap ekstraksi \textit{landmark}. 
-Struktur data yang terstandarisasi memungkinkan proses komputasi berjalan tanpa kesalahan dimensi. 
-Konsistensi format ini menjadi prasyarat utama untuk keberhasilan pelatihan jaringan konvolusional.
+Total sepuluh video awal berhasil dikonversi menjadi seratus lima puluh sampel klip gestur independen setelah proses segmentasi selesai. 
+Distribusi sampel tersebut terbagi merata dengan jumlah lima belas cuplikan untuk setiap kelas kata isyarat. 
+Struktur data yang telah terstandarisasi memungkinkan penyusunan tensor masukan berdimensi tetap pada tahap pemodelan jaringan konvolusional. 
+Berkas video hasil trimming selanjutnya menjadi masukan utama untuk ekstraksi koordinat \textit{landmark} menggunakan MediaPipe Holistic.
 
 \subsubsection{Ekstraksi \textit{Landmark} MediaPipe Holistic}
 \label{subsubsec:ekstraksi-landmark}
@@ -347,8 +329,8 @@ Proses \textit{forward pass} memproses \textit{batch} masukan melalui jaringan k
 Nilai prediksi dibandingkan dengan label kebenaran untuk menghitung kerugian menggunakan fungsi \textit{cross-entropy}.
 Gradien kesalahan dihitung melalui mekanisme \textit{backpropagation} lalu parameter jaringan diperbarui menggunakan algoritma \textit{Adam}.
 Mekanisme \textit{early stopping} memantau performa validasi guna mencegah penurunan kemampuan generalisasi model.
-
 Alur lengkap proses pelatihan model ditunjukkan pada Gambar \ref{fig:3-4.pelatihan}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\textwidth]{figure/training.pdf}
@@ -408,8 +390,8 @@ Proses augmentasi dilakukan secara dinamis di dalam komponen \textit{dataloader}
 Strategi ini mensimulasikan gangguan deteksi pose yang sering terjadi pada sistem pengenalan gerakan berbasis kamera.
 Penelitian ini menerapkan dua teknik utama berupa \textit{landmark jitter} dan \textit{random landmark masking}.
 Kedua metode tersebut terinspirasi dari teknik augmentasi \textit{skeleton} yang telah terbukti meningkatkan robustness model.
-
 Ilustrasi augmentasi temporal pada satu \textit{sequence} ditunjukkan pada Tabel \ref{tab:3-temporal-augmentation-example}.
+
 \begin{longtable}{|c|c|}
 \caption{Ilustrasi augmentasi temporal pada satu \textit{sequence}} \label{tab:3-temporal-augmentation-example} \\ \hline
 \textbf{Urutan Frame Asli} & \textbf{Setelah Augmentasi} \\ \hline
@@ -427,8 +409,8 @@ Koordinat \textit{landmark} yang dipilih secara acak diganti menjadi nilai nol u
 Pendekatan ini mendorong jaringan untuk mempelajari pola gerakan dari bagian tubuh lain yang tetap terdeteksi.
 Ketahanan model terhadap kehilangan informasi parsial meningkat secara signifikan melalui mekanisme tersebut.
 Augmentasi tidak diterapkan pada fase validasi sehingga metrik evaluasi tetap mencerminkan performa data nyata.
-
 Ilustrasi mekanisme \textit{random landmark masking} ditunjukkan pada Tabel \ref{tab:3-landmark-masking-example}.
+
 \begin{longtable}{|c|c|c|c|}
 \caption{Ilustrasi \textit{random landmark masking} pada satu frame}
 \label{tab:3-landmark-masking-example} \\ \hline
@@ -446,8 +428,8 @@ Teknik ini menambahkan gangguan kecil pada koordinat menggunakan distribusi Gaus
 Besaran gangguan dibatasi secara ketat agar tidak merusak struktur spasial gerakan bahasa isyarat.
 Simulasi ketidakakuratan posisi sendi membantu model beradaptasi dengan kesalahan estimasi pose.
 Transformasi augmentasi diterapkan sebelum rekayasa fitur temporal untuk menjaga konsistensi perhitungan diferensial.
-
 Ilustrasi mekanisme \textit{landmark jitter} ditunjukkan pada Tabel \ref{tab:3-jitter-example}.
+
 \begin{longtable}{|c|c|c|}
 \caption{Ilustrasi \textit{landmark jitter} pada satu titik}
 \label{tab:3-jitter-example} \\ \hline
@@ -465,29 +447,14 @@ Index MCP & (0.48, 0.58) & (0.47, 0.57) \\ \hline
 Rekayasa fitur temporal menambahkan informasi dinamika gerakan pada representasi \textit{landmark} yang telah diproses.
 Koordinat posisi $(x,y)$ hanya merepresentasikan lokasi titik tubuh pada satu \textit{frame} tertentu.
 Perubahan posisi antar-\textit{frame} dihitung secara eksplisit untuk merepresentasikan kecepatan gerakan.
-Perhitungan tersebut mengikuti formulasi \textit{velocity feature} sesuai Persamaan \ref{eq:3-deltaxdeltay}.
-
-% Rev Siga: Tabel rusak
-Ilustrasi perhitungan perubahan posisi satu \textit{landmark} ditunjukkan pada Tabel \ref{tab:3-deltaxdeltay-example}.
-\begin{table}[H]
-\centering
-\caption{Ilustrasi perhitungan perubahan posisi satu \textit{landmark}}
-\label{tab:3-deltaxdeltay-example}
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-\textbf{Frame} & $\hat{x}$ & $\hat{y}$ & $\Delta x$ & $\Delta y$ \\ \hline
-$t-1$ & 0.12 & -0.03 & - & - \\ \hline
-$t$   & 0.18 & -0.01 & 0.06 & 0.02 \\ \hline
-\end{tabular}
-{\footnotesize Catatan: Nilai numerik bersifat ilustratif dan tidak merepresentasikan data eksperimen sebenarnya.}
-\end{table}
+Perhitungan tersebut mengikuti formulasi \textit{velocity feature} sesuai Persamaan \ref{eq:deltaxdeltay}.
 
 Nilai perubahan posisi $(\Delta x, \Delta y)$ disusun sebagai kanal tambahan bersama koordinat posisi $(x,y)$.
 Representasi ini menghasilkan empat kanal fitur untuk setiap titik \textit{landmark} dalam satu urutan waktu.
 Model dapat mempelajari arah serta besaran gerakan secara langsung pada tingkat representasi data.
 Integrasi kanal diferensial memungkinkan penangkapan pola dinamis tanpa mekanisme rekurensi eksplisit.
-
 Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu ditunjukkan pada Tabel \ref{tab:3-landmark-multichannel-example}.
+
 \begin{table}[H]
 \centering
 \caption{Ilustrasi representasi fitur \textit{landmark multichannel} untuk satu \textit{landmark} sepanjang waktu}
@@ -530,8 +497,8 @@ Konfigurasi \textit{hyperparameter} mengendalikan proses optimisasi parameter ja
 Pemilihan nilai parameter dilakukan untuk menjaga stabilitas pelatihan sekaligus memastikan konvergensi optimal.
 Seluruh eksperimen dalam penelitian ini menggunakan konfigurasi yang identik untuk menjaga konsistensi evaluasi.
 Fokus utama penelitian berada pada representasi fitur gerakan serta modifikasi kanal masukan model.
-
 Ringkasan konfigurasi \textit{hyperparameter} yang digunakan pada penelitian ini ditunjukkan pada Tabel \ref{tab:3-hyperparameter}.
+
 \begin{table}[H]
 \centering
 \caption{Konfigurasi \textit{Hyperparameter} Pelatihan Model}
@@ -570,7 +537,7 @@ Konfigurasi ini telah terbukti efektif sebagai standar metodologi dalam peneliti
 Ilustrasi mekanisme pembagian dataset menggunakan teknik \textit{5-Fold Cross-Validation} ditunjukkan pada Gambar \ref{fig:3-kfold-illustration}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{figure/kfold_illustration.pdf} 
+    \includegraphics[width=0.95\textwidth]{figure/kfold_illustration.pdf} 
     \caption{Ilustrasi rotasi subset pelatihan dan validasi pada protokol \textit{5-Fold Cross-Validation}}
     \label{fig:3-kfold-illustration}
 \end{figure}
@@ -579,22 +546,28 @@ Setiap putaran mengalokasikan empat subset untuk proses optimasi parameter jarin
 Satu subset yang tersisa berfungsi sebagai data penguji independen untuk mengukur kemampuan generalisasi. 
 Proses ini berulang hingga seluruh subset pernah menempati posisi validasi secara bergilir.
 
-Tabel \ref{tab:3-kfold-config} memperlihatkan rincian komposisi sampel pada setiap lipatan validasi.
+Protokol \textit{Stratified 5-Fold Cross-Validation} memastikan distribusi kelas tetap seimbang pada setiap putaran evaluasi. 
+Teknik ini membagi dataset menjadi lima subset independen dengan komposisi identik. 
+Tabel \ref{tab:3-kfold-config} memperlihatkan rincian komposisi sampel pada setiap lipatan validasi. 
+Pembagian stratifikasi menjamin bahwa model tidak mengalami bias terhadap kategori gestur tertentu selama optimasi parameter.
+
 \begin{table}[H]
     \centering
     \caption{Konfigurasi \textit{Stratified 5-Fold Cross-Validation} pada eksperimen}
     \label{tab:3-kfold-config}
-    \begin{tabular}{|c|c|c|c|c|}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{|c|c|c|c|}
     \hline
-    \textbf{Lipatan} & \textbf{Sampel Latih} & \textbf{Sampel Validasi} & \textbf{Rasio} & \textbf{Stratifikasi} \\ \hline
-    1 & 120 & 30 & 80\%:20\% & 12 sampel/kelas \\ \hline
-    2 & 120 & 30 & 80\%:20\% & 12 sampel/kelas \\ \hline
-    3 & 120 & 30 & 80\%:20\% & 12 sampel/kelas \\ \hline
-    4 & 120 & 30 & 80\%:20\% & 12 sampel/kelas \\ \hline
-    5 & 120 & 30 & 80\%:20\% & 12 sampel/kelas \\ \hline
-    \textbf{Total Unik} & \multicolumn{2}{c|}{\textbf{150 sampel}} & \textbf{5 putaran} & \textbf{10 kelas} \\ \hline
-    \end{tabular}
+    \textbf{Subset Validasi} & \textbf{Data Latih} & \textbf{Data Validasi} & \textbf{Stratifikasi per Kelas} \\ \hline
+    Fold 1 & 120 & 30 & 12 Latih / 3 Validasi \\ \hline
+    Fold 2 & 120 & 30 & 12 Latih / 3 Validasi \\ \hline
+    Fold 3 & 120 & 30 & 12 Latih / 3 Validasi \\ \hline
+    Fold 4 & 120 & 30 & 12 Latih / 3 Validasi \\ \hline
+	Fold 5 & 120 & 30 & 12 Latih / 3 Validasi \\ \hline
+	\multicolumn{2}{|c|}{\textbf{Total Dataset Unik}} & \multicolumn{2}{c|}{\textbf{150 sampel (10 kelas $\times$ 15 sampel)}} \\ \hline
+	\end{tabular}
 \end{table}
+
 Teknik stratifikasi memastikan proporsi setiap kelas gestur tetap identik antara data pelatihan dan validasi. 
 Setiap kelas berkontribusi dua belas sampel untuk pelatihan dan tiga sampel untuk validasi pada setiap putaran. 
 Distribusi seimbang ini mencegah model mengembangkan bias terhadap kelas tertentu selama proses optimasi. 

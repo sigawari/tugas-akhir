@@ -66,90 +66,84 @@ Hasil prapemrosesan juga memastikan bahwa informasi gerakan dapat direpresentasi
 \subsubsection{\textit{Trimming} Data}
 \label{subsubsec:sebelum-sesudah-trimming}
 
-Dataset awal yang diperoleh terdiri dari 10 video mentah per kelas, 
-di mana setiap video berisi rangkaian rekaman yang belum tersegmentasi secara rapi. 
-Setiap video mentah mengandung bagian non-gestur seperti jeda sebelum memulai gerakan, 
-transisi antar pengulangan, serta momen istirahat pengguna yang tidak relevan 
-sebagai sinyal klasifikasi. 
-Proses \textit{trimming} dilakukan secara manual dengan mengidentifikasi titik 
-awal dan akhir setiap satu instance gerakan yang utuh, kemudian memotongnya 
-menjadi klip mandiri. 
-Setiap klip hasil segmentasi diperlakukan sebagai satu sampel independen yang merepresentasikan 
-satu instance gestur dari kelas yang bersangkutan.
+Dataset awal yang diperoleh terdiri dari sepuluh video mentah yang masing-masing merekam satu kelas kata isyarat dalam satu pengambilan berkelanjutan. 
+Setiap video mentah mengandung bagian non-gestur seperti jeda awal, transisi antar pengulangan, serta momen istirahat yang tidak relevan untuk klasifikasi. 
+Proses \textit{trimming} dilakukan secara manual dengan mengidentifikasi titik awal dan akhir setiap gerakan utuh, kemudian memotongnya menjadi klip mandiri. 
+Setiap klip hasil segmentasi diperlakukan sebagai satu sampel independen yang merepresentasikan satu instance gestur dari kelas yang bersangkutan.
 
-Distribusi sampel pada setiap kelas setelah proses \textit{trimming} ditunjukkan pada Tabel~\ref{tab:distribusi-kelas}.
-Setiap kelas terdiri atas 15 sampel sehingga distribusi data bersifat seimbang (\textit{balanced}) antar kelas.
-Seluruh video juga memiliki durasi yang seragam, yaitu 3 detik, sehingga dimensi temporal pada setiap sampel tetap konsisten selama proses pelatihan.
-Kondisi tersebut penting untuk menjaga keseragaman representasi masukan serta mengurangi pengaruh variasi panjang sequence terhadap proses pembelajaran model.
-Distribusi data yang seimbang turut membantu mencegah bias model terhadap kelas tertentu selama proses optimasi.
-Keseragaman jumlah sampel juga mempermudah interpretasi metrik evaluasi, khususnya akurasi makro dan \textit{macro-averaged F1-score}.
+Distribusi sampel pada setiap kelas setelah proses \textit{trimming} ditunjukkan pada Tabel~\ref{tab:4-distribusi-kelas}.
+Setiap kelas terdiri atas lima belas sampel sehingga distribusi data bersifat seimbang (\textit{balanced}) antar kelas.
+Seluruh sampel video memiliki durasi seragam tiga detik yang direpresentasikan dalam sembilan puluh \textit{frame} pada laju pengambilan tiga puluh \textit{frame} per detik.
+Kondisi tersebut penting untuk menjaga keseragaman dimensi temporal representasi masukan serta mengurangi pengaruh variasi panjang \textit{sequence} terhadap proses pembelajaran model.
 
 \begin{table}[H]
     \centering
     \caption{Distribusi jumlah sampel per kelas setelah proses trimming}
-    \label{tab:distribusi-kelas}
-    \begin{tabular}{|l|c|}
+    \label{tab:4-distribusi-kelas}
+    \renewcommand{\arraystretch}{1.1}
+    \begin{tabular}{|l|c|c|c|}
     \hline
-    \textbf{Kelas} & \textbf{Jumlah Sampel} \\ \hline
-    belum        & 15 \\ \hline
-    hati\_hati   & 15 \\ \hline
-    hobi         & 15 \\ \hline
-    izin         & 15 \\ \hline
-    maaf         & 15 \\ \hline
-    sahabat      & 15 \\ \hline
-    teman        & 15 \\ \hline
-    terima\_kasih & 15 \\ \hline
-    tidak\_punya & 15 \\ \hline
-    ulang        & 15 \\ \hline
-    \textbf{Total} & \textbf{150} \\ \hline
+    \textbf{Kelas} & \textbf{Sampel} & \textbf{Frame/Sampel} & \textbf{Total Frame} \\ \hline
+    belum        & 15 & 90 & 1,350 \\ \hline
+    hati\_hati   & 15 & 90 & 1,350 \\ \hline
+    hobi         & 15 & 90 & 1,350 \\ \hline
+    izin         & 15 & 90 & 1,350 \\ \hline
+    maaf         & 15 & 90 & 1,350 \\ \hline
+    sahabat      & 15 & 90 & 1,350 \\ \hline
+    teman        & 15 & 90 & 1,350 \\ \hline
+    terima\_kasih & 15 & 90 & 1,350 \\ \hline
+    tidak\_punya & 15 & 90 & 1,350 \\ \hline
+    ulang        & 15 & 90 & 1,350 \\ \hline
+    \textbf{Total} & \textbf{150} & \textbf{90} & \textbf{13,500} \\ \hline
     \end{tabular}
 \end{table}
 
-Hasil proses \textit{trimming} menunjukkan peningkatan jumlah data yang signifikan, 
-yaitu dari 10 video mentah menjadi 150 sampel klip gestur per kelas. 
-Pendekatan segmentasi ini memungkinkan perluasan cakupan data latih tanpa memerlukan sesi 
-perekaman tambahan, sekaligus meningkatkan variasi temporal yang dipelajari oleh model. 
+Hasil proses \textit{trimming} menunjukkan peningkatan jumlah unit data yang signifikan, yaitu dari sepuluh video mentah menjadi seratus lima puluh sampel klip gestur yang terdistribusi merata. 
+Pendekatan segmentasi ini memungkinkan perluasan cakupan data latih tanpa memerlukan sesi perekaman tambahan, sekaligus meningkatkan variasi temporal yang dipelajari oleh model. 
+Distribusi seimbang tersebut turut membantu mencegah bias model terhadap kelas tertentu selama proses optimasi parameter jaringan. 
+Keseragaman jumlah sampel juga mempermudah interpretasi metrik evaluasi, khususnya akurasi makro dan \textit{macro-averaged F1-score}.
 
 \subsubsection{Hasil Ekstraksi Landmark}
 \label{subsubsec:hasil-ekstraksi-landmark}
+
 Tahap ekstraksi \textit{landmark} menghasilkan representasi koordinat tubuh pada setiap \textit{frame} video. 
-Representasi tersebut mencakup \textit{landmark} pose tubuh, tangan kiri, tangan kanan, dan wajah yang diperoleh menggunakan MediaPipe Holistic. 
-Setiap titik direpresentasikan dalam koordinat tiga dimensi $(x,y,z)$ sehingga informasi spasial tubuh dapat dipertahankan pada setiap \textit{frame}. 
-Representasi hasil ekstraksi digunakan sebagai dasar dalam pembentukan fitur spasial dan temporal pada tahap prapemrosesan berikutnya. 
-Struktur koordinat yang dihasilkan memungkinkan data gerakan direpresentasikan dalam bentuk numerik yang lebih ringkas dibandingkan citra mentah.
+MediaPipe Holistic mendeteksi lima ratus empat puluh tiga titik \textit{landmark} yang mencakup pose tubuh, tangan kiri, tangan kanan, dan wajah pada setiap \textit{frame}. 
+Setiap titik direpresentasikan dalam koordinat tiga dimensi $(x,y,z)$ sehingga informasi spasial tubuh dapat dipertahankan secara lengkap. 
+Satu sampel video dengan sembilan puluh \textit{frame} menghasilkan total empat puluh delapan ribu delapan ratus tujuh puluh koordinat \textit{landmark} yang merepresentasikan keseluruhan gerakan.
+Komponen \textit{landmark} yang dihasilkan pada tahap ekstraksi ditunjukkan pada Tabel~\ref{tab:4-komponen-landmark}.
 
-Hasil ekstraksi disimpan dalam format \textit{JavaScript Object Notation} (JSON) yang mempertahankan hubungan antara indeks \textit{frame}, jenis \textit{landmark}, dan koordinat spasial yang dihasilkan. 
-Setiap \textit{frame} memuat kumpulan koordinat pose tubuh, tangan kiri, tangan kanan, dan wajah secara terpisah. 
-Struktur tersebut menghasilkan representasi data yang konsisten pada seluruh sampel video sehingga proses pemanggilan ulang data dapat dilakukan secara sistematis. 
-Penyimpanan dalam format JSON juga mempermudah proses integrasi data pada tahap seleksi fitur, normalisasi, dan penyusunan tensor masukan. 
-Representasi terstruktur tersebut menjadi komponen penting dalam pembentukan representasi gerakan berbasis \textit{pseudo-image}.
+\begin{table}[H]
+	\centering
+	\caption{Komponen \textit{landmark} hasil ekstraksi MediaPipe Holistic}
+	\label{tab:4-komponen-landmark}
+	\begin{tabular}{|l|c|c|}
+	\hline
+	\textbf{Komponen} & \textbf{Titik/\textit{frame}} & \textbf{Total Koordinat (90 \textit{frame})} \\ \hline
+	Pose tubuh & 33 & 2,970 \\ \hline
+	Tangan kiri & 21 & 1,890 \\ \hline
+	Tangan kanan & 21 & 1,890 \\ \hline
+	Wajah & 468 & 42,120 \\ \hline
+	\textbf{Total per \textit{frame}} & \textbf{543} & \textbf{48,870} \\ \hline
+	\end{tabular}
+	\vspace{0.5em}
+	
+	{\footnotesize \textit{Catatan}: Setiap titik \textit{landmark} memiliki tiga koordinat $(x,y,z)$. Total koordinat mentah: 543 titik $\times$ 90 \textit{frame} $\times$ 3 dimensi = 146,610 nilai numerik per sampel video.}
+\end{table}
 
-Komponen \textit{landmark} yang dihasilkan pada tahap ekstraksi ditunjukkan pada Tabel~\ref{tab:4-komponen-landmark}. 
 MediaPipe Holistic menghasilkan kombinasi \textit{landmark} pose tubuh, tangan kiri, tangan kanan, dan wajah dalam satu representasi terintegrasi. 
 Jumlah titik \textit{landmark} yang cukup besar menghasilkan representasi spasial yang rinci terhadap struktur tubuh penutur. 
 Informasi pose tubuh dan tangan menjadi komponen utama dalam merepresentasikan gerakan bahasa isyarat dinamis. 
 Representasi wajah juga tetap dipertahankan karena beberapa gestur memiliki keterkaitan terhadap ekspresi dan orientasi kepala penutur.
 
-\begin{table}[H]
-	\centering
-	\caption{Komponen \textit{landmark} hasil ekstraksi}
-	\label{tab:4-komponen-landmark}
-	\begin{tabular}{|l|c|}
-	\hline
-	\textbf{Komponen Landmark} & \textbf{Jumlah Titik} \\ \hline
-	Pose tubuh & 33 \\ \hline
-	Tangan kiri & 21 \\ \hline
-	Tangan kanan & 21 \\ \hline
-	Wajah & 468 \\ \hline
-	Total \textit{landmark} & 543 \\ \hline
-	\end{tabular}
-\end{table}
+Hasil ekstraksi disimpan dalam format \textit{JavaScript Object Notation} (JSON) yang mempertahankan hubungan antara indeks \textit{frame}, jenis \textit{landmark}, dan koordinat spasial yang dihasilkan. 
+Setiap \textit{frame} memuat kumpulan koordinat pose tubuh, tangan kiri, tangan kanan, dan wajah secara terpisah. 
+Struktur tersebut menghasilkan representasi data yang konsisten pada seluruh sampel video sehingga proses pemanggilan ulang data dapat dilakukan secara sistematis. 
+Penyimpanan dalam format JSON juga mempermudah proses integrasi data pada tahap seleksi fitur, normalisasi, dan penyusunan tensor masukan.
 
 Struktur data hasil ekstraksi disusun secara hierarkis berdasarkan metadata video, indeks \textit{frame}, dan koordinat \textit{landmark}. 
 Contoh representasi data hasil ekstraksi ditampilkan pada Kode~\ref{code:4.landmark-json}. 
 Struktur tersebut memperlihatkan bahwa setiap \textit{frame} memiliki kumpulan koordinat pose tubuh yang tersusun secara terorganisasi. 
-Koordinat disimpan dalam bentuk numerik sehingga dapat diproses secara langsung pada tahap prapemrosesan berikutnya. 
-Hubungan antara indeks \textit{frame} dan indeks \textit{landmark} tetap dipertahankan sehingga pembentukan fitur temporal dapat dilakukan secara konsisten.
+Koordinat disimpan dalam bentuk numerik sehingga dapat diproses secara langsung pada tahap prapemrosesan berikutnya.
 
 \begin{lstlisting}[
 caption={Bentuk struktur data hasil ekstraksi landmark},
@@ -184,8 +178,7 @@ breaklines=true
 Kode~\ref{code:4.landmark-json} menunjukkan bahwa hasil ekstraksi direpresentasikan sebagai urutan koordinat pose yang terorganisasi sepanjang waktu. 
 Representasi tersebut menghasilkan kompleksitas data yang lebih rendah dibandingkan penggunaan citra mentah sebagai masukan model klasifikasi. 
 Informasi spasial yang diperoleh dari hasil ekstraksi juga menjadi dasar dalam pembentukan fitur perubahan posisi antar-\textit{frame}. 
-Representasi koordinat memungkinkan model lebih fokus terhadap pola gerakan dibandingkan karakteristik visual latar belakang. 
-Tahap ekstraksi \textit{landmark} dengan demikian menjadi fondasi utama dalam pembentukan representasi gerakan berbasis \textit{pseudo-image}.
+Representasi koordinat memungkinkan model lebih fokus terhadap pola gerakan dibandingkan karakteristik visual latar belakang.
 
 \subsubsection{Hasil Seleksi Titik Landmark}
 \label{subsubsec:hasil-seleksi}
@@ -193,26 +186,22 @@ Tahap ekstraksi \textit{landmark} dengan demikian menjadi fondasi utama dalam pe
 Tahap seleksi \textit{landmark} menghasilkan representasi fitur yang lebih ringkas dibandingkan hasil ekstraksi awal. 
 Representasi akhir hanya mempertahankan titik-titik tubuh yang relevan terhadap pembentukan pola gerakan bahasa isyarat. 
 Reduksi jumlah \textit{landmark} dilakukan pada komponen pose dan wajah, sedangkan \textit{landmark} tangan dipertahankan secara penuh karena memuat informasi utama konfigurasi gerakan tangan. 
-Representasi akhir juga hanya menggunakan koordinat dua dimensi $(x,y)$ sehingga struktur data menjadi lebih sederhana dibandingkan hasil ekstraksi awal. 
-Penyederhanaan tersebut menghasilkan dimensi data yang lebih efisien tanpa menghilangkan informasi gerakan utama yang digunakan pada proses klasifikasi.
+Representasi akhir juga hanya menggunakan koordinat dua dimensi $(x,y)$ sehingga struktur data menjadi lebih sederhana dibandingkan hasil ekstraksi awal.
 
-Konfigurasi seleksi \textit{landmark} yang digunakan pada penelitian ini telah dijelaskan pada Tabel~\ref{tab:3-landmark-selection}. 
+Konfigurasi seleksi \textit{landmark} yang digunakan pada penelitian ini dirangkum dalam Tabel~\ref{tab:3-landmark-selection}. 
 Proses seleksi tersebut menghasilkan representasi akhir yang lebih ringkas dibandingkan struktur data hasil ekstraksi sebelumnya. 
 Jumlah fitur berhasil direduksi sehingga kompleksitas data dapat ditekan pada tahap pelatihan model. 
-Representasi pose tubuh difokuskan pada area tubuh bagian atas yang berkaitan langsung terhadap gerakan bahasa isyarat. 
-Representasi wajah menggunakan subset 68 titik yang diadaptasi dari korespondensi \textit{Mediapipe-to-Dlib landmark} yang dikembangkan oleh Yan \cite{yan2023mp2dlib}.
+Representasi pose tubuh difokuskan pada area tubuh bagian atas yang berkaitan langsung terhadap gerakan bahasa isyarat.
 
 Visualisasi hasil seleksi \textit{landmark} wajah ditunjukkan pada Gambar~\ref{fig:3-face_seleksi}. 
 Representasi tersebut memperlihatkan bahwa titik-titik wajah yang dipertahankan masih mampu merepresentasikan area penting seperti mata, alis, hidung, bibir, pipi, dan dagu. 
 Distribusi titik yang lebih ringkas menghasilkan struktur wajah yang lebih sederhana dibandingkan hasil ekstraksi awal yang menggunakan seluruh \textit{face landmark}. 
-Informasi ekspresi non-manual tetap dapat dipertahankan meskipun jumlah titik wajah telah direduksi secara signifikan. 
-Representasi tersebut digunakan untuk mendukung pengenalan gestur yang melibatkan ekspresi wajah pada bahasa isyarat.
+Informasi ekspresi non-manual tetap dapat dipertahankan meskipun jumlah titik wajah telah direduksi secara signifikan.
 
 Struktur data setelah proses seleksi disusun kembali dalam format JSON yang mempertahankan hubungan antara indeks \textit{frame} dan koordinat \textit{landmark}. 
 Contoh representasi data hasil seleksi ditunjukkan pada Kode~\ref{code:4-selected-json}. 
 Struktur tersebut menunjukkan bahwa koordinat yang digunakan hanya terdiri atas dimensi $(x,y)$ dengan subset \textit{landmark} yang telah dipilih. 
-Representasi hasil seleksi menghasilkan dimensi data yang lebih ringkas dibandingkan hasil ekstraksi awal. 
-Hubungan antar-\textit{frame} tetap dipertahankan sehingga data dapat diproses secara konsisten pada tahap berikutnya.
+Representasi hasil seleksi menghasilkan dimensi data yang lebih ringkas dibandingkan hasil ekstraksi awal.
 
 \begin{lstlisting}[
 caption={Contoh struktur data hasil seleksi landmark},
@@ -224,15 +213,13 @@ breaklines=true
   "frames": [
     {
       "frame_index": 0,
-
       "landmarks": {
-
         "pose": {
           "left_shoulder": {
             "x": 0.621,
             "y": 0.417
-          },
-        },
+          }
+        }
       }
     }
   ]
@@ -242,8 +229,34 @@ breaklines=true
 Kode~\ref{code:4-selected-json} menunjukkan bahwa hasil seleksi direpresentasikan sebagai kumpulan koordinat dua dimensi yang terorganisasi pada setiap \textit{frame}. 
 Representasi tersebut menghasilkan kompleksitas data yang lebih rendah dibandingkan struktur hasil ekstraksi awal yang masih menggunakan seluruh \textit{landmark} dan koordinat tiga dimensi. 
 Jumlah fitur yang lebih ringkas memungkinkan proses pemrosesan data dilakukan secara lebih efisien pada tahap pelatihan model. 
-Informasi spasial utama tetap dipertahankan sehingga pola gerakan tubuh dan ekspresi wajah masih dapat direpresentasikan dengan baik. 
-Hasil seleksi \textit{landmark} tersebut kemudian digunakan sebagai dasar pada tahap normalisasi dan pembentukan fitur temporal.
+Informasi spasial utama tetap dipertahankan sehingga pola gerakan tubuh dan ekspresi wajah masih dapat direpresentasikan dengan baik.
+
+Proses reduksi fitur dilakukan untuk menekan kompleksitas data dari lima ratus empat puluh tiga titik menjadi seratus dua puluh dua titik \textit{landmark} yang relevan. 
+Tahap seleksi ini berfokus pada eliminasi \textit{landmark} tubuh bawah dan pengurangan titik wajah yang berlebihan tanpa menghilangkan informasi gerakan esensial. 
+Representasi akhir hanya mempertahankan koordinat dua dimensi $(x,y)$ sehingga total nilai skalar berkurang drastis dari seratus empat puluh enam ribu enam ratus sepuluh menjadi dua puluh satu ribu sembilan ratus enam puluh per sampel. 
+Penyederhanaan tersebut mempercepat proses pelatihan model sekaligus mengurangi risiko \textit{overfitting} pada dataset berskala kecil.
+
+Rincian konfigurasi reduksi \textit{landmark} dari tahap ekstraksi hingga representasi akhir ditunjukkan pada Tabel~\ref{tab:4-landmark-reduction}.
+\begin{table}[H]
+	\centering
+	\caption{Proses reduksi \textit{landmark} dari ekstraksi awal hingga representasi akhir}
+	\label{tab:4-landmark-reduction}
+	\begin{tabular}{|l|c|c|c|}
+	\hline
+	\textbf{Tahap} & \textbf{Titik/\textit{frame}} & \textbf{Dimensi} & \textbf{Total Nilai Skalar} \\ \hline
+	Ekstraksi awal & 543 & $(x,y,z)$ & 146,610 \\ \hline
+	Seleksi fitur & 122 & $(x,y)$ & 21,960 \\ \hline
+	\textbf{Efisiensi} & \textbf{77.5\%} & \textbf{66.7\%} & \textbf{85.0\%} \\ \hline
+	\end{tabular}
+	\vspace{0.5em}
+	
+	{\footnotesize \textit{Catatan}: Reduksi dilakukan melalui eliminasi 421 titik \textit{landmark} dan penghapusan koordinat $z$. Perhitungan: 122 titik $\times$ 90 \textit{frame} $\times$ 2 dimensi = 21.960 nilai numerik per sampel video.}
+\end{table}
+
+Hasil seleksi \textit{landmark} tersebut kemudian digunakan sebagai dasar pada tahap normalisasi dan pembentukan fitur temporal. 
+Struktur data yang telah dioptimasi menjamin kompatibilitas penuh dengan arsitektur jaringan konvolusional dua dimensi. 
+Representasi ringkas ini menjadi fondasi stabil untuk ekstraksi pola gerakan pada fase pelatihan. 
+Efisiensi komputasi meningkat secara signifikan tanpa mengorbankan akurasi representasi gestur bahasa isyarat.
 
 \subsubsection{Hasil Penanganan \textit{Missing} Data}
 \label{subsubsec:hasil-missing-data}
