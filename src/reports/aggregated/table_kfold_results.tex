@@ -1,0 +1,14 @@
+
+\begin{table}[H]
+  \centering
+  \caption{Hasil evaluasi 5-fold cross-validation (Mean $\pm$ Std Dev)}
+  \label{tab:hasil-kfold}
+  \begin{tabular}{|l|l|c|c|}
+  \hline
+  \textbf{Model} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{F1-Score (\%)} \\ \hline
+cnn2d & xy_dxdy & 89.33 $\pm$ 1.33 & 85.98 $\pm$ 1.37 \\ \hline
+resnet18 & xy_dxdy & 100.00 $\pm$ 0.00 & 100.00 $\pm$ 0.00 \\ \hline
+resnet34 & xy_dxdy & 99.33 $\pm$ 1.33 & 99.31 $\pm$ 1.37 \\ \hline
+resnet50 & xy_dxdy & 97.33 $\pm$ 3.89 & 97.13 $\pm$ 4.24 \\ \hline
+  \end{tabular}
+\end{table}
