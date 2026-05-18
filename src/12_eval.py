@@ -236,37 +236,7 @@ def main() -> None:
     device = get_device(prefer_gpu=True)
     print(f"Using device: {device}")
 
-    split_path = args.split_path
-    if split_path is None:
-        split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_70_20_10.json"
-
-    ckpt_config = ckpt.get("config", {})
-    if "use_delta" in ckpt_config:
-        eval_use_delta = bool(ckpt_config["use_delta"])
-    elif "in_channels" in ckpt_config:
-        eval_use_delta = ckpt_config["in_channels"] == 4
-    else:
-        # Fallback: gunakan args.use_delta jika config tidak ada
-        eval_use_delta = bool(args.use_delta)
-    
-    print(f"📥 Dataloader akan menggunakan use_delta={eval_use_delta} (dari checkpoint config)")
-
-    # augment=False untuk semua split saat eval
-    train_loader, val_loader, split_data = create_dataloaders(
-        split_path=split_path,
-        batch_size=args.batch_size,
-        num_workers=args.num_workers,
-        train_ratio=args.train_ratio,
-        val_ratio=args.val_ratio,
-        seed=args.seed,
-        train_augment=False,
-        use_delta=eval_use_delta, 
-    )
-
-    num_classes = split_data["meta"]["num_classes"]
-    idx2label = {int(k): v for k, v in split_data["idx2label"].items()}
-
-    # checkpoint
+    # 1. Resolve path checkpoint DULUAN
     if args.ckpt_path is not None:
         ckpt_path = Path(args.ckpt_path)
         if not ckpt_path.is_file():
@@ -276,7 +246,38 @@ def main() -> None:
 
     print(f"Using checkpoint: {ckpt_path}")
 
+    # 2. Load checkpoint untuk baca config & weights
     ckpt = torch.load(ckpt_path, map_location=device)
+    ckpt_config = ckpt.get("config") or {}  # Aman jika config=None
+
+    # Auto-detect use_delta dari checkpoint
+    if "use_delta" in ckpt_config:
+        eval_use_delta = bool(ckpt_config["use_delta"])
+    elif "in_channels" in ckpt_config:
+        eval_use_delta = ckpt_config["in_channels"] == 4
+    else:
+        eval_use_delta = bool(args.use_delta)
+    print(f"📥 Checkpoint config: use_delta={eval_use_delta} (auto-detected)")
+
+    # 3. Resolve split path
+    split_path = args.split_path
+    if split_path is None:
+        split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_70_20_10.json"
+
+    # 4. Create dataloader dengan use_delta yang SINKRON
+    train_loader, val_loader, split_data = create_dataloaders(
+        split_path=split_path,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers,
+        train_ratio=args.train_ratio,
+        val_ratio=args.val_ratio,
+        seed=args.seed,
+        train_augment=False,
+        use_delta=eval_use_delta,  # ✅ Gunakan nilai dari checkpoint
+    )
+
+    num_classes = split_data["meta"]["num_classes"]
+    idx2label = {int(k): v for k, v in split_data["idx2label"].items()}
 
     ckpt_config = ckpt.get("config", {})
 
