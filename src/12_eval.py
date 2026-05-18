@@ -7,6 +7,8 @@ from typing import Dict, Any, List, Tuple, Optional
 
 import numpy as np
 import torch
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 
@@ -170,7 +172,7 @@ def plot_confusion_matrix(
         plt.savefig(save_path, dpi=200, bbox_inches="tight")
         print(f"Saved confusion matrix to: {save_path}")
 
-    plt.show()
+    # plt.show()
 
 
 # =========================

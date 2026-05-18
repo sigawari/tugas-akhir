@@ -1,0 +1,235 @@
+{
+  "checkpoint": "/home/user2/Developer/sigawari/tugas-akhir/src/checkpoints/resnet50/splits/resnet50_xy_dxdy_lr0.0001_bs16_fold1__best.pt",
+  "saved_epoch": 32,
+  "best_val_loss": 0.2554679582516352,
+  "val_loss": 0.2554679582516352,
+  "accuracy": 0.9333333333333333,
+  "balanced_accuracy": 0.9333333333333332,
+  "f1_macro": 0.9314285714285715,
+  "top2_accuracy": 1.0,
+  "per_class": {
+    "belum": {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "support": 3,
+      "TP": 2,
+      "FP": 0,
+      "FN": 1,
+      "TN": 27
+    },
+    "hati_hati": {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "support": 3,
+      "TP": 3,
+      "FP": 1,
+      "FN": 0,
+      "TN": 26
+    },
+    "hobi": {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "support": 3,
+      "TP": 2,
+      "FP": 0,
+      "FN": 1,
+      "TN": 27
+    },
+    "izin": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 3,
+      "TP": 3,
+      "FP": 0,
+      "FN": 0,
+      "TN": 27
+    },
+    "maaf": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 3,
+      "TP": 3,
+      "FP": 0,
+      "FN": 0,
+      "TN": 27
+    },
+    "sahabat": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 3,
+      "TP": 3,
+      "FP": 0,
+      "FN": 0,
+      "TN": 27
+    },
+    "teman": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 3,
+      "TP": 3,
+      "FP": 0,
+      "FN": 0,
+      "TN": 27
+    },
+    "terima_kasih": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 3,
+      "TP": 3,
+      "FP": 0,
+      "FN": 0,
+      "TN": 27
+    },
+    "tidak_punya": {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "support": 3,
+      "TP": 3,
+      "FP": 1,
+      "FN": 0,
+      "TN": 26
+    },
+    "ulang": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 3,
+      "TP": 3,
+      "FP": 0,
+      "FN": 0,
+      "TN": 27
+    }
+  },
+  "confusion_matrix": [
+    [
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3
+    ]
+  ],
+  "use_delta": true
+}

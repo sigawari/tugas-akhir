@@ -6,7 +6,7 @@ from pathlib import Path
 
 #  KONFIGURASI GLOBAL (STANDARISASI)
 PROJECT_NAME = "slr-kfold-comparison"
-USE_DELTA    = 1
+USE_DELTA    = 0
 EPOCHS       = 50
 LR           = 1e-4         
 BATCH_SIZE   = 16           
