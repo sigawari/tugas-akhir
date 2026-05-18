@@ -4,6 +4,7 @@ Mengagregasi hasil evaluasi 5-fold menjadi tabel ringkasan dan visualisasi untuk
 """
 
 import json
+import re
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -16,19 +17,25 @@ def parse_args():
     p.add_argument("--report_dir", type=str, default="reports")
     p.add_argument("--output_dir", type=str, default="reports/aggregated")
     p.add_argument("--models", nargs="+", default=["cnn2d", "resnet18", "resnet34", "resnet50"])
-    p.add_argument("--features", nargs="+", default=["xy", "xy_dxdy"])
+    # Default fitur disesuaikan dengan USE_DELTA=1 di 14_run_kfold.py
+    p.add_argument("--features", nargs="+", default=["xy_dxdy"]) 
     return p.parse_args()
 
 def extract_config_from_filename(filename: str):
-    """
-    Parse filename: metrics_resnet18_xy_dxdy_lr0.0001_bs16_fold3__best
-    Return: dict with model, features, fold, etc.
-    """
-    # Implementasi parsing sesuai naming convention kamu
-    # Contoh sederhana:
-    parts = filename.replace("metrics_", "").replace("__best", "").split("_")
-    # ... (sesuaikan dengan pola nama file kamu)
-    return {"model": parts[0], "features": "_".join(parts[1:3]), "fold": int(parts[-1].replace("fold", ""))}
+    """Parse filename secara robust menggunakan regex."""
+    clean = filename.replace("metrics_", "").replace(".json", "")
+    
+    model_match = re.search(r'(cnn2d|resnet18|resnet34|resnet50)', clean)
+    model = model_match.group(1) if model_match else "unknown"
+
+    fold_match = re.search(r'fold(\d+)', clean)
+    fold = int(fold_match.group(1)) if fold_match else 0
+
+    # Karena 14_run_kfold.py menghardcode USE_DELTA=1, semua hasil saat ini adalah xy_dxdy.
+    # Jika nanti menjalankan eksperimen dengan USE_DELTA=0, ubah logika ini atau baca dari config checkpoint.
+    features = "xy_dxdy" 
+
+    return {"model": model, "features": features, "fold": fold}
 
 def load_all_metrics(report_dir: Path):
     """Load semua file metrics_*.json dari direktori laporan."""
@@ -37,7 +44,6 @@ def load_all_metrics(report_dir: Path):
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)
         
-        # Ekstrak info konfigurasi dari nama file atau dari checkpoint config
         config = extract_config_from_filename(json_file.stem)
         
         metrics_list.append({
@@ -54,7 +60,6 @@ def load_all_metrics(report_dir: Path):
 def aggregate_by_config(metrics_list):
     """Kelompokkan metrik berdasarkan (model, fitur) dan hitung mean±std."""
     grouped = defaultdict(list)
-    
     for m in metrics_list:
         key = (m["config"]["model"], m["config"]["features"])
         grouped[key].append(m)
@@ -62,13 +67,11 @@ def aggregate_by_config(metrics_list):
     results = {}
     for (model, features), folds in grouped.items():
         if len(folds) != 5:
-            print(f"⚠️  {model}/{features}: hanya {len(folds)} fold, butuh 5!")
+            print(f"⚠️  {model}/{features}: hanya {len(folds)} fold, butuh 5! (Skip)")
             continue
             
         acc_vals = [f["accuracy"] for f in folds]
         f1_vals = [f["f1_macro"] for f in folds]
-        
-        # Agregasi confusion matrix (jumlahkan, lalu normalisasi jika perlu)
         cm_sum = np.sum([f["confusion_matrix"] for f in folds], axis=0)
         
         results[(model, features)] = {
@@ -77,7 +80,7 @@ def aggregate_by_config(metrics_list):
             "f1_mean": np.mean(f1_vals),
             "f1_std": np.std(f1_vals),
             "cm_aggregated": cm_sum,
-            "folds": folds  # Simpan untuk analisis per-kelas jika perlu
+            "folds": folds
         }
     return results
 
@@ -107,40 +110,74 @@ def generate_latex_table(results, output_path: Path):
 
 def plot_accuracy_barchart(results, output_path: Path):
     """Bar chart akurasi dengan error bars."""
+    
+    if not results:
+        print("⚠️  Tidak ada data untuk bar chart")
+        return
+
     models = sorted(set(k[0] for k in results.keys()))
+    features = sorted(set(k[1] for k in results.keys()))
+
     x_pos = np.arange(len(models))
     width = 0.35
-    
+
     fig, ax = plt.subplots(figsize=(10, 6))
-    
-    # Plot untuk xy dan xy_dxdy
-    for i, feat in enumerate(["xy", "xy_dxdy"]):
-        means = [results[(m, feat)]["accuracy_mean"]*100 for m in models if (m, feat) in results]
-        stds = [results[(m, feat)]["accuracy_std"]*100 for m in models if (m, feat) in results]
-        positions = x_pos + (i - 0.5) * width
-        ax.bar(positions, means, yerr=stds, capsize=5, width=width, 
-               label=feat, alpha=0.8)
-    
+
+    for i, feat in enumerate(features):
+
+        means = []
+        stds = []
+
+        for m in models:
+            if (m, feat) in results:
+                means.append(results[(m, feat)]["accuracy_mean"] * 100)
+                stds.append(results[(m, feat)]["accuracy_std"] * 100)
+            else:
+                means.append(0)
+                stds.append(0)
+
+        positions = x_pos + (i - len(features)/2) * width
+
+        ax.bar(
+            positions,
+            means,
+            yerr=stds,
+            capsize=5,
+            width=width,
+            label=feat,
+            alpha=0.8
+        )
+
     ax.set_xticks(x_pos)
-    ax.set_xticklabels([m.replace("resnet", "ResNet-").upper() if "resnet" in m else m.upper() for m in models])
+    ax.set_xticklabels([
+        m.replace("resnet", "ResNet-").upper()
+        if "resnet" in m else m.upper()
+        for m in models
+    ])
+
     ax.set_ylabel("Akurasi (%)")
     ax.set_title("Perbandingan Akurasi Model (5-Fold CV)")
     ax.legend(title="Fitur")
     ax.grid(axis="y", linestyle="--", alpha=0.3)
-    
+
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     print(f"✅ Grafik bar chart tersimpan: {output_path}")
+
     plt.close()
 
 def plot_boxplot_by_fold(metrics_list, output_path: Path):
-def plot_boxplot_by_fold(metrics_list, output_path: Path):
     """Boxplot distribusi akurasi per konfigurasi."""
+    if not metrics_list:
+        print("⚠️  Tidak ada data untuk boxplot")
+        return
+
     try:
         import seaborn as sns
     except ImportError as e:
         raise ImportError("Seaborn belum terpasang. Install dengan: pip install seaborn") from e
-
+        
     data_for_plot = []
     for m in metrics_list:
         label = f"{m['config']['model']}\n{m['config']['features']}"
@@ -151,13 +188,17 @@ def plot_boxplot_by_fold(metrics_list, output_path: Path):
         })
     
     df = pd.DataFrame(data_for_plot)
-    
     plt.figure(figsize=(12, 6))
     sns.boxplot(data=df, x="config", y="accuracy", palette="Set2")
     plt.ylabel("Akurasi (%)")
     plt.title("Distribusi Akurasi per Lipatan (5-Fold)")
     plt.xticks(rotation=45, ha="right")
     plt.grid(axis="y", linestyle="--", alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300, bbox_inches="tight")
+    print(f"✅ Boxplot tersimpan: {output_path}")
+    plt.close()
+
 def plot_aggregated_cm(results, output_path: Path, config_key: tuple):
     """Plot confusion matrix teragregasi untuk konfigurasi tertentu."""
     try:
@@ -170,7 +211,6 @@ def plot_aggregated_cm(results, output_path: Path, config_key: tuple):
         return
     
     cm = results[config_key]["cm_aggregated"]
-    # Normalisasi per baris (true label)
     cm_norm = cm.astype("float") / (cm.sum(axis=1, keepdims=True) + 1e-10)
     
     labels = ["belum", "hati\_hati", "hobi", "izin", "maaf", 
@@ -182,10 +222,6 @@ def plot_aggregated_cm(results, output_path: Path, config_key: tuple):
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
     plt.title(f"Confusion Matrix Teragregasi (5 Fold)\n{config_key[0]} | Fitur: {config_key[1]}")
-    plt.tight_layout()
-    plt.savefig(output_path, dpi=300, bbox_inches="tight")
-    print(f"✅ Aggregated CM tersimpan: {output_path}")
-    plt.close()
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     print(f"✅ Aggregated CM tersimpan: {output_path}")
@@ -214,8 +250,8 @@ def main():
     # 3. Plot boxplot distribusi
     plot_boxplot_by_fold(metrics_list, output_dir / "boxplot_accuracy_by_fold.png")
     
-    # 4. Plot aggregated CM untuk konfigurasi terbaik (contoh: resnet18 + xy)
-    best_config = ("resnet18", "xy")
+    # 4. Plot aggregated CM untuk konfigurasi terbaik (sesuai USE_DELTA=1)
+    best_config = ("resnet18", "xy_dxdy")
     if best_config in results:
         plot_aggregated_cm(results, output_dir / f"cm_aggregated_{'_'.join(best_config)}.png", best_config)
     

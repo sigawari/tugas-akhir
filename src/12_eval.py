@@ -240,6 +240,17 @@ def main() -> None:
     if split_path is None:
         split_path = Path(__file__).resolve().parent.parent / "dataset" / "splits" / "split_70_20_10.json"
 
+    ckpt_config = ckpt.get("config", {})
+    if "use_delta" in ckpt_config:
+        eval_use_delta = bool(ckpt_config["use_delta"])
+    elif "in_channels" in ckpt_config:
+        eval_use_delta = ckpt_config["in_channels"] == 4
+    else:
+        # Fallback: gunakan args.use_delta jika config tidak ada
+        eval_use_delta = bool(args.use_delta)
+    
+    print(f"📥 Dataloader akan menggunakan use_delta={eval_use_delta} (dari checkpoint config)")
+
     # augment=False untuk semua split saat eval
     train_loader, val_loader, split_data = create_dataloaders(
         split_path=split_path,
@@ -249,7 +260,7 @@ def main() -> None:
         val_ratio=args.val_ratio,
         seed=args.seed,
         train_augment=False,
-        use_delta=bool(args.use_delta),
+        use_delta=eval_use_delta, 
     )
 
     num_classes = split_data["meta"]["num_classes"]
@@ -267,7 +278,21 @@ def main() -> None:
 
     ckpt = torch.load(ckpt_path, map_location=device)
 
-    in_channels = 4 if bool(args.use_delta) else 2
+    ckpt_config = ckpt.get("config", {})
+
+    if "use_delta" in ckpt_config:
+        in_channels = 4 if ckpt_config["use_delta"] else 2
+    elif "in_channels" in ckpt_config:
+        in_channels = ckpt_config["in_channels"]
+    else:
+        # Fallback: ambil langsung dari shape weight layer pertama di checkpoint
+        first_conv = ckpt["model_state"].get("features.0.weight")
+        if first_conv is not None:
+            in_channels = first_conv.shape[1]
+        else:
+            in_channels = 4 if bool(args.use_delta) else 2
+
+    print(f"📥 Model di-load dengan in_channels={in_channels} (auto-detected dari checkpoint)")
 
     model = build_model(
         model_name=args.model,

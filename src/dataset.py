@@ -312,10 +312,21 @@ class SignLanguageNPYDataset(Dataset):
     def __getitem__(self, idx: int) -> Dict[str, Any]:
         item = self.items[idx]
 
-        # 🔧 FIX: Resolve path relatif terhadap PROJECT_ROOT saat runtime
-        npy_path = PROJECT_ROOT / item["npy_file"]
+        # 🔧 FIX: Sanitasi path Windows → Linux
+        raw_path = str(item["npy_file"]).replace('\\', '/')
+        
+        # Cari keyword 'npy_dataset' untuk memotong prefix Windows
+        import re
+        match = re.search(r'(npy_dataset/.+\.npy)$', raw_path)
+        if match:
+            # Ambil hanya bagian relatif: npy_dataset/belum/file.npy
+            relative_path = match.group(1)
+            npy_path = PROJECT_ROOT / "dataset" / relative_path
+        else:
+            # Fallback: jika path sudah bersih, gunakan langsung
+            npy_path = Path(raw_path) if Path(raw_path).is_absolute() else PROJECT_ROOT / raw_path
 
-        # Validasi (opsional tapi sangat disarankan agar error lebih jelas)
+        # Validasi file
         if not npy_path.exists():
             raise FileNotFoundError(f"❌ File .npy tidak ditemukan: {npy_path}")
 
