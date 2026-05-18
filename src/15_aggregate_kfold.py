@@ -189,7 +189,7 @@ def plot_boxplot_by_fold(metrics_list, output_path: Path):
     
     df = pd.DataFrame(data_for_plot)
     plt.figure(figsize=(12, 6))
-    sns.boxplot(data=df, x="config", y="accuracy", palette="Set2")
+    sns.boxplot(data=df, x="config", y="accuracy", hue="config", palette="Set2", legend=False)
     plt.ylabel("Akurasi (%)")
     plt.title("Distribusi Akurasi per Lipatan (5-Fold)")
     plt.xticks(rotation=45, ha="right")
