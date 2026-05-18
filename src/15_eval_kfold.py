@@ -90,22 +90,48 @@ def extract_config_from_filename(filename: str):
 
 def load_all_metrics():
     metrics_list = []
-    for json_file in REPORT_DIR.glob("metrics_*.json"):
+    seen_keys = set()  # Untuk hindari duplikat (model, fold, fitur)
+    
+    # ✅ Scan REKURSIF (baca root & subfolder)
+    for json_file in REPORT_DIR.rglob("metrics_*.json"):
+        # ✅ Filter ketat: abaikan file aneh/lama
+        if not re.match(r'metrics_(cnn2d|resnet18|resnet34|resnet50)', json_file.name):
+            continue
+            
         try:
             with open(json_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            config = extract_config_from_filename(json_file.stem)
+            
+            # Baca fitur langsung dari konten JSON
+            features = "xy" if data.get("use_delta") is False else "xy_dxdy"
+            
+            # Parse model & fold dari nama file
+            model_match = re.search(r'(cnn2d|resnet18|resnet34|resnet50)', json_file.stem)
+            fold_match = re.search(r'fold(\d+)', json_file.stem)
+            
+            if not model_match or not fold_match:
+                continue
+                
+            model = model_match.group(1)
+            fold = int(fold_match.group(1))
+            
+            # ✅ Deduplikasi: jika (model, fold, fitur) sudah ada, skip
+            key = (model, fold, features)
+            if key in seen_keys:
+                continue
+            seen_keys.add(key)
+            
             metrics_list.append({
-                "config": config,
+                "config": {"model": model, "features": features, "fold": fold},
                 "accuracy": data["accuracy"],
                 "f1_macro": data["f1_macro"],
                 "per_class": data["per_class"],
                 "confusion_matrix": np.array(data["confusion_matrix"])
             })
         except Exception as e:
-            print(f"⚠️  Gagal load {json_file.name}: {e}")
+            continue  # Skip file corrupt/error baca
     return metrics_list
-
+         
 def aggregate_by_config(metrics_list):
     grouped = defaultdict(list)
     for m in metrics_list:
