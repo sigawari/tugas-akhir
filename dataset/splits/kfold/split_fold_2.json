@@ -39,11 +39,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000036.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000036.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00000041",
@@ -51,11 +47,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000041.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000041.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00000137",
@@ -63,11 +55,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000137.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000137.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00000274",
@@ -75,11 +63,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000274.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000274.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00000524",
@@ -87,11 +71,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000524.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000524.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00000639",
@@ -99,11 +79,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000639.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000639.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00000758",
@@ -111,11 +87,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000758.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000758.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00000874",
@@ -123,11 +95,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000874.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000874.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00001110",
@@ -135,11 +103,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00001110.json",
         "npy_file": "dataset/npy_dataset/belum/belum00001110.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00001234",
@@ -147,11 +111,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00001234.json",
         "npy_file": "dataset/npy_dataset/belum/belum00001234.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00001340",
@@ -159,11 +119,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00001340.json",
         "npy_file": "dataset/npy_dataset/belum/belum00001340.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00001567",
@@ -171,11 +127,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00001567.json",
         "npy_file": "dataset/npy_dataset/belum/belum00001567.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00000054",
@@ -183,11 +135,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00000054.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00000054.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00000172",
@@ -195,11 +143,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00000172.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00000172.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00000294",
@@ -207,11 +151,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00000294.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00000294.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00000422",
@@ -219,11 +159,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00000422.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00000422.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00000559",
@@ -231,11 +167,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00000559.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00000559.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00000675",
@@ -243,11 +175,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00000675.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00000675.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00000783",
@@ -255,11 +183,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00000783.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00000783.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00001045",
@@ -267,11 +191,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00001045.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00001045.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00001161",
@@ -279,11 +199,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00001161.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00001161.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00001519",
@@ -291,11 +207,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00001519.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00001519.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00001657",
@@ -303,11 +215,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00001657.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00001657.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00001776",
@@ -315,11 +223,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00001776.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00001776.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_1",
@@ -327,11 +231,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_1.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_1.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_10",
@@ -339,11 +239,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_10.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_10.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_12",
@@ -351,11 +247,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_12.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_12.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_13",
@@ -363,11 +255,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_13.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_13.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_14",
@@ -375,11 +263,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_14.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_14.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_15",
@@ -387,11 +271,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_15.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_15.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_3",
@@ -399,11 +279,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_3.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_3.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_4",
@@ -411,11 +287,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_4.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_4.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_5",
@@ -423,11 +295,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_5.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_5.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_6",
@@ -435,11 +303,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_6.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_6.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_8",
@@ -447,11 +311,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_8.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_8.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_9",
@@ -459,11 +319,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_9.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_9.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00000041",
@@ -471,11 +327,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00000041.json",
         "npy_file": "dataset/npy_dataset/izin/izin00000041.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00000180",
@@ -483,11 +335,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00000180.json",
         "npy_file": "dataset/npy_dataset/izin/izin00000180.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00000349",
@@ -495,11 +343,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00000349.json",
         "npy_file": "dataset/npy_dataset/izin/izin00000349.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00000504",
@@ -507,11 +351,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00000504.json",
         "npy_file": "dataset/npy_dataset/izin/izin00000504.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00000653",
@@ -519,11 +359,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00000653.json",
         "npy_file": "dataset/npy_dataset/izin/izin00000653.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00000800",
@@ -531,11 +367,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00000800.json",
         "npy_file": "dataset/npy_dataset/izin/izin00000800.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00001085",
@@ -543,11 +375,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00001085.json",
         "npy_file": "dataset/npy_dataset/izin/izin00001085.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00001219",
@@ -555,11 +383,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00001219.json",
         "npy_file": "dataset/npy_dataset/izin/izin00001219.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00001502",
@@ -567,11 +391,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00001502.json",
         "npy_file": "dataset/npy_dataset/izin/izin00001502.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00001631",
@@ -579,11 +399,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00001631.json",
         "npy_file": "dataset/npy_dataset/izin/izin00001631.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00001766",
@@ -591,11 +407,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00001766.json",
         "npy_file": "dataset/npy_dataset/izin/izin00001766.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00002032",
@@ -603,11 +415,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00002032.json",
         "npy_file": "dataset/npy_dataset/izin/izin00002032.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00000042",
@@ -615,11 +423,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00000042.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00000042.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00000185",
@@ -627,11 +431,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00000185.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00000185.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00000462",
@@ -639,11 +439,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00000462.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00000462.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00000599",
@@ -651,11 +447,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00000599.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00000599.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00000750",
@@ -663,11 +455,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00000750.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00000750.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00000893",
@@ -675,11 +463,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00000893.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00000893.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00001159",
@@ -687,11 +471,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00001159.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00001159.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00001324",
@@ -699,11 +479,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00001324.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00001324.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00001436",
@@ -711,11 +487,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00001436.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00001436.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00001574",
@@ -723,11 +495,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00001574.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00001574.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00001717",
@@ -735,11 +503,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00001717.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00001717.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00001979",
@@ -747,11 +511,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00001979.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00001979.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00000182",
@@ -759,11 +519,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00000182.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00000182.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00000336",
@@ -771,11 +527,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00000336.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00000336.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00000504",
@@ -783,11 +535,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00000504.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00000504.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00000658",
@@ -795,11 +543,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00000658.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00000658.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00000812",
@@ -807,11 +551,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00000812.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00000812.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00000938",
@@ -819,11 +559,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00000938.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00000938.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00001078",
@@ -831,11 +567,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00001078.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00001078.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00001218",
@@ -843,11 +575,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00001218.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00001218.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00001358",
@@ -855,11 +583,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00001358.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00001358.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00001498",
@@ -867,11 +591,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00001498.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00001498.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00001750",
@@ -879,11 +599,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00001750.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00001750.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00001890",
@@ -891,11 +607,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00001890.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00001890.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00000062",
@@ -903,11 +615,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00000062.json",
         "npy_file": "dataset/npy_dataset/teman/teman00000062.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00000210",
@@ -915,11 +623,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00000210.json",
         "npy_file": "dataset/npy_dataset/teman/teman00000210.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00000582",
@@ -927,11 +631,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00000582.json",
         "npy_file": "dataset/npy_dataset/teman/teman00000582.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00000796",
@@ -939,11 +639,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00000796.json",
         "npy_file": "dataset/npy_dataset/teman/teman00000796.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00000940",
@@ -951,11 +647,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00000940.json",
         "npy_file": "dataset/npy_dataset/teman/teman00000940.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00001146",
@@ -963,11 +655,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00001146.json",
         "npy_file": "dataset/npy_dataset/teman/teman00001146.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00001480",
@@ -975,11 +663,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00001480.json",
         "npy_file": "dataset/npy_dataset/teman/teman00001480.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00001620",
@@ -987,11 +671,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00001620.json",
         "npy_file": "dataset/npy_dataset/teman/teman00001620.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00001760",
@@ -999,11 +679,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00001760.json",
         "npy_file": "dataset/npy_dataset/teman/teman00001760.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00001940",
@@ -1011,11 +687,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00001940.json",
         "npy_file": "dataset/npy_dataset/teman/teman00001940.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00002090",
@@ -1023,11 +695,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00002090.json",
         "npy_file": "dataset/npy_dataset/teman/teman00002090.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00002244",
@@ -1035,11 +703,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00002244.json",
         "npy_file": "dataset/npy_dataset/teman/teman00002244.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00000016",
@@ -1047,11 +711,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00000016.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00000016.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00000156",
@@ -1059,11 +719,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00000156.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00000156.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00000438",
@@ -1071,11 +727,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00000438.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00000438.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00000710",
@@ -1083,11 +735,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00000710.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00000710.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00000836",
@@ -1095,11 +743,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00000836.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00000836.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00001092",
@@ -1107,11 +751,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00001092.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00001092.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00001208",
@@ -1119,11 +759,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00001208.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00001208.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00001340",
@@ -1131,11 +767,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00001340.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00001340.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00001462",
@@ -1143,11 +775,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00001462.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00001462.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00001586",
@@ -1155,11 +783,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00001586.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00001586.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00001708",
@@ -1167,11 +791,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00001708.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00001708.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00001832",
@@ -1179,11 +799,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00001832.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00001832.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000024",
@@ -1191,11 +807,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000024.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000024.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000140",
@@ -1203,11 +815,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000140.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000140.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000347",
@@ -1215,11 +823,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000347.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000347.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000493",
@@ -1227,11 +831,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000493.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000493.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000613",
@@ -1239,11 +839,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000613.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000613.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000729",
@@ -1251,11 +847,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000729.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000729.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000987",
@@ -1263,11 +855,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000987.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000987.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00001105",
@@ -1275,11 +863,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00001105.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00001105.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00001227",
@@ -1287,11 +871,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00001227.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00001227.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00001349",
@@ -1299,11 +879,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00001349.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00001349.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00001595",
@@ -1311,11 +887,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00001595.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00001595.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00001717",
@@ -1323,11 +895,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00001717.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00001717.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00000178",
@@ -1335,11 +903,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00000178.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00000178.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00000300",
@@ -1347,11 +911,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00000300.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00000300.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00000456",
@@ -1359,11 +919,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00000456.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00000456.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00000630",
@@ -1371,11 +927,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00000630.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00000630.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00000758",
@@ -1383,11 +935,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00000758.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00000758.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00000916",
@@ -1395,11 +943,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00000916.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00000916.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00001072",
@@ -1407,11 +951,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00001072.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00001072.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00001342",
@@ -1419,11 +959,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00001342.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00001342.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00001474",
@@ -1431,11 +967,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00001474.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00001474.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00001742",
@@ -1443,11 +975,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00001742.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00001742.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00001882",
@@ -1455,11 +983,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00001882.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00001882.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00002016",
@@ -1467,11 +991,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00002016.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00002016.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       }
     ],
     "val": [
@@ -1481,11 +1001,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000408.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000408.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00000983",
@@ -1493,11 +1009,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00000983.json",
         "npy_file": "dataset/npy_dataset/belum/belum00000983.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "belum00001456",
@@ -1505,11 +1017,7 @@
         "label_id": 0,
         "json_file": "dataset/normalized_json/belum/belum00001456.json",
         "npy_file": "dataset/npy_dataset/belum/belum00001456.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00000931",
@@ -1517,11 +1025,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00000931.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00000931.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00001278",
@@ -1529,11 +1033,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00001278.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00001278.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hati_hati00001399",
@@ -1541,11 +1041,7 @@
         "label_id": 1,
         "json_file": "dataset/normalized_json/hati_hati/hati_hati00001399.json",
         "npy_file": "dataset/npy_dataset/hati_hati/hati_hati00001399.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_11",
@@ -1553,11 +1049,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_11.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_11.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_2",
@@ -1565,11 +1057,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_2.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_2.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "hobi_7",
@@ -1577,11 +1065,7 @@
         "label_id": 2,
         "json_file": "dataset/normalized_json/hobi/hobi_7.json",
         "npy_file": "dataset/npy_dataset/hobi/hobi_7.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00000944",
@@ -1589,11 +1073,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00000944.json",
         "npy_file": "dataset/npy_dataset/izin/izin00000944.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00001362",
@@ -1601,11 +1081,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00001362.json",
         "npy_file": "dataset/npy_dataset/izin/izin00001362.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "izin00001891",
@@ -1613,11 +1089,7 @@
         "label_id": 3,
         "json_file": "dataset/normalized_json/izin/izin00001891.json",
         "npy_file": "dataset/npy_dataset/izin/izin00001891.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00000325",
@@ -1625,11 +1097,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00000325.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00000325.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00001023",
@@ -1637,11 +1105,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00001023.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00001023.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "maaf00001850",
@@ -1649,11 +1113,7 @@
         "label_id": 4,
         "json_file": "dataset/normalized_json/maaf/maaf00001850.json",
         "npy_file": "dataset/npy_dataset/maaf/maaf00001850.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00000028",
@@ -1661,11 +1121,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00000028.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00000028.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00001638",
@@ -1673,11 +1129,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00001638.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00001638.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "sahabat00002058",
@@ -1685,11 +1137,7 @@
         "label_id": 5,
         "json_file": "dataset/normalized_json/sahabat/sahabat00002058.json",
         "npy_file": "dataset/npy_dataset/sahabat/sahabat00002058.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00000402",
@@ -1697,11 +1145,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00000402.json",
         "npy_file": "dataset/npy_dataset/teman/teman00000402.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00001300",
@@ -1709,11 +1153,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00001300.json",
         "npy_file": "dataset/npy_dataset/teman/teman00001300.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "teman00002424",
@@ -1721,11 +1161,7 @@
         "label_id": 6,
         "json_file": "dataset/normalized_json/teman/teman00002424.json",
         "npy_file": "dataset/npy_dataset/teman/teman00002424.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00000290",
@@ -1733,11 +1169,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00000290.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00000290.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00000578",
@@ -1745,11 +1177,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00000578.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00000578.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "terima_kasih00000956",
@@ -1757,11 +1185,7 @@
         "label_id": 7,
         "json_file": "dataset/normalized_json/terima_kasih/terima_kasih00000956.json",
         "npy_file": "dataset/npy_dataset/terima_kasih/terima_kasih00000956.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000257",
@@ -1769,11 +1193,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000257.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000257.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00000867",
@@ -1781,11 +1201,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00000867.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00000867.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "tidak_punya00001471",
@@ -1793,11 +1209,7 @@
         "label_id": 8,
         "json_file": "dataset/normalized_json/tidak_punya/tidak_punya00001471.json",
         "npy_file": "dataset/npy_dataset/tidak_punya/tidak_punya00001471.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00000034",
@@ -1805,11 +1217,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00000034.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00000034.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00001210",
@@ -1817,11 +1225,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00001210.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00001210.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       },
       {
         "video_id": "ulang00001606",
@@ -1829,11 +1233,7 @@
         "label_id": 9,
         "json_file": "dataset/normalized_json/ulang/ulang00001606.json",
         "npy_file": "dataset/npy_dataset/ulang/ulang00001606.npy",
-        "shape": [
-          90,
-          122,
-          2
-        ]
+        "shape": [90, 122, 2]
       }
     ]
   }
