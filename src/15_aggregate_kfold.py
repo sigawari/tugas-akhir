@@ -17,12 +17,10 @@ def parse_args():
     p.add_argument("--report_dir", type=str, default="reports")
     p.add_argument("--output_dir", type=str, default="reports/aggregated")
     p.add_argument("--models", nargs="+", default=["cnn2d", "resnet18", "resnet34", "resnet50"])
-    # Default fitur disesuaikan dengan USE_DELTA=1 di 14_run_kfold.py
-    p.add_argument("--features", nargs="+", default=["xy_dxdy"]) 
     return p.parse_args()
 
-def extract_config_from_filename(filename: str):
-    """Parse filename secara robust menggunakan regex."""
+def extract_config_from_filename(filename: str, report_dir: Path):
+    """Parse filename + baca use_delta dari JSON untuk tentukan fitur."""
     clean = filename.replace("metrics_", "").replace(".json", "")
     
     model_match = re.search(r'(cnn2d|resnet18|resnet34|resnet50)', clean)
@@ -31,10 +29,17 @@ def extract_config_from_filename(filename: str):
     fold_match = re.search(r'fold(\d+)', clean)
     fold = int(fold_match.group(1)) if fold_match else 0
 
-    # Karena 14_run_kfold.py menghardcode USE_DELTA=1, semua hasil saat ini adalah xy_dxdy.
-    # Jika nanti menjalankan eksperimen dengan USE_DELTA=0, ubah logika ini atau baca dari config checkpoint.
-    features = "xy_dxdy" 
-
+    # Baca use_delta langsung dari file metrics
+    json_path = report_dir / f"{filename}.json"
+    features = "xy_dxdy"  # default
+    if json_path.exists():
+        try:
+            with open(json_path, "r") as f:
+                data = json.load(f)
+            if data.get("use_delta") is False:
+                features = "xy"
+        except:
+            pass
     return {"model": model, "features": features, "fold": fold}
 
 def load_all_metrics(report_dir: Path):
@@ -44,7 +49,7 @@ def load_all_metrics(report_dir: Path):
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)
         
-        config = extract_config_from_filename(json_file.stem)
+        config = extract_config_from_filename(json_file.stem, report_dir)
         
         metrics_list.append({
             "config": config,

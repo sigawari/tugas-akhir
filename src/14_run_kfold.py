@@ -44,9 +44,8 @@ for model_name in MODELS:
             print(f"⚠️  Skip fold {fold_id}: File {split_path} tidak ditemukan.")
             continue
 
-        # 🏷️ NAMA RUN UNIK & INFORMATIF (Kunci anti-bentrok)
-        # Contoh: resnet34_lr0.0001_bs16_fold3
-        unique_run_name = f"{model_name}_lr{LR}_bs{BATCH_SIZE}_fold{fold_id}"
+        feat_tag = "xy_dxdy" if USE_DELTA else "xy"
+        unique_run_name = f"{model_name}_{feat_tag}_lr{LR}_bs{BATCH_SIZE}_fold{fold_id}"
 
         print(f"\n   ▶️  Running: {unique_run_name}")
 

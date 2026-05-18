@@ -428,6 +428,7 @@ def main() -> None:
             for i in range(num_classes)
         },
         "confusion_matrix": cm.tolist(),
+        "use_delta": eval_use_delta,
     }
 
     with open(metrics_path, "w", encoding="utf-8") as f:
