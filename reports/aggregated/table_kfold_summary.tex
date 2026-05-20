@@ -1,0 +1,17 @@
+\begin{table}[H]
+  \centering
+  \caption{Hasil Evaluasi K-Fold Cross-Validation (Mean $\pm$ Std Dev)}
+  \label{tab:kfold-detailed}
+  \begin{tabular}{|l|l|c|c|}
+  \hline
+  \textbf{Model} & \textbf{Fitur} & \textbf{Akurasi (\%)} & \textbf{F1-Score (\%)} \\ \hline
+cnn2d & xy & 89.33 $\pm$ 1.33 & 85.98 $\pm$ 1.37 \\ \hline
+cnn2d & xy_dxdy & 86.22 $\pm$ 6.07 & 83.17 $\pm$ 8.04 \\ \hline
+resnet18 & xy & 100.00 $\pm$ 0.00 & 100.00 $\pm$ 0.00 \\ \hline
+resnet18 & xy_dxdy & 100.00 $\pm$ 0.00 & 100.00 $\pm$ 0.00 \\ \hline
+resnet34 & xy & 99.17 $\pm$ 1.44 & 99.14 $\pm$ 1.48 \\ \hline
+resnet34 & xy_dxdy & 98.70 $\pm$ 1.62 & 98.67 $\pm$ 1.67 \\ \hline
+resnet50 & xy & 97.04 $\pm$ 3.99 & 96.81 $\pm$ 4.36 \\ \hline
+resnet50 & xy_dxdy & 95.56 $\pm$ 3.78 & 95.43 $\pm$ 3.89 \\ \hline
+  \end{tabular}
+\end{table}

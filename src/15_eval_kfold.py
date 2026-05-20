@@ -22,7 +22,7 @@ FOLDS  = range(1, 6)
 # 2. EVALUASI OTOMATIS (FIXED)
 # ==========================
 def run_evaluation():
-    print("🚀 Memulai evaluasi k-fold otomatis (xy & xy_dxdy)...\n")
+    print("Memulai evaluasi k-fold otomatis (xy & xy_dxdy)...\n")
     eval_count = 0
     failed_list = []
 
@@ -90,7 +90,7 @@ def extract_config_from_filename(filename: str):
 
 def load_all_metrics():
     metrics_list = []
-    seen_keys = set()  # Untuk hindari duplikat (model, fold, fitur)
+    seen_keys = set()  
     
     # ✅ Scan REKURSIF (baca root & subfolder)
     for json_file in REPORT_DIR.rglob("metrics_*.json"):
