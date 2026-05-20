@@ -88,4 +88,4 @@ for model_name in MODELS:
 
     print(f"\n💤 Model {model_name.upper()} selesai. Lanjut model berikutnya...\n")
 
-print("🎉 SEMUA EKSPERIMEN SELESAI! Cek dashboard W&B: wandb.ai")
+print("SEMUA EKSPERIMEN SELESAI! Cek dashboard W&B: wandb.ai")
