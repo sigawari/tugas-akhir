@@ -92,12 +92,9 @@ def load_all_metrics():
     metrics_list = []
     seen_keys = set()  
     
-    # ✅ Scan REKURSIF (baca root & subfolder)
     for json_file in REPORT_DIR.rglob("metrics_*.json"):
-        # ✅ Filter ketat: abaikan file aneh/lama
         if not re.match(r'metrics_(cnn2d|resnet18|resnet34|resnet50)', json_file.name):
             continue
-            
         try:
             with open(json_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -115,7 +112,6 @@ def load_all_metrics():
             model = model_match.group(1)
             fold = int(fold_match.group(1))
             
-            # ✅ Deduplikasi: jika (model, fold, fitur) sudah ada, skip
             key = (model, fold, features)
             if key in seen_keys:
                 continue
