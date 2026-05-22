@@ -1,23 +1,15 @@
-# 🇮🇩 Indonesian Sign Language (BISINDO) Translation to Text
+# 📘 Reka Cipta Sistem Penerjemah Bahasa Isyarat Indonesia (BISINDO) ke Teks
 
-### using Spatial ResNet-2D and MediaPipe Landmark Representation
-
-## 🧠 Project Overview
-
-This project investigates the **engineered utilization of a 2D Residual Network (ResNet-2D)** for translating **Indonesian Sign Language (BISINDO)** into text using **landmark-based spatial representations extracted with MediaPipe Holistic**.
-
-Unlike most existing approaches that rely heavily on **temporal sequence models** such as LSTM, GRU, or Transformers, this research explores whether **purely spatial convolutional models** can effectively recognize **isolated BISINDO signs** when temporal information is encoded implicitly through structured landmark representations.
-
-The system focuses on **Isolated Sign Language Recognition (ISLR)** and targets **basic BISINDO vocabulary** commonly used in daily communication.
+Proyek ini merupakan bagian dari **Tugas Akhir** dengan fokus pada penerjemahan gerakan **Bahasa Isyarat Indonesia (BISINDO)** menjadi teks menggunakan **deep learning**.  
+Tahap awal penelitian ini dilakukan secara bertahap (preliminary) untuk memahami pipeline data, pemrosesan landmark dengan **MediaPipe**, serta eksplorasi model berbasis **RNN (LSTM & GRU)**.
 
 ---
 
-## 🎯 Research Objectives
+## 🎯 Tujuan Utama
 
-- Investigate the feasibility of **ResNet-2D as a spatial-only model** for BISINDO recognition.
-- Design a **multichannel landmark representation** that embeds motion information without explicit temporal modeling.
-- Analyze the impact of different **landmark combinations** (pose, hands, face) on recognition performance.
-- Provide empirical evidence that **2D CNNs can learn temporal patterns implicitly** through structured spatial inputs.
+- Membuat sistem yang mampu menangkap gerakan isyarat melalui kamera.
+- Mengekstrak landmark wajah, tangan, dan pose menggunakan **MediaPipe Holistic**.
+- Melatih model berbasis **RNN** untuk menerjemahkan gestur menjadi teks.
 
 ---
 
@@ -38,84 +30,31 @@ The system focuses on **Isolated Sign Language Recognition (ISLR)** and targets 
 
 - Each landmark is represented as normalized 2D coordinates.
 
-### 3. Spatial Multichannel Representation
+### 2️⃣ Tahap Kedua: JSON
 
-- For each landmark:
+![Phase of Data Collecting](json_collect.png)
 
-  - Spatial position: `(x, y)`
-    - Motion features: `(Δx, Δy)` computed between consecutive frames
-
-- Landmarks are arranged into a **2D matrix (time × landmark index)**.
-- The final input tensor has the shape:
-
-  ```
-  (Batch, Channels, Time, Landmarks)
-  Channels = \[x, y, Δx, Δy\]
-  ```
-
-### 4. Model Architecture
-
-- Backbone: **ResNet-18 / ResNet-34 (2D)**
-- Input layer modified to accept **4-channel non-RGB input**
-- No LSTM, GRU, or Transformer is used
-- Temporal dynamics are captured **implicitly** through spatial structure
-
-### 5. Evaluation
-
-- Classification metrics:
-
-  - Accuracy
-  - Precision
-  - Recall
-  - F1-score
-  - Confusion Matrix
+- Data sequence disimpan dalam format **JSON** agar lebih mudah dibaca dan diinspeksi.
+- Struktur JSON mencakup:
+  - Metadata (id video, fps, jumlah frame, jumlah landmark).
+  - Frame-by-frame landmark (pose, face, tangan kiri, tangan kanan).
+- Proses pengumpulan data dilakukan dengan menyimpan sequence gerakan dalam format JSON.
+- Setiap file JSON mewakili satu video gesture dengan struktur yang telah ditentukan.
+- Tujuan utama: **mempersiapkan dataset standar** untuk pelatihan model serta mengumpulkan dataset yang cukup untuk eksplorasi model.
+- File JSON yang dihasilkan dapat digunakan langsung untuk eksplorasi model.
 
 ---
 
-## 🧩 Key Contributions
+## 🔮 Rencana Selanjutnya
 
-- Demonstrates that **ResNet-2D can be applied beyond RGB images** for structured landmark data.
-- Introduces a **lightweight spatial alternative** to temporal-heavy sign language models.
-- Provides insight into how **implicit temporal encoding** can reduce model complexity.
-- Extends landmark-based BISINDO research beyond static image classification.
-
----
-
-## ⚠️ Scope and Limitations
-
-- Focuses exclusively on **Isolated Sign Language Recognition (ISLR)**.
-- Vocabulary size is limited to a small set of basic BISINDO signs.
-- Does not handle continuous sentence-level translation.
-- Landmark depth (`z`) is intentionally excluded due to instability in monocular estimation.
+- **Model Awal:** LSTM digunakan sebagai baseline untuk memproses sequence gesture → teks.
+- **Model Lanjutan:** Mengeksplorasi **GRU** untuk membandingkan performa dan efisiensi.
+- Evaluasi dilakukan berdasarkan **akurasi penerjemahan** serta **kecepatan inferensi**.
 
 ---
 
-## 🚀 Future Work
+## ✨ Catatan
 
-- Extend the approach to **Continuous Sign Language Recognition (CSLR)**.
-- Explore hybrid spatial–temporal architectures for comparison.
-- Increase dataset diversity (signers, lighting, camera quality).
-- Investigate attention mechanisms on spatial landmark representations.
-
----
-
-## 📄 Academic Context
-
-This repository contains documentation, experimental code, and research materials for the undergraduate thesis of:
-
-**Sikah Nubuahtul Ilmi**
-Bachelor of Informatics Engineering (S-1)
-Faculty of Industrial Technology
-Institut Teknologi Sumatera (ITERA)
-
----
-
-## 🏷️ Thesis Titles
-
-**Bahasa Indonesia**
-
-> _Reka Cipta Pemanfaatan ResNet-2D dalam Penerjemahan Bahasa Isyarat Indonesia (BISINDO) Berbasis Landmark MediaPipe_
-
-**English**
-
-> _Engineered Utilization of ResNet-2D for Indonesian Sign Language Translation Based on MediaPipe Landmarks_
+- Dataset saat ini masih dalam tahap awal (gesture sederhana seperti _halo_, _terima kasih_).
+- Format penyimpanan akan terus dieksplorasi hingga didapat format optimal untuk pelatihan model.
+- Dokumentasi ini akan terus diperbarui seiring perkembangan proyek.
