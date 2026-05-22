@@ -5,22 +5,30 @@ Tahap awal penelitian ini dilakukan secara bertahap (preliminary) untuk memahami
 
 ---
 
-## 🎯 Research Objectives
+## 🎯 Tujuan Utama
 
-- Investigate the feasibility of **ResNet-2D as a spatial-only model** for BISINDO recognition.
-- Design a **multichannel landmark representation** that embeds motion information without explicit temporal modeling.
-- Analyze the impact of different **landmark combinations** (pose, hands, face) on recognition performance.
-- Provide empirical evidence that **2D CNNs can learn temporal patterns implicitly** through structured spatial inputs.
+- Membuat sistem yang mampu menangkap gerakan isyarat melalui kamera.
+- Mengekstrak landmark wajah, tangan, dan pose menggunakan **MediaPipe Holistic**.
+- Melatih model berbasis **RNN** untuk menerjemahkan gestur menjadi teks.
 
 ---
 
-## 🧩 Progres Preliminary
+## 🔬 Methodology Overview
 
-### 1️⃣ Tahap Pertama: NumPy
+### 1. Data Acquisition
 
-- Landmark dari MediaPipe disimpan dalam bentuk **array NumPy**.
-- Setiap sequence (gerakan isyarat) direpresentasikan sebagai matriks berisi koordinat landmark.
-- Tujuan utama: **validasi pipeline data** sebelum menyimpan ke format lain.
+- Videos of isolated BISINDO gestures are recorded under controlled conditions.
+- Each sample represents **one complete sign gesture** with fixed start and end boundaries.
+
+### 2. Landmark Extraction
+
+- **MediaPipe Holistic** is used to extract:
+
+  - Body pose landmarks
+  - Hand landmarks
+  - Facial landmarks
+
+- Each landmark is represented as normalized 2D coordinates.
 
 ### 2️⃣ Tahap Kedua: JSON
 
