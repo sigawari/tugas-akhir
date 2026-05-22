@@ -5,11 +5,12 @@ Tahap awal penelitian ini dilakukan secara bertahap (preliminary) untuk memahami
 
 ---
 
-## 🎯 Tujuan Utama
+## 🎯 Research Objectives
 
-- Membuat sistem yang mampu menangkap gerakan isyarat melalui kamera.
-- Mengekstrak landmark wajah, tangan, dan pose menggunakan **MediaPipe Holistic**.
-- Melatih model berbasis **RNN** untuk menerjemahkan gestur menjadi teks.
+- Investigate the feasibility of **ResNet-2D as a spatial-only model** for BISINDO recognition.
+- Design a **multichannel landmark representation** that embeds motion information without explicit temporal modeling.
+- Analyze the impact of different **landmark combinations** (pose, hands, face) on recognition performance.
+- Provide empirical evidence that **2D CNNs can learn temporal patterns implicitly** through structured spatial inputs.
 
 ---
 
