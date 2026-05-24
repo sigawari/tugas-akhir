@@ -179,10 +179,9 @@ def main():
     # Model
     model = build_model(model_name, n_classes=n_classes,
                         in_channels=in_channels, dropout=dropout).to(device)
-    for name, param in model.named_parameters():
-        
-    if not any(k in name for k in ['layer4', 'fc']):
-        param.requires_grad = False
+    # for name, param in model.named_parameters():
+    #     if not any(k in name for k in ['layer4', 'fc']):
+    #         param.requires_grad = False
 
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     logger.info(f"Parameter trainable setelah freeze: {trainable:,}")

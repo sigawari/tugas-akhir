@@ -2,13 +2,13 @@ model:
   input_channels: 1 # 1-channel pseudo-image (bukan 4 — delta sudah di-flatten jadi width)
   num_classes: 10
   resnet_version: "resnet18" # pilihan: resnet18 | resnet34 | resnet50 | cnn2d
-  dropout: 0.3
+  dropout: 0.5
 
 training:
   batch_size: 8 # kecil karena dataset kecil (120 train samples)
   epochs: 150
-  learning_rate: 0.001
-  weight_decay: 0.001
+  learning_rate: 0.0001
+  weight_decay: 0.01
   early_stopping_patience: 10
   optimizer: "adamw" # adamw lebih stabil dari adam untuk dataset kecil
   scheduler: "cosine" # cosine annealing, eta_min = 1e-6
