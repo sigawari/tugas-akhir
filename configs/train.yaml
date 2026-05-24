@@ -1,33 +1,35 @@
 model:
-  input_channels: 1 # 1-channel pseudo-image (bukan 4 — delta sudah di-flatten jadi width)
+  input_channels: 1 # 1-channel pseudo-image (delta di-flatten ke width)
   num_classes: 10
   resnet_version: "resnet18" # pilihan: resnet18 | resnet34 | resnet50 | cnn2d
   dropout: 0.5
+  use_delta: true # false = xy only, true = xy + delta
 
 training:
-  batch_size: 8 # kecil karena dataset kecil (120 train samples)
-  epochs: 150
-  learning_rate: 0.0001
-  weight_decay: 0.01
-  early_stopping_patience: 10
-  optimizer: "adamw" # adamw lebih stabil dari adam untuk dataset kecil
-  scheduler: "cosine" # cosine annealing, eta_min = 1e-6
+  batch_size: 16 # dinaikkan: 120 sampel, batch 8 terlalu granular
+  epochs: 200 # dinaikkan: beri ruang cosine annealing bekerja
+  learning_rate: 0.001 # dinaikkan: 1e-5 terlalu lambat untuk dataset kecil
+  weight_decay: 0.01 # dinaikkan: regularisasi lebih kuat, 120 sampel rawan overfit
+  early_stopping_patience: 15 # dinaikkan: harus lebih panjang dari satu siklus cosine
+  optimizer: "adamw"
+  scheduler: "cosine"
   seed: 42
 
 split:
   n_total: 15 # total klip per kelas
-  n_test: 3 # klip 13-15 → test (kronologis, bukan random)
-  # klip 1-12 → train otomatis
+  n_test:
+    3 # klip 13-15 → test (kronologis)
+    # klip 1-12  → train otomatis
 
 augmentation:
   enabled: true
   temporal_resample:
     enabled: true
-    speed_min: 0.75
-    speed_max: 1.25
+    speed_min: 0.85 # dipersempit: 0.75 terlalu ekstrem untuk 90 frame
+    speed_max: 1.15
   jitter:
     enabled: true
-    std: 0.01
+    std: 0.01 # tetap, sesuai skala koordinat ternormalisasi
   scale:
     enabled: true
     min: 0.9
@@ -36,7 +38,7 @@ augmentation:
     enabled: true
     prob: 0.1
   flip:
-    enabled: false
+    enabled: false # dimatikan: gesture isyarat tidak simetris
     prob: 0.5
 
 paths:

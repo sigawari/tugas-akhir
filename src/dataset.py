@@ -46,16 +46,18 @@ class BISINDODataset(Dataset):
     }
 
     def __init__(
-        self,
-        X: np.ndarray,
-        y: np.ndarray,
-        augment: bool = False,
-        cfg_aug: dict | None = None,
+    self,
+    X: np.ndarray,
+    y: np.ndarray,
+    augment: bool = False,
+    cfg_aug: dict | None = None,
+    use_delta: bool = True,   
     ):
         self.X       = X.astype(np.float32)
         self.y       = y.astype(np.int64)
         self.augment = augment
         self.aug     = cfg_aug if cfg_aug is not None else self._DEFAULT_AUG
+        self.use_delta = use_delta                        
         self.N, self.T, self.L, _ = X.shape
 
     def __len__(self) -> int:
@@ -77,14 +79,18 @@ class BISINDODataset(Dataset):
             if self.aug.get("flip", {}).get("enabled", True):
                 clip = self._horizontal_flip(clip)
 
-        # 2. Hitung delta SETELAH augmentasi
-        delta = self._compute_delta(clip)        # (T, L, 2)
+        # 2. Delta & concat
+        if self.use_delta:
+            delta    = self._compute_delta(clip)        # (T, L, 2)
+            combined = np.concatenate([clip, delta], axis=-1)  # (T, L, 4)
+        else:
+            combined = clip                              # (T, L, 2)
 
-        # 3. Concat [x, y, dx, dy] -> (T, L, 4)
-        combined = np.concatenate([clip, delta], axis=-1)
+        # 3. Flatten: (T, L, C) -> (T, L*C)
+        flat = combined.reshape(self.T, self.L * combined.shape[-1])
 
-        # 4. Flatten: (T, L, 4) -> (T, L*4) = (T, 488)
-        flat = combined.reshape(self.T, self.L * 4)
+        # 4. Pseudo-image: (1, T, L*C)
+        pseudo_img = flat[np.newaxis, ...]
 
         # 5. Pseudo-image: (T, 488) -> (1, T, 488)
         pseudo_img = flat[np.newaxis, ...]

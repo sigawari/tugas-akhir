@@ -49,6 +49,8 @@ def parse_args():
     p.add_argument("--batch",    type=int,   default=None, help="Override batch_size")
     p.add_argument("--lr",       type=float, default=None, help="Override learning_rate")
     p.add_argument("--config",   type=str,   default="train.yaml")
+    p.add_argument("--use-delta", type=lambda x: x.lower() == "true", default=None)
+    p.add_argument("--label",     type=str, default=None)
     return p.parse_args()
 
 
@@ -123,7 +125,8 @@ def main():
     cfg    = load_config(args.config)
 
     # Ambil config, bisa di-override via argumen
-    model_name  = args.model   or cfg["model"]["resnet_version"]
+    model_name   = args.model or cfg["model"]["resnet_version"]
+    output_label = args.label or model_name
     n_classes   = cfg["model"]["num_classes"]
     in_channels = cfg["model"]["input_channels"]   # harus 1
     dropout     = cfg["model"].get("dropout", 0.3)
@@ -131,6 +134,9 @@ def main():
     epochs      = args.epochs or cfg["training"]["epochs"]
     batch_size  = args.batch  or cfg["training"]["batch_size"]
     lr          = args.lr     or cfg["training"]["learning_rate"]
+
+    use_delta  = args.use_delta if args.use_delta is not None else cfg["model"].get("use_delta", True)
+
     weight_decay = cfg["training"]["weight_decay"]
     patience    = cfg["training"]["early_stopping_patience"]
     seed        = cfg["training"]["seed"]
@@ -152,7 +158,7 @@ def main():
     np.random.seed(seed)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    logger.info(f"Model: {model_name} | Device: {device}")
+    logger.info(f"  MODEL    : {model_name} ({output_label})")
 
     # Load data
     X      = np.load(npy_dir / "X.npy")
@@ -166,8 +172,11 @@ def main():
     )
 
     # Dataset & DataLoader
-    train_ds = BISINDODataset(X_train, y_train, augment=True,  cfg_aug=cfg_aug)
-    test_ds  = BISINDODataset(X_test,  y_test,  augment=False, cfg_aug=None)
+
+    train_ds = BISINDODataset(X_train, y_train, augment=True,
+                            cfg_aug=cfg_aug, use_delta=use_delta)
+    test_ds  = BISINDODataset(X_test,  y_test,  augment=False,
+                            cfg_aug=None,    use_delta=use_delta)
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,
                               num_workers=0, pin_memory=torch.cuda.is_available())
@@ -197,11 +206,13 @@ def main():
     history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": [], "val_f1": []}
     best_val_loss  = float("inf")
     patience_count = 0
-    ckpt_path      = ckpt_dir / f"{model_name}_best.pt"
+    ckpt_path = ckpt_dir / f"{output_label}_best.pt"
     
 
-    logger.info(f"Mulai training {epochs} epoch (patience={patience})...")
+    # Log awal — tampilkan keduanya
+    logger.info(f"Model: {model_name} | Label: {output_label} | Device: {device}")
 
+    
     for epoch in range(1, epochs + 1):
         # Train
         model.train()
@@ -273,10 +284,11 @@ def main():
     logger.info("=" * 55)
 
     # Simpan log & plot
-    log_path = log_dir / f"train_{model_name}.json"
+    log_path = log_dir / f"train_{output_label}.json"
     with open(log_path, "w") as f:
         json.dump({
             "model": model_name,
+            "label":  output_label,
             "history": history,
             "final": {
                 "accuracy": final_acc, "f1_macro": final_f1,
@@ -287,7 +299,7 @@ def main():
         }, f, indent=2)
     logger.info(f"Log → {log_path}")
 
-    save_plots(history, plot_dir / f"loss_{model_name}.png")
+    save_plots(history, plot_dir / f"loss_{output_label}.png")
 
 
 if __name__ == "__main__":

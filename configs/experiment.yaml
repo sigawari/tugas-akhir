@@ -1,8 +1,48 @@
-experiment_name: "resnet18_with_velocity_features"
-description: "Eksperimen menggunakan koordinat (x,y) ditambah fitur kecepatan (dx,dy)"
+experiment_name: "bisindo_slr_ablation"
+description: >
+  Studi ablasi pengaruh fitur kecepatan (use_delta) dan kedalaman ResNet
+  terhadap klasifikasi gesture BISINDO berbasis pseudo-image koordinat landmark.
 
-settings:
-  run_date: "2026-05-24"
-  features:
-    include_xy: true
-    include_delta: true
+# ── 6 kondisi eksperimen ─────────────────────────────────────────────────────
+# Setiap kombinasi (resnet_version x use_delta) dijalankan dengan seed yang sama
+# agar hasil bisa dibandingkan secara adil.
+#
+#  ID | model     | use_delta | input_width | keterangan
+# ----+-----------+-----------+-------------+-----------------------------
+#   1 | resnet18  | false     | 244 (xy)    | baseline ringan
+#   2 | resnet18  | true      | 488 (xy+dxy)| baseline + velocity
+#   3 | resnet34  | false     | 244         | arsitektur lebih dalam
+#   4 | resnet34  | true      | 488         |
+#   5 | resnet50  | false     | 244         | arsitektur paling dalam
+#   6 | resnet50  | true      | 488         |
+
+experiments:
+  - id: 1
+    model: "resnet18"
+    use_delta: false
+    label: "resnet18_xy"
+
+  - id: 2
+    model: "resnet18"
+    use_delta: true
+    label: "resnet18_xy_delta"
+
+  - id: 3
+    model: "resnet34"
+    use_delta: false
+    label: "resnet34_xy"
+
+  - id: 4
+    model: "resnet34"
+    use_delta: true
+    label: "resnet34_xy_delta"
+
+  - id: 5
+    model: "resnet50"
+    use_delta: false
+    label: "resnet50_xy"
+
+  - id: 6
+    model: "resnet50"
+    use_delta: true
+    label: "resnet50_xy_delta"
