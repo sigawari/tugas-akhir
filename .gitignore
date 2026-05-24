@@ -1,64 +1,76 @@
-# 1. Large media (NEVER upload)
-*.mp4
+# ============================================================
+#  .gitignore — SLR BISINDO
+#  Dataset di-host di Kaggle: sigawari/slr-bisindo-landmarks
+#  Download via: python scripts/download_dataset.py
+# ============================================================
+
+
+# 1. VIDEO & MEDIA *.mp4
 *.avi
 *.mov
 *.mkv
 *.gif
 
-# 2. Preprocessed dataset (not needed in repo)
-data/raw/data_video/
 
-# 3. Raw JSON if dataset is big
-data/raw/data_json/
+# 2. DATA — download via scripts/download_dataset.py 
+data/raw/
+data/interim/
+data/processed/
+data/_kaggle_tmp/
 
-# 4. Model checkpoints
-*.pt
+# Tetap lacak struktur folder
+!data/**/.gitkeep
+
+
+# 3. MODEL & CHECKPOINT *.pt
 *.pth
 *.onnx
 *.h5
 *.keras
+outputs/checkpoints/
+outputs/plots/
 
-# 5. Python cache
-__pycache__/
-*.pyc
+# Tetap lacak struktur folder
+!outputs/**/.gitkeep
 
-# 6. Jupyter cache
+
+# 4. PYTHON CACHE __pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+
+# 5. JUPYTER 
 .ipynb_checkpoints/
-*.ipynb
 
-# 7. Tooling
-.vscode/
+
+# 6. LOGS & HASIL EKSPERIMEN 
+outputs/logs/*.log
+outputs/logs/*.json
 wandb/
-logs/
-results/
 
-# 8. Archive folder (old experiments)
+# Tetap lacak folder log
+!outputs/logs/.gitkeep
+
+
+# 7. IDE & TOOLING 
+.vscode/
+.idea/
+*.swp
+*.swo
+
+
+# 8. ARSIP & EKSPERIMEN LAMA 
 archive/
+src_old/
+try_result/
+photo/
 
-# 9. Zip / temp files
-*.zip
+
+# 9. ZIP & TEMP *.zip
 *.tar
 *.tar.gz
 
-# 10. Photo folder
-/photo
 
-try_result/
-
-# 11. Processed JSON
-dataset/analysis/
-dataset/analysis2/
-dataset/analysis_normalized/
-dataset/analysis_npy/
-dataset/extracted/
-dataset/video/
-
-# 12. Unecessary reports# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-src_old/
-
-*.json
-*.npy
+# 10. PATH LAMA (sudah tidak dipakai) # Folder dataset/ dulu sebelum refactor ke data/
+dataset/
