@@ -59,3 +59,6 @@ __pycache__/
 *$py.class
 
 src_old/
+
+*.json
+*.npy

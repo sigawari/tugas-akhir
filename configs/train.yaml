@@ -1,0 +1,16 @@
+model:
+  input_channels: 4 # x, y, dx, dy (jika pakai delta)
+  num_classes: 10
+  resnet_version: "resnet18"
+
+training:
+  batch_size: 16
+  epochs: 50
+  learning_rate: 0.0001
+  optimizer: "adam"
+  early_stopping_patience: 10
+  seed: 42
+
+augmentation:
+  frame_drop_rate: 0.1
+  masking_rate: 0.05

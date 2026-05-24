@@ -1,0 +1,12 @@
+paths:
+  raw_data_dir: "data/raw/videos"
+  interim_dir: "data/interim"
+  processed_dir: "data/processed"
+
+preprocessing:
+  frame_count: 90
+  landmark_dim: 122
+  use_velocity: true # Toggle untuk mengaktifkan/nonaktifkan delta x, delta y
+  normalization:
+    reference_joint: "nose" # Atau "neck"
+    scale_method: "minmax" # Contoh metode

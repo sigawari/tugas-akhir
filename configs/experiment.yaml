@@ -1,0 +1,8 @@
+experiment_name: "resnet18_with_velocity_features"
+description: "Eksperimen menggunakan koordinat (x,y) ditambah fitur kecepatan (dx,dy)"
+
+settings:
+  run_date: "2026-05-24"
+  features:
+    include_xy: true
+    include_delta: true
