@@ -1,0 +1,2 @@
+# No additional pip dependencies required.
+# The renaming script can be written using only the Python standard library.
