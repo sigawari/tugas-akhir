@@ -3,10 +3,36 @@ paths:
   interim_dir: "data/interim"
   processed_dir: "data/processed"
 
+  # Subfolder interim (otomatis dibuat oleh preprocessor)
+  extracted_dir: "data/interim/landmarks_extracted" # Step 1: raw MediaPipe output
+  selected_dir: "data/interim/landmarks_selected" # Step 2: 122 landmark terpilih
+  interpolated_dir: "data/interim/landmarks_interpolated" # Step 3: 90 frame + interpolasi
+  normalized_dir: "data/interim/landmarks_normalization" # Step 4: zero-center + scale
+  npy_dir: "data/processed/npy" # Step 5: X.npy, y.npy, labels.npy
+
 preprocessing:
-  frame_count: 90
-  landmark_dim: 122
-  use_velocity: true # Toggle untuk mengaktifkan/nonaktifkan delta x, delta y
+  # ── Frame ────────────────────────────────────────────────────────────
+  target_frames: 90 # semua klip di-crop/pad ke 90 frame
+  fps_source: 30 # fps video rekaman
+
+  # ── Landmark ─────────────────────────────────────────────────────────
+  landmark_total: 122 # total landmark setelah seleksi
+  landmark_breakdown:
+    pose: 12 # indeks 0-11
+    left_hand: 21 # indeks 12-32
+    right_hand: 21 # indeks 33-53
+    face: 68 # indeks 54-121
+
+  confidence_threshold: 0.5 # landmark dengan confidence < 0.5 dianggap absen
+
+  # ── Normalisasi ───────────────────────────────────────────────────────
   normalization:
-    reference_joint: "nose" # Atau "neck"
-    scale_method: "minmax" # Contoh metode
+    zero_center_joint: "hip_center" # titik referensi zero-centering
+    scale_method: "shoulder_width" # p'' = p' / d_shoulder
+    # Catatan: z dan confidence dibuang setelah normalisasi → output (x, y) saja
+
+  # ── Output .npy ───────────────────────────────────────────────────────
+  # Shape akhir sebelum training:
+  #   X.npy      : (150, 90, 122, 2)  float32  — N, T, L, (x,y)
+  #   y.npy      : (150,)             int64    — label index
+  #   labels.npy : (10,)              str      — nama kelas (sorted)

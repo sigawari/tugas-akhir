@@ -1,36 +1,58 @@
-# models.py
-# Model spasial 2D untuk sign recognition berbasis landmark (x, y, dx, dy).
-# Input ke model: (B, 4, T, L) -> diperlakukan sebagai "image" C=4, H=T, W=L
+"""
+models.py
+---------
+Model untuk klasifikasi gesture BISINDO.
+
+Input semua model: (B, 1, 90, 488) — 1-channel pseudo-image
+Output            : (B, n_classes)  — logits mentah
+
+Model tersedia:
+    - CNN2DBaseline  : CNN sederhana sebagai baseline
+    - ResNet18       : ResNet-18 modifikasi (rekomendasi utama TA)
+    - ResNet34       : ResNet-34 modifikasi
+    - ResNet50       : ResNet-50 modifikasi
+
+Factory function:
+    build_model(name, n_classes) -> nn.Module
+"""
 
 from __future__ import annotations
 
-from typing import Any, Optional, List
+from typing import Any
 import torch
 import torch.nn as nn
 from torchvision.models import resnet18, resnet34, resnet50
 
 
-class Basic2DCNN(nn.Module):
+# ===========================================================================
+# 1. CNN2D Baseline (pembanding sederhana)
+# ===========================================================================
+
+class CNN2DBaseline(nn.Module):
+    """CNN 2D sederhana tanpa residual — dipakai sebagai baseline pembanding.
+
+    Input : (B, 1, 90, 488)
+    Output: (B, n_classes)
     """
-    Baseline CNN 2D sederhana untuk input (B, 4, T, L).
-    Tujuan: jadi pembanding "CNN biasa" vs ResNet.
-    """
-    def __init__(self, num_classes: int, in_channels: int = 4, dropout: float = 0.2, **kwargs: Any) -> None:
+
+    def __init__(self, n_classes: int = 10, in_channels: int = 1, dropout: float = 0.3):
         super().__init__()
 
         self.features = nn.Sequential(
-            # (B, 4, T, L)
-            nn.Conv2d(in_channels, 32, kernel_size=3, stride=1, padding=1, bias=False),
+            # Block 1
+            nn.Conv2d(in_channels, 32, kernel_size=3, padding=1, bias=False),
             nn.BatchNorm2d(32),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/2, L/2)
+            nn.MaxPool2d(2, 2),          # (B, 32, 45, 244)
 
-            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1, bias=False),
+            # Block 2
+            nn.Conv2d(32, 64, kernel_size=3, padding=1, bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # (T/4, L/4)
+            nn.MaxPool2d(2, 2),          # (B, 64, 22, 122)
 
-            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1, bias=False),
+            # Block 3
+            nn.Conv2d(64, 128, kernel_size=3, padding=1, bias=False),
             nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
 
@@ -38,125 +60,140 @@ class Basic2DCNN(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Flatten(),                # (B, 128)
+            nn.Flatten(),
             nn.Dropout(p=dropout),
-            nn.Linear(128, num_classes),
+            nn.Linear(128, n_classes),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        z = self.features(x)
-        return self.classifier(z)
+        return self.classifier(self.features(x))
 
 
-def _make_resnet_backbone(kind: str, num_classes: int, in_channels: int) -> nn.Module:
+# ===========================================================================
+# 2. ResNet backbone (shared builder)
+# ===========================================================================
+
+def _build_resnet_backbone(
+    kind: str,
+    n_classes: int,
+    in_channels: int,
+) -> nn.Module:
+    """Modifikasi ResNet standar untuk pseudo-image 1-channel BISINDO.
+
+    Perubahan dari default:
+        conv1 : in_channels → in_channels (bukan 3)
+        conv1 : stride=2 → stride=1  (input 90×488 tidak perlu aggressive downsample)
+        fc    : 1000 → n_classes
+    """
     if kind == "resnet18":
-        backbone = resnet18(weights=None)
+        model = resnet18(weights=None)
     elif kind == "resnet34":
-        backbone = resnet34(weights=None)
+        model = resnet34(weights=None)
     elif kind == "resnet50":
-        backbone = resnet50(weights=None)
+        model = resnet50(weights=None)
     else:
-        raise ValueError(f"Unknown resnet kind: {kind}")
+        raise ValueError(f"Tidak dikenal: {kind}. Pilihan: resnet18 | resnet34 | resnet50")
 
-    # Override conv1 supaya bisa nerima 4 channel (x,y,dx,dy)
-    backbone.conv1 = nn.Conv2d(
+    # Override conv1
+    model.conv1 = nn.Conv2d(
         in_channels,
         64,
         kernel_size=7,
-        stride=2,
+        stride=1,        # stride 1 karena input kecil (90×488)
         padding=3,
         bias=False,
     )
 
-    # Override head classifier
-    in_feats = backbone.fc.in_features
-    backbone.fc = nn.Linear(in_feats, num_classes)
-    return backbone
+    # Override classifier head
+    model.fc = nn.Linear(model.fc.in_features, n_classes)
 
+    return model
+
+
+# ===========================================================================
+# 3. ResNet wrappers
+# ===========================================================================
 
 class ResNet18(nn.Module):
-    def __init__(self, num_classes: int, in_channels: int = 4, **kwargs: Any) -> None:
+    """ResNet-18 untuk pseudo-image 1-channel. Rekomendasi utama TA."""
+
+    def __init__(self, n_classes: int = 10, in_channels: int = 1, **kwargs: Any):
         super().__init__()
-        self.backbone = _make_resnet_backbone("resnet18", num_classes, in_channels)
+        self.backbone = _build_resnet_backbone("resnet18", n_classes, in_channels)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.backbone(x)
 
 
 class ResNet34(nn.Module):
-    def __init__(self, num_classes: int, in_channels: int = 4, **kwargs: Any) -> None:
+    """ResNet-34 untuk pseudo-image 1-channel."""
+
+    def __init__(self, n_classes: int = 10, in_channels: int = 1, **kwargs: Any):
         super().__init__()
-        self.backbone = _make_resnet_backbone("resnet34", num_classes, in_channels)
+        self.backbone = _build_resnet_backbone("resnet34", n_classes, in_channels)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.backbone(x)
 
 
 class ResNet50(nn.Module):
-    def __init__(self, num_classes: int, in_channels: int = 4, **kwargs: Any) -> None:
+    """ResNet-50 untuk pseudo-image 1-channel."""
+
+    def __init__(self, n_classes: int = 10, in_channels: int = 1, **kwargs: Any):
         super().__init__()
-        self.backbone = _make_resnet_backbone("resnet50", num_classes, in_channels)
+        self.backbone = _build_resnet_backbone("resnet50", n_classes, in_channels)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.backbone(x)
 
 
-class ResidualBlock(nn.Module):
-    def __init__(self, in_channels: int, out_channels: int, stride: int = 1):
-        super().__init__()
-        self.conv_path = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1, bias=False),
-            nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(out_channels),
-        )
-        
-        # Shortcut connection (Skip Connection)
-        # Jika dimensi berubah (stride > 1), sesuaikan dimensi inputnya agar bisa dijumlahkan
-        self.shortcut = nn.Sequential()
-        if stride != 1 or in_channels != out_channels:
-            self.shortcut = nn.Sequential(
-                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),
-                nn.BatchNorm2d(out_channels)
-            )
+# ===========================================================================
+# 4. Factory function
+# ===========================================================================
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # Output = Fungsi(x) + x
-        out = self.conv_path(x)
-        out += self.shortcut(x) 
-        return torch.relu(out)
+_MODEL_REGISTRY = {
+    "cnn2d":    CNN2DBaseline,
+    "resnet18": ResNet18,
+    "resnet34": ResNet34,
+    "resnet50": ResNet50,
+}
 
-class CNN2DResidual(nn.Module):
+
+def build_model(name: str, n_classes: int = 10, in_channels: int = 1, **kwargs: Any) -> nn.Module:
+    """Factory function — buat model dari nama string (sesuai train.yaml).
+
+    Parameters
+    ----------
+    name        : "cnn2d" | "resnet18" | "resnet34" | "resnet50"
+    n_classes   : jumlah kelas output
+    in_channels : jumlah channel input (1 untuk pseudo-image BISINDO)
+
+    Returns
+    -------
+    nn.Module siap training
     """
-    Residual CNN 2D hasil modifikasi untuk input (B, 4, T, L).
-    """
-    def __init__(self, num_classes: int, in_channels: int = 4, dropout: float = 0.3, **kwargs: Any):
-        super().__init__()
-        
-        # Initial Layer (Conv 1 Modified)
-        self.conv1 = nn.Sequential(
-            nn.Conv2d(in_channels, 64, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True)
+    name = name.lower()
+    if name not in _MODEL_REGISTRY:
+        raise ValueError(
+            f"Model '{name}' tidak dikenal. "
+            f"Pilihan: {list(_MODEL_REGISTRY.keys())}"
         )
-        
-        # Residual Blocks (Blok dengan Skip Connection)
-        self.layer1 = ResidualBlock(64, 64, stride=1)
-        self.layer2 = ResidualBlock(64, 128, stride=2) # Downsample T dan L
-        self.layer3 = ResidualBlock(128, 256, stride=2)
-        
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.head = nn.Sequential(
-            nn.Flatten(),
-            nn.Dropout(p=dropout),
-            nn.Linear(256, num_classes)
-        )
+    return _MODEL_REGISTRY[name](n_classes=n_classes, in_channels=in_channels, **kwargs)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.conv1(x)   # Conv 1 Modified
-        x = self.layer1(x)  # Residual Block 1
-        x = self.layer2(x)  # Residual Block 2
-        x = self.layer3(x)  # Residual Block 3
-        x = self.avgpool(x) # Average Pooling
-        return self.head(x) # Classification Output
+
+def count_parameters(model: nn.Module) -> int:
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
+# ===========================================================================
+# Sanity check
+# ===========================================================================
+
+if __name__ == "__main__":
+    dummy = torch.randn(4, 1, 90, 488)   # (batch, 1-channel, 90 frame, 488 fitur)
+
+    for name in ["cnn2d", "resnet18", "resnet34", "resnet50"]:
+        model = build_model(name, n_classes=10)
+        out   = model(dummy)
+        params = count_parameters(model)
+        print(f"{name:10s} | output: {tuple(out.shape)} | params: {params:,}")

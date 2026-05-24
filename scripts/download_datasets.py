@@ -22,7 +22,7 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parent.parent
 
 # ── Konfigurasi dataset ───────────────────────────────────────────────────────
-KAGGLE_DATASET = "sigawari/slr-bisindo-landmarks"
+KAGGLE_DATASET = "sikahnubuahtulilmi/slr-bisindo-landmarks"
 DOWNLOAD_DIR   = ROOT_DIR / "data" / "_kaggle_tmp"
 
 # Mapping: nama folder di dalam zip → path tujuan di project

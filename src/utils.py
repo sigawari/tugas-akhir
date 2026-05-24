@@ -22,7 +22,6 @@ def load_config(config_name="experiment.yaml"):
     return config
 
 def get_logger(name):
-    """Setup logger agar output di terminal lebih profesional."""
     logger = logging.getLogger(name)
     if not logger.handlers:
         handler = logging.StreamHandler()
@@ -30,6 +29,7 @@ def get_logger(name):
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         logger.setLevel(logging.INFO)
+    logger.propagate = False  # ← tambah ini
     return logger
 
 def set_seed(seed=42):

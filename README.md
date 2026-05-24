@@ -1,7 +1,7 @@
 ## Setup Dataset
 
 Dataset tersedia di Kaggle (±2 GB):
-https://www.kaggle.com/datasets/sigawari/slr-bisindo-landmarks
+https://www.kaggle.com/datasets/sikahnubuahtulilmi/slr-bisindo-landmarks
 
 ### Prasyarat
 

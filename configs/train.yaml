@@ -1,16 +1,46 @@
 model:
-  input_channels: 4 # x, y, dx, dy (jika pakai delta)
+  input_channels: 1 # 1-channel pseudo-image (bukan 4 — delta sudah di-flatten jadi width)
   num_classes: 10
-  resnet_version: "resnet18"
+  resnet_version: "resnet18" # pilihan: resnet18 | resnet34 | resnet50 | cnn2d
+  dropout: 0.3
 
 training:
-  batch_size: 16
-  epochs: 50
-  learning_rate: 0.0001
-  optimizer: "adam"
+  batch_size: 8 # kecil karena dataset kecil (120 train samples)
+  epochs: 150
+  learning_rate: 0.001
+  weight_decay: 0.001
   early_stopping_patience: 10
+  optimizer: "adamw" # adamw lebih stabil dari adam untuk dataset kecil
+  scheduler: "cosine" # cosine annealing, eta_min = 1e-6
   seed: 42
 
+split:
+  n_total: 15 # total klip per kelas
+  n_test: 3 # klip 13-15 → test (kronologis, bukan random)
+  # klip 1-12 → train otomatis
+
 augmentation:
-  frame_drop_rate: 0.1
-  masking_rate: 0.05
+  enabled: true
+  temporal_resample:
+    enabled: true
+    speed_min: 0.75
+    speed_max: 1.25
+  jitter:
+    enabled: true
+    std: 0.01
+  scale:
+    enabled: true
+    min: 0.9
+    max: 1.1
+  mask:
+    enabled: true
+    prob: 0.1
+  flip:
+    enabled: false
+    prob: 0.5
+
+paths:
+  npy_dir: "data/processed/npy"
+  checkpoint_dir: "outputs/checkpoints"
+  log_dir: "outputs/logs"
+  plot_dir: "outputs/plots"
