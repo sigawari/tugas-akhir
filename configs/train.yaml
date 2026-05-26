@@ -37,9 +37,6 @@ augmentation:
   mask:
     enabled: true
     prob: 0.1
-  flip:
-    enabled: false # dimatikan: gesture isyarat tidak simetris
-    prob: 0.5
 
 paths:
   npy_dir: "data/processed/npy"

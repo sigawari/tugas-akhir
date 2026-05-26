@@ -42,7 +42,6 @@ class BISINDODataset(Dataset):
         "jitter":            {"enabled": True,  "std": 0.01},
         "scale":             {"enabled": True,  "min": 0.9,  "max": 1.1},
         "mask":              {"enabled": True,  "prob": 0.1},
-        "flip":              {"enabled": True,  "prob": 0.5},
     }
 
     def __init__(
@@ -76,8 +75,6 @@ class BISINDODataset(Dataset):
                 clip = self._spatial_scale(clip)
             if self.aug.get("mask", {}).get("enabled", True):
                 clip = self._random_mask(clip)
-            if self.aug.get("flip", {}).get("enabled", True):
-                clip = self._horizontal_flip(clip)
 
         # 2. Delta & concat
         if self.use_delta:
@@ -157,10 +154,3 @@ class BISINDODataset(Dataset):
         out  = clip.copy()
         out[:, np.random.rand(self.L) < prob, :] = 0.0
         return out
-
-    def _horizontal_flip(self, clip: np.ndarray) -> np.ndarray:
-        if np.random.rand() < self.aug.get("flip", {}).get("prob", 0.5):
-            out = clip.copy()
-            out[:, :, 0] *= -1
-            return out
-        return clip
