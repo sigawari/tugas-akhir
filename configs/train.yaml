@@ -7,10 +7,10 @@ model:
 
 training:
   batch_size: 16 # dinaikkan: 120 sampel, batch 8 terlalu granular
-  epochs: 200 # dinaikkan: beri ruang cosine annealing bekerja
+  epochs: 50 # dinaikkan: beri ruang cosine annealing bekerja
   learning_rate: 0.001 # dinaikkan: 1e-5 terlalu lambat untuk dataset kecil
   weight_decay: 0.01 # dinaikkan: regularisasi lebih kuat, 120 sampel rawan overfit
-  early_stopping_patience: 15 # dinaikkan: harus lebih panjang dari satu siklus cosine
+  early_stopping_patience: 7 # dinaikkan: harus lebih panjang dari satu siklus cosine
   optimizer: "adamw"
   scheduler: "cosine"
   seed: 42

@@ -246,6 +246,7 @@ def main():
             f"[{epoch:03d}/{epochs}] "
             f"Train Loss={tr_loss:.4f} Acc={tr_acc:.3f} | "
             f"Test  Loss={val_loss:.4f} Acc={val_acc:.3f} F1={val_f1:.3f}"
+            f"Patience={patience_count}/{patience}"
         )
 
         # Checkpoint & early stopping

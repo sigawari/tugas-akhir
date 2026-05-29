@@ -86,8 +86,6 @@ class BISINDODataset(Dataset):
         # 3. Flatten: (T, L, C) -> (T, L*C)
         flat = combined.reshape(self.T, self.L * combined.shape[-1])
 
-        # 4. Pseudo-image: (1, T, L*C)
-        pseudo_img = flat[np.newaxis, ...]
 
         # 5. Pseudo-image: (T, 488) -> (1, T, 488)
         pseudo_img = flat[np.newaxis, ...]
