@@ -33,7 +33,7 @@ class BISINDODataset(Dataset):
     ----------
     X       : np.ndarray  (N, T, L, 2)   koordinat (x, y) per frame
     y       : np.ndarray  (N,)            label integer
-    augment : bool        aktifkan augmentasi on-the-fly (True=train, False=test)
+    augment : bool        aktifkan augmentasi on-the-fly (True=train, False=val)
     cfg_aug : dict | None konfigurasi dari train.yaml['augmentation']
     """
 
