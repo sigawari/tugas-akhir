@@ -332,10 +332,10 @@ def print_summary(summary: dict):
 # =========================
 
 STAGE_MAP = {
-    "extract":   "landmarks_extracted",
-    "select":    "landmarks_selected",
-    "clean":     "landmarks_interpolated",
-    "normalize": "landmarks_normalization",
+    "extract":   "landmarks_test_extracted",
+    "select":    "landmarks_test_selected",
+    "clean":     "landmarks_test_interpolated",
+    "normalize": "landmarks_test_normalization",
 }
 
 def main():
@@ -350,7 +350,7 @@ def main():
     parser.add_argument(
         "--save",
         action="store_true",
-        help="Simpan hasil analisis ke outputs/logs/analysis_<stage>.json"
+        help="Simpan hasil analisis ke outputs/logs/analysis_<stage>_test.json"
     )
     args = parser.parse_args()
 

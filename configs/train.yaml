@@ -16,7 +16,9 @@ training:
   seed: 42
 
 split:
-  n_splits: 5 # 5-Fold: train=12 klip/kelas, val=3 klip/kelas
+  n_total: 15
+  n_val: 3
+  n_splits: 5
 
 augmentation:
   enabled: true

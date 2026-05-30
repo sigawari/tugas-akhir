@@ -28,12 +28,12 @@ DEFAULT_CONFIG = {
         #   │   └── data_handler.py   ← this file
         #   ├── configs/
         #   └── scripts/
-        "raw_video_dir":      "data/raw/videos",
-        "extracted_dir":      "data/interim/landmarks_extracted",
-        "selected_json_dir":  "data/interim/landmarks_selected",
-        "cleaned_json_dir":   "data/interim/landmarks_interpolated",
-        "normalized_json_dir":"data/interim/landmarks_normalization",
-        "npy_dir":            "data/processed/npy",
+        "raw_video_dir":      "data/raw/raw_test",
+        "extracted_dir":      "data/interim/landmarks_test_extracted",
+        "selected_json_dir":  "data/interim/landmarks_test_selected",
+        "cleaned_json_dir":   "data/interim/landmarks_test_interpolated",
+        "normalized_json_dir":"data/interim/landmarks_test_normalization",
+        "npy_dir":            "data/processed/testnpy",
     },
     "preprocessing": {
         "target_frames": 90,

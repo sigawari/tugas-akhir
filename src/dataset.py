@@ -145,10 +145,19 @@ class BISINDODataset(Dataset):
     def _spatial_scale(self, clip: np.ndarray) -> np.ndarray:
         cfg   = self.aug.get("scale", {})
         scale = np.random.uniform(cfg.get("min", 0.9), cfg.get("max", 1.1))
-        return clip * scale
+        out   = clip.copy()
+        valid = np.any(np.abs(clip) > EPS, axis=-1, keepdims=True)  # (T, L, 1)
+        out[valid.squeeze(-1)] *= scale
+        return out
 
     def _random_mask(self, clip: np.ndarray) -> np.ndarray:
         prob = self.aug.get("mask", {}).get("prob", 0.1)
         out  = clip.copy()
-        out[:, np.random.rand(self.L) < prob, :] = 0.0
+        # Mask per (frame, landmark) — lebih realistis
+        mask = np.random.rand(self.T, self.L) < prob
+        out[mask] = 0.0
+        # Jaga zero-hand tetap zero (jangan unmask yang memang absent)
+        for sl in [LEFT_HAND_SLICE, RIGHT_HAND_SLICE]:
+            originally_absent = np.all(clip[:, sl, :] == 0.0, axis=-1)
+            out[:, sl, :][originally_absent] = 0.0
         return out
